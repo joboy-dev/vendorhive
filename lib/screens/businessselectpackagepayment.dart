@@ -1,0 +1,555 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vendorandroid/screens/busspackagewalletpayment.dart';
+import 'package:vendorandroid/screens/buypackage.dart';
+import 'package:vendorandroid/screens/failed.dart';
+import 'dart:convert';
+
+import 'package:vendorandroid/screens/packagewalletpayment.dart';
+import 'package:vendorandroid/screens/success.dart';
+
+class BusinessSelectPackagePayment extends StatefulWidget {
+  String idname = "";
+  String email = "";
+  String amount = "";
+  String package = "";
+  BusinessSelectPackagePayment({Key? key,
+    required this.idname,
+    required this.email,
+    required this.amount,
+    required this.package}) : super(key: key);
+
+  @override
+  _BusinessSelectPackagePaymentState createState() => _BusinessSelectPackagePaymentState();
+}
+
+class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePayment> {
+
+  bool one_time_payment = true;
+  int _selectedpage = 0;
+  String paymentmethod = "wallet";
+
+  String trfid = "";
+  String finalbalance = "";
+  int itemnumbers = 0;
+
+  void currentdate(){
+    print('Timestamp is gotten as refno');
+    DateTime now = new DateTime.now();
+    print(now.toString());
+    timestamp(now.toString());
+    trfid = timestamp(now.toString());
+    print(trfid);
+  }
+
+  String timestamp(String str){
+    str = str.replaceAll(":", "");
+    str = str.replaceAll("-", "");
+    str = str.replaceAll(".", "");
+    str = str.replaceAll(" ", "");
+    return str;
+  }
+
+  Future pay()async{
+
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    //timestamp
+    currentdate();
+
+    try{
+
+      var recordpackage = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorpackagerecord.php'),
+          body: {
+            'email':widget.email,
+            'package':widget.package,
+            'refno': trfid
+          }
+      );
+
+      var upgradepackage = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorupdatepackage.php'),
+          body: {
+            'email':widget.email,
+            'package':widget.package
+          }
+      );
+
+      if(upgradepackage.statusCode == 200){
+        if(jsonDecode(upgradepackage.body) == 'true'){
+          print('User is upgraded to '+widget.package);
+
+          if(recordpackage.statusCode == 200){
+            if(jsonDecode(recordpackage.body) == 'true'){
+
+              setState(() {
+                one_time_payment = true;
+                _selectedpage = 0;
+              });
+
+              final SharedPreferences pref = await SharedPreferences.getInstance();
+
+              await pref.setString('packagename', widget.package);
+
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Success();
+              }));
+
+              print('package is recorded');
+
+            }
+            else{
+
+              setState(() {
+                one_time_payment = true;
+                _selectedpage = 0;
+              });
+
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Failed(trfid: trfid);
+              }));
+
+              print('failed recording pacakage');
+
+            }
+          }
+          else{
+
+            print('Network issue while recording package');
+
+            setState(() {
+              one_time_payment = true;
+              _selectedpage = 0;
+            });
+
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return Failed(trfid: trfid);
+            }));
+
+          }
+        }
+        else{
+          print('Failed while updating package');
+
+          setState(() {
+            _selectedpage = 0;
+            one_time_payment = true;
+          });
+
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return Failed(trfid: trfid);
+          }));
+
+        }
+      }
+      else{
+
+        print('Network issue while updating package');
+
+        setState(() {
+          _selectedpage = 0;
+          one_time_payment = true;
+        });
+
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return Failed(trfid: trfid);
+        }));
+
+      }
+    }
+    catch(e){
+
+      var failedpackagepayment = await http.post(
+          Uri.https('adeoropelumi.com','vendor/failedpackagepayment.php'),
+        body: {
+            'email':widget.email,
+            'refno':trfid
+        }
+      );
+
+      if(failedpackagepayment.statusCode == 200){
+        if(jsonDecode(failedpackagepayment.body) == "true"){
+
+          setState(() {
+            one_time_payment = true;
+            _selectedpage = 0;
+          });
+
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return Failed(trfid: trfid);
+          }));
+
+        }
+        else{
+          setState(() {
+            _selectedpage = 0;
+          });
+
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return Failed(trfid: trfid);
+          }));
+        }
+      }
+      else{
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return Failed(trfid: trfid);
+        }));
+
+      }
+    }
+  }
+
+  Future processpayment() async{
+
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    String amt = widget.amount.toString().replaceAll(",", "");
+    String amount = double.parse(amt).toStringAsFixed(2);
+    double a = double.parse(amount);
+    double b = a *100;
+    String c = b.toStringAsFixed(0);
+
+    try{
+
+      var paystackpayment = await http.post(
+          Uri.https('api.paystack.co','transaction/initialize'),
+          body: {
+            'amount':c,
+            'email':'abel.ayinde@gmail.com'
+          },
+          headers: {
+            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+          }
+      );
+
+      if(paystackpayment.statusCode == 200){
+
+        print(jsonDecode(paystackpayment.body));
+        print(jsonDecode(paystackpayment.body)['status']);
+        print(jsonDecode(paystackpayment.body)['data']['authorization_url']);
+        print(jsonDecode(paystackpayment.body)['data']['access_code']);
+        print(jsonDecode(paystackpayment.body)['data']['reference']);
+
+        String topupurl = jsonDecode(paystackpayment.body)['data']['authorization_url'];
+        String initiaterefno = jsonDecode(paystackpayment.body)['data']['reference'];
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context)=>
+                Buypackage(
+                  topuplink: topupurl,
+                  refnumber: initiaterefno,
+                  email: widget.email,
+                  package: widget.package,
+                )
+            )
+        );
+
+      }
+      else{
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Request timed out"))
+        );
+
+      }
+
+    }
+    catch(e){
+
+      setState(() {
+        _selectedpage = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Request timed out"))
+      );
+
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _selectedpage == 0 ?
+      SafeArea(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(217, 217, 217, .5),
+              ),
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Pay for " + widget.package,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                          backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                          child: Icon(Icons.arrow_back,color: Colors.black,),
+                        )
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Flexible(
+                child: ListView(
+                  children: [
+                    Container(
+                      margin:EdgeInsets.only(left: 10,top: 25),
+                      child: Text("Choose a payment method",style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/18,
+                          fontWeight: FontWeight.w500
+                      ),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                      child: Text("You will not be charged until you review the payment on the next page",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/27,
+                        ),),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 10,top: 5,bottom: 5),
+                            child: Text("₦"+"${widget.amount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/25,
+                                  color: Colors.grey
+                              ),),
+                          )
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          if(paymentmethod != "wallet"){
+                            paymentmethod = "wallet";
+                          }
+                          print(paymentmethod);
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15,bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            paymentmethod == "wallet" ?
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(width: 2.0),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(2),
+                                width: 11,
+                                height: 11,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.black
+                                ),
+                              ),
+                            )
+
+                                :
+
+                            Container(
+                              width: 17,
+                              height: 17,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(width: 2.0)
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Container(
+                                child: Text("My Wallet",style: TextStyle(
+                                    fontSize: 14
+                                ),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          if(paymentmethod != "card"){
+                            paymentmethod = "card";
+                          }
+                          print(paymentmethod);
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            paymentmethod == "card" ?
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(width: 2.0),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(2),
+                                width: 11,
+                                height: 11,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.black
+                                ),
+                              ),
+                            )
+
+                                :
+
+                            Container(
+                              width: 17,
+                              height: 17,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(width: 2.0)
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Container(
+                                child: Text("Debit/Credit Card",style: TextStyle(
+                                    fontSize: 14
+                                ),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        if(paymentmethod == "wallet"){
+                          print("Proceed with wallet payment");
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return BussinessPackageWalletPayment(idname: widget.idname,
+                                email: widget.email,
+                                amount: widget.amount,
+                                package: widget.package);
+                          }));
+                        }else if(paymentmethod == 'card'){
+                          print("Proceed with card payment");
+                            processpayment();
+                          }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 5,left: 10,right: 10,top: 30),
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.orangeAccent
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.green
+                        ),
+                        child: Center(
+                          child: Text(one_time_payment ? paymentmethod == "wallet"? "Next" :"Pay":"loading...",style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width/19,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text('Vendorhive 360',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: MediaQuery.of(context).size.width/25,
+                        ),),
+                      ),
+                    )
+                  ],
+                )
+            )
+          ],
+        ),
+      )
+          :
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height/3,
+                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                  ),
+                  Container(
+                    child: Text("Processing payment",style: TextStyle(
+                      color: Color.fromRGBO(246, 123, 55, 1),
+                      fontWeight: FontWeight.bold,
+
+                    ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text('Vendorhive 360',style: TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic
+                      ),),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
