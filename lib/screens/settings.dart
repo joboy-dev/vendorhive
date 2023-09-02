@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
       body: SafeArea(
         child: Column(
           children: [
-
+            //setting app bar
             Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, .5),
@@ -31,6 +31,8 @@ class _SettingsState extends State<Settings> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
+                    //setting text
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text("Setting",style: TextStyle(
@@ -38,6 +40,8 @@ class _SettingsState extends State<Settings> {
                           fontSize: 14
                       ),),
                     ),
+
+                    //back button
                     GestureDetector(
                       onTap: (){
                         Navigator.of(context).pop();
@@ -58,15 +62,13 @@ class _SettingsState extends State<Settings> {
                 child:ListView(
                   padding: EdgeInsets.zero,
                   children: [
-
+                    //change password button
                     GestureDetector(
                       onTap: (){
-
                         Navigator.push(context, MaterialPageRoute(builder: (context){
                           return CustChangePassword(idname: widget.idname,
                               email: widget.email);
                         }));
-
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -101,7 +103,7 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-
+                    //set payment pin button
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -144,7 +146,7 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-
+                    //sign out button
                     GestureDetector(
                       onTap: () async{
 
@@ -200,11 +202,9 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-
                   ],
                 )
             ),
-
           ],
         ),
       ),

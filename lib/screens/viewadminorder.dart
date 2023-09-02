@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
 class Viewadminorder extends StatefulWidget {
@@ -40,7 +41,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
   bool enabledelivery = false;
   bool loading = false;
   bool loadingdeli = false;
-  String appstat = "Vendorhirve 360";
+  String appstat = "Vendorhive 360";
 
   TextEditingController _shippedpin = TextEditingController();
   TextEditingController _deliveredpin = TextEditingController();
@@ -69,7 +70,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           enabledelivery = false;
           loading = true;
           loadingdeli = false;
-          appstat = "Vendorhirve 360";
+          appstat = "Vendorhive 360";
         });
 
       }
@@ -87,7 +88,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             loading = true;
             enabledelivery = true;
             loadingdeli = false;
-            appstat = "Vendorhirve 360";
+            appstat = "Vendorhive 360";
           });
 
         }
@@ -97,7 +98,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             loading = true;
             enabledelivery = false;
             loadingdeli = true;
-            appstat = "Vendorhirve 360";
+            appstat = "Vendorhive 360";
           });
 
         }
@@ -521,7 +522,10 @@ class _ViewadminorderState extends State<Viewadminorder> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing",style: TextStyle(

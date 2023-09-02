@@ -30,7 +30,6 @@ class _TopupPaystackState extends State<TopupPaystack> {
 
   double _progress = 0;
   late InAppWebViewController  inAppWebViewController;
-
   int sec =0;
   String trfid = "";
   bool cancelTimer = false;
@@ -129,25 +128,9 @@ class _TopupPaystackState extends State<TopupPaystack> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  padding: EdgeInsets.only(top: 10,left: 15),
-                  child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          ),
+          leading: Container(),
+          title: Text(""),
           backgroundColor: Colors.white,
-          // actions: [
-          //   GestureDetector(
-          //       onTap: (){
-          //         Navigator.of(context).pop();
-          //       },
-          //       child: Container(
-          //           padding: EdgeInsets.only(top: 10,right: 15),
-          //           child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          //   ),
-          // ],
         ),
         body: Stack(
           children: [

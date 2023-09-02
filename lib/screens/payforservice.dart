@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/selectpayforservice.dart';
 import 'package:vendorandroid/screens/successfulpayment.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _PayforServiceState extends State<PayforService> {
       SafeArea(
         child: Column(
           children: [
-
+            //pay with vendor email and back button
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(217, 217, 217, .5),
@@ -82,16 +83,19 @@ class _PayforServiceState extends State<PayforService> {
               ),
             ),
 
+            //payment form
             Flexible(
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
+                    //amount text
                     Container(
                       margin: EdgeInsets.only(left: 10, top: 10),
                       child: Text("Amount",style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width/26
                       ),),
                     ),
+                    //amount textfield
                     Container(
                       margin: EdgeInsets.only(left: 10, top: 10, right: 10),
                       child: TextField(
@@ -111,12 +115,14 @@ class _PayforServiceState extends State<PayforService> {
                       ),
                     ),
 
+                    //reason for payment text
                     Container(
                       margin: EdgeInsets.only(left: 10, top: 10),
                       child: Text("Reason for payment",style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/26
                       ),),
                     ),
+                    //reason for payment textfield
                     Container(
                       margin: EdgeInsets.only(left: 10, top: 10, right: 10),
                       child: TextField(
@@ -124,13 +130,13 @@ class _PayforServiceState extends State<PayforService> {
                         keyboardType: TextInputType.text,
                         maxLines: null,
                         decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-
-                            ),
+                            enabledBorder: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder()
                         ),
                       ),
                     ),
+
+                    //pay button
                     GestureDetector(
                       onTap: () {
                         print(_amount.text);
@@ -193,8 +199,10 @@ class _PayforServiceState extends State<PayforService> {
                         .of(context)
                         .size
                         .height / 3,
-                    child: Image.asset("assets/processing.png",
-                      color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment", style: TextStyle(

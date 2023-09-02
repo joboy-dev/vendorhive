@@ -120,6 +120,7 @@ class _MyOrdersState extends State<MyOrders> {
       body: SafeArea(
         child: Column(
           children: [
+            //products order for vendor app barr
             Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, .5),
@@ -149,6 +150,7 @@ class _MyOrdersState extends State<MyOrders> {
                   ],
                 )
             ),
+            //list of customers orders
             Flexible(
                 child: showorder ?
                 raworders.length > 0 ?

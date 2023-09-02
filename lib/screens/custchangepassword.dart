@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -36,7 +37,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
             child: SafeArea(
               child: ListView(
                 children: [
-
+                  //change password app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -67,6 +68,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                       ],
                     ),
                   ),
+                  //warning text
                   Container(
                     margin: EdgeInsets.only(top: 15,bottom: 15),
                     child: Center(
@@ -74,6 +76,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                           fontSize: MediaQuery.of(context).size.width/27
                       ),),
                     ),),
+                  //old password textfield
                   Container(
                     child: TextField(
                       controller: _oldpass,
@@ -83,6 +86,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                       ),
                     ),
                   ),
+                  //new password textfield
                   Container(
                     child: TextField(
                       controller: _newpass,
@@ -92,6 +96,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                       ),
                     ),
                   ),
+                  //change password button
                   GestureDetector(
                     onTap: (){
                       if(_oldpass.text.isNotEmpty && _newpass.text.isNotEmpty){
@@ -159,7 +164,10 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
                     ),
                     Container(
                       child: Text("Processing",style: TextStyle(

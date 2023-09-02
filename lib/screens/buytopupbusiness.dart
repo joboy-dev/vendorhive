@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
@@ -42,17 +40,13 @@ class _BuyTopupBusinessState extends State<BuyTopupBusiness> {
       sec++;
 
       if (mounted) {
-
         verifypaystack();
         print(sec);
-
       }
 
       if (cancelTimer) {
-
         timer.cancel();
         print(sec);
-
         Navigator.push(context, MaterialPageRoute(builder: (context){
           return ProcessTopupBusiness(
             idname: widget.idname,
@@ -61,7 +55,6 @@ class _BuyTopupBusinessState extends State<BuyTopupBusiness> {
             description: widget.decription,
             );
         }));
-
       }
     });
   }
@@ -130,25 +123,14 @@ class _BuyTopupBusinessState extends State<BuyTopupBusiness> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  padding: EdgeInsets.only(top: 10,left: 15),
-                  child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          ),
+          leading: Container(),
           backgroundColor: Colors.white,
-          // actions: [
-          //   GestureDetector(
-          //       onTap: (){
-          //         Navigator.of(context).pop();
-          //       },
-          //       child: Container(
-          //           padding: EdgeInsets.only(top: 10,right: 15),
-          //           child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          //   ),
-          // ],
+          title: Text("Vendorhive 360"),
+          titleTextStyle: TextStyle(
+            color: Colors.orange,
+            fontSize: 14
+          ),
+          centerTitle: true,
         ),
         body: Stack(
           children: [

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vendorandroid/components/profiles.dart';
 import 'package:vendorandroid/screens/activeproductorders.dart';
 import 'package:vendorandroid/screens/bankaccdetails.dart';
 import 'package:vendorandroid/screens/checkout.dart';
@@ -99,6 +100,9 @@ class _WelcomeState extends State<Welcome> {
   bool showcontactlist = false;
   String finalbalance = "0";
   String pendingbalance = "0";
+  bool searchbar = false;
+  bool pricesort = false;
+  bool value = false;
   TextEditingController _Controller = new TextEditingController();
   TextEditingController _serviceController = new TextEditingController();
 
@@ -318,13 +322,15 @@ class _WelcomeState extends State<Welcome> {
 
         if(views.statusCode == 200){
 
-          rawproduct = jsonDecode(views.body);
+          setState((){
+            rawproduct = jsonDecode(views.body);
+            showproducts = true;
+          });
+
+          getvendors();
           print(rawproduct.length);
           print(jsonDecode(views.body));
 
-          setState((){
-            showproducts = true;
-          });
         }
 
       }else if(jsonDecode(autopromote.body) == 'false'){
@@ -410,6 +416,7 @@ class _WelcomeState extends State<Welcome> {
         if(views.statusCode == 200){
 
           rawservice = jsonDecode(views.body);
+          getvendors();
           print(rawservice.length);
           print(jsonDecode(views.body));
 
@@ -610,6 +617,19 @@ class _WelcomeState extends State<Welcome> {
     }
   }
 
+  List vendors = [];
+
+  Future getvendors() async {
+    final response =
+    await http.get(Uri.https('adeoropelumi.com', 'vendor/getvendors.php'));
+    if (response.statusCode == 200) {
+      print(jsonDecode(response.body));
+      setState(() {
+        vendors = jsonDecode(response.body);
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -624,12 +644,93 @@ class _WelcomeState extends State<Welcome> {
     viewservice();
 
     walletbal = widget.custwalletbalance;
+    getvendors();
   }
 
   @override
   Widget build(BuildContext context) {
     // ScreenUtil.init(context, designSize: const Size(360, 712));
+    double pad = MediaQuery.of(context).size.width/13;
     return Scaffold(
+      floatingActionButton: searchbar ? Padding(
+        padding: const EdgeInsets.only(bottom: 60,),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: (){
+                itemselected ==0 ?
+                    //product filter
+                showDialog(context: context, builder: (context)=>Center(
+                  child: AlertDialog(
+                    title: Text("Fliter"),
+                    actions: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(onPressed: (){
+                            setState(() {
+                              rawproduct.sort((a,b)=>(int.parse(b['productprice'])).compareTo(int.parse(a['productprice'])));
+                            });
+                            Navigator.of(context).pop();
+                          }, child: Text("Higest to Lowest Price")),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(onPressed: (){
+                            setState(() {
+                              rawproduct.sort((a,b)=>(int.parse(a['productprice'])).compareTo(int.parse(b['productprice'])));
+                            });
+                            Navigator.of(context).pop();
+                          }, child: Text("Lowest to Highest Price")),
+                        ],
+                      ),
+                    ],
+                  )
+                ))
+                    :
+                //service filter
+                showDialog(context: context, builder: (context)=>Center(
+                    child: AlertDialog(
+                      title: Text("Fliter"),
+                      actions: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(onPressed: (){
+                              setState(() {
+                                rawservice.sort((a,b)=>(int.parse(b['price'])).compareTo(int.parse(a['price'])));
+                              });
+                              Navigator.of(context).pop();
+                            }, child: Text("Higest to Lowest Price")),
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(onPressed: (){
+                              setState(() {
+                                rawservice.sort((a,b)=>(int.parse(a['price'])).compareTo(int.parse(b['price'])));
+                              });
+                              Navigator.of(context).pop();
+                            }, child: Text("Lowest to Highest Price")),
+                          ],
+                        ),
+                      ],
+                    )
+                ));
+              },
+              child: Icon(Icons.filter_alt_outlined,color: Colors.green[900],),
+            ),
+          ],
+        ),
+      ):Container(),
       body: GestureDetector(
         onTap: (){
           FocusManager.instance.primaryFocus?.unfocus();
@@ -642,10 +743,11 @@ class _WelcomeState extends State<Welcome> {
             bottom: true,
             child: Column(
               children: [
+                //Home Tab
                 if(_selectedIndex == 0)...[
 
+                  //Welcome text with seacrh icon and notification icon
                   Container(
-
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
                     ),
@@ -666,19 +768,22 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
+                        //Search Icon and notification icon
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
 
+                              //search Icon
                               GestureDetector(
                                 onTap: (){
                                   FocusManager.instance.primaryFocus?.unfocus();
-                                  viewproduct();
-                                  viewservice();
+                                  setState(() {
+                                    searchbar = !searchbar;
+                                  });
                                 },
                                 child: Container(
-                                  child: FaIcon(FontAwesomeIcons.arrowsRotate,
+                                  child: FaIcon(FontAwesomeIcons.magnifyingGlass,
                                     size: MediaQuery.of(context).size.width/14,),
                                 ),
                               ),
@@ -687,6 +792,7 @@ class _WelcomeState extends State<Welcome> {
                                 width: 10,
                               ),
 
+                              //notification icon
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -709,7 +815,7 @@ class _WelcomeState extends State<Welcome> {
 
                   if(itemselected == 0)...[
 
-                    Container(
+                    searchbar? Container(
                       padding: EdgeInsets.only(top: 15,left: 10,right: 10,bottom: 10),
                       child: Row(
                         children: [
@@ -756,32 +862,13 @@ class _WelcomeState extends State<Welcome> {
                           )
                         ],
                       ),
-                    ),
+                    ) : SizedBox(width: 0,height: 0,),
 
-                    InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return VendorProfile();
-                      })),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(246, 123, 55, 1),
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text("Vendor",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white
-                          ),),
-                      ),
-                    )
+                    Profiles(names: vendors)
 
                   ]else if(itemselected == 1)...[
 
-                    Container(
+                    searchbar ? Container(
                       padding: EdgeInsets.only(top: 15,left: 10,right: 10,bottom: 10),
                       child: Row(
                         children: [
@@ -829,29 +916,9 @@ class _WelcomeState extends State<Welcome> {
                           )
                         ],
                       ),
-                    ),
+                    ) : SizedBox(width: 0,height: 0,),
 
-                    InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return VendorProfile();
-                      })),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(246, 123, 55, 1),
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text("Vendor",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white
-                          ),),
-                      ),
-                    )
-
+                    Profiles(names: vendors)
                   ],
 
                   Container(
@@ -992,19 +1059,22 @@ class _WelcomeState extends State<Welcome> {
                                           Container(
                                             padding:EdgeInsets.only(top: 0,bottom: 10),
                                             child: Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                  child: FadeInImage(
-                                                    image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+rawproduct[index]['productimg'],),
-                                                    placeholder: AssetImage(
-                                                        "assets/image.png"),
-                                                    imageErrorBuilder:
-                                                        (context, error, stackTrace) {
-                                                      return Image.asset(
-                                                          'assets/error.png',
-                                                          fit: BoxFit.fitWidth);
-                                                    },
-                                                    fit: BoxFit.fitWidth,
+                                                child: AspectRatio(
+                                                  aspectRatio: 1/1,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                    child: FadeInImage(
+                                                      image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+rawproduct[index]['productimg'],),
+                                                      placeholder: AssetImage(
+                                                          "assets/image.png"),
+                                                      imageErrorBuilder:
+                                                          (context, error, stackTrace) {
+                                                        return Image.asset(
+                                                            'assets/error.png',
+                                                            fit: BoxFit.fitWidth);
+                                                      },
+                                                      fit: BoxFit.fitWidth,
+                                                    ),
                                                   ),
                                                 )
                                             ),
@@ -1074,32 +1144,24 @@ class _WelcomeState extends State<Welcome> {
                         :
 
                     Flexible(
-                      child: SafeArea(
-                        child: Container(
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Spacer(),
-                                // Image.asset("assets/loading.png",
-                                //   width: MediaQuery.of(context).size.width/3,),
-                                CircularProgressIndicator(
-                                  color: Colors.orange,
-                                  backgroundColor: Colors.green,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Text("loading...",style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/30,
-                                      fontStyle: FontStyle.italic,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold
-                                  ),),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: Colors.orange,
+                            backgroundColor: Colors.green,
                           ),
-                        ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text("loading...",style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width/30,
+                                fontStyle: FontStyle.italic,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.bold
+                            ),),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -1189,19 +1251,22 @@ class _WelcomeState extends State<Welcome> {
                                           Container(
                                             padding:EdgeInsets.only(top: 0,bottom: 10),
                                             child: Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                  child: FadeInImage(
-                                                    image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+rawservice[index]['serviceimg']),
-                                                    placeholder: AssetImage(
-                                                        "assets/image.png"),
-                                                    imageErrorBuilder:
-                                                        (context, error, stackTrace) {
-                                                      return Image.asset(
-                                                          'assets/error.png',
-                                                          fit: BoxFit.fitWidth);
-                                                    },
-                                                    fit: BoxFit.fitWidth,
+                                                child: AspectRatio(
+                                                  aspectRatio: 1/1,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                    child: FadeInImage(
+                                                      image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+rawservice[index]['serviceimg']),
+                                                      placeholder: AssetImage(
+                                                          "assets/image.png"),
+                                                      imageErrorBuilder:
+                                                          (context, error, stackTrace) {
+                                                        return Image.asset(
+                                                            'assets/error.png',
+                                                            fit: BoxFit.fitWidth);
+                                                      },
+                                                      fit: BoxFit.fitWidth,
+                                                    ),
                                                   ),
                                                 )
                                             )
@@ -1304,8 +1369,11 @@ class _WelcomeState extends State<Welcome> {
                   ]
 
 
-                ]else if(_selectedIndex == 1)...[
+                ]
+                //My Wallet
+                else if(_selectedIndex == 1)...[
 
+                  //Wallet text , refresh icon and home Icon
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -1314,6 +1382,8 @@ class _WelcomeState extends State<Welcome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
+                        //wallet text
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text("Wallet",style: TextStyle(
@@ -1321,11 +1391,14 @@ class _WelcomeState extends State<Welcome> {
                             fontSize: 14,
                           ),),
                         ),
+
+                        //refresh icon and Home Icon
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
 
+                              //refresh icon
                               GestureDetector(
                                 onTap: (){
                                   walletbalance();
@@ -1340,6 +1413,7 @@ class _WelcomeState extends State<Welcome> {
                                 width: 10,
                               ),
 
+                              //Home icon
                               GestureDetector(
                                 onTap: (){
                                   setState((){
@@ -1364,10 +1438,12 @@ class _WelcomeState extends State<Welcome> {
                     ),
                   ),
 
+                  //available balance text and figure
                   Container(
                     child: Column(
                       children: [
 
+                        //available balance text
                         Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/20),
                           child: Text("Available Balance",textAlign: TextAlign.center,style: TextStyle(
@@ -1375,6 +1451,7 @@ class _WelcomeState extends State<Welcome> {
                           ),),
                         ),
 
+                        //available balance figure
                         Container(
                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/20,top: 10),
                           child: Text("₦"+walletbal.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -1394,9 +1471,9 @@ class _WelcomeState extends State<Welcome> {
                     padding: EdgeInsets.zero,
                     children: [
 
+                      //topup wallet button
                       GestureDetector(
                         onTap: (){
-
                           Navigator.push(context, MaterialPageRoute(builder: (context){
                             return Topup(email: widget.useremail,idname: widget.idname,);
                           }));
@@ -1435,9 +1512,9 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
+                      //withdraw button
                       GestureDetector(
                         onTap: (){
-
                           Navigator.push(context, MaterialPageRoute(builder: (context){
                             return BankAccDetails(finalbalance: walletbal,idname: widget.idname,
                             useremail: widget.useremail,);
@@ -1479,9 +1556,9 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
+                      //transaction history
                       GestureDetector(
                         onTap: (){
-
                           Navigator.push(context, MaterialPageRoute(builder: (context){
                             return CustTransaction(email: widget.useremail,);
                           }));
@@ -1522,6 +1599,7 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
+                      //set pin button
                       GestureDetector(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -1564,9 +1642,9 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
+                      //Forgot pin button
                       GestureDetector(
                         onTap: (){
-
                           Navigator.push(context, MaterialPageRoute(builder: (context){
                             return ForgotPin(
                               email: widget.useremail,);
@@ -1791,6 +1869,7 @@ class _WelcomeState extends State<Welcome> {
                                         margin: EdgeInsets.only(left: 10,right: 10,top: 20),
                                         child: Column(
                                           children: [
+                                            //coupon code and apply button
                                             Container(
                                               margin: EdgeInsets.only(bottom: 15),
                                               decoration: BoxDecoration(
@@ -1806,6 +1885,8 @@ class _WelcomeState extends State<Welcome> {
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
+
+                                                      //Coupon code text
                                                       Expanded(
                                                         child: Container(
                                                           margin: EdgeInsets.only(left: 15),
@@ -1815,6 +1896,7 @@ class _WelcomeState extends State<Welcome> {
                                                           ),),
                                                         ),
                                                       ),
+                                                      // apply button
                                                       Container(
                                                         decoration: BoxDecoration(
                                                             color: Color.fromRGBO(14, 44, 3, 1),
@@ -1832,6 +1914,8 @@ class _WelcomeState extends State<Welcome> {
                                                 ),
                                               ),
                                             ),
+
+                                            //subtotal and subtotal amount
                                             Container(
                                               margin:EdgeInsets.only(bottom: 10),
                                               child: Row(
@@ -1857,6 +1941,8 @@ class _WelcomeState extends State<Welcome> {
                                                 ],
                                               ),
                                             ),
+
+                                            //delivery text and amount
                                             Container(
                                               margin: EdgeInsets.only(bottom: 10),
                                               child: Row(
@@ -1883,6 +1969,8 @@ class _WelcomeState extends State<Welcome> {
                                                 ],
                                               ),
                                             ),
+
+                                            //total text and amount
                                             Container(
                                               margin: EdgeInsets.only(bottom: 15),
                                               child: Row(
@@ -1911,6 +1999,8 @@ class _WelcomeState extends State<Welcome> {
                                                 ],
                                               ),
                                             ),
+
+                                            //empty cart button
                                             GestureDetector(
                                               onTap: (){
                                                 setState(() {
@@ -1945,6 +2035,8 @@ class _WelcomeState extends State<Welcome> {
                                                 ),
                                               ),
                                             ),
+
+                                            //proceed to checkout button
                                             GestureDetector(
                                               onTap:(){
                                                 if(cartitems.length < 1){
@@ -1993,7 +2085,7 @@ class _WelcomeState extends State<Welcome> {
                   )
 
                 ]else if(_selectedIndex == 3)...[
-
+                  // message text and home button
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2243,8 +2335,11 @@ class _WelcomeState extends State<Welcome> {
                       )
                   )
 
-                ]else if(_selectedIndex == 4)...[
+                ]
+                //profile page
+                else if(_selectedIndex == 4)...[
 
+                  //profile text and home icon
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2253,6 +2348,8 @@ class _WelcomeState extends State<Welcome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
+                        //profile text
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text("Profile",style: TextStyle(
@@ -2260,6 +2357,8 @@ class _WelcomeState extends State<Welcome> {
                               fontSize: 14
                           ),),
                         ),
+
+                        //home icon button
                         GestureDetector(
                           onTap: (){
                             setState((){
@@ -2277,6 +2376,7 @@ class _WelcomeState extends State<Welcome> {
                             child: FaIcon(FontAwesomeIcons.house,size: MediaQuery.of(context).size.width/14),
                           ),
                         ),
+
                       ],
                     ),
                   ),
@@ -2286,9 +2386,9 @@ class _WelcomeState extends State<Welcome> {
                       padding: EdgeInsets.zero,
                       children: [
 
+                        //edit profile button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return Editprofile(idname: widget.idname,email: widget.useremail,);
                             }));
@@ -2329,9 +2429,9 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
+                        //my order button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return ActiveProductOrders(useremail: widget.useremail, idname: widget.idname,);
                             }));
@@ -2371,9 +2471,9 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
+                        //paid services button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return PaidServices(useremail: widget.useremail, idname: widget.idname,);
                             }));
@@ -2414,13 +2514,12 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
+                        //Refer your friends button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return Refers(idname: widget.idname,email: widget.useremail,);
                             }));
-
                           },
                           child: Container(
                             padding: EdgeInsets.only(bottom: 10,top: 10),
@@ -2456,56 +2555,12 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
-                        // GestureDetector(
-                        //   onTap: (){
-                        //
-                        //     Navigator.push(context, MaterialPageRoute(builder: (context){
-                        //       return Packages(idname: widget.idname,
-                        //       email: widget.useremail,);
-                        //     }));
-                        //
-                        //   },
-                        //   child: Container(
-                        //     padding: EdgeInsets.only(bottom: 10,top: 10),
-                        //     decoration: BoxDecoration(
-                        //         border: Border(
-                        //             bottom: BorderSide(
-                        //                 color: Colors.grey,
-                        //                 width: .5
-                        //             )
-                        //         )
-                        //     ),
-                        //     child: Row(
-                        //       children: [
-                        //
-                        //         Container(
-                        //           width: MediaQuery.of(context).size.width/8,
-                        //           margin: EdgeInsets.only(left: 10),
-                        //           child: Image.asset("assets/businessupgrade.png",color: Color.fromRGBO(246, 123, 55, 1),),
-                        //         ),
-                        //
-                        //         Expanded(
-                        //           child: Container(
-                        //             margin: EdgeInsets.only(left: 15),
-                        //             child: Text("Upgrade to Pro User",style: TextStyle(
-                        //                 fontWeight: FontWeight.w500,
-                        //                 fontSize: MediaQuery.of(context).size.width/22.5,
-                        //             ),),
-                        //           ),
-                        //         )
-                        //
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-
+                        //contect support button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return ContactSupport(idname: widget.idname,mail: widget.useremail,);
                             }));
-
                           },
                           child: Container(
                             padding: EdgeInsets.only(bottom: 10,top: 10),
@@ -2541,16 +2596,15 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
+                        //Settings button
                         GestureDetector(
                           onTap: (){
-
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return Settings(
                                 idname: widget.idname,
                                 email: widget.useremail,
                               );
                             }));
-
                           },
                           child: Container(
                             padding: EdgeInsets.only(bottom: 10,top: 10),
@@ -2791,3 +2845,5 @@ class _WelcomeState extends State<Welcome> {
     );
   }
 }
+
+

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendorandroid/screens/addproduct.dart';
@@ -274,7 +275,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
 
-  Future addproducts () async{
+  Future addproducts() async{
 
     setState((){
       _selectedpage = 1;
@@ -1354,6 +1355,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
+                  //add product button
                   GestureDetector(
                     onTap: (){
                       setState(() {
@@ -1373,6 +1375,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Divider(height: 20,thickness: 2,),
                     margin: EdgeInsets.only(left: 20,right: 20),
                   ),
+                  //add service button
                   GestureDetector(
                     onTap: (){
                       checkavailabilityforservices();
@@ -1445,6 +1448,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
+                  //view my products button
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1466,6 +1470,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Divider(height: 20,thickness: 2,),
                     margin: EdgeInsets.only(left: 20,right: 20),
                   ),
+
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1536,6 +1541,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
+                  //set/proceed to set product promotion
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1553,10 +1559,13 @@ class _DashboardState extends State<Dashboard> {
                       margin: EdgeInsets.only(left: 25,top: 20),
                     ),
                   ),
+
                   Container(
                     child: Divider(height: 20,thickness: 2,),
                     margin: EdgeInsets.only(left: 20,right: 20),
                   ),
+
+                  //set/proceed to set service promotion
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1574,14 +1583,16 @@ class _DashboardState extends State<Dashboard> {
                       margin: EdgeInsets.only(left: 25,top: 20),
                     ),
                   ),
+
                   Container(
                     child: Divider(height: 20,thickness: 2,),
                     margin: EdgeInsets.only(left: 20,right: 20),
                   ),
+
                   Container(
                     padding: EdgeInsets.only(bottom: 5,top: 10),
                     child: Center(
-                      child: Text(addproductstatus,style: TextStyle(
+                      child: Text("Vendorhive 360",style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic
                       ),),
@@ -1634,7 +1645,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
-
+                  //view promoted products button
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1656,7 +1667,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Divider(height: 20,thickness: 2,),
                     margin: EdgeInsets.only(left: 20,right: 20),
                   ),
-
+                  //view promoted services button
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -1787,14 +1798,15 @@ class _DashboardState extends State<Dashboard> {
           child: SafeArea(
             child: Column(
               children: [
-
+                //Home tab
                 if (_selectedIndex == 0) ...[
-
+                  //home appbar - welcome, package, notification and refresh button
                   Container(
                     padding:EdgeInsets.symmetric(vertical: 13),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        //welcome + package
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
@@ -1812,12 +1824,12 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                         ),
-
+                        //notification + refresh
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
-
+                              //notification button
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -1834,6 +1846,7 @@ class _DashboardState extends State<Dashboard> {
                                 width: 10,
                               ),
 
+                              //refresh button
                               GestureDetector(
                                 onTap: (){
                                   print('refresh');
@@ -1849,18 +1862,17 @@ class _DashboardState extends State<Dashboard> {
                             ],
                           ),
                         )
-
                       ],
                     )
                   ),
-
+                  //dashboard - NGN revenue text + amount + topup button + withdrawal button + history button
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     decoration:
                     BoxDecoration(color: Color.fromRGBO(246, 123, 55, 1)),
                     child: Column(
                       children: [
-
+                        //ngn revenue text
                         Center(
                           child: Container(
                             margin: EdgeInsets.only(top: 20),
@@ -1873,7 +1885,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                         ),
-
+                        //ngn amountm/ available balance
                         Center(
                           child: Container(
                             margin: EdgeInsets.only(top: 10),
@@ -1887,12 +1899,13 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                         ),
-
+                        //topup button +
                         Container(
                           margin: EdgeInsets.only(bottom: 20, top: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
+                              //topup for vendor
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -1928,7 +1941,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                               ),
-
+                              //withdraw button for vendor
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -1967,7 +1980,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                               ),
-
+                              //transaction history for vendor
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2012,7 +2025,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                 ]else if(_selectedIndex == 1)...[
-
+                  //vendor wallet app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2021,6 +2034,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        //wallet text
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text("Wallet",style: TextStyle(
@@ -2028,10 +2042,12 @@ class _DashboardState extends State<Dashboard> {
                               fontWeight: FontWeight.w500
                           ),),
                         ),
+                        //refresh button + home button
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
+                              //refresh button
                               GestureDetector(
                                 onTap: (){
                                   print('refresh');
@@ -2046,6 +2062,7 @@ class _DashboardState extends State<Dashboard> {
                               SizedBox(
                                 width: 10,
                               ),
+                              //home button
                               GestureDetector(
                                 onTap: (){
                                   setState(() {
@@ -2072,12 +2089,14 @@ class _DashboardState extends State<Dashboard> {
                                         return Container(
                                           child: Column(
                                             children: [
+                                              //available balance text
                                               Container(
                                                 margin: EdgeInsets.only(top: 15),
                                                 child: Text("Available Balance",textAlign: TextAlign.center,style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.width/26
                                                 ),),
                                               ),
+                                              //available balance figure
                                               Container(
                                                 margin: EdgeInsets.only(top: 15,bottom: 25),
                                                 child: Text("₦"+finalbalance .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
@@ -2085,6 +2104,7 @@ class _DashboardState extends State<Dashboard> {
                                                     fontWeight: FontWeight.w500
                                                 ),),
                                               ),
+                                              //pending balance text
                                               Container(
                                                 margin: EdgeInsets.only(top: 0),
                                                 child: Text("Pending Balance",textAlign: TextAlign.center,style: TextStyle(
@@ -2092,6 +2112,7 @@ class _DashboardState extends State<Dashboard> {
                                                     color: Color.fromRGBO(255, 172, 28,1)
                                                 ),),
                                               ),
+                                              //pending balance figure
                                               Container(
                                                 margin: EdgeInsets.only(top: 15,bottom: 25),
                                                 child: Text("₦"+pendingbalance.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
@@ -2112,7 +2133,7 @@ class _DashboardState extends State<Dashboard> {
                                     return Column(
                                       children: [
 
-                                        //wallet
+                                        //top up wallet button
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2149,7 +2170,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-
+                                        //withdrawal button
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2190,7 +2211,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-
+                                        //transaction history button
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2228,7 +2249,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-
+                                        //pending payment history
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2266,7 +2287,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-
+                                        //set promotion budget button
                                         GestureDetector(
                                           onTap: (){
                                             promotion();
@@ -2301,7 +2322,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-
+                                        //set pin button
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2350,7 +2371,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                 ]else if(_selectedIndex == 2)...[
-
+                  //message app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2387,7 +2408,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                 ]else if(_selectedIndex == 3)...[
-
+                  //vendor profile app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2426,7 +2447,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                 ]else if(_selectedIndex == 4)...[
-
+                  //add product app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2466,7 +2487,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                 ]else if(_selectedIndex == 5)...[
-
+                  //add service app bar
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -2508,10 +2529,10 @@ class _DashboardState extends State<Dashboard> {
                 ],
 
                 if (_selectedIndex == 0) ...[
-                  Flexible(child: ListView(
+                  Flexible(
+                      child: ListView(
                     children: [
-
-                      //home
+                      //My Account takes you to the wallet
                       GestureDetector(
                         onTap: (){
                           setState((){
@@ -2550,7 +2571,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-
+                      //view products ordered by customers on your product
                       GestureDetector(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2589,7 +2610,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-
+                      //view promoted products and services
                       GestureDetector(
                         onTap: (){
                           selectviewpromotion();
@@ -2626,7 +2647,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-
+                      //view My Products / Services
                       GestureDetector(
                         onTap: (){
                           showMyPandS();
@@ -2649,7 +2670,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    "My Products/services",
+                                    "My Products/Services",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: MediaQuery.of(context).size.width/22),
@@ -2821,12 +2842,11 @@ class _DashboardState extends State<Dashboard> {
                   )
 
                 ]else if(_selectedIndex == 3)...[
-
+                  //vendor profile
                   Flexible(
                     child: ListView(
                         children:[
-
-                          //profile
+                          //Editprofile button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2861,7 +2881,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //View vendor products ordered by customer button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2896,7 +2916,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //View vendor serices paid by customer button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2931,7 +2951,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //refer you friends with your code button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -2966,7 +2986,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //updrage your package
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -3002,7 +3022,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //contact support button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -3037,7 +3057,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //settings button
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -3075,22 +3095,21 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
                         ]
                     ),
                   )
 
                 ]else if(_selectedIndex == 4)...[
-
+                  //Add products
                   Flexible(
                       child: ListView(
                           children:[
-
-                            //Add products
+                            //product name text
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 10,bottom: 10),
-                              child: Text("Name"),
+                              child: Text("Product Name"),
                             ),
+                            //product name textfiled
                             Container(
                               margin: EdgeInsets.only(left: 10,right: 10),
                               child: TextField(
@@ -3112,10 +3131,12 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+                            //description text
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 10,bottom: 10),
                               child: Text("Description"),
                             ),
+                            //description textfiled
                             Container(
                               margin: EdgeInsets.only(left: 10,right: 10),
                               child: TextField(
@@ -3138,10 +3159,12 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+                            //product price text
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 10,bottom: 10),
                               child: Text("Product price"),
                             ),
+                            //product price textfield
                             Container(
                               margin: EdgeInsets.only(left: 10,right: 10),
                               child: TextField(
@@ -3166,6 +3189,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 10,bottom: 10),
                               child: Text("Delivery price"),
@@ -3231,73 +3255,6 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                            // Container(
-                            //   margin: EdgeInsets.only(top: 10,left: 10,bottom: 10),
-                            //   child: Text("Location"),
-                            // ),
-                            // Container(
-                            //   margin: EdgeInsets.only(left: 10,right: 10,top: 0),
-                            //   child: DecoratedBox(
-                            //       decoration: BoxDecoration(
-                            //         color:Colors.grey, //background color of dropdown button
-                            //         border: Border.all(color: Colors.grey, width:1), //border of dropdown button
-                            //         borderRadius: BorderRadius.circular(10), //border raiuds of dropdown button
-                            //         // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                            //         //   BoxShadow(
-                            //         //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                            //         //       // blurRadius: 5
-                            //         //   ) //blur radius of shadow
-                            //         // ]
-                            //       ),
-                            //
-                            //       child:Padding(
-                            //           padding: EdgeInsets.only(left:20, right:20),
-                            //           child:DropdownButton(
-                            //             value: drop,
-                            //             items: [ //add items in the dropdown
-                            //               DropdownMenuItem(
-                            //                 child: Text("Lagos State",style: TextStyle(
-                            //                     fontSize: 17
-                            //                 ),),
-                            //                 value: "Lagos State",
-                            //               ),
-                            //               DropdownMenuItem(
-                            //                   child: Text("Oyo State",style: TextStyle(
-                            //                       fontSize: 17
-                            //                   ),),
-                            //                   value: "Oyo State"
-                            //               ),
-                            //               DropdownMenuItem(
-                            //                 child: Text("Ogun State",style: TextStyle(
-                            //                     fontSize: 17
-                            //                 ),),
-                            //                 value: "Ogun State",
-                            //               )
-                            //
-                            //             ],
-                            //             onChanged: (value){ //get value when changed
-                            //               setState(() {
-                            //                 drop = value!;
-                            //               });
-                            //               print("You have selected $value");
-                            //             },
-                            //             icon: Padding( //Icon at tail, arrow bottom is default icon
-                            //                 padding: EdgeInsets.only(left:20),
-                            //                 child:Icon(Icons.arrow_drop_down)
-                            //             ),
-                            //             iconEnabledColor: Colors.white, //Icon color
-                            //             style: TextStyle(  //te
-                            //                 color: Colors.white, //Font color
-                            //                 fontSize: 20 //font size on dropdown button
-                            //             ),
-                            //
-                            //             dropdownColor: Colors.grey, //dropdown background color
-                            //             underline: Container(), //remove underline
-                            //             isExpanded: true, //make true to make width 100%
-                            //           )
-                            //       )
-                            //   ),
-                            // ),
                             Container(
                               margin: EdgeInsets.only(left: 10,top: 20),
                               child: Text("Delivery Options"),
@@ -3567,12 +3524,10 @@ class _DashboardState extends State<Dashboard> {
                   )
 
                 ]else if(_selectedIndex == 5)...[
-
+                  //Add service
                   Flexible(
                       child: ListView(
                           children:[
-
-                            //Add service
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 10),
                               child: Text("Name"),
@@ -3904,7 +3859,7 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 10),
                               child: Center(
-                                child: Text(appservicestatus,style: TextStyle(
+                                child: Text("Vendorhive 360",style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     fontSize: 13
                                 ),),
@@ -4135,7 +4090,10 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing",
@@ -4150,6 +4108,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                         fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),),
                     ),

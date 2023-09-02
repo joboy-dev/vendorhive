@@ -75,42 +75,6 @@ class _TrackOrderState extends State<TrackOrder> {
 
   bool showtracks = true;
 
-  // Future gettrackorder () async{
-  //
-  //   setState(() {
-  //     showtracks = false;
-  //   });
-  //
-  //   final trackorder = await http.post(Uri.https('adeoropelumi.com','vendor/vendorgettrackorder.php'),body: {
-  //     'idname':widget.idname,
-  //     'useremail':widget.useremail,
-  //     'productid':widget.productid,
-  //   });
-  //
-  //   if(trackorder.statusCode == 200){
-  //     rawtracks = jsonDecode(trackorder.body);
-  //     print(jsonDecode(trackorder.body));
-  //     ordershipped = jsonDecode(trackorder.body)[0]['ordershipped'];
-  //     print(jsonDecode(trackorder.body)[0]['ordershipped']);
-  //     orderarrived = jsonDecode(trackorder.body)[0]['orderarrived'];
-  //     print(jsonDecode(trackorder.body)[0]['orderarrived']);
-  //
-  //     print(jsonDecode(trackorder.body)[0]['orderprocessed']);
-  //     dpreleased = jsonDecode(trackorder.body)[0]['deliverypayment'];
-  //     print("deliverypayment");
-  //     print(jsonDecode(trackorder.body)[0]['deliverypayment']);
-  //     ppreleased = jsonDecode(trackorder.body)[0]['productpayment'];
-  //     print("productpayment");
-  //     print(jsonDecode(trackorder.body)[0]['productpayment']);
-  //
-  //     setState(() {
-  //       showtracks = true;
-  //     });
-  //   }else{
-  //     print("Network issue");
-  //   }
-  // }
-
   Future realeasepayment() async{
 
     print("processing payment");

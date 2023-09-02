@@ -174,8 +174,6 @@ class _ViewPromotedProductsState extends State<ViewPromotedProducts> {
                         itemBuilder: (context,index){
                           return GestureDetector(
                             onTap: (){
-                              print(index);
-                              print(raw[index]['pidname']);
 
                             },
                             child: Container(

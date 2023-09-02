@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/pinotp.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -219,6 +220,7 @@ class _ForgotPinState extends State<ForgotPin> {
                     child: Text("Vendorhive",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/28,
+                          fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic
                       ),),
                   )
@@ -246,7 +248,10 @@ class _ForgotPinState extends State<ForgotPin> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
                     ),
                     Container(
                       child: Text("Processing",style: TextStyle(
@@ -261,6 +266,7 @@ class _ForgotPinState extends State<ForgotPin> {
                         child: Text('Vendorhive 360',
                           style: TextStyle(
                               fontSize: 12,
+                              fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic
                           ),),
                       ),

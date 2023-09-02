@@ -21,6 +21,8 @@ class _EditprofileState extends State<Editprofile> {
       body: SafeArea(
         child: Column(
           children: [
+
+            //Edit profile text + back button
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(217, 217, 217, .5),
@@ -29,6 +31,7 @@ class _EditprofileState extends State<Editprofile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //edit profile text
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text("Edit Profile",style: TextStyle(
@@ -36,6 +39,7 @@ class _EditprofileState extends State<Editprofile> {
                       fontSize: 14
                     ),),
                   ),
+                  //back button
                   GestureDetector(
                     onTap: (){
                       Navigator.of(context).pop();
@@ -57,7 +61,7 @@ class _EditprofileState extends State<Editprofile> {
                 child:ListView(
                   padding: EdgeInsets.zero,
                   children: [
-
+                    //change phone number button
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -78,14 +82,14 @@ class _EditprofileState extends State<Editprofile> {
                         margin: EdgeInsets.only(top: 5),
                         child: Row(
                           children: [
-
+                            //logo for change phone number
                             Container(
                               width: MediaQuery.of(context).size.width/8,
                               margin: EdgeInsets.only(top: 10,left: 10),
                               child: Image.asset("assets/editprofile.png",
                                 color: Color.fromRGBO(246, 123, 55, 1),),
                             ),
-
+                            //change phone number text
                             Expanded(
                               child: Container(
                                 margin: EdgeInsets.only(top: 10,left: 15),
@@ -95,20 +99,17 @@ class _EditprofileState extends State<Editprofile> {
                                 ),),
                               ),
                             )
-
                           ],
                         ),
                       ),
                     ),
-
+                    //change full name button
                     GestureDetector(
                       onTap: (){
-
                         Navigator.push(context, MaterialPageRoute(builder: (context){
                           return BusinessChangeFullname(idname: widget.idname,
                             email: widget.email,);
                         }));
-
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -123,7 +124,7 @@ class _EditprofileState extends State<Editprofile> {
                         margin: EdgeInsets.only(top: 5),
                         child: Row(
                           children: [
-                            
+                            //change full name logo
                             Container(
                               width: MediaQuery.of(context).size.width/8,
                               margin: EdgeInsets.only(top: 10,left: 10),
@@ -131,7 +132,7 @@ class _EditprofileState extends State<Editprofile> {
                                 // height: 54,
                                 color: Color.fromRGBO(246, 123, 55, 1),),
                             ),
-                            
+                           // change full name text
                             Expanded(
                               child: Container(
                                 margin: EdgeInsets.only(top: 10,left: 15),
@@ -141,7 +142,6 @@ class _EditprofileState extends State<Editprofile> {
                                 ),),
                               ),
                             )
-                            
                           ],
                         ),
                       ),

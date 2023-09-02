@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
@@ -198,48 +199,42 @@ class _ProcessProductPromotionPaymentState extends State<ProcessProductPromotion
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 3,
-                      child: Image.asset("assets/processing.png",
-                        color: Color.fromRGBO(14, 44, 3, 1),),
-                    ),
-                    Container(
-                      child: Text("Processing payment", style: TextStyle(
-                          color: Color.fromRGBO(246, 123, 55, 1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width/26
-                      ),),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic
-                          ),),
-                      ),
-                    )
-                  ],
+    return Scaffold(
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 3,
+                child: SpinKitFadingCube(
+                  color: Colors.orange,
+                  size: 100,
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+              Container(
+                child: Text("Processing payment", style: TextStyle(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width/26
+                ),),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text('Vendorhive 360',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic
+                    ),),
+                ),
+              )
+            ],
+          ),
+        )
     );
   }
 }

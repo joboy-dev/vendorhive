@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -150,31 +151,34 @@ class _CustUpdatePinState extends State<CustUpdatePin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height/3,
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
                     ),
-                    Container(
-                      child: Text("Processing",style: TextStyle(
-                        color: Color.fromRGBO(246, 123, 55, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width/29,
+                  ),
+                  Container(
+                    child: Text("Processing",style: TextStyle(
+                      color: Color.fromRGBO(246, 123, 55, 1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width/29,
+                    ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text('Vendorhive 360',style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/30,
+                          fontStyle: FontStyle.italic
                       ),),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width/30,
-                            fontStyle: FontStyle.italic
-                        ),),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             )
           ],

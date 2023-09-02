@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/buyproduct.dart';
 import 'package:vendorandroid/screens/cardcheckoutfinal.dart';
 import 'package:vendorandroid/screens/cart.dart';
@@ -357,7 +358,10 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment",style: TextStyle(

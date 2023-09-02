@@ -43,7 +43,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     var getbankcodes = await http.get(
         Uri.https('api.flutterwave.com','/v3/banks/NG'),
         headers: {
-          'Authorization':'Bearer FLWSECK-eca998c8baa0cf8656ee844fcb504b71-188b424a7c9vt-X'
+          'Authorization':'Bearer FLWSECK-83f6e0261859cf218b58863ef9f17adf-18a4ac078a8vt-X'
         }
     );
 
@@ -225,329 +225,332 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                 color: Color.fromRGBO(238, 252, 233, 1)
             ),
             child: SafeArea(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(217, 217, 217, .5),
-                      ),
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text("Withdraw",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold
-                                ),),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: CircleAvatar(
-                                      backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-                                      child: Icon(Icons.arrow_back,color: Colors.black,),
-                                    )
-                                ),
-                              )
-                            ],
-                          )
-                      ),
+              child: Column(
+                children: [
+                  //vendor withdrawal app bar
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(217, 217, 217, .5),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        // border: Border.all(color: Color.fromRGBO(255,215,0, 1)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.white, //New
-                              blurRadius: 25.0,
-                              offset: Offset(0, -10))
-                        ],
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
-                            child: Text("Available Balance",textAlign: TextAlign.center,style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/17,top: 10),
-                            child: Text("₦"+widget.finalbalance.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    Flexible(child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text(selectbank,style: TextStyle(
-                              color: Color.fromRGBO(246, 123, 55, 1),
-                              fontSize: 11
-                          ),),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 10,bottom: 10,),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10,right: 10,top: 0),
-                            child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color:Colors.white, //background color of dropdown button
-                                  border: Border.all(color: Color.fromRGBO(246, 123, 55, 1), width:1), //border of dropdown button
-                                  borderRadius: BorderRadius.circular(10), //border raiuds of dropdown button
-                                ),
-
-                                child:Padding(
-                                  padding: EdgeInsets.only(left:20, right:20,top: 2,bottom: 2),
-                                  child:CustomSearchableDropDown(
-
-                                    dropdownHintText: 'Search For bank here... ',
-                                    // showLabelInMenu: true,
-                                    primaryColor:Color.fromRGBO(246, 123, 55, 1),
-                                    menuMode: true,
-                                    labelStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16
-                                    ),
-                                    items: raw,
-                                    label: 'Select Bank',
-                                    dropDownMenuItems: raw?.map((item) {
-                                      return item['name'];
-                                    })?.toList() ??
-                                        [],
-                                    onChanged: (value){
-                                      if(value!=null)
-                                      {
-                                        selected = value['code'].toString();
-                                        setState(() {
-                                          bankname = value['name'].toString();
-                                          bankid = value['id'].toString();
-                                          bankcode = selected;
-                                        });
-                                        print(selected);
-                                        print(bankname);
-                                        print(bankid);
-                                        print(bankcode);
-                                      }
-                                      else{
-                                        selected=null;
-                                        print(selected);
-                                      }
-                                    },
-                                  ),
-                                )
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //withdraw text
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text("Withdraw",style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold
+                              ),),
                             ),
-                          ),
-                        ),
-
+                            //back button
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: CircleAvatar(
+                                    backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                                    child: Icon(Icons.arrow_back,color: Colors.black,),
+                                  )
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                  //availabel balance container
+                  Container(
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: Color.fromRGBO(255,215,0, 1)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.white, //New
+                            blurRadius: 25.0,
+                            offset: Offset(0, -10))
+                      ],
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
                         Container(
-
-                          child: Container(
-                              margin: EdgeInsets.only(top: 30,left: 10,right: 10),
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                controller: _accnumber,
-                                decoration: InputDecoration(
-                                    hintText: 'Acc Number',
-                                    hintStyle: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    )
-                                ),
-                                onChanged: (val){
-                                  if(val.length == 10){
-                                    print(val);
-
-                                    setState(() {
-                                      accountname = "...";
-                                    });
-
-                                    getname(val.toString(), bankcode);
-                                  }
-                                },
-                              )
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Text(accountname,textAlign: TextAlign.right,style: TextStyle(
+                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
+                          child: Text("Available Balance",textAlign: TextAlign.center,style: TextStyle(
+                              fontSize: 15,
                               color: Colors.black,
-                              fontSize: 12
+                              fontWeight: FontWeight.bold
                           ),),
                         ),
-
                         Container(
-
-                          child: Container(
-                              margin: EdgeInsets.only(top: 30,left: 10,right: 10),
-                              child: TextField(
-                                controller: _amount,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true)
-                                ],
-                                decoration: InputDecoration(
-                                    hintText: 'Amount',
-                                    hintStyle: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                    prefix: Text('₦'),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    )
-                                ),
-                                onChanged: (val){
-                                  print(val.length);
-                                  if(val.length > 0 ){
-                                    print(val);
-                                    getmybankcharge(val);
-                                  }
-                                },
-                              )
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Text(chargetalk+''+charge,textAlign: TextAlign.right,style: TextStyle(
+                          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/17,top: 10),
+                          child: Text("₦"+widget.finalbalance.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black,
                           ),),
                         ),
+                      ],
+                    ),
+                  ),
 
-                        Container(
-                          child: Container(
-                              margin: EdgeInsets.only(top: 30,left: 10,right: 10),
-                              child: TextField(
-                                controller: _narration,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    hintText: 'Narration',
-                                    hintStyle: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    )
+                  SizedBox(height: 10,),
+
+                  Flexible(
+                      child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      //loading backs text
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(selectbank,style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontSize: 11
+                        ),),
+                      ),
+                      //dropdown for banks
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10,),
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10,right: 10,top: 0),
+                          child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color:Colors.white, //background color of dropdown button
+                                border: Border.all(color: Color.fromRGBO(246, 123, 55, 1), width:1), //border of dropdown button
+                                borderRadius: BorderRadius.circular(10), //border raiuds of dropdown button
+                              ),
+
+                              child:Padding(
+                                padding: EdgeInsets.only(left:20, right:20,top: 2,bottom: 2),
+                                child:CustomSearchableDropDown(
+
+                                  dropdownHintText: 'Search For bank here... ',
+                                  // showLabelInMenu: true,
+                                  primaryColor:Color.fromRGBO(246, 123, 55, 1),
+                                  menuMode: true,
+                                  labelStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),
+                                  items: raw,
+                                  label: 'Select Bank',
+                                  dropDownMenuItems: raw?.map((item) {
+                                    return item['name'];
+                                  })?.toList() ??
+                                      [],
+                                  onChanged: (value){
+                                    if(value!=null)
+                                    {
+                                      selected = value['code'].toString();
+                                      setState(() {
+                                        bankname = value['name'].toString();
+                                        bankid = value['id'].toString();
+                                        bankcode = selected;
+                                      });
+                                      print(selected);
+                                      print(bankname);
+                                      print(bankid);
+                                      print(bankcode);
+                                    }
+                                    else{
+                                      selected=null;
+                                      print(selected);
+                                    }
+                                  },
                                 ),
                               )
                           ),
                         ),
+                      ),
+                      //textfiled account number
+                      Container(
 
-                        GestureDetector(
-                          onTap: (){
-                            if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
-                            accountname.isNotEmpty && _narration.text.isNotEmpty &&
-                            chargetalk.isNotEmpty && accountname != "..." && charge != "..."){
+                        child: Container(
+                            margin: EdgeInsets.only(top: 30,left: 10,right: 10),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: _accnumber,
+                              decoration: InputDecoration(
+                                  hintText: 'Acc Number',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  )
+                              ),
+                              onChanged: (val){
+                                if(val.length == 10){
+                                  print(val);
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return VerifyWithdraw(bankname: bankname,
-                                  amount: _amount.text,
-                                  accountname: accountname,
-                                  narration: _narration.text,
-                                  charge: charge,
-                                  useremail: widget.useremail,
-                                  idname: widget.idname,);
-                              }));
+                                  setState(() {
+                                    accountname = "...";
+                                  });
 
-                            }
-                            else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
-                                accountname.isNotEmpty && _narration.text.isNotEmpty &&
-                                chargetalk.isNotEmpty || accountname == "..." || charge == "..."){
+                                  getname(val.toString(), bankcode);
+                                }
+                              },
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Text(accountname,textAlign: TextAlign.right,style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12
+                        ),),
+                      ),
+                      //amount textfiled
+                      Container(
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Please wait...'))
-                              );
+                        child: Container(
+                            margin: EdgeInsets.only(top: 30,left: 10,right: 10),
+                            child: TextField(
+                              controller: _amount,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                ThousandsFormatter(allowFraction: true)
+                              ],
+                              decoration: InputDecoration(
+                                  hintText: 'Amount',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12
+                                  ),
+                                  prefix: Text('₦'),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  )
+                              ),
+                              onChanged: (val){
+                                print(val.length);
+                                if(val.length > 0 ){
+                                  print(val);
+                                  getmybankcharge(val);
+                                }
+                              },
+                            )
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Text(chargetalk+''+charge,textAlign: TextAlign.right,style: TextStyle(
+                          color: Colors.black,
+                        ),),
+                      ),
+                      //naration textfield
+                      Container(
+                        child: Container(
+                            margin: EdgeInsets.only(top: 30,left: 10,right: 10),
+                            child: TextField(
+                              controller: _narration,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  hintText: 'Narration',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  )
+                              ),
+                            )
+                        ),
+                      ),
+                      //verify button
+                      GestureDetector(
+                        onTap: (){
+                          if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
+                              accountname.isNotEmpty && _narration.text.isNotEmpty &&
+                              chargetalk.isNotEmpty && accountname != "..." && charge != "..."){
 
-                            }
-                            else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
-                            accountname.isNotEmpty && _narration.text.isNotEmpty &&
-                                chargetalk == "Request timed out" || accountname == "Request timed out"
-                                || charge == "Request timed out"){
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return VerifyWithdraw(bankname: bankname,
+                                amount: _amount.text,
+                                accountname: accountname,
+                                narration: _narration.text,
+                                charge: charge,
+                                useremail: widget.useremail,
+                                idname: widget.idname,);
+                            }));
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Request timed out'))
-                              );
+                          }
+                          else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
+                              accountname.isNotEmpty && _narration.text.isNotEmpty &&
+                              chargetalk.isNotEmpty || accountname == "..." || charge == "..."){
 
-                              setState(() {
-                                _accnumber.clear();
-                                _amount.clear();
-                                _narration.clear();
-                              });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Please wait...'))
+                            );
 
-                            }
-                            else{
+                          }
+                          else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
+                              accountname.isNotEmpty && _narration.text.isNotEmpty &&
+                              chargetalk == "Request timed out" || accountname == "Request timed out"
+                              || charge == "Request timed out"){
 
-                              ScaffoldMessenger.of(context).showSnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Request timed out'))
+                            );
+
+                            setState(() {
+                              _accnumber.clear();
+                              _amount.clear();
+                              _narration.clear();
+                            });
+
+                          }
+                          else{
+
+                            ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Fill all fields'))
-                              );
+                            );
 
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color.fromRGBO(246, 123, 55, 1)),
-                                color: Colors.black
-                            ),
-                            margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Center(child: Text('VERIFY',style: TextStyle(
-                                color: Color.fromRGBO(246, 123, 55, 1),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
-                            ),)),
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color.fromRGBO(246, 123, 55, 1)),
+                              color: Colors.black
                           ),
-                        )
-
-                      ],
-                    ))
-                  ],
-                ),
+                          margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Center(child: Text('VERIFY',style: TextStyle(
+                              color: Color.fromRGBO(246, 123, 55, 1),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),)),
+                        ),
+                      )
+                    ],
+                  ))
+                ],
               ),
             ),
           ),

@@ -79,6 +79,7 @@ class _NotificationsState extends State<Notifications> {
             Flexible(
                 child:
               shownotes ?
+            rawnotes.length > 0?
               ListView.builder(
                   padding: EdgeInsets.only(top: 10),
                    itemCount: rawnotes.length,
@@ -141,15 +142,37 @@ class _NotificationsState extends State<Notifications> {
                     );
                    },
                 )
-                  :
+                :
               Container(
-                    child: Center(
-                      child: Text('loading...',style: TextStyle(
+                  child: Center(
+                    child: Text("no notification",style: TextStyle(
+                        fontSize: 14,
                         fontStyle: FontStyle.italic,
-                        fontSize: 14
-                      ),),
-                    ),
-                  )
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                )
+                  :
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.orange,
+                    backgroundColor: Colors.green,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Text("loading...",style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width/30,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ],
+              ),
             )
           ],
         ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // KeyPad widget
 // This widget is reusable and its buttons are customizable (color, size)
 class NumPad extends StatelessWidget {
-
   final double buttonSize;
   final Color buttonColor;
   final Color iconColor;
@@ -28,96 +27,78 @@ class NumPad extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-
             const SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               // implement the number keys (from 0 to 9) with the NumberButton widget
               // the NumberButton widget is defined in the bottom of this file
               children: [
-
                 NumberButton(
                   number: 1,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 2,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 3,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
               ],
             ),
-
             const SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 NumberButton(
                   number: 4,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 5,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 6,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
               ],
             ),
-
             const SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 NumberButton(
                   number: 7,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 8,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
                 NumberButton(
                   number: 9,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
-
               ],
             ),
             const SizedBox(height: 20),
@@ -187,11 +168,9 @@ class NumberButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(size / 2),
           ),
         ),
-
         onPressed: () {
           controller.text += number.toString();
         },
-
         child: Center(
           child: Text(
             number.toString(),

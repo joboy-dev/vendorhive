@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
@@ -276,7 +277,10 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment",style: TextStyle(
@@ -327,9 +331,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
   Future debitcust() async{
 
     setState(() {
-
       _selectedpage = 1;
-
     });
 
     //timestamp

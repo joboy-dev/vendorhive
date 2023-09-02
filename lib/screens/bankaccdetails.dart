@@ -42,7 +42,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     var getbankcodes = await http.get(
         Uri.https('api.flutterwave.com','/v3/banks/NG'),
         headers: {
-         'Authorization':'Bearer FLWSECK-eca998c8baa0cf8656ee844fcb504b71-188b424a7c9vt-X'
+         'Authorization':'Bearer FLWSECK-83f6e0261859cf218b58863ef9f17adf-18a4ac078a8vt-X'
         }
     );
 
@@ -106,40 +106,6 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     }
   }
 
-  Future getbankcharge() async{
-
-    setState(() {
-      charge = "...";
-      chargetalk = "";
-    });
-
-    print(_amount.text);
-    print('getting bank charge');
-
-    var getbankcharges = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorbankcharges.php'),
-        body: {
-          'amount':_amount.text.replaceAll(",", "")
-        }
-    );
-
-    print(getbankcharges.statusCode);
-
-    print(jsonDecode(getbankcharges.body));
-
-    if(getbankcharges.statusCode == 200){
-
-      setState(() {
-
-        chargetalk = "Transfer charge: ₦";
-
-        charge = jsonDecode(getbankcharges.body);
-
-      });
-
-    }
-  }
-
   Future getmybankcharge(String amt) async{
 
     setState(() {
@@ -184,9 +150,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
   @override
   initState(){
     super.initState();
-
     getbanks();
-
   }
 
   @override
@@ -204,6 +168,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
             child: SafeArea(
               child: Column(
                 children: [
+                  //withdraw text & back button
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
@@ -236,6 +201,8 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                         )
                     ),
                   ),
+
+                  //available balance & amount
                   Container(
                     decoration: BoxDecoration(
                       // border: Border.all(color: Color.fromRGBO(255,215,0, 1)),
@@ -250,6 +217,8 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                     margin: EdgeInsets.only(top: 10),
                     child: Column(
                       children: [
+
+                        //available balance text
                         Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
                           child: Text("Available Balance",textAlign: TextAlign.center,style: TextStyle(
@@ -258,6 +227,8 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                             fontWeight: FontWeight.bold
                           ),),
                         ),
+
+                        //available figure
                         Container(
                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/17,top: 10),
                           child: Text("₦"+widget.finalbalance.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
@@ -266,16 +237,19 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                             color: Colors.black,
                           ),),
                         ),
+
                       ],
                     ),
                   ),
 
                   SizedBox(height: 10,),
 
-                  Flexible(child: ListView(
-                    padding: EdgeInsets.zero,
+                  Flexible(
+                      child: ListView(
+                      padding: EdgeInsets.zero,
                     children: [
 
+                      //loading bank...
                       Container(
                         margin: EdgeInsets.only(left: 10),
                         child: Text(selectbank,style: TextStyle(
@@ -283,6 +257,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                           fontSize: 11
                         ),),
                       ),
+
                       Container(
                         padding: EdgeInsets.only(top: 10,bottom: 10,),
                         margin: EdgeInsets.symmetric(horizontal: 10),

@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vendorandroid/screens/failed.dart';
-import 'package:vendorandroid/screens/flutterwebview.dart';
 import 'package:vendorandroid/screens/success.dart';
 import 'package:vendorandroid/screens/testtimer.dart';
 import 'package:vendorandroid/screens/webview.dart';
@@ -56,223 +53,223 @@ class _TopupState extends State<Topup> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: _selectedpage == 0 ?
-        GestureDetector(
-          onTap: (){
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          child: Container(
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(238, 252, 233, 1)
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(217, 217, 217, .5),
-                    ),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text("Topup",style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).pop();
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: CircleAvatar(
-                                  backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-                                  child: Icon(Icons.arrow_back,color: Colors.black,),
-                                )
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+    return Scaffold(
+      body: _selectedpage == 0 ?
+      GestureDetector(
+        onTap: (){
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(238, 252, 233, 1)
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(217, 217, 217, .5),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      // border: Border.all(color: Color.fromRGBO(255,215,0, 1)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.white, //New
-                            blurRadius: 25.0,
-                            offset: Offset(0, -10))
-                      ],
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(top: 10),
-                    child: Column(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
-                          child: Text("Top up Amount",textAlign: TextAlign.center,style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height/40,
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text("Topup",style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold
                           ),),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/17,top: 10),
-                          child: Text("₦"+topup.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height/20,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),),
-                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: CircleAvatar(
+                                backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                                child: Icon(Icons.arrow_back,color: Colors.black,),
+                              )
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  Flexible(
-                      child: ListView(
-                        children: [
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    // border: Border.all(color: Color.fromRGBO(255,215,0, 1)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.white, //New
+                          blurRadius: 25.0,
+                          offset: Offset(0, -10))
+                    ],
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
+                        child: Text("Top up Amount",textAlign: TextAlign.center,style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height/40,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/17,top: 10),
+                        child: Text("₦"+topup.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textAlign: TextAlign.center,style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height/20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                    child: ListView(
+                      children: [
 
-                          Container(
-                              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/25,left: 10,right: 10),
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                controller: _amount,
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true)
-                                ],
-                                decoration: InputDecoration(
-                                    prefix: Text('₦'),
-                                    hintText: 'Amount',
-                                    hintStyle: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    )
-                                ),
-                                onChanged: (val){
-                                  print(val);
-                                  setState(() {
-                                    topup = val;
-                                  });
-                                },
-                              )
-                          ),
-
-                          Container(
-                              margin: EdgeInsets.only(top: 30,left: 10,right: 10),
-                              child: TextField(
-                                controller: _desc,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    hintText: 'Narration',
-                                    hintStyle: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
-                                    )
-                                ),
-                              )
-                          ),
-
-                          GestureDetector(
-                            onTap: (){
-                              if(_amount.text.isEmpty || _desc.text.isEmpty){
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Fill all fields'))
-                                );
-
-                              }else{
-
-                                print('Top up is ongoing');
-
-                                payment();
-
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color.fromRGBO(246, 123, 55, 1)),
-                                  color: Colors.black
+                        Container(
+                            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/25,left: 10,right: 10),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: _amount,
+                              inputFormatters: [
+                                ThousandsFormatter(allowFraction: true)
+                              ],
+                              decoration: InputDecoration(
+                                  prefix: Text('₦'),
+                                  hintText: 'Amount',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  )
                               ),
-                              margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Center(child: Text('PAY',style: TextStyle(
-                                  color: Color.fromRGBO(246, 123, 55, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
-                              ),)),
+                              onChanged: (val){
+                                print(val);
+                                setState(() {
+                                  topup = val;
+                                });
+                              },
+                            )
+                        ),
+
+                        Container(
+                            margin: EdgeInsets.only(top: 30,left: 10,right: 10),
+                            child: TextField(
+                              controller: _desc,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  hintText: 'Narration',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(246, 123, 55, 1))
+                                  )
+                              ),
+                            )
+                        ),
+
+                        GestureDetector(
+                          onTap: (){
+                            if(_amount.text.isEmpty || _desc.text.isEmpty){
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Fill all fields'))
+                              );
+
+                            }else{
+
+                              print('Top up is ongoing');
+
+                              payment();
+
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color.fromRGBO(246, 123, 55, 1)),
+                                color: Colors.black
                             ),
-                          )
+                            margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Center(child: Text('PAY',style: TextStyle(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                            ),)),
+                          ),
+                        )
                       ],
                     )
+                )
+              ],
+            ),
+          ),
+        ),
+      )
+          :
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 3,
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    )
+                  ),
+                  Container(
+                    child: Text("Processing payment", style: TextStyle(
+                        color: Color.fromRGBO(246, 123, 55, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width/26
+                    ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text('Vendorhive 360',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic
+                        ),),
+                    ),
                   )
                 ],
               ),
             ),
-          ),
-        )
-            :
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 3,
-                      child: Image.asset("assets/processing.png",
-                        color: Color.fromRGBO(14, 44, 3, 1),),
-                    ),
-                    Container(
-                      child: Text("Processing payment", style: TextStyle(
-                        color: Color.fromRGBO(246, 123, 55, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width/26
-                      ),),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontStyle: FontStyle.italic
-                        ),),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -412,8 +409,6 @@ class _TopupState extends State<Topup> {
   String initiaterefno = "";
 
   Future payment() async{
-
-    print('processing paystack payment');
 
     setState(() {
       _selectedpage = 1;

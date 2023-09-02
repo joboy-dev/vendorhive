@@ -446,19 +446,25 @@ class _ServiceMsgState extends State<ServiceMsg> {
               padding: EdgeInsets.only(top: 10,bottom: 10),
               child: Row(
                 children: [
+
+                  //vendorhive 360 logo
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: CircleAvatar(
                       radius: 28,
                       backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                      child: Image.asset('assets/vendo.png'),
                     ),
                   ),
+
+                  //service name + vendro email
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          //service name
                           Container(
                             child: Text(
                               widget.servicename,
@@ -466,6 +472,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                                   fontWeight: FontWeight.w500, fontSize: 16),
                             ),
                           ),
+                          //vendor email
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
@@ -480,6 +487,8 @@ class _ServiceMsgState extends State<ServiceMsg> {
                       ),
                     ),
                   ),
+
+                  //back button
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
@@ -495,6 +504,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                       ),
                     ),
                   )
+
                 ],
               ),
             ),
@@ -607,7 +617,6 @@ class _ServiceMsgState extends State<ServiceMsg> {
                         maxLines: null,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                          suffixIcon: Image.asset("assets/emoji.png"),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: .5,

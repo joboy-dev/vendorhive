@@ -171,8 +171,6 @@ class _ViewPromotedServiceState extends State<ViewPromotedService> {
                             itemBuilder: (context,index){
                               return GestureDetector(
                                 onTap: (){
-                                  print(index);
-                                  print(raw[index]['pidname']);
 
                                 },
                                 child: Container(

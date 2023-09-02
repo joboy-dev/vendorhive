@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
@@ -492,6 +493,8 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                                   fontSize: MediaQuery.of(context).size.width/25,
                                 ),)),
                               ),
+
+                              //pin textfield
                               Container(
                                 padding: EdgeInsets.only(top: 30),
                                 margin: EdgeInsets.symmetric(horizontal: 20),
@@ -633,6 +636,8 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                                     )
                                 ),
                               ),
+
+                              //pay button
                               GestureDetector(
                                 onTap: (){
                                   processpayment();
@@ -647,7 +652,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                                   ),
                                   padding: EdgeInsets.symmetric(vertical: 15),
                                   margin: EdgeInsets.only(top: 40,bottom: 40,left: 10,right: 10),
-                                  child: Center(child: Text("Submit Order",style: TextStyle(
+                                  child: Center(child: Text("Pay",style: TextStyle(
                                       color: Colors.white,
                                       fontSize: MediaQuery.of(context).size.width/22,
                                     fontWeight: FontWeight.bold
@@ -669,33 +674,28 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                  ),
-                  Container(
-                    child: Text("Processing payment", style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width/26
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text('Vendorhive 360',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
-              ),
+          Container(
+            height: MediaQuery.of(context).size.height/3,
+            child: SpinKitFadingCube(
+              color: Colors.orange,
+              size: 100,
+            ),
+          ),
+          Container(
+            child: Text("Processing payment", style: TextStyle(
+                color: Color.fromRGBO(246, 123, 55, 1),
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width/26
+            ),),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: Center(
+              child: Text('Vendorhive 360',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic
+                ),),
             ),
           )
         ],

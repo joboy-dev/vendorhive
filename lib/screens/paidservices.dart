@@ -58,7 +58,7 @@ class _PaidServicesState extends State<PaidServices> {
         child: SafeArea(
           child: Column(
             children: [
-
+              //paid service app bar = paid service text + back button
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, .5),
@@ -67,6 +67,7 @@ class _PaidServicesState extends State<PaidServices> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    //paid service text
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(left: 10),
@@ -76,6 +77,7 @@ class _PaidServicesState extends State<PaidServices> {
                         ),),
                       ),
                     ),
+                    //back icon button
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);

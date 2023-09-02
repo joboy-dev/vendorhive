@@ -138,27 +138,14 @@ class _BuyServiceState extends State<BuyService> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  padding: EdgeInsets.only(top: 10,left: 15),
-                  child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          ),
+          leading: Container(),
           backgroundColor: Colors.white,
-          actions: [
-            GestureDetector(
-                onTap: (){
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                    padding: EdgeInsets.only(top: 10,right: 15),
-                    child: Text("Vendorhive",style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width/26
-                    ),))
-            ),
-          ],
+          title: Text("Vendorhive 360"),
+          titleTextStyle: TextStyle(
+            fontSize: 13,
+            color: Colors.orange
+          ),
+          centerTitle: true,
         ),
         body: Stack(
           children: [

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/failed.dart';
 
@@ -42,6 +43,19 @@ class _ContactSupportState extends State<ContactSupport> {
     return str;
   }
 
+  //modify sent message
+  String replacing(String word) {
+    word = word.replaceAll("'", "{(L!I_0)}");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+
+  String modify(String word) {
+    word = word.replaceAll("{(L!I_0)}", "'");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+
   Future sendhelp() async{
 
     currentdate();
@@ -63,7 +77,7 @@ class _ContactSupportState extends State<ContactSupport> {
           body: {
             'issue': drop,
             'frommail': widget.mail,
-            'message': _message.text,
+            'message': replacing(_message.text),
             'idname': widget.idname,
             'refno': trfid
           }
@@ -409,7 +423,10 @@ class _ContactSupportState extends State<ContactSupport> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing request",style: TextStyle(

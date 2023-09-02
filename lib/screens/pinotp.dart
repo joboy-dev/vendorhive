@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/resetpin.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -190,7 +191,10 @@ class _PinOtpState extends State<PinOtp> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
                     ),
                     Container(
                       child: Text("Processing",style: TextStyle(

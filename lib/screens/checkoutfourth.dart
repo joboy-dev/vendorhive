@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vendorandroid/screens/cart.dart';
 import 'package:vendorandroid/screens/checkoutfinal.dart';
@@ -61,9 +62,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
     print(cartitems.length);
 
     setState(() {
-
       _selectedpage = 1;
-
     });
 
     //timestamp
@@ -333,6 +332,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
         child: SafeArea(
           child: Column(
             children: [
+              //checkout text back button
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, .5),
@@ -341,6 +341,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    //checkout text
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
@@ -351,6 +352,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                         ),
                       ),
                     ),
+                    //back button
                     GestureDetector(
                       onTap: (){
                         Navigator.of(context).pop();
@@ -366,6 +368,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   ],
                 ),
               ),
+              //shipment , payment , Review text
               Container(
                 padding: EdgeInsets.only(left: 10,right: 10,top: 20,bottom: 20),
                 decoration: BoxDecoration(
@@ -764,7 +767,10 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment",style: TextStyle(
@@ -777,6 +783,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: 12,
+                          fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic
                       ),),
                     ),
