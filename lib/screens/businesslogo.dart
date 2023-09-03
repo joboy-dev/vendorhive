@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/successsignup.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -114,49 +115,57 @@ class _BusinesslogoState extends State<Businesslogo> {
       body: _selectedpage == 0 ?
       SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //text
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Center(
-                child: Text("Upload Business Logo",style: TextStyle(
-                    fontSize: 20
-                ),),
+                child: Column(
+                  children: [
+                    Text("Upload Business Logo",style: TextStyle(
+                        fontSize: 20
+                    ),),
+                    Container(
+                      margin: EdgeInsets.only(top: 20,left: 20,right: 20),
+                      child: Text("Your logo Identifies your business. Let's see your identity",textAlign: TextAlign.center,),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 20,left: 20,right: 20),
-              child: Text("Your logo Identifies your business. Let's see your identity",textAlign: TextAlign.center,),
-            ),
 
-            Spacer(),
+            //upload picker
             GestureDetector(
                 onTap: (){
                   chooseImage();
                 },
-                child:uploadimage == null?
-                CircleAvatar(
-                  backgroundColor: Color.fromRGBO(229, 228, 226,1),
-                  radius: MediaQuery.of(context).size.width/3,
-                  child: Icon(Icons.camera_alt_outlined,color: Colors.grey,size: MediaQuery.of(context).size.width/3,),
-                ):
-                CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: MediaQuery.of(context).size.width/2.5,
-                    child:Image.file(uploadimage!,width: MediaQuery.of(context).size.width/2,)
+                child:Container(
+                  child: Column(
+                    children: [
+                      uploadimage == null?
+                      CircleAvatar(
+                        backgroundColor: Color.fromRGBO(229, 228, 226,1),
+                        radius: MediaQuery.of(context).size.width/3,
+                        child: Icon(Icons.camera_alt_outlined,color: Colors.grey,size: MediaQuery.of(context).size.width/3,),
+                      ):
+                      CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: MediaQuery.of(context).size.width/2.5,
+                          child:Image.file(uploadimage!,width: MediaQuery.of(context).size.width/2,)
+                      ),
+                      Center(
+                        child: Text(appstatus+"...",style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 14
+                        ),),
+                      ),
+                    ],
+                  ),
                 )
             ),
 
-            Container(
-              child: Center(
-                child: Text(appstatus+"...",style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 14
-                ),),
-              ),
-            ),
-
-            Spacer(),
-
+            //button
             GestureDetector(
               onTap: (){
                 signup();
@@ -178,39 +187,42 @@ class _BusinesslogoState extends State<Businesslogo> {
         ),
       )
       :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                  ),
-                  Container(
-                    child: Text("Processing",style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text(appstatus,style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
+      Center(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: SpinKitFadingCube(
+                  color: Colors.orange,
+                  size: 100,
+                ),
               ),
-            ),
-          )
-        ],
-      ),
+              Container(
+                child: Text(
+                  "Processing",
+                  style: TextStyle(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text(
+                    'Vendorhive 360',
+                    style: TextStyle(
+                        fontSize: 12, fontStyle: FontStyle.italic),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 }

@@ -1008,7 +1008,7 @@ class _WelcomeState extends State<Welcome> {
                                 padding: EdgeInsets.only(top: 10),
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio : 2/3,
+                                  childAspectRatio : 1/2,
                                   crossAxisSpacing: 10,
                                 ),
                                 itemCount: rawproduct.length,
@@ -1051,13 +1051,14 @@ class _WelcomeState extends State<Welcome> {
                                                 ),
                                                 padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
                                                 margin: EdgeInsets.only(left: 10),
-                                                child: Text('Ad')
+                                                child: Text('Ad',style: TextStyle(
+                                                  fontSize: 14
+                                                ),)
                                             ),
                                           )
                                               :
                                           Container(),
                                           Container(
-                                            padding:EdgeInsets.only(top: 0,bottom: 10),
                                             child: Center(
                                                 child: AspectRatio(
                                                   aspectRatio: 1/1,
@@ -1083,10 +1084,13 @@ class _WelcomeState extends State<Welcome> {
                                           Flexible(
                                             child: Container(
                                               padding: EdgeInsets.only(left: 5,top: 5),
-                                              child: Text(rawproduct[index]['productname'],style: TextStyle(
+                                              child: Text(rawproduct[index]['productname'],
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: MediaQuery.of(context).size.width/23
+                                                  fontSize: 16
                                               ),),
                                             ),
                                           ),
@@ -1096,9 +1100,11 @@ class _WelcomeState extends State<Welcome> {
                                               padding: EdgeInsets.only(left: 5,top: 5),
                                               child: Text("₦"+rawproduct[index]['productprice'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                 textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: MediaQuery.of(context).size.width/25
+                                                  fontSize: 16,
                                               ),),
                                             ),
                                           ),
@@ -1199,7 +1205,7 @@ class _WelcomeState extends State<Welcome> {
                                 padding: EdgeInsets.only(top: 10),
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio : 2/3,
+                                  childAspectRatio : 1/2,
                                   crossAxisSpacing: 10,
                                 ),
                                 itemCount: rawservice.length,
@@ -1241,7 +1247,7 @@ class _WelcomeState extends State<Welcome> {
                                                 padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
                                                 margin: EdgeInsets.only(left: 10),
                                                 child: Text('Ad',style: TextStyle(
-                                                  fontSize: MediaQuery.of(context).size.width/25
+                                                  fontSize: 14
                                                 ),)
                                             ),
                                           )
@@ -1249,7 +1255,7 @@ class _WelcomeState extends State<Welcome> {
                                           Container(),
 
                                           Container(
-                                            padding:EdgeInsets.only(top: 0,bottom: 10),
+
                                             child: Center(
                                                 child: AspectRatio(
                                                   aspectRatio: 1/1,
@@ -1275,11 +1281,14 @@ class _WelcomeState extends State<Welcome> {
                                           Flexible(
                                             child: Container(
                                               padding: EdgeInsets.only(left: 5,top: 5),
-                                              child: Text(rawservice[index]['name'],textAlign: TextAlign.center,
+                                              child: Text(rawservice[index]['name'],
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: MediaQuery.of(context).size.width/23
+                                                  fontSize: 16
                                               ),),
                                             ),
                                           ),
@@ -1289,9 +1298,11 @@ class _WelcomeState extends State<Welcome> {
                                               padding: EdgeInsets.only(left: 5,top: 5),
                                               child: Text("₦"+rawservice[index]['price'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                 textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.width/25
+                                                    fontSize: 16
                                               ),),
                                             ),
                                           ),

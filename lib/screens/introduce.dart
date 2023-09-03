@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/introducesecond.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -281,6 +282,7 @@ class _IntroduceState extends State<Introduce> {
     'Tailoring',
     'Shoe Making',
     'Solar & Inverter',
+    'Others'
   ];
 
   Future introducebusiness() async{
@@ -598,11 +600,6 @@ class _IntroduceState extends State<Introduce> {
                   ),
                 ),
 
-                // Container(
-                //   margin: EdgeInsets.only(top: 20,left: 20,right: 20),
-                //   child: Text("Lorem ipsum dolor sit amet consectetur. Quam sed ac sed a leo ornare. Nunc ut odio felis.",textAlign: TextAlign.center,),
-                // ),
-
                 Container(
                   margin: EdgeInsets.only(top: 20,left: 10),
                   child: Text("Business Name"),
@@ -881,44 +878,6 @@ class _IntroduceState extends State<Introduce> {
                           )
                       ),
 
-                      // GestureDetector(
-                      //     onTap: (){
-                      //       chooseImage4();
-                      //     },
-                      //     child:uploadimage4 == null?
-                      //     Container(
-                      //       width: 150,
-                      //       margin: EdgeInsets.only(left: 10,top: 10),
-                      //       decoration:BoxDecoration(
-                      //         color: Color.fromRGBO(229, 228, 226, 1),
-                      //       ),
-                      //       child: Image(image: AssetImage("assets/add.png"), color: Color.fromRGBO(129, 133, 137, 1),width: 50,),
-                      //     ):
-                      //     Container(
-                      //         margin: EdgeInsets.only(left: 10,top: 10),
-                      //         child:Image.file(uploadimage4!)
-                      //     )
-                      // ),
-
-                      // GestureDetector(
-                      //     onTap: (){
-                      //       chooseImage5();
-                      //     },
-                      //     child:uploadimage5 == null?
-                      //     Container(
-                      //       width: 150,
-                      //       margin: EdgeInsets.only(left: 10,top: 10),
-                      //       decoration:BoxDecoration(
-                      //         color: Color.fromRGBO(229, 228, 226, 1),
-                      //       ),
-                      //       child: Image(image: AssetImage("assets/add.png"), color: Color.fromRGBO(129, 133, 137, 1),width: 50,),
-                      //     ):
-                      //     Container(
-                      //         margin: EdgeInsets.only(left: 10,top: 10),
-                      //         child:Image.file(uploadimage5!)
-                      //     )
-                      // ),
-
                     ],
                   ),
                 ),
@@ -957,39 +916,42 @@ class _IntroduceState extends State<Introduce> {
         ),
       )
       :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                  ),
-                  Container(
-                    child: Text("Processing",style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text(appstatus,style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
+      Center(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: SpinKitFadingCube(
+                  color: Colors.orange,
+                  size: 100,
+                ),
               ),
-            ),
-          )
-        ],
-      ),
+              Container(
+                child: Text(
+                  "Processing",
+                  style: TextStyle(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text(
+                    'Vendorhive 360',
+                    style: TextStyle(
+                        fontSize: 12, fontStyle: FontStyle.italic),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 }

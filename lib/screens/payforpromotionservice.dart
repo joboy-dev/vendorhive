@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -358,7 +359,10 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
                     ),
                     Container(
                       child: Text("Processing payment",style: TextStyle(

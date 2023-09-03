@@ -122,27 +122,14 @@ class _BuypackageState extends State<Buypackage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  padding: EdgeInsets.only(top: 10,left: 15),
-                  child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          ),
+          leading: Container(),
           backgroundColor: Colors.white,
-          actions: [
-            GestureDetector(
-                onTap: (){
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                    padding: EdgeInsets.only(top: 10,right: 15),
-                    child: Text("Vendorhive",style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width/26
-                    ),))
-            ),
-          ],
+          title: Text("Vendorhive"),
+          titleTextStyle: TextStyle(
+            color: Colors.orange,
+            fontSize: 14,
+          ),
+          centerTitle: true,
         ),
         body: Stack(
           children: [

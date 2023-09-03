@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/failed.dart';
 import 'package:vendorandroid/screens/introduce.dart';
 import 'package:vendorandroid/screens/otp.dart';
@@ -16,8 +17,15 @@ class GetStarted extends StatefulWidget {
   String password = "";
   String confirmpassword = "";
   String referalcode = "";
-  GetStarted({required this.fullname, required this.email, required this.phonenumber,
-  required this.password, required this.confirmpassword, required this.referalcode});
+
+  GetStarted(
+      {required this.fullname,
+      required this.email,
+      required this.phonenumber,
+      required this.password,
+      required this.confirmpassword,
+      required this.referalcode});
+
   @override
   _GetStartedState createState() => _GetStartedState();
 }
@@ -32,7 +40,7 @@ class _GetStartedState extends State<GetStarted> {
   String trfid = "";
   int _selectedpage = 0;
 
-  void printoutcontrollers(){
+  void printoutcontrollers() {
     print(widget.fullname);
     print(widget.email);
     print(widget.phonenumber);
@@ -40,7 +48,7 @@ class _GetStartedState extends State<GetStarted> {
     print(widget.confirmpassword);
   }
 
-  void currentdate(){
+  void currentdate() {
     DateTime now = new DateTime.now();
     print(now.toString());
     timestamp(now.toString());
@@ -48,17 +56,18 @@ class _GetStartedState extends State<GetStarted> {
     print(trfid);
   }
 
-  String generateRandomString(int lengthOfString){
+  String generateRandomString(int lengthOfString) {
     final random = Random();
-    const allChars='AaBbCcDdlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1EeFfGgHhIiJjKkL234567890';
+    const allChars =
+        'AaBbCcDdlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1EeFfGgHhIiJjKkL234567890';
     // below statement will generate a random string of length using the characters
     // and length provided to it
     final randomString = List.generate(lengthOfString,
-            (index) => allChars[random.nextInt(allChars.length)]).join();
-    return randomString;    // return the generated string
+        (index) => allChars[random.nextInt(allChars.length)]).join();
+    return randomString; // return the generated string
   }
 
-  String timestamp(String str){
+  String timestamp(String str) {
     str = str.replaceAll(":", "");
     str = str.replaceAll("-", "");
     str = str.replaceAll(".", "");
@@ -66,365 +75,204 @@ class _GetStartedState extends State<GetStarted> {
     return str;
   }
 
-  Future generateid() async{
-
+  Future generateid() async {
     currentdate();
 
     setState(() {
-      _selectedpage = 1 ;
+      _selectedpage = 1;
       appstatus = "loading...";
     });
 
-
-    if(selectcustomer == true && selectbusiness == true){
-
+    if (selectcustomer == true && selectbusiness == true) {
       String otp = generateRandomString(6);
 
-      try{
-
+      try {
         customerprocess = "loading...";
         print(customerprocess);
-        idname = "cs-"+widget.phonenumber+trfid;
+        idname = "cs-" + widget.phonenumber + trfid;
 
-        print("Customer is selected and id is "+idname);
+        print("Customer is selected and id is " + idname);
 
         customerprocess = "id is gotten";
         print(customerprocess);
 
-        
-        final response = await http.post(
-            Uri.https('adeoropelumi.com','vendor/vendoruserdetails.php'),
-            body: {
-              'fullname': widget.fullname,
-              'email': widget.email,
-              'phonenumber': widget.phonenumber,
-              'password': widget.password,
-              'confirmpassword': widget.confirmpassword,
-              'idname':idname,
-              'usertype':'customer',
-              'referalcode': widget.referalcode
-            }
-        );
+        final otpresponse = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/otp.php'),
+            body: {'idname': idname, 'email': widget.email, 'otp': otp});
 
-        if(response.statusCode == 200){
-          if(jsonDecode(response.body)=="signed up"){
-
-            final otpresponse = await http.post(
-                Uri.https('adeoropelumi.com','vendor/otp.php'),
-                body: {
-                  'idname':idname,
-                  'email':widget.email,
-                  'otp': otp
-                }
-            );
-
-            print(jsonDecode(otpresponse.body));
-            if(otpresponse.statusCode == 200){
-              if(jsonDecode(otpresponse.body) == "true"){
-
-                print("User is signed up");
-                customerprocess = "Done";
-                print(customerprocess);
-
-                setState(() {
-                  _selectedpage = 0;
-                  appstatus = "Vendorhirve...";
-                });
-
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return OTP(idname: idname, email: widget.email);
-                }));
-              }
-              else{
-
-                setState(() {
-                  _selectedpage = 0;
-                });
-
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return Failed(trfid: idname);
-                }));
-
-              }
-            }
-            else{
-
-              setState(() {
-                _selectedpage = 0;
-              });
-
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return Failed(trfid: idname);
-              }));
-
-            }
-          }
-          else if(jsonDecode(response.body)['status'] == "double"){
-
-            print("Username exist");
+        print(jsonDecode(otpresponse.body));
+        if (otpresponse.statusCode == 200) {
+          if (jsonDecode(otpresponse.body) == "true") {
+            print("User is signed up");
+            customerprocess = "Done";
+            print(customerprocess);
 
             setState(() {
               _selectedpage = 0;
               appstatus = "Vendorhirve...";
             });
 
-            ScaffoldMessenger.of(this.context).showSnackBar(
-                SnackBar(
-                  content: Text('You have signed up before as a customer'),
-                ));
-
-          }
-          else{
-
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return OTP(
+                idname: idname,
+                email: widget.email,
+                fullname: widget.fullname,
+                password: widget.password,
+                confirmpassword: widget.confirmpassword,
+                phonenumber: widget.phonenumber,
+                referalcode: widget.referalcode,
+              );
+            }));
+          } else {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
           }
-        }
-        else{
-
+        } else {
           setState(() {
             _selectedpage = 0;
           });
 
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return Failed(trfid: idname);
           }));
-
         }
-
-      }catch(e){
-
-        print("Error is "+e.toString());
+      } catch (e) {
+        print("Error is " + e.toString());
 
         var failedsignup = await http.post(
-            Uri.https('adeoropelumi.com','vendor/failedsignup.php'),
-            body: {
-              'idname':idname
-            }
-        );
+            Uri.https('adeoropelumi.com', 'vendor/failedsignup.php'),
+            body: {'idname': idname});
 
-        if(failedsignup.statusCode == 200){
-          if(jsonDecode(failedsignup.body)=="true"){
-
+        if (failedsignup.statusCode == 200) {
+          if (jsonDecode(failedsignup.body) == "true") {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
-          }
-          else{
-
+          } else {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
           }
-        }
-        else{
-
+        } else {
           setState(() {
             _selectedpage = 0;
           });
 
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return Failed(trfid: idname);
           }));
-
         }
-
       }
-
-    }
-
-    else if(selectcustomer == false && selectbusiness == false){
-
-      idname = "bs-"+widget.phonenumber+trfid;
-      print("Business is selsected and id is "+idname);
+    } else if (selectcustomer == false && selectbusiness == false) {
+      idname = "bs-" + widget.phonenumber + trfid;
+      print("Business is selsected and id is " + idname);
 
       String otp = generateRandomString(6);
 
-      try{
-
+      try {
         customerprocess = "loading...";
         print(customerprocess);
-        idname = "bs-"+widget.phonenumber+trfid;
-        print("Business Customer is selected and id is "+idname);
+        idname = "bs-" + widget.phonenumber + trfid;
+        print("Business Customer is selected and id is " + idname);
 
         customerprocess = "id is gotten";
         print(customerprocess);
 
-        final response = await http.post(
-            Uri.https('adeoropelumi.com','vendor/vendoruserdetails.php'),
-            body: {
-              'fullname': widget.fullname,
-              'email': widget.email,
-              'phonenumber': widget.phonenumber,
-              'password': widget.password,
-              'confirmpassword': widget.confirmpassword,
-              'idname':idname,
-              'usertype':'business',
-              'referalcode': widget.referalcode
-            }
-        );
+        final otpresponse = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/otp.php'),
+            body: {'idname': idname, 'email': widget.email, 'otp': otp});
 
-        if(response.statusCode == 200){
-          if(jsonDecode(response.body)=="signed up"){
+        print(jsonDecode(otpresponse.body));
+        if (otpresponse.statusCode == 200) {
+          if (jsonDecode(otpresponse.body) == "true") {
+            print("User is signed up");
+            customerprocess = "Done";
+            print(customerprocess);
 
-            final otpresponse = await http.post(
-                Uri.https('adeoropelumi.com','vendor/otp.php'),
-                body: {
-                  'idname':idname,
-                  'email':widget.email,
-                  'otp': otp
-                }
-            );
-
-            print(jsonDecode(otpresponse.body));
-            if(otpresponse.statusCode == 200){
-              if(jsonDecode(otpresponse.body) == "true"){
-
-                print("User is signed up");
-                customerprocess = "Done";
-                print(customerprocess);
-
-                setState(() {
-                  _selectedpage = 0;
-                  appstatus = "Vendorhirve...";
-                });
-
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return OTPBusiness(idname: idname, email: widget.email);
-                }));
-
-              }
-              else{
-
-                setState(() {
-                  _selectedpage = 0;
-                });
-
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return Failed(trfid: idname);
-                }));
-
-              }
-            }
-            else{
-
-              setState(() {
-                _selectedpage = 0;
-              });
-
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return Failed(trfid: idname);
-              }));
-
-            }
-
-          }
-          else if(jsonDecode(response.body)['status'] == "double"){
-
-            print("Username exist");
             setState(() {
               _selectedpage = 0;
               appstatus = "Vendorhirve...";
-              Navigator.pop(context);
             });
 
-            ScaffoldMessenger.of(this.context).showSnackBar(
-                SnackBar(
-                  content: Text('You have signed up before as a vendor'),
-                ));
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return OTPBusiness(
+                idname: idname,
+                email: widget.email,
+                fullname: widget.fullname,
+                phonenumber: widget.phonenumber,
+                password: widget.password,
+                confirmpassword: widget.confirmpassword,
+                referalcode: widget.referalcode,
+              );
+            }));
 
-          }
-          else{
-
+          } else {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
           }
-        }
-        else{
-
+        } else {
           setState(() {
             _selectedpage = 0;
           });
 
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return Failed(trfid: idname);
           }));
-
         }
+      } catch (e) {
+        print("Error is " + e.toString());
 
+        final failedotp = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/failedotp.php'),
+            body: {'email': widget.email});
 
-      }catch(e){
-
-        print("Error is "+e.toString());
-
-        var failedsignup = await http.post(
-            Uri.https('adeoropelumi.com','vendor/failedsignup.php'),
-            body: {
-              'idname':idname
-            }
-        );
-
-        if(failedsignup.statusCode == 200){
-          if(jsonDecode(failedsignup.body)=="true"){
-
+        if (failedotp.statusCode == 200) {
+          if (jsonDecode(failedotp.body) == "true") {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
-          }
-          else{
-
+          } else {
             setState(() {
               _selectedpage = 0;
             });
 
-            Navigator.push(context, MaterialPageRoute(builder: (context){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return Failed(trfid: idname);
             }));
-
           }
-        }
-        else{
-
+        } else {
           setState(() {
             _selectedpage = 0;
           });
 
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return Failed(trfid: idname);
           }));
-
         }
-
       }
     }
-
   }
 
   @override
@@ -437,158 +285,169 @@ class _GetStartedState extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedpage == 0 ?
-      GestureDetector(
-        onTap: (){
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white
-          ),
-          child: SafeArea(
-            child: ListView(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  child: Center(child: Text("Get Started",style: TextStyle(
-                    fontSize: 23,
-                  ),)),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text("Start by choosing your role",textAlign: TextAlign.center,),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      selectcustomer = true;
-                      selectbusiness = true;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: selectcustomer ? Color.fromRGBO(238, 252, 233, .6) : Color.fromRGBO(217, 217, 217, .2),
-                      border: selectcustomer ? Border.all() : Border.all(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(5)
-                    ),
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 30),
-                    padding: EdgeInsets.only(top: 30,bottom: 40),
-                    child: Column(
+        body: _selectedpage == 0
+            ? GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: SafeArea(
+                    child: ListView(
                       children: [
                         Container(
+                          margin: EdgeInsets.only(top: 25),
                           child: Center(
-                            child: Image.asset("assets/customer.png"),
-                          )
+                              child: Text(
+                            "Get Started",
+                            style: TextStyle(
+                              fontSize: 23,
+                            ),
+                          )),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 20),
-                          child: Center(child: Text("I am a customer")),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      selectbusiness = false;
-                      selectcustomer= false;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: selectbusiness ? Color.fromRGBO(217, 217, 217, .2) : Color.fromRGBO(238, 252, 233, .6) ,
-                        borderRadius: BorderRadius.circular(5),
-                      border: selectbusiness ?  Border.all(color: Colors.transparent):  Border.all(),
-                    ),
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 30),
-                    padding: EdgeInsets.only(top: 30,bottom: 40),
-                    child: Column(
-                      children: [
-                        Container(
+                          child: Text(
+                            "Start by choosing your role",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectcustomer = true;
+                              selectbusiness = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: selectcustomer
+                                    ? Color.fromRGBO(238, 252, 233, .6)
+                                    : Color.fromRGBO(217, 217, 217, .2),
+                                border: selectcustomer
+                                    ? Border.all()
+                                    : Border.all(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(5)),
+                            margin:
+                                EdgeInsets.only(left: 10, right: 10, top: 30),
+                            padding: EdgeInsets.only(top: 30, bottom: 40),
+                            child: Column(
+                              children: [
+                                Container(
+                                    child: Center(
+                                  child: Image.asset("assets/customer.png"),
+                                )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Center(child: Text("I am a customer")),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectbusiness = false;
+                              selectcustomer = false;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: selectbusiness
+                                  ? Color.fromRGBO(217, 217, 217, .2)
+                                  : Color.fromRGBO(238, 252, 233, .6),
+                              borderRadius: BorderRadius.circular(5),
+                              border: selectbusiness
+                                  ? Border.all(color: Colors.transparent)
+                                  : Border.all(),
+                            ),
+                            margin:
+                                EdgeInsets.only(left: 10, right: 10, top: 30),
+                            padding: EdgeInsets.only(top: 30, bottom: 40),
+                            child: Column(
+                              children: [
+                                Container(
+                                    child: Center(
+                                  child: Image.asset("assets/briefcase.png"),
+                                )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Center(child: Text("I am a Business")),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // ids();
+                            generateid();
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                borderRadius: BorderRadius.circular(10)),
                             child: Center(
-                              child: Image.asset("assets/briefcase.png"),
-                            )
+                                child: Text(
+                              "Next",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                            )),
+                          ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Center(child: Text("I am a Business")),
+                          padding: EdgeInsets.only(bottom: 5),
+                          child: Center(
+                            child: Text(
+                              appstatus,
+                              style: TextStyle(
+                                  fontSize: 12, fontStyle: FontStyle.italic),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   ),
                 ),
-
-                GestureDetector(
-                  onTap: (){
-                    // ids();
-                    generateid();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                    padding: EdgeInsets.symmetric(vertical: 18),
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(246, 123, 55, 1),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Center(child: Text("Next",style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
-                    ),)),
+              )
+            : Center(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: SpinKitFadingCube(
+                          color: Colors.orange,
+                          size: 100,
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          "Processing",
+                          style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                          child: Text(
+                            'Vendorhive 360',
+                            style: TextStyle(
+                                fontSize: 12, fontStyle: FontStyle.italic),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-
-                Container(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Center(
-                    child: Text(appstatus,style: TextStyle(
-                        fontSize: 12,
-                        fontStyle: FontStyle.italic
-                    ),),
-                  ),
-                )
-
-              ],
-            ),
-          ),
-        ),
-      )
-      :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                  ),
-                  Container(
-                    child: Text("Processing",style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+              ));
   }
 }

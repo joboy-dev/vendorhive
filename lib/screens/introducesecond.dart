@@ -1,3 +1,4 @@
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/businesslogo.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class IntroSecond extends StatefulWidget {
 
 class _IntroSecondState extends State<IntroSecond> {
   String appstatus = "Vendorhirve...";
-  String drop = "Lagos State";
+  String drop = "Lagos";
   String desc = "";
   String finaldesc = "";
   int _selectedpage = 0;
@@ -96,23 +97,291 @@ class _IntroSecondState extends State<IntroSecond> {
                             value: drop,
                             items: [ //add items in the dropdown
                               DropdownMenuItem(
-                                child: Text("Lagos State",style: TextStyle(
-                                    fontSize: 17
-                                ),),
-                                value: "Lagos State",
+                                child: Text(
+                                  "Abia",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Abia",
                               ),
+                              //2nd state Adamawa
                               DropdownMenuItem(
-                                  child: Text("Oyo State",style: TextStyle(
-                                      fontSize: 17
-                                  ),),
-                                  value: "Oyo State"
+                                child: Text(
+                                  "Adamawa",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Adamawa",
                               ),
+                              //3rd state Akwa Ibom
                               DropdownMenuItem(
-                                child: Text("Ogun State",style: TextStyle(
-                                    fontSize: 17
-                                ),),
-                                value: "Ogun State",
-                              )
+                                child: Text(
+                                  "Akwa Ibom",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Akwa Ibom",
+                              ),
+                              //4th state Anambra
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Anambra",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Anambra",
+                              ),
+                              //5th state Bauchi
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Bauchi",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Bauchi",
+                              ),
+                              //6th state Bayelsa
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Bayelsa",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Bayelsa",
+                              ),
+                              //7th state Benue
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Benue",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Benue",
+                              ),
+                              //8th state Borno
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Borno",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Borno",
+                              ),
+                              //9th state Cross River
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Cross River",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Cross River",
+                              ),
+                              //10th state Delta
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Delta",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Delta",
+                              ),
+                              //11th state Ebonyi
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Ebonyi",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Ebonyi",
+                              ),
+                              //12th state Edo
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Edo",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Edo",
+                              ),
+                              //13th state Ekiti
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Ekiti",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Ekiti",
+                              ),
+                              //14th state Enugu
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Enugu",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Enugu",
+                              ),
+                              //15th state Gombe
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Gombe",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Gombe",
+                              ),
+                              //16th state Imo
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Imo",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Imo",
+                              ),
+                              //17th state Jigawa
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Jigawa",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Jigawa",
+                              ),
+                              //18th state Kaduna
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Kaduna",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Kaduna",
+                              ),
+                              //19th state Kano
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Kano",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Kano",
+                              ),
+                              //20th state Katsina
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Katsina",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Katsina",
+                              ),
+                              //21th state Kebbi
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Kebbi",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Kebbi",
+                              ),
+                              //22th state kogi
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Kogi",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Kogi",
+                              ),
+                              //23th state Kwara
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Kwara",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Kwara",
+                              ),
+                              //24th state Lagos
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Lagos",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Lagos",
+                              ),
+                              //25th state Nasarawa
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Nasarawa",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Nasarawa",
+                              ),
+                              //26th state Niger
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Niger",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Niger",
+                              ),
+                              //27th  state Ogun
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Ogun",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Ogun",
+                              ),
+                              //28th state Ondo
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Ondo",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Ondo",
+                              ),
+                              //29th state Osun
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Osun",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Osun",
+                              ),
+                              //30th state Oyo
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Oyo",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Oyo",
+                              ),
+                              //31st state Plateau
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Plateau",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Plateau",
+                              ),
+                              //32nd state Rivers
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Rivers",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Rivers",
+                              ),
+                              //33rd state Sokoto
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Sokoto",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Sokoto",
+                              ),
+                              //34th state Taraba
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Taraba",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Taraba",
+                              ),
+                              //35th state Yobe
+                              DropdownMenuItem(
+                                child: Text(
+                                  "Yobe",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                value: "Yobe",
+                              ),
+                              //36th state Zamfara
+                              DropdownMenuItem(
+                                  child: Text(
+                                    "Zamfara",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Zamfara"),
 
                             ],
                             onChanged: (value){ //get value when changed
@@ -201,39 +470,42 @@ class _IntroSecondState extends State<IntroSecond> {
         ),
       )
       :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                  ),
-                  Container(
-                    child: Text("Processing",style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text(appstatus,style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
+      Center(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: SpinKitFadingCube(
+                  color: Colors.orange,
+                  size: 100,
+                ),
               ),
-            ),
-          )
-        ],
-      ),
+              Container(
+                child: Text(
+                  "Processing",
+                  style: TextStyle(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text(
+                    'Vendorhive 360',
+                    style: TextStyle(
+                        fontSize: 12, fontStyle: FontStyle.italic),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 }

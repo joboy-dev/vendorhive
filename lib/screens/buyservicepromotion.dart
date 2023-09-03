@@ -131,25 +131,14 @@ class _BuyServicePromotionState extends State<BuyServicePromotion> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  padding: EdgeInsets.only(top: 10,left: 15),
-                  child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          ),
+          leading: Container(),
           backgroundColor: Colors.white,
-          // actions: [
-          //   GestureDetector(
-          //       onTap: (){
-          //         Navigator.of(context).pop();
-          //       },
-          //       child: Container(
-          //           padding: EdgeInsets.only(top: 10,right: 15),
-          //           child: FaIcon(FontAwesomeIcons.xmark,color: Colors.black,size: 30,))
-          //   ),
-          // ],
+          title: Text("Vendorhive"),
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Colors.orange,
+            fontSize: 14
+          ),
         ),
         body: Stack(
           children: [

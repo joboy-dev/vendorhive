@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/failed.dart';
 import 'package:vendorandroid/screens/productpromotedone.dart';
 import 'package:http/http.dart' as http;
@@ -447,8 +448,7 @@ class _WalletPaymentServiceState extends State<WalletServicePayment> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
+    return Scaffold(
         body: _selectedpage == 0 ?
         GestureDetector(
           onTap: (){
@@ -456,7 +456,7 @@ class _WalletPaymentServiceState extends State<WalletServicePayment> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white
+                color: Colors.white
             ),
             child: SafeArea(
               child: Column(
@@ -472,8 +472,8 @@ class _WalletPaymentServiceState extends State<WalletServicePayment> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text("Wallet payment",style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
                           ),),
                         ),
                         GestureDetector(
@@ -525,247 +525,243 @@ class _WalletPaymentServiceState extends State<WalletServicePayment> {
                     child: Text('Days: '+widget.days.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/24,
-                        fontWeight: FontWeight.w500
-                    ),textAlign: TextAlign.center,),
+                          fontWeight: FontWeight.w500
+                      ),textAlign: TextAlign.center,),
                   ),
 
                   Flexible(
                       child: ListView(
-                    children: [
+                        children: [
 
-                      Container(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Center(child: Text("Please enter your PIN to pay for your order",style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width/26,
-                        ),)),
-                      ),
-
-                      Container(
-                        padding: EdgeInsets.only(top: 30),
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        child: Form(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children:[
-                                  Container(
-                                      height: MediaQuery.of(context).size.width/8,
-                                      width: MediaQuery.of(context).size.width/8,
-                                      child: TextFormField(
-                                        controller: pin1,
-                                        onChanged: (value){
-                                          if(value.length == 1){
-                                            FocusScope.of(context).nextFocus();
-                                          }
-                                        },
-                                        // onSaved: (pin1){},
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(bottom: 0),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            )
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width/14,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(1),
-                                          FilteringTextInputFormatter.digitsOnly,
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      height: MediaQuery.of(context).size.width/8,
-                                      width: MediaQuery.of(context).size.width/8,
-
-                                      child: TextFormField(
-                                        controller: pin2,
-                                        onChanged: (value){
-                                          if(value.length == 1){
-                                            FocusScope.of(context).nextFocus();
-                                          }
-                                        },
-                                        // onSaved: (pin2){},
-                                        // decoration: InputDecoration(hintText: "0"),
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(bottom: 0),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            )
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width/14,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(1),
-                                          FilteringTextInputFormatter.digitsOnly,
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      height: MediaQuery.of(context).size.width/8,
-                                      width: MediaQuery.of(context).size.width/8,
-                                      child: TextFormField(
-                                        controller: pin3,
-                                        onChanged: (value){
-                                          if(value.length == 1){
-                                            FocusScope.of(context).nextFocus();
-                                          }
-                                        },
-                                        // onSaved: (pin1){},
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(bottom: 0),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            )
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width/14,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(1),
-                                          FilteringTextInputFormatter.digitsOnly,
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      height: MediaQuery.of(context).size.width/8,
-                                      width: MediaQuery.of(context).size.width/8,
-                                      child: TextFormField(
-                                        controller: pin4,
-                                        onChanged: (value){
-                                          if(value.length == 1){
-                                            FocusScope.of(context).nextFocus();
-                                          }
-                                        },
-                                        // onSaved: (pin1){},
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(bottom: 0),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(100)
-                                            )
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width/14,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(1),
-                                          FilteringTextInputFormatter.digitsOnly,
-                                        ],
-                                      )
-                                  ),
-                                ]
-                            )
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
-                          if(pin1.text.isNotEmpty && pin2.text.isNotEmpty
-                          && pin3.text.isNotEmpty && pin4.text.isNotEmpty){
-                            setState(() {
-                              _selectedpage = 1;
-                            });
-
-                            processpinpayment();
-
-                          }
-                          else{
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Enter Complete pin'))
-                            );
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20,left: 10,right: 10,bottom: 5),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.orange
-                              ),
-                              color: Colors.green
-                          ),
-                          child: Center(child: Text('Pay',style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width/20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                          ),)),
-                        ),
-                      ),
-
-                      Container(
-                        child: Center(child: Text("Vendorhive 360",
-                          style: TextStyle(
+                          Container(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Center(child: Text("Please enter your PIN to pay for your order",style: TextStyle(
                               fontSize: MediaQuery.of(context).size.width/26,
-                              fontStyle: FontStyle.italic
-                          ),)),
-                      ),
+                            ),)),
+                          ),
 
-                    ],
-                  ))
+                          Container(
+                            padding: EdgeInsets.only(top: 30),
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Form(
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children:[
+                                      Container(
+                                          height: MediaQuery.of(context).size.width/8,
+                                          width: MediaQuery.of(context).size.width/8,
+                                          child: TextFormField(
+                                            controller: pin1,
+                                            onChanged: (value){
+                                              if(value.length == 1){
+                                                FocusScope.of(context).nextFocus();
+                                              }
+                                            },
+                                            // onSaved: (pin1){},
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(bottom: 0),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                )
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width/14,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            textAlign: TextAlign.center,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(1),
+                                              FilteringTextInputFormatter.digitsOnly,
+                                            ],
+                                          )
+                                      ),
+                                      Container(
+                                          height: MediaQuery.of(context).size.width/8,
+                                          width: MediaQuery.of(context).size.width/8,
+
+                                          child: TextFormField(
+                                            controller: pin2,
+                                            onChanged: (value){
+                                              if(value.length == 1){
+                                                FocusScope.of(context).nextFocus();
+                                              }
+                                            },
+                                            // onSaved: (pin2){},
+                                            // decoration: InputDecoration(hintText: "0"),
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(bottom: 0),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                )
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width/14,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            textAlign: TextAlign.center,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(1),
+                                              FilteringTextInputFormatter.digitsOnly,
+                                            ],
+                                          )
+                                      ),
+                                      Container(
+                                          height: MediaQuery.of(context).size.width/8,
+                                          width: MediaQuery.of(context).size.width/8,
+                                          child: TextFormField(
+                                            controller: pin3,
+                                            onChanged: (value){
+                                              if(value.length == 1){
+                                                FocusScope.of(context).nextFocus();
+                                              }
+                                            },
+                                            // onSaved: (pin1){},
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(bottom: 0),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                )
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width/14,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            textAlign: TextAlign.center,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(1),
+                                              FilteringTextInputFormatter.digitsOnly,
+                                            ],
+                                          )
+                                      ),
+                                      Container(
+                                          height: MediaQuery.of(context).size.width/8,
+                                          width: MediaQuery.of(context).size.width/8,
+                                          child: TextFormField(
+                                            controller: pin4,
+                                            onChanged: (value){
+                                              if(value.length == 1){
+                                                FocusScope.of(context).nextFocus();
+                                              }
+                                            },
+                                            // onSaved: (pin1){},
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(bottom: 0),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(100)
+                                                )
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width/14,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            textAlign: TextAlign.center,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(1),
+                                              FilteringTextInputFormatter.digitsOnly,
+                                            ],
+                                          )
+                                      ),
+                                    ]
+                                )
+                            ),
+                          ),
+
+                          GestureDetector(
+                            onTap: (){
+                              if(pin1.text.isNotEmpty && pin2.text.isNotEmpty
+                                  && pin3.text.isNotEmpty && pin4.text.isNotEmpty){
+                                setState(() {
+                                  _selectedpage = 1;
+                                });
+
+                                processpinpayment();
+
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Enter Complete pin'))
+                                );
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 20,left: 10,right: 10,bottom: 5),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.orange
+                                  ),
+                                  color: Colors.green
+                              ),
+                              child: Center(child: Text('Pay',style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white
+                              ),)),
+                            ),
+                          ),
+
+                          Container(
+                            child: Center(child: Text("Vendorhive 360",
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/26,
+                                  fontStyle: FontStyle.italic
+                              ),)),
+                          ),
+
+                        ],
+                      ))
                 ],
               ),
             ),
           ),
         )
-        :
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height/3,
-                      child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
-                    ),
-                    Container(
-                      child: Text("Processing payment",style: TextStyle(
-                        color: Color.fromRGBO(246, 123, 55, 1),
-                        fontWeight: FontWeight.bold,
-                      ),),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',style: TextStyle(
-                            fontSize: 12,
-                            fontStyle: FontStyle.italic
-                        ),),
-                      ),
-                    )
-                  ],
+            :
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height/3,
+                child: SpinKitFadingCube(
+                  color: Colors.orange,
+                  size: 100,
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+              Container(
+                child: Text("Processing payment",style: TextStyle(
+                  color: Color.fromRGBO(246, 123, 55, 1),
+                  fontWeight: FontWeight.bold,
+                ),),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text('Vendorhive 360',style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic
+                  ),),
+                ),
+              )
+            ],
+          ),
+        )
     );
   }
 }
