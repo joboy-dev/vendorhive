@@ -158,6 +158,10 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -167,7 +171,8 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,7 +205,8 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
                         child: Text('Vendorhive 360',
                           style: TextStyle(
                               fontSize: 12,
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold
                           ),),
                       ),
                     )

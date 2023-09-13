@@ -218,7 +218,6 @@ class _GetStartedState extends State<GetStarted> {
                 referalcode: widget.referalcode,
               );
             }));
-
           } else {
             setState(() {
               _selectedpage = 0;
@@ -441,7 +440,9 @@ class _GetStartedState extends State<GetStarted> {
                           child: Text(
                             'Vendorhive 360',
                             style: TextStyle(
-                                fontSize: 12, fontStyle: FontStyle.italic),
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       )

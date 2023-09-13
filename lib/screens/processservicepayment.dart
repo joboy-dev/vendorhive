@@ -190,9 +190,14 @@ class _ProcessServicePaymentState extends State<ProcessServicePayment> {
     processpayment();
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

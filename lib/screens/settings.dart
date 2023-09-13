@@ -18,9 +18,9 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
           children: [
             //setting app bar
             Container(
@@ -131,7 +131,7 @@ class _SettingsState extends State<Settings> {
                               child: Image.asset("assets/card.png",
                                 color: Color.fromRGBO(246, 123, 55, 1),),
                             ),
-                            
+
                             Expanded(
                               child: Container(
                                 margin: EdgeInsets.only(top: 10,left: 15),

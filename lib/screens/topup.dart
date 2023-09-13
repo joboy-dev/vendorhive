@@ -406,6 +406,12 @@ class _TopupState extends State<Topup> {
     print(c);
   }
 
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+  
   String initiaterefno = "";
 
   Future payment() async{
@@ -453,10 +459,10 @@ class _TopupState extends State<Topup> {
                 TopupPaystack(
                   topuplink: topupurl,
                   refnumber: initiaterefno,
-                  desription: _desc.text,
+                  desription: replacing(_desc.text),
                   idname: widget.idname,
                   email: widget.email,
-                  amount: _amount.text,
+                  amount: _amount.text.replaceAll(",", ""),
                 )
             )
         );
@@ -479,6 +485,5 @@ class _TopupState extends State<Topup> {
 
     }
   }
-
-
+  
 }

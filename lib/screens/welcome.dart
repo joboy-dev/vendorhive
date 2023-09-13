@@ -206,90 +206,80 @@ class _WelcomeState extends State<Welcome> {
 
   Future viewproduct() async{
 
-    if(widget.pagenumber == 0){
+    setState((){
+      showproducts = false;
+    });
 
-      setState((){
-        showproducts = false;
-      });
+    print("Print Products");
 
-      print("Print Products");
+    var autopromote = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorautoupdate.php'),
+        body: {
+          'name':'vendorhive 360'
+        }
+    );
 
-      var autopromote = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorautoupdate.php'),
-          body: {
-            'name':'vendorhive 360'
-          }
-      );
+    if(autopromote.statusCode == 200){
+      if(jsonDecode(autopromote.body) == 'true'){
 
-      if(autopromote.statusCode == 200){
-        if(jsonDecode(autopromote.body) == 'true'){
+        final views = await http.post(
+            Uri.https('adeoropelumi.com','vendor/vendorviewproduct.php'),
+            body: {
+              'users':widget.useremail
+            }
+        );
 
-          final views = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorviewproduct.php'),
-              body: {
-                'users':widget.useremail
-              }
-          );
+        if(views.statusCode == 200){
 
-          if(views.statusCode == 200){
-
+          setState(() {
             rawproduct = jsonDecode(views.body);
+          });
 
-            print(rawproduct.length);
-            print(jsonDecode(views.body));
+          print(rawproduct.length);
+          print(jsonDecode(views.body));
 
-            if(rawproduct.length>0){
+          if(rawproduct.length>0){
 
-              setState(() {
+            setState(() {
 
-                showproducts = true;
-                searchproducts = true;
+              showproducts = true;
+              searchproducts = true;
 
-              });
+            });
 
-            }
-            else{
-
-              setState(() {
-                showproducts = true;
-                searchproducts = false;
-              });
-
-            }
           }
           else{
 
-            print("Network issues ${views.statusCode}");
+            setState(() {
+              showproducts = true;
+              searchproducts = false;
+            });
 
           }
-
-        }
-        else if(jsonDecode(autopromote.body) == 'false'){
-          print('api error');
-        }
-        else if(jsonDecode(autopromote.body) == 'error'){
-          print('app error');
         }
         else{
-          print('app error');
+
+          print("Network issues ${views.statusCode}");
+
         }
 
       }
+      else if(jsonDecode(autopromote.body) == 'false'){
+        print('api error');
+      }
+      else if(jsonDecode(autopromote.body) == 'error'){
+        print('app error');
+      }
       else{
-
-        print('Network Issues ${autopromote.statusCode}');
-
+        print('app error');
       }
 
     }
     else{
 
-      setState((){
-        showproducts = true;
-      });
+      print('Network Issues ${autopromote.statusCode}');
 
     }
-
   }
 
   Future _refresh() async{
@@ -443,67 +433,58 @@ class _WelcomeState extends State<Welcome> {
 
   Future viewservice() async{
 
-    if(widget.pagenumber == 0){
+    setState((){
+      showservice = false;
+    });
 
-      setState((){
-        showservice = false;
-      });
+    servicelist.clear();
+    print("Print services");
 
-      servicelist.clear();
-      print("Print services");
+    var autopromote = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorautoupdate.php'),
+        body: {
+          'name':'vendorhive 360'
+        }
+    );
 
-      var autopromote = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorautoupdate.php'),
-          body: {
-            'name':'vendorhive 360'
-          }
-      );
+    if(autopromote.statusCode == 200){
+      if(jsonDecode(autopromote.body) == 'true'){
 
-      if(autopromote.statusCode == 200){
-        if(jsonDecode(autopromote.body) == 'true'){
-
-          final views = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorviewservice.php'),
-              body: {
-                'users':widget.useremail
-              }
-          );
-
-          if(views.statusCode == 200){
-
-            rawservice = jsonDecode(views.body);
-            print(rawservice.length);
-            print(jsonDecode(views.body));
-            print(rawservice[0]['idname']);
-            if(rawservice.length>0){
-              setState((){
-                showservice = true;
-                searchservices = true;
-              });
-            }else{
-              setState((){
-                showservice = true;
-                searchservices = false;
-              });
+        final views = await http.post(
+            Uri.https('adeoropelumi.com','vendor/vendorviewservice.php'),
+            body: {
+              'users':widget.useremail
             }
+        );
+
+        if(views.statusCode == 200){
+
+          rawservice = jsonDecode(views.body);
+          print(rawservice.length);
+          print(jsonDecode(views.body));
+          if(rawservice.length>0){
+            setState((){
+              showservice = true;
+              searchservices = true;
+            });
+          }else{
+            setState((){
+              showservice = true;
+              searchservices = false;
+            });
           }
-
-        }else if(jsonDecode(autopromote.body) == 'false'){
-
-          print('api error');
-
-        }else if(jsonDecode(autopromote.body) == 'error'){
-          print('app error');
         }
 
-      }else{
-        print('Network Issues');
+      }else if(jsonDecode(autopromote.body) == 'false'){
+
+        print('api error');
+
+      }else if(jsonDecode(autopromote.body) == 'error'){
+        print('app error');
       }
 
     }else{
-      setState(() {
-        showservice = true;
-      });
+      print('Network Issues');
     }
   }
 
@@ -652,84 +633,76 @@ class _WelcomeState extends State<Welcome> {
     // ScreenUtil.init(context, designSize: const Size(360, 712));
     double pad = MediaQuery.of(context).size.width/13;
     return Scaffold(
-      floatingActionButton: searchbar ? Padding(
-        padding: const EdgeInsets.only(bottom: 60,),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: (){
-                itemselected ==0 ?
-                    //product filter
-                showDialog(context: context, builder: (context)=>Center(
-                  child: AlertDialog(
-                    title: Text("Fliter"),
-                    actions: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(onPressed: (){
-                            setState(() {
-                              rawproduct.sort((a,b)=>(int.parse(b['productprice'])).compareTo(int.parse(a['productprice'])));
-                            });
-                            Navigator.of(context).pop();
-                          }, child: Text("Higest to Lowest Price")),
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(onPressed: (){
-                            setState(() {
-                              rawproduct.sort((a,b)=>(int.parse(a['productprice'])).compareTo(int.parse(b['productprice'])));
-                            });
-                            Navigator.of(context).pop();
-                          }, child: Text("Lowest to Highest Price")),
-                        ],
-                      ),
+      floatingActionButton: searchbar ? FloatingActionButton(
+        onPressed: (){
+          itemselected ==0 ?
+          //product filter
+          showDialog(context: context, builder: (context)=>Center(
+              child: AlertDialog(
+                title: Text("Fliter"),
+                actions: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(onPressed: (){
+                        setState(() {
+                          rawproduct.sort((a,b)=>(int.parse(b['productprice'])).compareTo(int.parse(a['productprice'])));
+                        });
+                        Navigator.of(context).pop();
+                      }, child: Text("Higest to Lowest Price")),
                     ],
-                  )
-                ))
-                    :
-                //service filter
-                showDialog(context: context, builder: (context)=>Center(
-                    child: AlertDialog(
-                      title: Text("Fliter"),
-                      actions: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(onPressed: (){
-                              setState(() {
-                                rawservice.sort((a,b)=>(int.parse(b['price'])).compareTo(int.parse(a['price'])));
-                              });
-                              Navigator.of(context).pop();
-                            }, child: Text("Higest to Lowest Price")),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(onPressed: (){
-                              setState(() {
-                                rawservice.sort((a,b)=>(int.parse(a['price'])).compareTo(int.parse(b['price'])));
-                              });
-                              Navigator.of(context).pop();
-                            }, child: Text("Lowest to Highest Price")),
-                          ],
-                        ),
-                      ],
-                    )
-                ));
-              },
-              child: Icon(Icons.filter_alt_outlined,color: Colors.green[900],),
-            ),
-          ],
-        ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(onPressed: (){
+                        setState(() {
+                          rawproduct.sort((a,b)=>(int.parse(a['productprice'])).compareTo(int.parse(b['productprice'])));
+                        });
+                        Navigator.of(context).pop();
+                      }, child: Text("Lowest to Highest Price")),
+                    ],
+                  ),
+                ],
+              )
+          ))
+              :
+          //service filter
+          showDialog(context: context, builder: (context)=>Center(
+              child: AlertDialog(
+                title: Text("Fliter"),
+                actions: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(onPressed: (){
+                        setState(() {
+                          rawservice.sort((a,b)=>(int.parse(b['price'])).compareTo(int.parse(a['price'])));
+                        });
+                        Navigator.of(context).pop();
+                      }, child: Text("Higest to Lowest Price")),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(onPressed: (){
+                        setState(() {
+                          rawservice.sort((a,b)=>(int.parse(a['price'])).compareTo(int.parse(b['price'])));
+                        });
+                        Navigator.of(context).pop();
+                      }, child: Text("Lowest to Highest Price")),
+                    ],
+                  ),
+                ],
+              )
+          ));
+        },
+        child: Icon(Icons.filter_alt_outlined,color: Colors.green[900],),
       ):Container(),
       body: GestureDetector(
         onTap: (){
@@ -945,7 +918,8 @@ class _WelcomeState extends State<Welcome> {
                                 child: Center(child: Text("Services",
                                   style: TextStyle(
                                       color: itemselected == 1 ? Colors.white : Colors.black,
-                                      fontSize: MediaQuery.of(context).size.width/26
+                                      fontSize: MediaQuery.of(context).size.width/26,
+                                      fontWeight: FontWeight.bold
                                   ),))
                             ),
                           ),
@@ -968,19 +942,19 @@ class _WelcomeState extends State<Welcome> {
                                   ),
                                   child: Center(child: Text("Products",style: TextStyle(
                                       color: itemselected == 0 ? Colors.white : Colors.black,
-                                    fontSize: MediaQuery.of(context).size.width/26
+                                    fontSize: MediaQuery.of(context).size.width/26,
+                                    fontWeight: FontWeight.bold
                                   ),))
                               ),
                             )
                         ),
-
                       ],
                     ),
                   ),
 
                   if(itemselected == 0)...[
 
-                    showproducts == true
+                    showproducts
 
                         ?
                     searchproducts
@@ -1124,12 +1098,13 @@ class _WelcomeState extends State<Welcome> {
 
                     Flexible(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Spacer(),
                             Align(
                               alignment: Alignment.center,
                               child: Container(
-                                  width: MediaQuery.of(context).size.width/2,
+                                  width: MediaQuery.of(context).size.width/10,
                                   child: Image.asset('assets/search.png')
                               ),
                             ),
@@ -1137,12 +1112,11 @@ class _WelcomeState extends State<Welcome> {
                               alignment: Alignment.center,
                               child: Container(
                                 child: Text('No results',style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width/24,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500
                                 ),),
                               ),
                             ),
-                            Spacer(),
                           ],
                         )
                     )
@@ -1161,7 +1135,7 @@ class _WelcomeState extends State<Welcome> {
                           Container(
                             margin: EdgeInsets.only(top: 10),
                             child: Text("loading...",style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.width/30,
+                                fontSize: 13,
                                 fontStyle: FontStyle.italic,
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.bold
@@ -1172,6 +1146,7 @@ class _WelcomeState extends State<Welcome> {
                     ),
 
                   ]
+
                   else if(itemselected == 1)...[
 
                     showservice == true
@@ -1322,12 +1297,13 @@ class _WelcomeState extends State<Welcome> {
 
                     Flexible(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Spacer(),
                             Align(
                               alignment: Alignment.center,
                               child: Container(
-                                  width: MediaQuery.of(context).size.width/2,
+                                  width:  MediaQuery.of(context).size.height/20,
                                   child: Image.asset('assets/search.png')
                               ),
                             ),
@@ -1340,7 +1316,6 @@ class _WelcomeState extends State<Welcome> {
                                 ),),
                               ),
                             ),
-                            Spacer(),
                           ],
                         )
                     )
@@ -1352,10 +1327,9 @@ class _WelcomeState extends State<Welcome> {
                         child: Container(
                           child: Center(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Spacer(),
-                                // Image.asset("assets/loading.png",
-                                //   width: MediaQuery.of(context).size.width/3,),
                                 CircularProgressIndicator(
                                   color: Colors.orange,
                                   backgroundColor: Colors.green,
@@ -1363,13 +1337,12 @@ class _WelcomeState extends State<Welcome> {
                                 Container(
                                   margin: EdgeInsets.only(top: 10),
                                   child: Text("loading...",style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/30,
+                                      fontSize: 13,
                                       fontStyle: FontStyle.italic,
                                       fontFamily: 'Raleway',
                                       fontWeight: FontWeight.bold
                                   ),),
                                 ),
-                                Spacer(),
                               ],
                             ),
                           ),
@@ -1378,9 +1351,8 @@ class _WelcomeState extends State<Welcome> {
                     ),
 
                   ]
-
-
                 ]
+
                 //My Wallet
                 else if(_selectedIndex == 1)...[
 
@@ -1472,7 +1444,6 @@ class _WelcomeState extends State<Welcome> {
                                 fontWeight: FontWeight.w500
                             ),),
                         ),
-
                       ],
                     ),
                   ),
@@ -1561,7 +1532,6 @@ class _WelcomeState extends State<Welcome> {
                                 child: Icon(Icons.arrow_forward_ios_outlined,
                                   size: MediaQuery.of(context).size.width/15,),
                               )
-
                             ],
                           ),
                         ),
@@ -1604,7 +1574,6 @@ class _WelcomeState extends State<Welcome> {
                                 child: Icon(Icons.arrow_forward_ios_outlined,
                                   size: MediaQuery.of(context).size.width/15,),
                               )
-
                             ],
                           ),
                         ),
@@ -1647,7 +1616,6 @@ class _WelcomeState extends State<Welcome> {
                                 child: Icon(Icons.arrow_forward_ios_outlined,
                                   size: MediaQuery.of(context).size.width/15,),
                               )
-
                             ],
                           ),
                         ),
@@ -1660,7 +1628,6 @@ class _WelcomeState extends State<Welcome> {
                             return ForgotPin(
                               email: widget.useremail,);
                           }));
-
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 10),
@@ -1696,7 +1663,6 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
                       ),
-
                     ],
                   ))
 
@@ -1711,7 +1677,6 @@ class _WelcomeState extends State<Welcome> {
                               SliverList(
                                   delegate: SliverChildBuilderDelegate(
                                           (BuildContext context, int index) {
-
                                         return cartitems.length < 1
                                             ?
                                         Container(
@@ -1720,8 +1685,7 @@ class _WelcomeState extends State<Welcome> {
                                             child: Image.asset("assets/emptycart.png")
                                         )
                                             :
-                                        Container()
-                                        ;
+                                        Container();
                                       },
                                       childCount: 1
                                   )
@@ -1730,7 +1694,6 @@ class _WelcomeState extends State<Welcome> {
                                   delegate: SliverChildBuilderDelegate(
                                           (BuildContext context, int index) {
                                         double finalquantity = cartitems[index].quantity * cartitems[index].amount;
-
                                         return Container(
                                           margin: EdgeInsets.only(left: 10,right: 10,bottom: 15,),
                                           child: Row(
@@ -1740,7 +1703,6 @@ class _WelcomeState extends State<Welcome> {
                                                 width: MediaQuery.of(context).size.width/8,
                                                 height: MediaQuery.of(context).size.width/8,
                                               ),
-
                                               Expanded(
                                                 child: Container(
                                                   margin: EdgeInsets.only(left: 10),
@@ -1790,11 +1752,9 @@ class _WelcomeState extends State<Welcome> {
                                                   ),
                                                 ),
                                               ),
-
                                               Container(
                                                 child:Column(
                                                   children: [
-
                                                     Container(
                                                       decoration: BoxDecoration(
                                                           border: Border.all(),
@@ -1806,11 +1766,9 @@ class _WelcomeState extends State<Welcome> {
                                                             onTap:(){
                                                               setState(() {
                                                                 cartitems[index].quantity--;
-
                                                                 if(cartitems[index].quantity == 0){
                                                                   cartitems[index].quantity = 1;
                                                                 }
-
                                                                 newtotalsum();
                                                                 newtotalsumplusdelivery();
                                                               });
@@ -1825,7 +1783,6 @@ class _WelcomeState extends State<Welcome> {
                                                           GestureDetector(
                                                             onTap:(){
                                                               setState(() {
-
                                                                 cartitems[index].quantity++;
                                                                 newtotalsum();
                                                                 newtotalsumplusdelivery();
@@ -1839,7 +1796,6 @@ class _WelcomeState extends State<Welcome> {
                                                         ],
                                                       ),
                                                     ),
-
                                                     GestureDetector(
                                                       onTap: (){
                                                         setState(() {
@@ -1861,7 +1817,6 @@ class _WelcomeState extends State<Welcome> {
                                                         child: Text("Remove"),
                                                       ),
                                                     )
-
                                                   ],
                                                 ),
                                               )
@@ -1870,7 +1825,6 @@ class _WelcomeState extends State<Welcome> {
                                         );
                                       },
                                       childCount: cartitems.length
-
                                   )
                               ),
                               SliverList(
@@ -2105,7 +2059,6 @@ class _WelcomeState extends State<Welcome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text("Messages",style: TextStyle(
@@ -2131,8 +2084,6 @@ class _WelcomeState extends State<Welcome> {
                             child: FaIcon(FontAwesomeIcons.house,size: MediaQuery.of(context).size.width/14),
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
@@ -2302,8 +2253,9 @@ class _WelcomeState extends State<Welcome> {
                     Container(
                     child: Center(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Spacer(),
                           Image.asset("assets/no-spam.png",
                             width: MediaQuery.of(context).size.width/3,),
                           Container(
@@ -2315,7 +2267,6 @@ class _WelcomeState extends State<Welcome> {
                                 fontWeight: FontWeight.bold
                             ),textAlign: TextAlign.center,),
                           ),
-                          Spacer(),
                         ],
                       ),
                     ),
@@ -2323,10 +2274,9 @@ class _WelcomeState extends State<Welcome> {
                           :
                     Container(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Spacer(),
-                            // Image.asset("assets/loading.png",
-                            //   width: MediaQuery.of(context).size.width/3,),
                             CircularProgressIndicator(
                               color: Colors.orange,
                               backgroundColor: Colors.green,
@@ -2334,18 +2284,16 @@ class _WelcomeState extends State<Welcome> {
                             Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text("loading...",style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width/30,
+                                  fontSize: 16,
                                   fontStyle: FontStyle.italic,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.bold
                               ),),
                             ),
-                            Spacer(),
                           ],
                         ),
                       )
                   )
-
                 ]
                 //profile page
                 else if(_selectedIndex == 4)...[
@@ -2654,204 +2602,80 @@ class _WelcomeState extends State<Welcome> {
                       ],
                     )
                   )
-
                 ],
-
-                //bottom navigation
-                Container(
-                  margin: EdgeInsets.only(left: 15,right: 15),
-                  padding: EdgeInsets.only(bottom: 5,top: 7.5),
-
-                  decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(width: 0.05)
-                      )
-                  ),
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _selectedIndex = 0;
-                            widget.pagenumber = 0;
-                            showservice = true;
-                            showproducts = true;
-                            searchproducts = true;
-                            searchservices = true;
-                          });
-                        },
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: FaIcon(
-                                  FontAwesomeIcons.house,
-                                  size: MediaQuery.of(context).size.width/13,
-                                  color: (_selectedIndex == 0)
-                                      ? Colors.black
-                                      : Colors.grey,
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  "Home",
-                                  style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/32,
-                                      color: (_selectedIndex == 0)
-                                          ? Colors.black
-                                          : Colors.grey,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
-                          walletbalance();
-                          setState(() {
-                            _selectedIndex = 1;
-                          });
-                        },
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: FaIcon(
-                                  FontAwesomeIcons.wallet,
-                                  size: MediaQuery.of(context).size.width/13,
-                                  color: (_selectedIndex == 1)
-                                      ? Colors.black
-                                      : Colors.grey,
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  "My Wallet",
-                                  style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/32,
-                                      color: (_selectedIndex == 1)
-                                          ? Colors.black
-                                          : Colors.grey,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _selectedIndex = 2;
-                          });
-                        },
-                        child: Container(
-                          child: CircleAvatar(
-                              radius: MediaQuery.of(context).size.width/13,
-                              backgroundColor: Color.fromRGBO(246, 123, 55, 1),
-                              child: FaIcon(FontAwesomeIcons.cartShopping,color: _selectedIndex == 2 ?
-                              Colors.green : Colors.white,
-                                size: MediaQuery.of(context).size.width/13,)
-                          ),
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
-                          chatcontact();
-                          setState(() {
-                            _selectedIndex = 3;
-                          });
-                        },
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: FaIcon(
-                                  FontAwesomeIcons.message,
-                                  size: MediaQuery.of(context).size.width/13,
-                                  color: (_selectedIndex == 3)
-                                      ? Colors.black
-                                      : Colors.grey,
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  "Messages",
-                                  style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/32,
-                                      color: (_selectedIndex == 3)
-                                          ? Colors.black
-                                          : Colors.grey,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _selectedIndex = 4;
-                          });
-                        },
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: FaIcon(
-                                  FontAwesomeIcons.user,
-                                  size: MediaQuery.of(context).size.width/13,
-                                  color: (_selectedIndex == 4)
-                                      ? Colors.black
-                                      : Colors.grey,
-                                ),
-                              ),
-                              Container(
-                                margin:EdgeInsets.only(top: 5),
-                                child: Text(
-                                  "Profile",
-                                  style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/32,
-                                      color: (_selectedIndex == 4)
-                                          ? Colors.black
-                                          : Colors.grey,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-
               ],
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey[500],
+        onTap: (index){
+          if(index == 0 ){
+            setState(() {
+              widget.pagenumber = 0;
+              viewproduct();
+              viewservice();
+              _selectedIndex = 0;
+              _serviceController.clear();
+              _Controller.clear();
+            });
+          }
+          else if(index == 1){
+            walletbalance();
+            setState(() {
+              searchbar = false;
+              _selectedIndex = 1;
+            });
+          }
+          else if(index == 2){
+            setState(() {
+              searchbar = false;
+              _selectedIndex = 2;
+            });
+          }
+          else if(index == 3){
+            chatcontact();
+            setState(() {
+              searchbar = false;
+              _selectedIndex = 3;
+            });
+          }
+          else if(index == 4){
+            setState(() {
+              searchbar = false;
+              _selectedIndex = 4;
+            });
+          }
+        },
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.house,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'Home',),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.wallet,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'My Wallet'),
+          BottomNavigationBarItem(icon: CircleAvatar(
+              radius: MediaQuery.of(context).size.width/13,
+              backgroundColor: Color.fromRGBO(246, 123, 55, 1),
+              child: FaIcon(FontAwesomeIcons.cartShopping,color: _selectedIndex == 2 ?
+              Colors.green : Colors.white,
+                size: MediaQuery.of(context).size.width/13,)
+          ),label: ''),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.message,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'Messages'),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.user,
+            size: MediaQuery.of(context).size.width/13,
+          ), label: 'Profile')
+        ],
       ),
     );
   }

@@ -206,6 +206,12 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     }
   }
 
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+  
   @override
   initState(){
     super.initState();
@@ -491,13 +497,15 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                               chargetalk.isNotEmpty && accountname != "..." && charge != "..."){
 
                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return VerifyWithdraw(bankname: bankname,
+                              return VerifyWithdraw(bankname: replacing(bankname),
                                 amount: _amount.text,
-                                accountname: accountname,
-                                narration: _narration.text,
+                                accountname: replacing(accountname),
+                                narration: replacing(_narration.text),
                                 charge: charge,
                                 useremail: widget.useremail,
-                                idname: widget.idname,);
+                                idname: widget.idname,
+                                account_number: _accnumber.text,
+                              );
                             }));
 
                           }

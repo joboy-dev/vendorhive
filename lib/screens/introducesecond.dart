@@ -32,13 +32,19 @@ class _IntroSecondState extends State<IntroSecond> {
     return word;
   }
 
+  String replacingword(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+
   void introducebusiness(){
 
     Navigator.push(context, MaterialPageRoute(builder: (context){
       return Businesslogo(
         id: widget.id,
         useremail: widget.useremail,
-        description: _description.text,
+        description: replacingword(_description.text),
         state: drop,);
     }));
 

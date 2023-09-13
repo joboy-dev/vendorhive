@@ -21,7 +21,7 @@ class _BusinesslogoState extends State<Businesslogo> {
 
   File? uploadimage;
   String logoname = '';
-  String appstatus = "Vendorhirve";
+  String appstatus = "Vendorhirve 360";
   int _selectedpage = 0;
   final ImagePicker _picker = ImagePicker();
 
@@ -124,7 +124,8 @@ class _BusinesslogoState extends State<Businesslogo> {
                 child: Column(
                   children: [
                     Text("Upload Business Logo",style: TextStyle(
-                        fontSize: 20
+                        fontSize: 20,
+                      fontWeight: FontWeight.bold
                     ),),
                     Container(
                       margin: EdgeInsets.only(top: 20,left: 20,right: 20),
@@ -155,8 +156,9 @@ class _BusinesslogoState extends State<Businesslogo> {
                           child:Image.file(uploadimage!,width: MediaQuery.of(context).size.width/2,)
                       ),
                       Center(
-                        child: Text(appstatus+"...",style: TextStyle(
+                        child: Text(appstatus,style: TextStyle(
                             fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
                             fontSize: 14
                         ),),
                       ),
@@ -215,7 +217,7 @@ class _BusinesslogoState extends State<Businesslogo> {
                   child: Text(
                     'Vendorhive 360',
                     style: TextStyle(
-                        fontSize: 12, fontStyle: FontStyle.italic),
+                        fontSize: 12, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                   ),
                 ),
               )

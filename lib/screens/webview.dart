@@ -116,6 +116,10 @@ class _TopupPaystackState extends State<TopupPaystack> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -126,45 +130,48 @@ class _TopupPaystackState extends State<TopupPaystack> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Container(),
-          title: Text(""),
-          backgroundColor: Colors.white,
-        ),
-        body: Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                  url: Uri.parse(widget.topuplink),
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: Container(),
+            title: Text(""),
+            backgroundColor: Colors.white,
+          ),
+          body: Stack(
+            children: [
+              InAppWebView(
+                initialUrlRequest: URLRequest(
+                    url: Uri.parse(widget.topuplink),
+                ),
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform:
+                      InAppWebViewOptions(useShouldOverrideUrlLoading: true),
+                ),
+                onReceivedServerTrustAuthRequest: (controller,challenge)
+                async {
+                  return ServerTrustAuthResponse(action:
+                  ServerTrustAuthResponseAction.PROCEED);
+                },
+                onWebViewCreated: (InAppWebViewController controller){
+                  inAppWebViewController = controller;
+                  inAppWebViewController.clearCache();
+                  CookieManager.instance().deleteAllCookies();
+                  print('lilo');
+                },
+                onProgressChanged: (InAppWebViewController controller , int progress){
+                  setState(() {
+                    _progress = progress / 100;
+                  });
+                },
               ),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform:
-                    InAppWebViewOptions(useShouldOverrideUrlLoading: true),
-              ),
-              onReceivedServerTrustAuthRequest: (controller,challenge)
-              async {
-                return ServerTrustAuthResponse(action:
-                ServerTrustAuthResponseAction.PROCEED);
-              },
-              onWebViewCreated: (InAppWebViewController controller){
-                inAppWebViewController = controller;
-                inAppWebViewController.clearCache();
-                CookieManager.instance().deleteAllCookies();
-                print('lilo');
-              },
-              onProgressChanged: (InAppWebViewController controller , int progress){
-                setState(() {
-                  _progress = progress / 100;
-                });
-              },
-            ),
-            _progress < 1 ? Container(
-              child: LinearProgressIndicator(
-                value: _progress,
-              ),
-            ):SizedBox()
-          ],
+              _progress < 1 ? Container(
+                child: LinearProgressIndicator(
+                  value: _progress,
+                ),
+              ):SizedBox()
+            ],
+          ),
         ),
       ),
     );

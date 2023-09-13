@@ -40,6 +40,8 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:vendorandroid/screens/viewpromotedproducts.dart';
 import 'package:vendorandroid/screens/viewpromotedservice.dart';
 
+import 'forgotpin.dart';
+
 class Chatdetails{
   String useremail = "";
   Chatdetails({required this.useremail});
@@ -88,6 +90,7 @@ class _DashboardState extends State<Dashboard> {
   String appservicestatus = "Vendorhive 360";
   String addproductstatus = "Vendorhive 360";
   int _selectedIndex = 0;
+  int _bottomNavIndex = 0;
   String pidname = "";
   String sidname = "";
   String options = "Pay after service";
@@ -495,7 +498,7 @@ class _DashboardState extends State<Dashboard> {
             'idname' : widget.idname,
             'pidname' : pidname,
             'useremail' : widget.useremail,
-            'producttag' : producttags[o].tag,
+            'producttag' : replacingwords(producttags[o].tag),
           }
       );
 
@@ -538,8 +541,8 @@ class _DashboardState extends State<Dashboard> {
             'idname':widget.idname,
             'pidname':pidname,
             'useremail':widget.useremail,
-            'prodname':_prodname.text,
-            'proddesc':_proddesc.text,
+            'prodname':replacingwords(_prodname.text),
+            'proddesc':replacingwords(_proddesc.text),
             'prodprice':_prodprice.text.replaceAll(",", ""),
             'productdeliveryprice': _proddeliveryprice.text.replaceAll(",", ""),
             'location': 'Vendor',
@@ -943,7 +946,7 @@ class _DashboardState extends State<Dashboard> {
             'idname' : widget.idname,
             'sidname' : sidname,
             'useremail' : widget.useremail,
-            'producttag' : servicetags[o].tag,
+            'producttag' : replacingwords(servicetags[o].tag),
           }
       );
 
@@ -976,8 +979,8 @@ class _DashboardState extends State<Dashboard> {
             'idname':widget.idname,
             'sidname': sidname,
             'useremail': widget.useremail,
-            'name':_servicename.text,
-            'description':_servicedesc.text,
+            'name': replacingwords(_servicename.text),
+            'description': replacingwords(_servicedesc.text),
             'price':_serviceprice.text.replaceAll(',', ''),
             'paymentoption':options,
             'img': servicefilename
@@ -1318,6 +1321,13 @@ class _DashboardState extends State<Dashboard> {
     return word;
   }
 
+  String replacingwords(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+
+  //add products and service
   void showModal(){
     showModalBottomSheet(
         context: context,
@@ -1410,6 +1420,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  //view products and services
   void showMyPandS(){
     showModalBottomSheet(
         context: context,
@@ -1509,6 +1520,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  //promote products and services
   void promotion(){
     showModalBottomSheet(
         context: context,
@@ -1606,6 +1618,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  //view promoted products and services
   void selectviewpromotion(){
     showModalBottomSheet(
         context: context,
@@ -1708,6 +1721,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  //update available balance
   Future availablebalance () async{
 
     try{
@@ -1747,6 +1761,7 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  //update pending balance
   Future finalpendinglebalance () async{
 
     try{
@@ -2132,7 +2147,6 @@ class _DashboardState extends State<Dashboard> {
                                       (BuildContext context, int index) {
                                     return Column(
                                       children: [
-
                                         //top up wallet button
                                         GestureDetector(
                                           onTap: (){
@@ -2331,7 +2345,7 @@ class _DashboardState extends State<Dashboard> {
                                             }));
                                           },
                                           child: Container(
-                                            margin: EdgeInsets.only(top: 10,bottom: 10),
+                                            margin: EdgeInsets.only(top: 10),
                                             padding: EdgeInsets.only(top: 10,bottom: 10),
                                             decoration: BoxDecoration(
                                                 color: Color.fromRGBO(238, 252, 233, 1)
@@ -2360,7 +2374,48 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
+                                        //Forgot pin button
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                                              return ForgotPin(
+                                                email: widget.useremail,);
+                                            }));
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10,bottom: 10),
+                                            padding: EdgeInsets.only(top: 10,bottom: 10),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(238, 252, 233, 1)
+                                            ),
+                                            child: Row(
+                                              children: [
 
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width/8,
+                                                  margin: EdgeInsets.only(left: 10),
+                                                  child: Image.asset("assets/forgot-pin.png"),
+                                                ),
+
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(left: 10),
+                                                    child: Text("Forgot Pin?",style: TextStyle(
+                                                        fontSize: MediaQuery.of(context).size.width/22
+                                                    ),),
+                                                  ),
+                                                ),
+
+                                                Container(
+                                                  margin: EdgeInsets.only(right: 10),
+                                                  child: Icon(Icons.arrow_forward_ios_outlined,
+                                                    size: MediaQuery.of(context).size.width/15,),
+                                                )
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     );
                                   },
@@ -2685,6 +2740,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 15,)
                     ],
                   ))
                 ]else if (_selectedIndex == 1) ...[
@@ -2799,8 +2855,9 @@ class _DashboardState extends State<Dashboard> {
                     Container(
                       child: Center(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Spacer(),
                             Image.asset("assets/no-spam.png",
                               width: MediaQuery.of(context).size.width/3,),
                             Container(
@@ -2812,7 +2869,6 @@ class _DashboardState extends State<Dashboard> {
                                   fontWeight: FontWeight.bold
                               ),textAlign: TextAlign.center,),
                             ),
-                            Spacer(),
                           ],
                         ),
                       ),
@@ -2820,8 +2876,9 @@ class _DashboardState extends State<Dashboard> {
                         :
                     Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Spacer(),
                           CircularProgressIndicator(
                             color: Colors.orange,
                             backgroundColor: Colors.green,
@@ -2835,7 +2892,6 @@ class _DashboardState extends State<Dashboard> {
                                 fontWeight: FontWeight.bold
                             ),),
                           ),
-                          Spacer(),
                         ],
                       ),
                     ),
@@ -3095,6 +3151,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 15,)
                         ]
                     ),
                   )
@@ -3518,7 +3575,6 @@ class _DashboardState extends State<Dashboard> {
                                 ),),
                               ),
                             )
-
                           ]
                       )
                   )
@@ -3865,215 +3921,10 @@ class _DashboardState extends State<Dashboard> {
                                 ),),
                               ),
                             )
-
                           ]
                       )
                   )
-
                 ],
-
-                //bottom navigator button
-                Container(
-                  padding: EdgeInsets.only(bottom: 5,top: 7.5),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 0.05)
-                    )
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-
-                        GestureDetector(
-                          onTap: () {
-
-                            setState(() {
-
-                              _selectedIndex = 0;
-
-                            });
-
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.house,
-                                    size: MediaQuery.of(context).size.width/13,
-                                    color: (_selectedIndex == 0)
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Home",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: (_selectedIndex == 0)
-                                            ? Colors.black
-                                            : Colors.grey,
-                                      fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-
-                            setState(() {
-
-                              _selectedIndex = 1;
-
-                            });
-
-                            availablebalance();
-
-                            finalpendinglebalance();
-
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.wallet,
-                                    size: MediaQuery.of(context).size.width/13,
-                                    color: (_selectedIndex == 1)
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "My Wallet",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: (_selectedIndex == 1)
-                                            ? Colors.black
-                                            : Colors.grey,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-
-                            setState(() {
-
-                              showModal();
-
-                            });
-
-                          },
-                          child: Container(
-                              child: CircleAvatar(
-                            backgroundColor: Color.fromRGBO(246, 123, 55, 1),
-                            radius: MediaQuery.of(context).size.width/13,
-                            child: FaIcon(
-                              FontAwesomeIcons.plus,
-                              color: Colors.white,
-                              size: MediaQuery.of(context).size.width/13,
-                            ),
-                          )),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              chatcontact();
-                              _selectedIndex = 2;
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.message,
-                                    size: MediaQuery.of(context).size.width/13,
-                                    color: (_selectedIndex == 2)
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Messages",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: (_selectedIndex == 2)
-                                            ? Colors.black
-                                            : Colors.grey,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedIndex = 3;
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.user,
-                                    size: MediaQuery.of(context).size.width/13,
-                                    color: (_selectedIndex == 3)
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                Container(
-                                  margin:EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Profile",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: (_selectedIndex == 3)
-                                            ? Colors.black
-                                            : Colors.grey,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-
               ],
             ),
           ),
@@ -4117,6 +3968,74 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
           )
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _bottomNavIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey[500],
+        type: BottomNavigationBarType.fixed,
+        onTap: (index){
+          if(index == 0){
+            setState(() {
+              _selectedIndex = 0;
+              _bottomNavIndex = 0;
+            });
+          }
+          else if(index == 1){
+            setState(() {
+              _selectedIndex = 1;
+              _bottomNavIndex = 1;
+            });
+            availablebalance();
+            finalpendinglebalance();
+          }
+          else if(index == 2){
+            setState(() {
+              _bottomNavIndex = 2;
+              showModal();
+            });
+          }
+          else if(index == 3){
+            chatcontact();
+            setState(() {
+              _selectedIndex = 2;
+              _bottomNavIndex = 3;
+            });
+          }
+          else if(index == 4){
+            setState(() {
+              _selectedIndex = 3;
+              _bottomNavIndex = 4;
+            });
+          }
+        },
+        items: [
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.house,
+            size: MediaQuery.of(context).size.width/13,
+          ), label: 'Home'),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.wallet,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'My Wallet'),
+          BottomNavigationBarItem(icon: CircleAvatar(
+            backgroundColor: Color.fromRGBO(246, 123, 55, 1),
+            radius: MediaQuery.of(context).size.width/13,
+            child: FaIcon(
+              FontAwesomeIcons.plus,
+              color: Colors.white,
+              size: MediaQuery.of(context).size.width/13,
+            ),
+          ),label: ''),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.message,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'Messages'),
+          BottomNavigationBarItem(icon: FaIcon(
+            FontAwesomeIcons.user,
+            size: MediaQuery.of(context).size.width/13,
+          ),label: 'Profile')
         ],
       ),
     );

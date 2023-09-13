@@ -21,8 +21,6 @@ class CheckoutThird extends StatefulWidget {
 }
 
 class _CheckoutThirdState extends State<CheckoutThird> {
-  double subtotal = 40000;
-  double deliveryamount = 2500;
 
   @override
   void initState() {

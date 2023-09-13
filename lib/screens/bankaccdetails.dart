@@ -147,6 +147,12 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     }
   }
 
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+  
   @override
   initState(){
     super.initState();
@@ -434,13 +440,15 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                               accountname.isNotEmpty && _narration.text.isNotEmpty &&
                               charge.isNotEmpty && accountname != "..." && charge != "..."){
                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return CodeUnlock(bankname: bankname,
+                              return CodeUnlock(bankname: replacing(bankname),
                                 amount: _amount.text,
-                                accountname: accountname,
-                                narration: _narration.text,
+                                accountname: replacing(accountname),
+                                narration: replacing(_narration.text),
                                 charge: charge,
                                 useremail: widget.useremail,
-                                idname: widget.idname,);
+                                idname: widget.idname,
+                                account_number: _accnumber.text
+                              );
                             }));
                           }
                           else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&

@@ -26,9 +26,9 @@ class _ServiceAddedState extends State<ServiceAdded> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [

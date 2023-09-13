@@ -425,7 +425,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
           Uri.https('api.paystack.co','transaction/initialize'),
           body: {
             'amount':c,
-            'email':'abel.ayinde@gmail.com'
+            'email':widget.useremail
           },
           headers: {
             'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
@@ -456,6 +456,8 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                   useremail: widget.useremail,
                   amount: widget.totalamountplusdelivery.toString().replaceAll(",", ""),
                   state: widget.state,
+                  fullname: widget.fullname,
+                  streetaddress: widget.streetaddress,
                 )
             )
         );

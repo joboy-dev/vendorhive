@@ -203,6 +203,10 @@ class _ProcessServicePromotionPaymentState extends State<ProcessServicePromotion
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -214,50 +218,53 @@ class _ProcessServicePromotionPaymentState extends State<ProcessServicePromotion
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 3,
-                      child: SpinKitFadingCube(
-                        color: Colors.orange,
-                        size: 100,
+    return SafeArea(
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 3,
+                        child: SpinKitFadingCube(
+                          color: Colors.orange,
+                          size: 100,
+                        ),
                       ),
-                    ),
-                    Container(
-                      child: Text("Processing payment", style: TextStyle(
-                          color: Color.fromRGBO(246, 123, 55, 1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width/26
-                      ),),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic
-                          ),),
+                      Container(
+                        child: Text("Processing payment", style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width/26
+                        ),),
                       ),
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                          child: Text('Vendorhive 360',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic
+                            ),),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }

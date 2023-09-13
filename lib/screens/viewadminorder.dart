@@ -14,7 +14,7 @@ class Viewadminorder extends StatefulWidget {
   String location = "";
   String adminemail = "";
   String useremail = "";
-
+  String tkid = "";
   Viewadminorder({
     required this.productname,
     required this.productid,
@@ -23,7 +23,8 @@ class Viewadminorder extends StatefulWidget {
     required this.deliveryprice,
     required this.location,
     required this.adminemail,
-    required this.useremail
+    required this.useremail,
+    required this.tkid
   });
 
   @override
@@ -55,7 +56,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     var productstatus = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorshipped.php'),
         body: {
-          'productid':widget.productid,
+          'productid':widget.tkid,
           'adminemail':widget.adminemail,
           'useremail':widget.useremail
         }
@@ -63,6 +64,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
     if(productstatus.statusCode == 200){
 
+      print(jsonDecode(productstatus.body)[0]['ordershipped']);
       if(jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone'){
 
         setState(() {
@@ -82,6 +84,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           enabledelivery = false;
         });
 
+        print(jsonDecode(productstatus.body)[0]['orderarrived']);
         if(jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone'){
 
           setState(() {
@@ -115,7 +118,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     var updateshiporder = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorupdateshipped.php'),
         body: {
-          'productid':widget.productid,
+          'productid':widget.tkid,
           'adminemail':widget.adminemail,
           'useremail':widget.useremail,
         }
@@ -158,7 +161,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     var updatearrive = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorupdatearrived.php'),
         body: {
-          'productid':widget.productid,
+          'productid':widget.tkid,
           'useremail':widget.useremail,
           'adminemail': widget.adminemail
         }
@@ -206,6 +209,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     // TODO: implement initState
     super.initState();
     productstats();
+    print(widget.tkid);
   }
 
   @override
@@ -252,7 +256,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
               Flexible(
                   child: ListView(
-                children: [
+                  children: [
 
                   SizedBox(
                     height: MediaQuery.of(context).size.height/30,
@@ -405,9 +409,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                       ),)),
                     ),
                   )
-
                   :
-
                   Container(
 
                     margin: EdgeInsets.fromLTRB(10, 10, 10, 5),

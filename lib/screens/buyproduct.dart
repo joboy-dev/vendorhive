@@ -13,13 +13,17 @@ class BuyProduct extends StatefulWidget {
   String useremail = "";
   String state = "";
   String amount = "";
+  String fullname = "";
+  String streetaddress = "";
   BuyProduct({Key? key,
   required this.topuplink,
   required this.refnumber,
   required this.idname,
   required this.useremail,
   required this.state,
-  required this.amount}) : super(key: key);
+  required this.amount,
+  required this.fullname,
+  required this.streetaddress}) : super(key: key);
 
   @override
   _BuyProductState createState() => _BuyProductState();
@@ -54,6 +58,8 @@ class _BuyProductState extends State<BuyProduct> {
             idname: widget.idname,
             useremail: widget.useremail,
             state: widget.state,
+            fullname: widget.fullname,
+            streetaddress: widget.streetaddress,
             );
         }));
 
@@ -121,52 +127,59 @@ class _BuyProductState extends State<BuyProduct> {
     calltimer();
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading:Container(),
-          backgroundColor: Colors.white,
-          title: Text("Vendorhive 360"),
-          titleTextStyle: TextStyle(
-            color: Colors.orange,
-            fontSize: 14
-          ),
-        ),
-        body: Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: Uri.parse(widget.topuplink),
-              ),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform:
-                InAppWebViewOptions(useShouldOverrideUrlLoading: true),
-              ),
-              onReceivedServerTrustAuthRequest: (controller,challenge)
-              async {
-                return ServerTrustAuthResponse(action:
-                ServerTrustAuthResponseAction.PROCEED);
-              },
-              onWebViewCreated: (InAppWebViewController controller){
-                inAppWebViewController = controller;
-                inAppWebViewController.clearCache();
-                CookieManager.instance().deleteAllCookies();
-                print('lilo');
-              },
-              onProgressChanged: (InAppWebViewController controller , int progress){
-                setState(() {
-                  _progress = progress / 100;
-                });
-              },
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: AppBar(
+            leading:Container(),
+            backgroundColor: Colors.white,
+            title: Text("Vendorhive 360"),
+            titleTextStyle: TextStyle(
+              color: Colors.orange,
+              fontSize: 14
             ),
-            _progress < 1 ? Container(
-              child: LinearProgressIndicator(
-                value: _progress,
+          ),
+          body: Stack(
+            children: [
+              InAppWebView(
+                initialUrlRequest: URLRequest(
+                  url: Uri.parse(widget.topuplink),
+                ),
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform:
+                  InAppWebViewOptions(useShouldOverrideUrlLoading: true),
+                ),
+                onReceivedServerTrustAuthRequest: (controller,challenge)
+                async {
+                  return ServerTrustAuthResponse(action:
+                  ServerTrustAuthResponseAction.PROCEED);
+                },
+                onWebViewCreated: (InAppWebViewController controller){
+                  inAppWebViewController = controller;
+                  inAppWebViewController.clearCache();
+                  CookieManager.instance().deleteAllCookies();
+                  print('lilo');
+                },
+                onProgressChanged: (InAppWebViewController controller , int progress){
+                  setState(() {
+                    _progress = progress / 100;
+                  });
+                },
               ),
-            ):SizedBox()
-          ],
+              _progress < 1 ? Container(
+                child: LinearProgressIndicator(
+                  value: _progress,
+                ),
+              ):SizedBox()
+            ],
+          ),
         ),
       ),
     );

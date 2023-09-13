@@ -57,6 +57,12 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
     return str;
   }
 
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+
   Future processpayment() async{
 
     print(cartitems.length);
@@ -138,7 +144,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                         'trackid':trackid,
                         'tkid':trfid,
                         'adminemail': cartitems[o].adminemail,
-                        'customerlocation' : widget.state,
+                        'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
                         'deliveryprice' : cartitems[o].deliveryprice.toString(),
                         'quantity' : cartitems[o].quantity.toString()
                       }

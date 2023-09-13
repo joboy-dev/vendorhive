@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:vendorandroid/screens/buypackage.dart';
 import 'package:vendorandroid/screens/packagewalletpayment.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -148,6 +150,78 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
 
     }
 
+  }
+
+  Future payment() async{
+
+    print('processing paystack payment');
+
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    String amt = widget.amount.replaceAll(",", "");
+    String amount = double.parse(amt).toStringAsFixed(2);
+    double a = double.parse(amount);
+    double b = a *100;
+    String c = b.toStringAsFixed(0);
+
+    try{
+
+      var paystackpayment = await http.post(
+          Uri.https('api.paystack.co','transaction/initialize'),
+          body: {
+            'amount':c,
+            'email':widget.email
+          },
+          headers: {
+            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+          }
+      );
+
+      if(paystackpayment.statusCode == 200){
+
+        print(jsonDecode(paystackpayment.body));
+        print(jsonDecode(paystackpayment.body)['status']);
+        print(jsonDecode(paystackpayment.body)['data']['authorization_url']);
+        print(jsonDecode(paystackpayment.body)['data']['access_code']);
+        print(jsonDecode(paystackpayment.body)['data']['reference']);
+
+        String topupurl = jsonDecode(paystackpayment.body)['data']['authorization_url'];
+        String initiaterefno = jsonDecode(paystackpayment.body)['data']['reference'];
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context)=>
+                Buypackage(
+                  topuplink: topupurl,
+                  refnumber: initiaterefno,
+                  email: widget.email,
+                  package: widget.package,
+                )
+            )
+        );
+
+      }
+      else{
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+      }
+
+    }
+    catch(e){
+
+      setState(() {
+        _selectedpage = 0;
+      });
+
+    }
   }
 
   @override
@@ -348,7 +422,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
                             setState(() {
                               one_time_payment = false;
                             });
-                            pay();
+                            payment();
                           }
                         }
                       },
@@ -396,7 +470,10 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment",style: TextStyle(
@@ -410,6 +487,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
                       child: Text('Vendorhive 360',style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 12,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   )

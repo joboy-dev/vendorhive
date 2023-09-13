@@ -31,7 +31,12 @@ class _PayforServiceState extends State<PayforService> {
   TextEditingController _amount = new TextEditingController();
   TextEditingController _description = new TextEditingController();
 
-
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
+  }
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -153,7 +158,7 @@ class _PayforServiceState extends State<PayforService> {
                               useremail: widget.useremail,
                               adminemail: widget.adminemail,
                               amount: _amount.text.replaceAll(",", ''),
-                            desc: _description.text,
+                            desc: replacing(_description.text),
                             sidname: widget.sidname,
                             servicename: widget.servicename,);
                           }));

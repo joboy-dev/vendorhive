@@ -51,7 +51,7 @@ class _BusinessChangeFullnameState extends State<BusinessChangeFullname> {
               Uri.https('adeoropelumi.com','vendor/vendorchangefullname.php'),
               body: {
                 'email' : widget.email,
-                'fullname' : _newname.text
+                'fullname' : replacing(_newname.text)
               }
           );
 
@@ -163,160 +163,163 @@ class _BusinessChangeFullnameState extends State<BusinessChangeFullname> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: _selectedpage == 0 ?
-        SafeArea(
-          child: Container(
-            child: Column(
-              children: [
-                //change fullname text + back button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(217, 217, 217, .5),
-                  ),
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text("Change Fullname",style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14
-                          ),),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: CircleAvatar(
-                            backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+    return Scaffold(
+      body: _selectedpage == 0 ?
+      SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              //change fullname text + back button
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(217, 217, 217, .5),
                 ),
-
-                //password fullname textfield + change full name button and image decoration
-                Flexible(
-                    child: ListView(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    //present password textfield
-                    Container(
-                      child: TextField(
-                        controller: _password,
-                        keyboardType: TextInputType.text,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                            hintText: 'Enter Password',
-                            contentPadding: EdgeInsets.only(left: 10)
-                        ),
-                      ),
-                    ),
-                    //new full name textfield
-                    Container(
-                      child: TextField(
-                        controller: _newname,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            hintText: 'Enter New Full Name',
-                            contentPadding: EdgeInsets.only(left: 10)
-                        ),
-                      ),
-                    ),
-                    //change full name button
-                    GestureDetector(
-                      onTap: (){
-                        if(_password.text.isNotEmpty && _newname.text.isNotEmpty){
-                          changename();
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Fill all fields'))
-                          );
-                        }
-                      },
+                    Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(top: 20),
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.orange),
-                            color: Colors.green
-                        ),
-                        child: Center(
-                          child: Text('Change Full Name',textAlign:TextAlign.center,
-                            style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.width/25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                            ),),
-                        ),
-                      ),
-                    ),
-                    //vendorhive text
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text('Vendorhive 360',style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width/30,
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text("Change Fullname",style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
+                            fontSize: 14
                         ),),
                       ),
                     ),
-                    //image decoration
-                    Container(
-                      margin: EdgeInsets.only(top: 40),
-                      height: MediaQuery.of(context).size.width/2,
-                      width: MediaQuery.of(context).size.width/2,
-                      child: Image.asset("assets/text-to-speech.png"),
-                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                          backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
-                ))
-              ],
+                ),
+              ),
+
+              //password fullname textfield + change full name button and image decoration
+              Flexible(
+                  child: ListView(
+                    children: [
+                      //present password textfield
+                      Container(
+                        child: TextField(
+                          controller: _password,
+                          keyboardType: TextInputType.text,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                              hintText: 'Enter Password',
+                              contentPadding: EdgeInsets.only(left: 10)
+                          ),
+                        ),
+                      ),
+                      //new full name textfield
+                      Container(
+                        child: TextField(
+                          controller: _newname,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              hintText: 'Enter New Full Name',
+                              contentPadding: EdgeInsets.only(left: 10)
+                          ),
+                        ),
+                      ),
+                      //change full name button
+                      GestureDetector(
+                        onTap: (){
+                          if(_password.text.isNotEmpty && _newname.text.isNotEmpty){
+                            changename();
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Fill all fields'))
+                            );
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.orange),
+                              color: Colors.green
+                          ),
+                          child: Center(
+                            child: Text('Change Full Name',textAlign:TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white
+                              ),),
+                          ),
+                        ),
+                      ),
+                      //vendorhive text
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                          child: Text('Vendorhive 360',style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width/30,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                          ),),
+                        ),
+                      ),
+                      //image decoration
+                      Container(
+                        margin: EdgeInsets.only(top: 40),
+                        height: MediaQuery.of(context).size.width/2,
+                        width: MediaQuery.of(context).size.width/2,
+                        child: Image.asset("assets/text-to-speech.png"),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+        ),
+      )
+          :
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height/3,
+            child: SpinKitFadingCube(
+              color: Colors.orange,
+              size: 100,
             ),
           ),
-        )
-            :
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height/3,
-              child: SpinKitFadingCube(
-                color: Colors.orange,
-                size: 100,
-              ),
-            ),
-            Container(
-              child: Text("Processing",style: TextStyle(
-                  color: Color.fromRGBO(246, 123, 55, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: MediaQuery.of(context).size.width/29
+          Container(
+            child: Text("Processing",style: TextStyle(
+                color: Color.fromRGBO(246, 123, 55, 1),
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width/29
+            ),),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: Center(
+              child: Text('Vendorhive',style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width/33,
+                fontStyle: FontStyle.italic,
               ),),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 5),
-              child: Center(
-                child: Text('Vendorhive',style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width/33,
-                    fontStyle: FontStyle.italic,
-                ),),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
+  }
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
   }
 }

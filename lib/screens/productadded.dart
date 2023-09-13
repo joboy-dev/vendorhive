@@ -25,9 +25,9 @@ class _ProductAddedState extends State<ProductAdded> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
@@ -54,7 +54,7 @@ class _ProductAddedState extends State<ProductAdded> {
               Container(
                 child: Center(child: Text("New Product Added!",style: TextStyle(
                   // fontStyle: FontStyle.italic,
-                  fontSize: 14
+                    fontSize: 14
                 ),)),
               ),
               Spacer(),
@@ -71,8 +71,8 @@ class _ProductAddedState extends State<ProductAdded> {
                       useremail: widget.useremail,
                       packagename: widget.packagename,
                       usertype: widget.usertype,
-                    finalbalance: finalbalance??"",
-                    pendingbalance: pendingbalance??"",);
+                      finalbalance: finalbalance??"",
+                      pendingbalance: pendingbalance??"",);
                   }), (r){
                     return false;
                   });

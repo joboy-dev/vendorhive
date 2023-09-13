@@ -24,6 +24,8 @@ class _CheckoutState extends State<Checkout> {
   TextEditingController _phonenumber = new TextEditingController();
   TextEditingController _street = new TextEditingController();
 
+
+
   @override
   void initState() {
     // TODO: implement initState

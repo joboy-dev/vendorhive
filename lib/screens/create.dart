@@ -221,29 +221,66 @@ class _CreateState extends State<Create> {
 
                 GestureDetector(
                   onTap: (){
-                    if(_fullname.text.isNotEmpty && _email.text.isNotEmpty && _phonenumber.text.isNotEmpty
-                    && _password.text.isNotEmpty && _confirmpassowrd.text.isNotEmpty){
-                      if(_password.text == _confirmpassowrd.text){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return GetStarted(fullname: _fullname.text,
-                            email: _email.text,
-                            phonenumber: _phonenumber.text,
-                            password: _password.text,
-                            confirmpassword: _confirmpassowrd.text,
-                            referalcode: _referencecode.text,);
-                        }));
-                      }
-                      else{
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                            SnackBar(
-                              content: Text('Passwords do not match'),
-                            ));
-                      }
+                    if (_fullname.text.contains("'") ||
+                        _fullname.text.contains(r'\') ) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                          Text("Full Name must not contain ' or \\ ")));
                     }
-                    else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Fill all Fields'))
-                      );
+                    else {
+                      if (_email.text.contains("'") ||
+                          _email.text.contains(r'\')) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                            Text("Email must not contain ' or \\ ")));
+                      }
+                      else {
+                        if (_password.text.contains("'") ||
+                            _password.text.contains(r'\')) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                              Text("Password must not contain ' or \\ ")));
+                        }
+                        else {
+                          if (_confirmpassowrd.text.contains("'") ||
+                              _confirmpassowrd.text.contains(r'\')) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                Text("Confirm Password must not contain ' or \\ ")));
+                          }
+                          else {
+                            if (_fullname.text.isNotEmpty && _email.text
+                                .isNotEmpty &&
+                                _phonenumber.text.isNotEmpty
+                                && _password.text.isNotEmpty &&
+                                _confirmpassowrd.text.isNotEmpty) {
+                              if (_password.text == _confirmpassowrd.text) {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return GetStarted(
+                                        fullname: _fullname.text,
+                                        email: _email.text,
+                                        phonenumber: _phonenumber.text,
+                                        password: _password.text,
+                                        confirmpassword: _confirmpassowrd.text,
+                                        referalcode: _referencecode.text,);
+                                    }));
+                              }
+                              else {
+                                ScaffoldMessenger.of(this.context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Passwords do not match'),
+                                    ));
+                              }
+                            }
+                            else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Fill all Fields'))
+                              );
+                            }
+                          }
+                        }
+                      }
                     }
                   },
                   child: Container(

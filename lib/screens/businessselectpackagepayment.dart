@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendorandroid/screens/busspackagewalletpayment.dart';
@@ -226,7 +227,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
           Uri.https('api.paystack.co','transaction/initialize'),
           body: {
             'amount':c,
-            'email':'abel.ayinde@gmail.com'
+            'email':widget.email
           },
           headers: {
             'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
@@ -526,7 +527,10 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/3,
-                    child: Image.asset("assets/processing.png",color: Color.fromRGBO(14, 44, 3, 1),),
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
                   ),
                   Container(
                     child: Text("Processing payment",style: TextStyle(
@@ -540,7 +544,8 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: 12,
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   )

@@ -131,6 +131,10 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   initState(){
     super.initState();
@@ -139,7 +143,8 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

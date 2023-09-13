@@ -250,7 +250,7 @@ class _OTPBusinessState extends State<OTPBusiness> {
                   child: Text(
                     'Vendorhive 360',
                     style: TextStyle(
-                        fontSize: 12, fontStyle: FontStyle.italic),
+                        fontSize: 12, fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
                   ),
                 ),
               )

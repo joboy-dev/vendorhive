@@ -11,10 +11,14 @@ class ProcessProductPayment extends StatefulWidget {
   String idname = "";
   String useremail = "";
   String state = "";
+  String fullname = "";
+  String streetaddress = "";
   ProcessProductPayment({Key? key,
   required this.idname,
   required this.useremail,
-  required this.state}) : super(key: key);
+  required this.state,
+  required this.fullname,
+  required this.streetaddress}) : super(key: key);
 
   @override
   _ProcessProductPaymentState createState() => _ProcessProductPaymentState();
@@ -38,6 +42,12 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
     str = str.replaceAll(".", "");
     str = str.replaceAll(" ", "");
     return str;
+  }
+
+  String replacing(String word) {
+    word = word.replaceAll("'", "");
+    word = word.replaceAll(r'\', r'\\');
+    return word;
   }
 
   Future pay() async{
@@ -72,7 +82,7 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
               'trackid':trackid,
               'tkid':trfid,
               'adminemail': cartitems[o].adminemail,
-              'customerlocation' : widget.state,
+              'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
               'deliveryprice' : cartitems[o].deliveryprice.toString(),
               'quantity' : cartitems[o].quantity.toString()
             }
@@ -176,9 +186,14 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
     pay();
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

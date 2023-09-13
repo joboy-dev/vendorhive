@@ -111,6 +111,10 @@ class _BuypackageState extends State<Buypackage> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
   @override
   initState(){
     super.initState();
@@ -120,50 +124,54 @@ class _BuypackageState extends State<Buypackage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Container(),
-          backgroundColor: Colors.white,
-          title: Text("Vendorhive"),
-          titleTextStyle: TextStyle(
-            color: Colors.orange,
-            fontSize: 14,
-          ),
-          centerTitle: true,
-        ),
-        body: Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: Uri.parse(widget.topuplink),
-              ),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform:
-                InAppWebViewOptions(useShouldOverrideUrlLoading: true),
-              ),
-              onReceivedServerTrustAuthRequest: (controller,challenge)
-              async {
-                return ServerTrustAuthResponse(action:
-                ServerTrustAuthResponseAction.PROCEED);
-              },
-              onWebViewCreated: (InAppWebViewController controller){
-                inAppWebViewController = controller;
-                inAppWebViewController.clearCache();
-                CookieManager.instance().deleteAllCookies();
-                print('lilo');
-              },
-              onProgressChanged: (InAppWebViewController controller , int progress){
-                setState(() {
-                  _progress = progress / 100;
-                });
-              },
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: Container(),
+            backgroundColor: Colors.white,
+            title: Text("Vendorhive"),
+            titleTextStyle: TextStyle(
+              color: Colors.orange,
+              fontSize: 14,
+              fontWeight: FontWeight.bold
             ),
-            _progress < 1 ? Container(
-              child: LinearProgressIndicator(
-                value: _progress,
+            centerTitle: true,
+          ),
+          body: Stack(
+            children: [
+              InAppWebView(
+                initialUrlRequest: URLRequest(
+                  url: Uri.parse(widget.topuplink),
+                ),
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform:
+                  InAppWebViewOptions(useShouldOverrideUrlLoading: true),
+                ),
+                onReceivedServerTrustAuthRequest: (controller,challenge)
+                async {
+                  return ServerTrustAuthResponse(action:
+                  ServerTrustAuthResponseAction.PROCEED);
+                },
+                onWebViewCreated: (InAppWebViewController controller){
+                  inAppWebViewController = controller;
+                  inAppWebViewController.clearCache();
+                  CookieManager.instance().deleteAllCookies();
+                  print('lilo');
+                },
+                onProgressChanged: (InAppWebViewController controller , int progress){
+                  setState(() {
+                    _progress = progress / 100;
+                  });
+                },
               ),
-            ):SizedBox()
-          ],
+              _progress < 1 ? Container(
+                child: LinearProgressIndicator(
+                  value: _progress,
+                ),
+              ):SizedBox()
+            ],
+          ),
         ),
       ),
     );
