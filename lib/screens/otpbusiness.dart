@@ -19,10 +19,10 @@ class OTPBusiness extends StatefulWidget {
       required this.idname,
       required this.email,
       required this.fullname,
-        required this.phonenumber,
-        required this.password,
-        required this.confirmpassword,
-        required this.referalcode})
+      required this.phonenumber,
+      required this.password,
+      required this.confirmpassword,
+      required this.referalcode})
       : super(key: key);
 
   @override
@@ -117,7 +117,6 @@ class _OTPBusinessState extends State<OTPBusiness> {
         }));
       }
     } catch (e) {
-
       var failedsignup = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/failedsignup.php'),
           body: {'idname': widget.idname});
@@ -155,109 +154,114 @@ class _OTPBusinessState extends State<OTPBusiness> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedpage == 0
-          ? GestureDetector(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: SafeArea(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        child: Center(
-                          child: Image.asset("assets/otp.png"),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: 10, bottom: 20, left: 10, right: 10),
-                        child: Text(
-                          "Vendorhive has sent your otp to " + widget.email,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width / 26),
-                        ),
-                      ),
-                      Container(
-                        child: TextField(
-                          controller: _otp,
-                          decoration: InputDecoration(
-                            label: Text('OTP'),
+        body: _selectedpage == 0
+            ? GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: SafeArea(
+                    child: ListView(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.width / 3,
+                          child: Center(
+                            child: Image.asset("assets/otp.png"),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          if (_otp.text.isNotEmpty) {
-                            otpprocessing();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("Please enter OTP to proceed")));
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                          padding: EdgeInsets.symmetric(vertical: 18),
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(246, 123, 55, 1),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                              child: Text(
-                            "Proceed",
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 10, bottom: 20, left: 10, right: 10),
+                          child: Text(
+                            "Vendorhive 360 has sent your otp to " +
+                                widget.email,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Colors.white,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 22,
-                                fontWeight: FontWeight.w500),
-                          )),
+                                    MediaQuery.of(context).size.width / 26),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          : Center(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 3,
-                child: SpinKitFadingCube(
-                  color: Colors.orange,
-                  size: 100,
-                ),
-              ),
-              Container(
-                child: Text(
-                  "Processing",
-                  style: TextStyle(
-                    color: Color.fromRGBO(246, 123, 55, 1),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Center(
-                  child: Text(
-                    'Vendorhive 360',
-                    style: TextStyle(
-                        fontSize: 12, fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
+                        Container(
+                          child: TextField(
+                            controller: _otp,
+                            decoration: InputDecoration(
+                              label: Text('OTP'),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (_otp.text.isNotEmpty) {
+                              otpprocessing();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Please enter OTP to proceed")));
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                                child: Text(
+                              "Proceed",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 22,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
-            ],
-          ),
-        ),
-      )
-    );
+            : Center(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: SpinKitFadingCube(
+                          color: Colors.orange,
+                          size: 100,
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          "Processing",
+                          style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                          child: Text(
+                            'Vendorhive 360',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ));
   }
 }

@@ -11,7 +11,7 @@ class Create extends StatefulWidget {
 
 class _CreateState extends State<Create> {
 
-  String appstatus = "Vendorhirve...";
+  String appstatus = "Vendorhive 360";
 
   TextEditingController _fullname = new TextEditingController();
   TextEditingController _email = new TextEditingController();
@@ -46,7 +46,7 @@ class _CreateState extends State<Create> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20,left: 20,right: 20),
-                  child: Text("Join Vendorhive and get good services and quality products. Thank me later",
+                  child: Text("Join Vendorhive 360 and get good services and quality products. Thank me later",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width/26

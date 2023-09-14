@@ -404,6 +404,7 @@ class _ContactSupportState extends State<ContactSupport> {
               child: Center(
                 child: Text('Vendorhive 360',style: TextStyle(
                   fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width/26,
                 ),),
               ),
@@ -439,7 +440,8 @@ class _ContactSupportState extends State<ContactSupport> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: 12,
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   )

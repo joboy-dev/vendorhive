@@ -34,7 +34,8 @@ class _PromotedoneCardState extends State<PromotedoneCard> {
                   child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/20,
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),)
                   ),
                 ),

@@ -193,7 +193,8 @@ class _TrackBusinessServicePaymentState extends State<TrackBusinessServicePaymen
                       margin: EdgeInsets.only(top: 10),
                       child: Center(
                         child: Text('Vendorhive 360',style: TextStyle(
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold
                         ),),
                       ),
                     )

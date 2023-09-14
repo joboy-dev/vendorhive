@@ -19,7 +19,7 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   String option = "Pay on Delivery";
-  String appstatus = "Vendorhirve...";
+  String appstatus = "Vendorhive 360";
 
   void deliverydetails(){
     print(widget.idname);
@@ -57,7 +57,7 @@ class _ProductState extends State<Product> {
    }
 
     setState(() {
-      appstatus = "Vendorhirve...";
+      appstatus = "Vendorhive 360";
     });
   }
 

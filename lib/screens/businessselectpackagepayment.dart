@@ -507,6 +507,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                         child: Text('Vendorhive 360',style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: MediaQuery.of(context).size.width/25,
+                          fontWeight: FontWeight.bold
                         ),),
                       ),
                     )

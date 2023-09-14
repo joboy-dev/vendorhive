@@ -140,7 +140,7 @@ class _BuyProductPromotionState extends State<BuyProductPromotion> {
           appBar: AppBar(
             leading: Container(),
             backgroundColor: Colors.white,
-            title: Text("Vendorhive"),
+            title: Text("Vendorhive 360"),
             titleTextStyle: TextStyle(
               color: Colors.orange,
               fontSize: 14,

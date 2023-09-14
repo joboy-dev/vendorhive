@@ -173,7 +173,7 @@ class _OTPState extends State<OTP> {
                         margin: EdgeInsets.only(
                             top: 10, bottom: 20, left: 10, right: 10),
                         child: Text(
-                          "Vendorhive has sent your otp to " + widget.email,
+                          "Vendorhive 360 has sent your otp to " + widget.email,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.width / 26),
@@ -246,7 +246,7 @@ class _OTPState extends State<OTP> {
                   child: Text(
                     'Vendorhive 360',
                     style: TextStyle(
-                        fontSize: 12, fontStyle: FontStyle.italic),
+                        fontSize: 12, fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
                   ),
                 ),
               )

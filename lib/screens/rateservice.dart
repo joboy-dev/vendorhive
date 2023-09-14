@@ -256,7 +256,8 @@ class _RateServiceState extends State<RateService> {
               child: Text('Vendorhive 360',
                 style: TextStyle(
                     fontSize: 12,
-                    fontStyle: FontStyle.italic
+                    fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold
                 ),),
             ),
           )

@@ -185,7 +185,7 @@ class _ForgotPinState extends State<ForgotPin> {
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
                         child: Text(
-                          "Vendorhive",
+                          "Vendorhive 360",
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.width / 28,
                               fontWeight: FontWeight.bold,

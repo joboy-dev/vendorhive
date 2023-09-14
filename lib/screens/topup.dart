@@ -261,7 +261,8 @@ class _TopupState extends State<Topup> {
                       child: Text('Vendorhive 360',
                         style: TextStyle(
                             fontSize: 12,
-                            fontStyle: FontStyle.italic
+                            fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold
                         ),),
                     ),
                   )
@@ -432,7 +433,7 @@ class _TopupState extends State<Topup> {
           Uri.https('api.paystack.co','transaction/initialize'),
           body: {
             'amount':c,
-            'email':'abel.ayinde@gmail.com'
+            'email':widget.email
           },
           headers: {
             'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'

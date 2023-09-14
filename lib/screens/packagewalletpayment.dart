@@ -659,6 +659,7 @@ class _PackageWalletPaymentState extends State<PackageWalletPayment> {
                                 child: Center(
                                   child: Text('Vendorhive 360',style: TextStyle(
                                     fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: MediaQuery.of(context).size.width/25,
                                   ),textAlign: TextAlign.center,),
                                 ),
@@ -697,7 +698,8 @@ class _PackageWalletPaymentState extends State<PackageWalletPayment> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                         fontSize: 12,
-                        fontStyle: FontStyle.italic
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   )

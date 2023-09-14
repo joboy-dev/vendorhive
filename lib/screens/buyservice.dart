@@ -149,7 +149,8 @@ class _BuyServiceState extends State<BuyService> {
             title: Text("Vendorhive 360"),
             titleTextStyle: TextStyle(
               fontSize: 13,
-              color: Colors.orange
+              color: Colors.orange,
+              fontWeight: FontWeight.bold
             ),
             centerTitle: true,
           ),

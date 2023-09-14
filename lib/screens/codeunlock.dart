@@ -15,6 +15,7 @@ class CodeUnlock extends StatefulWidget {
   String narration = "";
   String charge = "";
   String account_number = "";
+
   CodeUnlock(
       {required this.bankname,
       required this.accountname,
@@ -468,7 +469,9 @@ class _CodeUnlockState extends State<CodeUnlock> {
                             child: Text(
                               'Vendorhive 360',
                               style: TextStyle(
-                                  fontSize: 12, fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
@@ -556,7 +559,6 @@ class _CodeUnlockState extends State<CodeUnlock> {
 
             if (debitcustwallet.statusCode == 200) {
               if (jsonDecode(debitcustwallet.body) == 'true') {
-
                 print('cust wallet is debited');
 
                 var sendinstruction = await http.post(
@@ -571,11 +573,10 @@ class _CodeUnlockState extends State<CodeUnlock> {
                       'account_name': widget.accountname,
                       'bank_name': widget.bankname,
                       'transfer_charge': widget.charge,
-                      'account_number' : widget.account_number
+                      'account_number': widget.account_number
                     });
 
                 if (jsonDecode(sendinstruction.body) == 'true') {
-
                   setState(() {
                     _selectedpage = 0;
 
@@ -585,12 +586,10 @@ class _CodeUnlockState extends State<CodeUnlock> {
                     pin4.clear();
                   });
 
-
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return WithdrawSuccess();
                   }));
-                }
-                else {
+                } else {
                   setState(() {
                     _selectedpage = 0;
                   });

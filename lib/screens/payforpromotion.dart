@@ -72,7 +72,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
           Uri.https('api.paystack.co','transaction/initialize'),
           body: {
             'amount':c,
-            'email':'abel.ayinde@gmail.com'
+            'email':widget.adminemail
           },
           headers: {
             'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
@@ -619,7 +619,8 @@ class _PayForPromotionState extends State<PayForPromotion> {
                           child: Center(
                             child: Text('Vendorhive 360',style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/26,
-                                fontStyle: FontStyle.italic
+                                fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                             ),),
                           ),
                         )
@@ -655,7 +656,8 @@ class _PayForPromotionState extends State<PayForPromotion> {
                 child: Center(
                   child: Text('Vendorhive 360',style: TextStyle(
                       fontSize: 12,
-                      fontStyle: FontStyle.italic
+                      fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold
                   ),),
                 ),
               )

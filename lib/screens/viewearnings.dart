@@ -353,7 +353,8 @@ class _ViewEarningsState extends State<ViewEarnings> {
                         child: Center(
                           child: Text(getearnings ? 'Vendorhive 360' : 'loading...',style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            fontSize: 14
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
                           ),),
                         ),
                       )

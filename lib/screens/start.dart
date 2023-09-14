@@ -109,7 +109,7 @@ class _GetStartedState extends State<GetStarted> {
 
             setState(() {
               _selectedpage = 0;
-              appstatus = "Vendorhirve...";
+              appstatus = "Vendorhive 360";
             });
 
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -204,7 +204,7 @@ class _GetStartedState extends State<GetStarted> {
 
             setState(() {
               _selectedpage = 0;
-              appstatus = "Vendorhirve...";
+              appstatus = "Vendorhive 360";
             });
 
             Navigator.push(context, MaterialPageRoute(builder: (context) {

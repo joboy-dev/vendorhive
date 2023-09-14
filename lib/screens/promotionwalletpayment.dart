@@ -667,7 +667,8 @@ class _WalletPaymentState extends State<WalletPayment> {
                         Container(
                           child: Center(
                             child: Text('Vendorhive 360',style: TextStyle(
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                             ),),
                           ),
                         )
@@ -704,7 +705,8 @@ class _WalletPaymentState extends State<WalletPayment> {
                 child: Center(
                   child: Text('Vendorhive 360',style: TextStyle(
                       fontSize: 12,
-                      fontStyle: FontStyle.italic
+                      fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold
                   ),),
                 ),
               )

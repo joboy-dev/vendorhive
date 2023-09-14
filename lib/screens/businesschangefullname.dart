@@ -307,9 +307,10 @@ class _BusinessChangeFullnameState extends State<BusinessChangeFullname> {
           Container(
             margin: EdgeInsets.only(top: 5),
             child: Center(
-              child: Text('Vendorhive',style: TextStyle(
+              child: Text('Vendorhive 360',style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width/33,
                 fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold
               ),),
             ),
           )

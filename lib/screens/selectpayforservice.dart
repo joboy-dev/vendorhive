@@ -241,7 +241,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
           Uri.https('api.paystack.co','transaction/initialize'),
           body: {
             'amount':c,
-            'email':'abel.ayinde@gmail.com'
+            'email':widget.useremail
           },
           headers: {
             'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
@@ -564,7 +564,8 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
                       child: Text('Vendorhive 360',
                         style: TextStyle(
                             fontSize: 12,
-                            fontStyle: FontStyle.italic
+                            fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold
                         ),),
                     ),
                   )

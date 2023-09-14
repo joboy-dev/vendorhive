@@ -106,8 +106,8 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                               _oldpass.text.contains(r'\') ||
                               _oldpass.text.contains("'")) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text("Password must not contain ' or \\ ")));
+                                content: Text(
+                                    "Password must not contain ' or \\ ")));
                           } else {
                             if (_oldpass.text.isNotEmpty &&
                                 _newpass.text.isNotEmpty) {
@@ -151,7 +151,8 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width / 30,
-                                fontStyle: FontStyle.italic),
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -166,8 +167,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                 ),
               ),
             )
-          :
-      Column(
+          : Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -197,7 +197,9 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                             child: Text(
                               'Vendorhive 360',
                               style: TextStyle(
-                                  fontSize: 12, fontStyle: FontStyle.italic),
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )

@@ -143,7 +143,8 @@ class _BuyProductState extends State<BuyProduct> {
             title: Text("Vendorhive 360"),
             titleTextStyle: TextStyle(
               color: Colors.orange,
-              fontSize: 14
+              fontSize: 14,
+              fontWeight: FontWeight.bold
             ),
           ),
           body: Stack(

@@ -29,7 +29,7 @@ class _IntroduceState extends State<Introduce> {
   String drop = "Advertising";
   String options = 'No';
   String status = "";
-  String appstatus = "Vendorhirve...";
+  String appstatus = "Vendorhive 360";
   File? uploadimage;
   File? uploadimage2;
   File? uploadimage3;

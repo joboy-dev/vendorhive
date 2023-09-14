@@ -130,7 +130,8 @@ class _CustUpdatePinState extends State<CustUpdatePin> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/30,
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   ),
@@ -174,7 +175,8 @@ class _CustUpdatePinState extends State<CustUpdatePin> {
                     child: Center(
                       child: Text('Vendorhive 360',style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/30,
-                          fontStyle: FontStyle.italic
+                          fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
                       ),),
                     ),
                   )
