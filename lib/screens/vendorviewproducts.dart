@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:vendorandroid/screens/deleteproduct.dart';
 
 class MyProducts{
   String productname = "";
@@ -165,49 +166,56 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                        padding: EdgeInsets.zero,
                        itemCount: rawproducts.length,
                        itemBuilder: (context,index){
-                         return Container(
-                           padding: EdgeInsets.only(top: 10,bottom: 10,left: 10),
-                           margin:EdgeInsets.only(left: 10,top: 10,right: 10),
-                           decoration: BoxDecoration(
-                               color: Color.fromRGBO(229, 228, 226, 1)
-                           ),
-                           child: Row(
-                             children: [
-                               Container(
-                                 width: MediaQuery.of(context).size.width/8,
-                                 child: Image.network("https://adeoropelumi.com/vendor/productimage/"+rawproducts[index]['productimg']),
-                               ),
-                               Expanded(
-                                 child: Container(
-                                   margin:EdgeInsets.only(left: 10,right: 10),
-                                   child: Column(
-                                     crossAxisAlignment: CrossAxisAlignment.end,
-                                     children: [
-                                       Container(
-                                         child: Text(rawproducts[index]['productname'],
-                                           textAlign: TextAlign.end,
-                                           style: TextStyle(
-                                               fontWeight: FontWeight.w500,
-                                               fontSize: MediaQuery.of(context).size.width/24
-                                           ),
-                                         ),
-                                       ),
-                                       SizedBox(
-                                         height: 5,
-                                       ),
-                                       Container(
-                                         child: Text("₦"+rawproducts[index]['productprice'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                           textAlign: TextAlign.end,
-                                           style: TextStyle(
-                                             fontSize: MediaQuery.of(context).size.width/26
-                                           ),
-                                         ),
-                                       )
-                                     ],
-                                   ),
+                         return GestureDetector(
+                           onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context){
+                               return DeleteProduct(pidname: rawproducts[index]['pidname'], email: widget.adminemail,productimg: rawproducts[index]['productimg'],);
+                             }));
+                           },
+                           child: Container(
+                             padding: EdgeInsets.only(top: 10,bottom: 10,left: 10),
+                             margin:EdgeInsets.only(left: 10,top: 10,right: 10),
+                             decoration: BoxDecoration(
+                                 color: Color.fromRGBO(229, 228, 226, 1)
+                             ),
+                             child: Row(
+                               children: [
+                                 Container(
+                                   width: MediaQuery.of(context).size.width/8,
+                                   child: Image.network("https://adeoropelumi.com/vendor/productimage/"+rawproducts[index]['productimg']),
                                  ),
-                               )
-                             ],
+                                 Expanded(
+                                   child: Container(
+                                     margin:EdgeInsets.only(left: 10,right: 10),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.end,
+                                       children: [
+                                         Container(
+                                           child: Text(rawproducts[index]['productname'],
+                                             textAlign: TextAlign.end,
+                                             style: TextStyle(
+                                                 fontWeight: FontWeight.w500,
+                                                 fontSize: MediaQuery.of(context).size.width/24
+                                             ),
+                                           ),
+                                         ),
+                                         SizedBox(
+                                           height: 5,
+                                         ),
+                                         Container(
+                                           child: Text("₦"+rawproducts[index]['productprice'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                             textAlign: TextAlign.end,
+                                             style: TextStyle(
+                                               fontSize: MediaQuery.of(context).size.width/26
+                                             ),
+                                           ),
+                                         )
+                                       ],
+                                     ),
+                                   ),
+                                 )
+                               ],
+                             ),
                            ),
                          );
                        }),
