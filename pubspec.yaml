@@ -161,6 +161,8 @@ flutter:
     - assets/otp.png
     - assets/forgot-password.png
     - assets/forgot-pin.png
+    - assets/trash.png
+    - assets/delete-document.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -3121,6 +3121,7 @@ class _DashboardState extends State<Dashboard> {
                                 return Settings(
                                   idname: widget.idname,
                                   email: widget.useremail,
+                                  usertype: widget.usertype,
                                 );
                               }));
                             },

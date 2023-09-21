@@ -340,7 +340,7 @@ class _LoginState extends State<Login> {
 
                 Container(
                   margin: EdgeInsets.only(top: 30,left: 25,right: 25),
-                  child: Text("Lorem ipsum dolor sit amet consectetur. Quam sed ac sed a leo ornare. Nunc ut odio felis.",
+                  child: Text("Vendorhive 360 is the place to get your goods and services. Thank me later.",
                     textAlign: TextAlign.center,style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width/26
                     ),),

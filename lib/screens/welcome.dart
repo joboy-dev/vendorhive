@@ -2833,6 +2833,7 @@ class _WelcomeState extends State<Welcome> {
                             return Settings(
                               idname: widget.idname,
                               email: widget.useremail,
+                              usertype: widget.usertype,
                             );
                           }));
                         },

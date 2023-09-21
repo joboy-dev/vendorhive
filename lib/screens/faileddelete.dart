@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class Failed extends StatefulWidget {
-  String trfid = "";
-  Failed({Key? key, required this.trfid}) : super(key: key);
+class FailedDelete extends StatefulWidget {
+  const FailedDelete({Key? key}) : super(key: key);
 
   @override
-  _FailedState createState() => _FailedState();
+  _FailedDeleteState createState() => _FailedDeleteState();
 }
 
-class _FailedState extends State<Failed> {
+class _FailedDeleteState extends State<FailedDelete> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +22,7 @@ class _FailedState extends State<Failed> {
                   GestureDetector(
                     onTap:(){
                       Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height/3,
@@ -33,6 +31,7 @@ class _FailedState extends State<Failed> {
                   ),
                   GestureDetector(
                     onTap: (){
+                      Navigator.pop(context);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -51,6 +50,7 @@ class _FailedState extends State<Failed> {
                   ),
                   GestureDetector(
                     onTap: (){
+                      Navigator.pop(context);
                       Navigator.pop(context);
                     },
                     child: Container(
