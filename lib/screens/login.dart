@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendorandroid/screens/create.dart';
@@ -29,6 +30,24 @@ class _LoginState extends State<Login> {
   String pendingbalance = "";
   TextEditingController email = new TextEditingController();
   TextEditingController pass = new TextEditingController();
+
+  void checkInternetConnection() async{
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        signin();
+        // print("Connected");
+      }
+    } on SocketException catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Internet Connection on this Device")));
+      setState(() {
+
+        _selectedpage = 0;
+        appstatus = 'No Internet Connection on this Device';
+
+      });
+    }
+  }
 
   Future signin() async{
 
@@ -276,7 +295,7 @@ class _LoginState extends State<Login> {
           setState(() {
 
             _selectedpage = 0;
-            appstatus = '';
+            appstatus = 'Wrong username or password';
 
           });
 
@@ -446,7 +465,8 @@ class _LoginState extends State<Login> {
                 GestureDetector(
                   onTap: (){
                     if(email.text != "" && pass.text != ""){
-                      signin();
+                      // signin();
+                      checkInternetConnection();
                     }
                     else{
 
