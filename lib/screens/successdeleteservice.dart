@@ -73,7 +73,7 @@ class _SuccessDeleteServiceState extends State<SuccessDeleteService> {
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
-                          child: Text('Vendorhive 360',style: TextStyle(
+                          child: Text('Vendorhive360',style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold

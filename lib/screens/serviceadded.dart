@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 
 class ServiceAdded extends StatefulWidget {
   String idname = "";
+  String username="";
   String useremail = "";
   String packagename = "";
   String usertype = "";
   ServiceAdded({
     required this.idname,
+    required this.username,
     required this.useremail,
     required this.packagename,
     required this.usertype
@@ -41,7 +43,7 @@ class _ServiceAddedState extends State<ServiceAdded> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child: Center(child: Text("Vendorhive 360",style: TextStyle(
+                child: Center(child: Text("Vendorhive360",style: TextStyle(
                     fontSize: 20,
                     fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold
@@ -70,6 +72,7 @@ class _ServiceAddedState extends State<ServiceAdded> {
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
                     return  Dashboard(
                       idname: widget.idname,
+                      username: widget.username,
                       useremail: widget.useremail,
                       packagename: widget.packagename,
                       usertype: widget.usertype,

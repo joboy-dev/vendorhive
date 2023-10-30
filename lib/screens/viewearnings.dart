@@ -351,7 +351,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
-                          child: Text(getearnings ? 'Vendorhive 360' : 'loading...',style: TextStyle(
+                          child: Text(getearnings ? 'Vendorhive360' : 'loading...',style: TextStyle(
                             fontStyle: FontStyle.italic,
                             fontSize: 14,
                             fontWeight: FontWeight.bold

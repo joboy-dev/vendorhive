@@ -183,7 +183,7 @@ class _ResetPinState extends State<ResetPin> {
             Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
-                  child: Text("Vendorhive 360",
+                  child: Text("Vendorhive360",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width/28,
                         fontStyle: FontStyle.italic,
@@ -231,7 +231,7 @@ class _ResetPinState extends State<ResetPin> {
                     Container(
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
-                        child: Text('Vendorhive 360',
+                        child: Text('Vendorhive360',
                           style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,

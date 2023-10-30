@@ -402,7 +402,7 @@ class _ContactSupportState extends State<ContactSupport> {
 
             Container(
               child: Center(
-                child: Text('Vendorhive 360',style: TextStyle(
+                child: Text('Vendorhive360',style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width/26,
@@ -438,7 +438,7 @@ class _ContactSupportState extends State<ContactSupport> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold

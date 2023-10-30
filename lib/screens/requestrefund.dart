@@ -375,7 +375,7 @@ class _RequestRefundState extends State<RequestRefund> {
 
                 Container(
                   child: Center(
-                    child: Text("Vendorhive 360",
+                    child: Text("Vendorhive360",
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width/26,
                       fontStyle: FontStyle.italic,
@@ -417,7 +417,7 @@ class _RequestRefundState extends State<RequestRefund> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 12,
                         fontWeight: FontWeight.bold

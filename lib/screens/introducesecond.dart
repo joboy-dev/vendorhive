@@ -13,7 +13,7 @@ class IntroSecond extends StatefulWidget {
 }
 
 class _IntroSecondState extends State<IntroSecond> {
-  String appstatus = "Vendorhive 360";
+  String appstatus = "Vendorhive360";
   String drop = "Lagos";
   String desc = "";
   String finaldesc = "";
@@ -511,7 +511,7 @@ class _IntroSecondState extends State<IntroSecond> {
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
                           child: Text(
-                            'Vendorhive 360',
+                            'Vendorhive360',
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,

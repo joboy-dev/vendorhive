@@ -21,7 +21,7 @@ class _BusinesslogoState extends State<Businesslogo> {
 
   File? uploadimage;
   String logoname = '';
-  String appstatus = "Vendorhive 360";
+  String appstatus = "Vendorhive360";
   int _selectedpage = 0;
   final ImagePicker _picker = ImagePicker();
 
@@ -99,7 +99,7 @@ class _BusinesslogoState extends State<Businesslogo> {
 
       setState((){
         _selectedpage = 0;
-        appstatus="Vendorhive 360";
+        appstatus="Vendorhive360";
       });
 
     }catch(e){
@@ -215,7 +215,7 @@ class _BusinesslogoState extends State<Businesslogo> {
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
                   child: Text(
-                    'Vendorhive 360',
+                    'Vendorhive360',
                     style: TextStyle(
                         fontSize: 12, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                   ),

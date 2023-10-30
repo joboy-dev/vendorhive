@@ -504,7 +504,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                     ),
                     Container(
                       child: Center(
-                        child: Text('Vendorhive 360',style: TextStyle(
+                        child: Text('Vendorhive360',style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: MediaQuery.of(context).size.width/25,
                           fontWeight: FontWeight.bold
@@ -543,7 +543,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold

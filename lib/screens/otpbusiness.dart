@@ -176,7 +176,7 @@ class _OTPBusinessState extends State<OTPBusiness> {
                           margin: EdgeInsets.only(
                               top: 10, bottom: 20, left: 10, right: 10),
                           child: Text(
-                            "Vendorhive 360 has sent your otp to " +
+                            "Vendorhive360 has sent your otp to " +
                                 widget.email,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -251,7 +251,7 @@ class _OTPBusinessState extends State<OTPBusiness> {
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
                           child: Text(
-                            'Vendorhive 360',
+                            'Vendorhive360',
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,

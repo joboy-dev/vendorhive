@@ -36,7 +36,7 @@ class _GetStartedState extends State<GetStarted> {
   String idname = "";
   String customerprocess = "";
   String businessprocess = "";
-  String appstatus = "Vendorhive 360";
+  String appstatus = "Vendorhive360";
   String trfid = "";
   int _selectedpage = 0;
 
@@ -109,7 +109,7 @@ class _GetStartedState extends State<GetStarted> {
 
             setState(() {
               _selectedpage = 0;
-              appstatus = "Vendorhive 360";
+              appstatus = "Vendorhive360";
             });
 
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -204,7 +204,7 @@ class _GetStartedState extends State<GetStarted> {
 
             setState(() {
               _selectedpage = 0;
-              appstatus = "Vendorhive 360";
+              appstatus = "Vendorhive360";
             });
 
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -338,7 +338,10 @@ class _GetStartedState extends State<GetStarted> {
                                 )),
                                 Container(
                                   margin: EdgeInsets.only(top: 20),
-                                  child: Center(child: Text("I am a customer")),
+                                  child: Center(child: Text("I am a customer",style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold
+                                  ),)),
                                 )
                               ],
                             ),
@@ -372,7 +375,10 @@ class _GetStartedState extends State<GetStarted> {
                                 )),
                                 Container(
                                   margin: EdgeInsets.only(top: 20),
-                                  child: Center(child: Text("I am a Business")),
+                                  child: Center(child: Text("I am a Vendor",style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold
+                                  ),)),
                                 )
                               ],
                             ),
@@ -438,7 +444,7 @@ class _GetStartedState extends State<GetStarted> {
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
                           child: Text(
-                            'Vendorhive 360',
+                            'Vendorhive360',
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,

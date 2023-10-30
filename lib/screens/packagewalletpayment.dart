@@ -657,7 +657,7 @@ class _PackageWalletPaymentState extends State<PackageWalletPayment> {
                               Container(
                                 margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/6),
                                 child: Center(
-                                  child: Text('Vendorhive 360',style: TextStyle(
+                                  child: Text('Vendorhive360',style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold,
                                     fontSize: MediaQuery.of(context).size.width/25,
@@ -696,7 +696,7 @@ class _PackageWalletPaymentState extends State<PackageWalletPayment> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                         fontSize: 12,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold

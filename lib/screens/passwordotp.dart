@@ -99,7 +99,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 10,bottom: 20,left: 10,right: 10),
-                child: Text("Vendorhive 360 has sent your otp to "+widget.email,
+                child: Text("Vendorhive360 has sent your otp to "+widget.email,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width/26
@@ -152,7 +152,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
               Container(
                   margin: EdgeInsets.only(top: 5),
                   child: Center(
-                    child: Text("Vendorhive 360",
+                    child: Text("Vendorhive360",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/28,
                           fontStyle: FontStyle.italic,
@@ -198,7 +198,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
                     Container(
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
-                        child: Text('Vendorhive 360',
+                        child: Text('Vendorhive360',
                           style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,

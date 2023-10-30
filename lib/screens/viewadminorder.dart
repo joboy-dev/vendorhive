@@ -42,7 +42,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
   bool enabledelivery = false;
   bool loading = false;
   bool loadingdeli = false;
-  String appstat = "Vendorhive 360";
+  String appstat = "Vendorhive360";
 
   TextEditingController _shippedpin = TextEditingController();
   TextEditingController _deliveredpin = TextEditingController();
@@ -72,7 +72,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           enabledelivery = false;
           loading = true;
           loadingdeli = false;
-          appstat = "Vendorhive 360";
+          appstat = "Vendorhive360";
         });
 
       }
@@ -91,7 +91,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             loading = true;
             enabledelivery = true;
             loadingdeli = false;
-            appstat = "Vendorhive 360";
+            appstat = "Vendorhive360";
           });
 
         }
@@ -101,7 +101,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             loading = true;
             enabledelivery = false;
             loadingdeli = true;
-            appstat = "Vendorhive 360";
+            appstat = "Vendorhive360";
           });
 
         }
@@ -538,7 +538,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold

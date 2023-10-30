@@ -146,7 +146,7 @@ class _BuyServiceState extends State<BuyService> {
           appBar: AppBar(
             leading: Container(),
             backgroundColor: Colors.white,
-            title: Text("Vendorhive 360"),
+            title: Text("Vendorhive360"),
             titleTextStyle: TextStyle(
               fontSize: 13,
               color: Colors.orange,

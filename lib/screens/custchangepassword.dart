@@ -147,7 +147,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
                           child: Text(
-                            'Vendorhive 360',
+                            'Vendorhive360',
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width / 30,
@@ -195,7 +195,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
                           margin: EdgeInsets.only(top: 5),
                           child: Center(
                             child: Text(
-                              'Vendorhive 360',
+                              'Vendorhive360',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontStyle: FontStyle.italic,

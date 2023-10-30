@@ -69,7 +69,7 @@ class WithdrawSuccess extends StatelessWidget {
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
                         child: Text(
-                          'Vendorhive 360',
+                          'Vendorhive360',
                           style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,

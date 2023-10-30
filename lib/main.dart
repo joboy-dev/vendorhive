@@ -7,6 +7,7 @@ import 'package:vendorandroid/screens/welcome.dart';
 
 int? assign;
 String? idname;
+String? username;
 String? useremail;
 String? packagename;
 String? usertype;
@@ -27,6 +28,7 @@ Future<void> getvalue()async{
   assign = prefs.getInt('counter');
 
   idname = prefs.getString('idname');
+  username = prefs.getString('username');
   useremail = prefs.getString('useremail');
   packagename = prefs.getString('packagename');
   usertype = prefs.getString('usertype');
@@ -69,6 +71,7 @@ class MyApp extends StatelessWidget {
           :
       assign != null && assign == 1 ?
       Dashboard(idname: idname??'',
+        username: username??'',
         useremail: useremail??'',
         packagename: packagename??'',
         usertype: usertype??'',
@@ -77,6 +80,7 @@ class MyApp extends StatelessWidget {
           :
       assign != null && assign == 2 ?
       Welcome(idname: idname??'',
+          username: username??'',
           useremail: useremail??'',
           packagename: packagename??'',
           usertype: usertype??'',

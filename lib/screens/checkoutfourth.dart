@@ -787,7 +787,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic

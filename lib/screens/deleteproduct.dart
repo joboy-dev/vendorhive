@@ -162,7 +162,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                 ),
                 Container(
                   child: Text(
-                    "Vendorhive 360",
+                    "Vendorhive360",
                     style: TextStyle(
                         color: Colors.orange[900],
                         fontWeight: FontWeight.bold,
@@ -202,7 +202,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                           margin: EdgeInsets.only(top: 5),
                           child: Center(
                             child: Text(
-                              'Vendorhive 360',
+                              'Vendorhive360',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontStyle: FontStyle.italic,

@@ -9,12 +9,14 @@ import 'listing.dart';
 
 class ProductAdded extends StatefulWidget {
   String idname = "";
+  String username = "";
   String useremail = "";
   String packagename = "";
   String usertype = "";
 
   ProductAdded(
       {required this.idname,
+        required this.username,
       required this.useremail,
       required this.packagename,
       required this.usertype});
@@ -41,7 +43,7 @@ class _ProductAddedState extends State<ProductAdded> {
                 margin: EdgeInsets.only(top: 15),
                 child: Center(
                     child: Text(
-                  "Vendorhive 360",
+                  "Vendorhive360",
                   style: TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
@@ -75,6 +77,7 @@ class _ProductAddedState extends State<ProductAdded> {
                       MaterialPageRoute(builder: (BuildContext context) {
                     return Dashboard(
                       idname: widget.idname,
+                      username: widget.username,
                       useremail: widget.useremail,
                       packagename: widget.packagename,
                       usertype: widget.usertype,

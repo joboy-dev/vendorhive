@@ -303,7 +303,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                   Container(
                     padding: EdgeInsets.only(bottom: 5,top: 10),
                     child: Center(
-                      child: Text("Vendorhive 360",style: TextStyle(
+                      child: Text("Vendorhive360",style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold
@@ -448,7 +448,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
               child: Row(
                 children: [
 
-                  //vendorhive 360 logo
+                  //Vendorhive360 logo
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: CircleAvatar(

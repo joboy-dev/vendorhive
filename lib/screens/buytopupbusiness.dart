@@ -131,7 +131,7 @@ class _BuyTopupBusinessState extends State<BuyTopupBusiness> {
           appBar: AppBar(
             leading: Container(),
             backgroundColor: Colors.white,
-            title: Text("Vendorhive 360"),
+            title: Text("Vendorhive360"),
             titleTextStyle: TextStyle(
               color: Colors.orange,
               fontSize: 14,

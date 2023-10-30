@@ -89,11 +89,13 @@ class Welcome extends StatefulWidget {
   String useremail = "";
   String packagename = "";
   String usertype = "";
+  String username ="";
   int pagenumber = 0;
   String custwalletbalance = "";
 
   Welcome(
       {required this.idname,
+        required this.username,
       required this.useremail,
       required this.packagename,
       required this.usertype,
@@ -674,7 +676,7 @@ class _WelcomeState extends State<Welcome> {
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
-                              "Welcome, " + widget.useremail,
+                              "Welcome, " + widget.username,
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500),
                             ),
@@ -696,7 +698,7 @@ class _WelcomeState extends State<Welcome> {
                                 },
                                 child: Container(
                                   child: FaIcon(
-                                    FontAwesomeIcons.magnifyingGlass,
+                                    FontAwesomeIcons.filter,
                                     size:
                                         MediaQuery.of(context).size.width / 14,
                                   ),
@@ -733,7 +735,8 @@ class _WelcomeState extends State<Welcome> {
                   ),
 
                   if (itemselected == 0) ...[
-                    searchbar
+                    // searchbar
+                      true
                         ? Container(
                             padding: EdgeInsets.only(
                                 top: 15, left: 10, right: 10, bottom: 10),
@@ -796,9 +799,10 @@ class _WelcomeState extends State<Welcome> {
                             width: 0,
                             height: 0,
                           ),
-                    Profiles(names: vendors)
+
                   ] else if (itemselected == 1) ...[
-                    searchbar
+                    // searchbar
+                    true
                         ? Container(
                             padding: EdgeInsets.only(
                                 top: 15, left: 10, right: 10, bottom: 10),
@@ -861,7 +865,7 @@ class _WelcomeState extends State<Welcome> {
                             width: 0,
                             height: 0,
                           ),
-                    Profiles(names: vendors)
+
                   ],
 
                   Container(
@@ -966,6 +970,7 @@ class _WelcomeState extends State<Welcome> {
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return ViewProduct(
+                                                    username: widget.username,
                                                     name: rawproduct[index]
                                                         ['productname'],
                                                     amount: rawproduct[index]
@@ -1853,7 +1858,7 @@ class _WelcomeState extends State<Welcome> {
                                         ),
                                         Container(
                                           child: Text(
-                                            "Vendorhive 360",
+                                            "Vendorhive360",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 12,

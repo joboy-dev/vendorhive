@@ -29,7 +29,7 @@ class _IntroduceState extends State<Introduce> {
   String drop = "Advertising";
   String options = 'No';
   String status = "";
-  String appstatus = "Vendorhive 360";
+  String appstatus = "Vendorhive360";
   File? uploadimage;
   File? uploadimage2;
   File? uploadimage3;
@@ -907,7 +907,7 @@ class _IntroduceState extends State<Introduce> {
                         margin: EdgeInsets.only(top: 5),
                         child: Center(
                           child: Text(
-                            'Vendorhive 360',
+                            'Vendorhive360',
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,

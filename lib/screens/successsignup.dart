@@ -26,7 +26,7 @@ class _SuccessSignupState extends State<SuccessSignup> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child: Center(child: Text("Vendorhive 360",style: TextStyle(
+                child: Center(child: Text("Vendorhive360",style: TextStyle(
                     fontSize: 20,
                     fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold

@@ -19,7 +19,7 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   String option = "Pay on Delivery";
-  String appstatus = "Vendorhive 360";
+  String appstatus = "Vendorhive360";
 
   void deliverydetails(){
     print(widget.idname);
@@ -46,7 +46,7 @@ class _ProductState extends State<Product> {
      if(addproductdelivery.statusCode == 200){
        if(jsonDecode(addproductdelivery.body)=="delivery is registered"){
          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
-           return  ProductAdded(idname: widget.idname, useremail: widget.usermail,packagename: widget.packagename,usertype: widget.usertype,);
+           return  ProductAdded(idname: widget.idname, username: widget.usermail,useremail: widget.usermail,packagename: widget.packagename,usertype: widget.usertype,);
          }), (r){
            return false;
          });
@@ -57,7 +57,7 @@ class _ProductState extends State<Product> {
    }
 
     setState(() {
-      appstatus = "Vendorhive 360";
+      appstatus = "Vendorhive360";
     });
   }
 

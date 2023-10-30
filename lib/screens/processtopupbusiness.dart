@@ -174,7 +174,7 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
                     Container(
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
-                        child: Text('Vendorhive 360',
+                        child: Text('Vendorhive360',
                           style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,

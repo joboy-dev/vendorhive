@@ -32,7 +32,7 @@ class _PromotedoneCardState extends State<PromotedoneCard> {
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: Center(
-                      child: Text('Vendorhive 360',style: TextStyle(
+                      child: Text('Vendorhive360',style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/20,
                           fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold

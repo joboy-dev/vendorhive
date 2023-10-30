@@ -334,7 +334,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
                     ),
 
                     Container(
-                      child: Center(child: Text("Vendorhive 360",
+                      child: Center(child: Text("Vendorhive360",
                         style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width/26,
                           fontStyle: FontStyle.italic,
@@ -375,7 +375,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
                     Container(
                       margin: EdgeInsets.only(top: 5),
                       child: Center(
-                        child: Text('Vendorhive 360',style: TextStyle(
+                        child: Text('Vendorhive360',style: TextStyle(
                             fontSize: 12,
                             fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold
