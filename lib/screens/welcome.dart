@@ -668,7 +668,7 @@ class _WelcomeState extends State<Welcome> {
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(217, 217, 217, .5),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -683,24 +683,43 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
 
-                        //Search Icon and notification icon
+                        //filter Icon and notification icon
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
                               //search Icon
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     FocusManager.instance.primaryFocus?.unfocus();
+                              //     setState(() {
+                              //       searchbar = !searchbar;
+                              //     });
+                              //   },
+                              //   child: Container(
+                              //     child: FaIcon(
+                              //       FontAwesomeIcons.filter,
+                              //       size:
+                              //           MediaQuery.of(context).size.width / 14,
+                              //     ),
+                              //   ),
+                              // ),
+
+                              //notification icon
                               GestureDetector(
                                 onTap: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  setState(() {
-                                    searchbar = !searchbar;
-                                  });
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return Notifications(
+                                          email: widget.useremail,
+                                        );
+                                      }));
                                 },
                                 child: Container(
                                   child: FaIcon(
-                                    FontAwesomeIcons.filter,
+                                    FontAwesomeIcons.bell,
                                     size:
-                                        MediaQuery.of(context).size.width / 14,
+                                    MediaQuery.of(context).size.width / 14,
                                   ),
                                 ),
                               ),
@@ -709,22 +728,19 @@ class _WelcomeState extends State<Welcome> {
                                 width: 10,
                               ),
 
-                              //notification icon
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return Notifications(
-                                      email: widget.useremail,
-                                    );
-                                  }));
+                                        return Notifications(
+                                          email: widget.useremail,
+                                        );
+                                      }));
                                 },
-                                child: Container(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.bell,
-                                    size:
-                                        MediaQuery.of(context).size.width / 14,
-                                  ),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.orange[100],
+                                  child: Image.asset("assets/vendo.png",
+                                  width: MediaQuery.of(context).size.width/14,),
                                 ),
                               ),
                             ],
@@ -868,6 +884,7 @@ class _WelcomeState extends State<Welcome> {
 
                   ],
 
+                  //services and products button
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
@@ -1011,7 +1028,7 @@ class _WelcomeState extends State<Welcome> {
                                                             10)),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
@@ -1262,10 +1279,11 @@ class _WelcomeState extends State<Welcome> {
                                                             10)),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
+                                                    //ad symbol
                                                     rawservice[index]
                                                                 ['adstats'] ==
                                                             'yes'
@@ -1299,6 +1317,7 @@ class _WelcomeState extends State<Welcome> {
                                                                 )),
                                                           )
                                                         : Container(),
+                                                    //service image
                                                     Container(
                                                         child: Center(
                                                             child: AspectRatio(
@@ -1328,6 +1347,7 @@ class _WelcomeState extends State<Welcome> {
                                                         ),
                                                       ),
                                                     ))),
+                                                    //service name
                                                     Flexible(
                                                       child: Container(
                                                         padding:
@@ -1352,33 +1372,34 @@ class _WelcomeState extends State<Welcome> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Flexible(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 5,
-                                                                top: 5),
-                                                        child: Text(
-                                                          "₦" +
-                                                              rawservice[index]
-                                                                      ['price']
-                                                                  .replaceAllMapped(
-                                                                      RegExp(
-                                                                          r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                                      (Match m) =>
-                                                                          '${m[1]},'),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 2,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                    //amount
+                                                    // Flexible(
+                                                    //   child: Container(
+                                                    //     padding:
+                                                    //         EdgeInsets.only(
+                                                    //             left: 5,
+                                                    //             top: 5),
+                                                    //     child: Text(
+                                                    //       "₦" +
+                                                    //           rawservice[index]
+                                                    //                   ['price']
+                                                    //               .replaceAllMapped(
+                                                    //                   RegExp(
+                                                    //                       r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                    //                   (Match m) =>
+                                                    //                       '${m[1]},'),
+                                                    //       textAlign:
+                                                    //           TextAlign.center,
+                                                    //       overflow: TextOverflow
+                                                    //           .ellipsis,
+                                                    //       maxLines: 2,
+                                                    //       style: TextStyle(
+                                                    //           color:
+                                                    //               Colors.white,
+                                                    //           fontSize: 16),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
                                                   ],
                                                 ),
                                               ),
@@ -2345,6 +2366,7 @@ class _WelcomeState extends State<Welcome> {
                                                                   217,
                                                                   1),
                                                           radius: 30,
+                                                          child: Image.asset("assets/vendo.png"),
                                                         ),
                                                       ),
                                                       Expanded(
@@ -2432,63 +2454,64 @@ class _WelcomeState extends State<Welcome> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      print("pay vendor");
-
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                        return PayforService(
-                                                          idname: widget.idname,
-                                                          sidname:
-                                                              appcontactlist[
-                                                                  index],
-                                                          useremail:
-                                                              widget.useremail,
-                                                          adminemail:
-                                                              adminemaillist[
-                                                                  index],
-                                                          servicename:
-                                                              servicenamelist[
-                                                                  index],
-                                                        );
-                                                      }));
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .orangeAccent),
-                                                          color: Colors.green),
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
-                                                      margin: EdgeInsets.only(
-                                                          top: 3),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                              child: Text(
-                                                            "Pay Vendor",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 14),
-                                                          ))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
+                                                  //pay vendor button
+                                                  // GestureDetector(
+                                                  //   onTap: () {
+                                                  //     print("pay vendor");
+                                                  //
+                                                  //     Navigator.push(context,
+                                                  //         MaterialPageRoute(
+                                                  //             builder:
+                                                  //                 (context) {
+                                                  //       return PayforService(
+                                                  //         idname: widget.idname,
+                                                  //         sidname:
+                                                  //             appcontactlist[
+                                                  //                 index],
+                                                  //         useremail:
+                                                  //             widget.useremail,
+                                                  //         adminemail:
+                                                  //             adminemaillist[
+                                                  //                 index],
+                                                  //         servicename:
+                                                  //             servicenamelist[
+                                                  //                 index],
+                                                  //       );
+                                                  //     }));
+                                                  //   },
+                                                  //   child: Container(
+                                                  //     decoration: BoxDecoration(
+                                                  //         border: Border.all(
+                                                  //             color: Colors
+                                                  //                 .orangeAccent),
+                                                  //         color: Colors.green),
+                                                  //     padding:
+                                                  //         EdgeInsets.symmetric(
+                                                  //             vertical: 10),
+                                                  //     margin: EdgeInsets.only(
+                                                  //         top: 3),
+                                                  //     child: Row(
+                                                  //       children: [
+                                                  //         Expanded(
+                                                  //             child: Text(
+                                                  //           "Pay Vendor",
+                                                  //           textAlign: TextAlign
+                                                  //               .center,
+                                                  //           style: TextStyle(
+                                                  //               color: Colors
+                                                  //                   .white,
+                                                  //               fontWeight:
+                                                  //                   FontWeight
+                                                  //                       .bold,
+                                                  //               fontSize: 14),
+                                                  //         ))
+                                                  //       ],
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
+                                                  // SizedBox(
+                                                  //   height: 10,
+                                                  // ),
                                                   Divider(),
                                                 ],
                                               ),
