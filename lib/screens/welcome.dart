@@ -761,12 +761,34 @@ class _WelcomeState extends State<Welcome> {
                                 Expanded(
                                   child: TextField(
                                     controller: _Controller,
-                                    maxLines: null,
+                                    textInputAction: TextInputAction.search,
+                                    onSubmitted: (val){
+                                      if (val.isNotEmpty) {
+                                        print('search product');
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        searchproduct();
+                                      } else {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        print('search product is empty');
+                                      }
+                                    },
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 3),
                                         prefixIcon: Icon(
                                           Icons.search,
                                           color: Colors.black,
                                         ),
+                                        suffixIcon: GestureDetector(
+                                          onTap: (){
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            print("==========");
+                                            print("Filter");
+                                            print("==========");
+                                          },
+                                            child: Icon(Icons.filter_alt)),
                                         hintText: 'I am looking for ...',
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
@@ -776,38 +798,38 @@ class _WelcomeState extends State<Welcome> {
                                                 BorderRadius.circular(20))),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (_Controller.text.isNotEmpty) {
-                                      print('search product');
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      searchproduct();
-                                    } else {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      print('search product is empty');
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Text(
-                                      'Search',
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              25),
-                                    ),
-                                  ),
-                                )
+                                // SizedBox(
+                                //   width: 5,
+                                // ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     if (_Controller.text.isNotEmpty) {
+                                //       print('search product');
+                                //       FocusManager.instance.primaryFocus
+                                //           ?.unfocus();
+                                //       searchproduct();
+                                //     } else {
+                                //       FocusManager.instance.primaryFocus
+                                //           ?.unfocus();
+                                //       print('search product is empty');
+                                //     }
+                                //   },
+                                //   child: Container(
+                                //     padding: EdgeInsets.symmetric(
+                                //         vertical: 10, horizontal: 5),
+                                //     decoration: BoxDecoration(
+                                //         border: Border.all(),
+                                //         borderRadius: BorderRadius.circular(5)),
+                                //     child: Text(
+                                //       'Search',
+                                //       style: TextStyle(
+                                //           fontSize: MediaQuery.of(context)
+                                //                   .size
+                                //                   .width /
+                                //               25),
+                                //     ),
+                                //   ),
+                                // )
                               ],
                             ),
                           )
@@ -827,12 +849,38 @@ class _WelcomeState extends State<Welcome> {
                                 Expanded(
                                   child: TextField(
                                     controller: _serviceController,
-                                    maxLines: null,
+                                    onSubmitted: (val){
+                                      if (val.isNotEmpty) {
+                                        print('============');
+                                        print('search product');
+                                        print('============');
+                                        // FocusManager.instance.primaryFocus
+                                        //     ?.unfocus();
+                                        searchservice();
+                                      } else {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        print('============');
+                                        print('search product is empty');
+                                        print('============');
+                                      }
+                                    },
+                                    textInputAction: TextInputAction.search,
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 3),
                                         prefixIcon: Icon(
                                           Icons.search,
                                           color: Colors.black,
                                         ),
+                                        suffixIcon: GestureDetector(
+                                            onTap: (){
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
+                                              print("==========");
+                                              print("Filter");
+                                              print("==========");
+                                            },
+                                            child: Icon(Icons.filter_alt)),
                                         hintText: 'I am looking for ...',
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
@@ -842,38 +890,38 @@ class _WelcomeState extends State<Welcome> {
                                                 BorderRadius.circular(20))),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (_serviceController.text.isNotEmpty) {
-                                      print('search service');
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      searchservice();
-                                    } else {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      print("search service is empty");
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Text(
-                                      'Search',
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              25),
-                                    ),
-                                  ),
-                                )
+                                // SizedBox(
+                                //   width: 5,
+                                // ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     if (_serviceController.text.isNotEmpty) {
+                                //       print('search service');
+                                //       FocusManager.instance.primaryFocus
+                                //           ?.unfocus();
+                                //       searchservice();
+                                //     } else {
+                                //       FocusManager.instance.primaryFocus
+                                //           ?.unfocus();
+                                //       print("search service is empty");
+                                //     }
+                                //   },
+                                //   child: Container(
+                                //     padding: EdgeInsets.symmetric(
+                                //         vertical: 10, horizontal: 5),
+                                //     decoration: BoxDecoration(
+                                //         border: Border.all(),
+                                //         borderRadius: BorderRadius.circular(5)),
+                                //     child: Text(
+                                //       'Search',
+                                //       style: TextStyle(
+                                //           fontSize: MediaQuery.of(context)
+                                //                   .size
+                                //                   .width /
+                                //               25),
+                                //     ),
+                                //   ),
+                                // )
                               ],
                             ),
                           )
