@@ -730,12 +730,12 @@ class _WelcomeState extends State<Welcome> {
 
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return Notifications(
-                                          email: widget.useremail,
-                                        );
-                                      }));
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //       return Notifications(
+                                  //         email: widget.useremail,
+                                  //       );
+                                  //     }));
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: Colors.orange[100],
@@ -1078,7 +1078,7 @@ class _WelcomeState extends State<Welcome> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                      MainAxisAlignment.start,
                                                   children: [
                                                     rawproduct[index]
                                                                 ['adstats'] ==
@@ -1194,6 +1194,28 @@ class _WelcomeState extends State<Welcome> {
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Flexible(
+                                                      child: Container(
+                                                        padding:
+                                                        EdgeInsets.only(
+                                                            left: 5,
+                                                            top: 5),
+                                                        child: Text(
+                                                              rawproduct[index][
+                                                              'paymentoption'],
+                                                          textAlign:
+                                                          TextAlign.center,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.bold
                                                           ),
                                                         ),
                                                       ),
@@ -1329,7 +1351,7 @@ class _WelcomeState extends State<Welcome> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                      MainAxisAlignment.start,
                                                   children: [
                                                     //ad symbol
                                                     rawservice[index]
@@ -1420,34 +1442,54 @@ class _WelcomeState extends State<Welcome> {
                                                         ),
                                                       ),
                                                     ),
-                                                    //amount
-                                                    // Flexible(
-                                                    //   child: Container(
-                                                    //     padding:
-                                                    //         EdgeInsets.only(
-                                                    //             left: 5,
-                                                    //             top: 5),
-                                                    //     child: Text(
-                                                    //       "₦" +
-                                                    //           rawservice[index]
-                                                    //                   ['price']
-                                                    //               .replaceAllMapped(
-                                                    //                   RegExp(
-                                                    //                       r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                    //                   (Match m) =>
-                                                    //                       '${m[1]},'),
-                                                    //       textAlign:
-                                                    //           TextAlign.center,
-                                                    //       overflow: TextOverflow
-                                                    //           .ellipsis,
-                                                    //       maxLines: 2,
-                                                    //       style: TextStyle(
-                                                    //           color:
-                                                    //               Colors.white,
-                                                    //           fontSize: 16),
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
+
+                                                    //payment option
+                                                    Flexible(
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 5,
+                                                                top: 5),
+                                                        child: Text(
+                                                          rawservice[index]
+                                                                      ['paymentoption'],
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 13,
+                                                          fontWeight: FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    //location
+                                                    Flexible(
+                                                      child: Container(
+                                                        padding:
+                                                        EdgeInsets.only(
+                                                            left: 5,
+                                                            top: 5),
+                                                        child: Text(
+                                                          rawservice[index]
+                                                          ['location'],
+                                                          textAlign:
+                                                          TextAlign.center,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),

@@ -146,7 +146,7 @@ class _CustTransactionState extends State<CustTransaction> {
                                     children: [
                                       Container(
                                         child: Text(rawpayment[index]['debit'] != "0"?
-                                        "Withdrawal" : "Top up",style: TextStyle(
+                                        "Withdrawal" : "Deposit",style: TextStyle(
                                             fontSize: MediaQuery.of(context).size.width/26,
                                             fontWeight: FontWeight.w500
                                         ),),
@@ -170,12 +170,12 @@ class _CustTransactionState extends State<CustTransaction> {
                                   children: [
                                     Container(
                                       child: Text(rawpayment[index]['debit'] != "0"?
-                                      "₦"+rawpayment[index]['debit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')
+                                      "-₦"+rawpayment[index]['debit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')
                                           : "₦"+rawpayment[index]['credit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),style: TextStyle(
                                           fontSize: MediaQuery.of(context).size.width/21,
                                           fontWeight: FontWeight.w500,
                                         color: rawpayment[index]['debit'] != "0" ? Colors.red :
-                                            Colors.black
+                                            Colors.green[900]
                                       ),),
                                     ),
                                   ],

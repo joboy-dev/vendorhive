@@ -420,7 +420,8 @@ class _IntroSecondState extends State<IntroSecond> {
                                     //remove underline
                                     isExpanded:
                                         true, //make true to make width 100%
-                                  ))),
+                                  )
+                              )),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 10, left: 10),

@@ -131,7 +131,7 @@ class _TransactionsState extends State<Transactions> {
                                   children: [
                                     Container(
                                       child: Text(rawpayment[index]['debit'] != "0"?
-                                      "Withdrawal" : "Deposit from "+rawpayment[index]['useremail'],style: TextStyle(
+                                      "Withdrawal" : "Deposit",style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500
                                       ),),
@@ -159,7 +159,7 @@ class _TransactionsState extends State<Transactions> {
                                         : "₦"+rawpayment[index]['credit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500,
-                                      color: rawpayment[index]['debit'] != "0"? Colors.red: Colors.black
+                                      color: rawpayment[index]['debit'] != "0"? Colors.red: Colors.green[900]
                                     ),),
                                   ),
                                 ],
