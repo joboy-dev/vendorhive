@@ -124,8 +124,12 @@ class _WelcomeState extends State<Welcome> {
   bool searchbar = false;
   bool pricesort = false;
   bool value = false;
+  String productfilter = "-";
+  String servicefilter = "-";
   TextEditingController _Controller = new TextEditingController();
   TextEditingController _serviceController = new TextEditingController();
+  TextEditingController _priceFrom = new TextEditingController();
+  TextEditingController _priceTo = new TextEditingController();
 
   List<String> lastmsg = [];
   List<String> servicenamelist = [];
@@ -341,6 +345,41 @@ class _WelcomeState extends State<Welcome> {
     }
   }
 
+  Future search_filter_product() async {
+    setState(() {
+      showproducts = false;
+    });
+
+    var searchproduct = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetfilter.php'),
+        body: {
+          'from': _priceFrom.text,
+          'to' : _priceTo.text,
+          'word' : _Controller.text,
+          'location' : productfilter=="-" ? "" : productfilter
+        });
+
+    if (searchproduct.statusCode == 200) {
+      setState(() {
+        rawproduct = jsonDecode(searchproduct.body);
+      });
+
+      if (rawproduct.length > 0) {
+        setState(() {
+          showproducts = true;
+          searchproducts = true;
+        });
+      } else {
+        setState(() {
+          showproducts = true;
+          searchproducts = false;
+        });
+      }
+    } else {
+      print("product filtered search ${searchproduct.statusCode}");
+    }
+  }
+
   Future _refreshservice() async {
     setState(() {
       showservice = false;
@@ -528,6 +567,975 @@ class _WelcomeState extends State<Welcome> {
         vendors = jsonDecode(response.body);
       });
     }
+  }
+
+  void filterproducts(){
+    showModalBottomSheet(
+      context: context,
+        isScrollControlled:true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        ),
+      builder: (context){
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text("Filter",style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),),
+                ),
+                Container(
+                  margin:
+                  EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                  child: Text("Select State:",style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold
+                  ),),
+                ),
+                StatefulBuilder(builder: (context , setState){
+                  return Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                    child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          //background color of dropdown button
+                          border:
+                          Border.all(color: Colors.grey, width: 1),
+                          //border of dropdown button
+                          borderRadius: BorderRadius.circular(
+                              10), //border raiuds of dropdown button
+                          // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                          //   BoxShadow(
+                          //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                          //       // blurRadius: 5
+                          //   ) //blur radius of shadow
+                          // ]
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            child: DropdownButton(
+                              value: productfilter,
+                              items: [
+                                //add items in the dropdown
+                                //default state
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "-",
+                                ),
+                                //first
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Abia",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Abia",
+                                ),
+                                //2nd state Adamawa
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Adamawa",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Adamawa",
+                                ),
+                                //3rd state Akwa Ibom
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Akwa Ibom",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Akwa Ibom",
+                                ),
+                                //4th state Anambra
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Anambra",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Anambra",
+                                ),
+                                //5th state Bauchi
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Bauchi",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Bauchi",
+                                ),
+                                //6th state Bayelsa
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Bayelsa",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Bayelsa",
+                                ),
+                                //7th state Benue
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Benue",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Benue",
+                                ),
+                                //8th state Borno
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Borno",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Borno",
+                                ),
+                                //9th state Cross River
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Cross River",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Cross River",
+                                ),
+                                //10th state Delta
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Delta",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Delta",
+                                ),
+                                //11th state Ebonyi
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Ebonyi",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Ebonyi",
+                                ),
+                                //12th state Edo
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Edo",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Edo",
+                                ),
+                                //13th state Ekiti
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Ekiti",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Ekiti",
+                                ),
+                                //14th state Enugu
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Enugu",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Enugu",
+                                ),
+                                //15th state Gombe
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Gombe",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Gombe",
+                                ),
+                                //16th state Imo
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Imo",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Imo",
+                                ),
+                                //17th state Jigawa
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Jigawa",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Jigawa",
+                                ),
+                                //18th state Kaduna
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Kaduna",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Kaduna",
+                                ),
+                                //19th state Kano
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Kano",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Kano",
+                                ),
+                                //20th state Katsina
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Katsina",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Katsina",
+                                ),
+                                //21th state Kebbi
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Kebbi",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Kebbi",
+                                ),
+                                //22th state kogi
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Kogi",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Kogi",
+                                ),
+                                //23th state Kwara
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Kwara",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Kwara",
+                                ),
+                                //24th state Lagos
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Lagos",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Lagos",
+                                ),
+                                //25th state Nasarawa
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Nasarawa",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Nasarawa",
+                                ),
+                                //26th state Niger
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Niger",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Niger",
+                                ),
+                                //27th  state Ogun
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Ogun",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Ogun",
+                                ),
+                                //28th state Ondo
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Ondo",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Ondo",
+                                ),
+                                //29th state Osun
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Osun",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Osun",
+                                ),
+                                //30th state Oyo
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Oyo",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Oyo",
+                                ),
+                                //31st state Plateau
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Plateau",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Plateau",
+                                ),
+                                //32nd state Rivers
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Rivers",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Rivers",
+                                ),
+                                //33rd state Sokoto
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Sokoto",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Sokoto",
+                                ),
+                                //34th state Taraba
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Taraba",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Taraba",
+                                ),
+                                //35th state Yobe
+                                DropdownMenuItem(
+                                  child: Text(
+                                    "Yobe",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  value: "Yobe",
+                                ),
+                                //36th state Zamfara
+                                DropdownMenuItem(
+                                    child: Text(
+                                      "Zamfara",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Zamfara"),
+                              ],
+                              onChanged: (value) {
+                                //get value when changed
+                                setState(() {
+                                  productfilter = value!;
+                                });
+                                print("You have selected $value");
+                              },
+                              icon: Padding(
+                                //Icon at tail, arrow bottom is default icon
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Icon(Icons.arrow_drop_down)),
+                              iconEnabledColor: Colors.white,
+                              //Icon color
+                              style: TextStyle(
+                                //te
+                                  color: Colors.white, //Font color
+                                  fontSize:
+                                  20 //font size on dropdown button
+                              ),
+
+                              dropdownColor: Colors.grey,
+                              //dropdown background color
+                              underline: Container(),
+                              //remove underline
+                              isExpanded:
+                              true, //make true to make width 100%
+                            )
+                        )),
+                  );
+                }),
+                const SizedBox(
+                  height: 7,
+                ),
+                Container(
+                  margin:
+                  EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                  child: Text("Price:",style: TextStyle(
+                      fontSize: 14,
+                    fontWeight: FontWeight.bold
+                  ),),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("From",style: TextStyle(
+                                fontSize: 12
+                              ),),
+                              TextField(
+                                controller: _priceFrom,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                  enabledBorder: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("To",style: TextStyle(
+                                fontSize: 12
+                            ),),
+                            TextField(
+                              controller: _priceTo,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(left: 10),
+                                  enabledBorder: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    search_filter_product();
+                    _priceFrom.clear();
+                    _priceTo.clear();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.transparent
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromRGBO(246, 123, 55, 1)
+                    ),
+                    child: Center(
+                      child: Text("Filter",style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 2000,
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  void filterService(){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled:true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        ),
+        builder: (context){
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: Text("Filter",style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  Container(
+                    margin:
+                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                    child: Text("Select State:",style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  StatefulBuilder(builder: (context , setState){
+                    return Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                            //   BoxShadow(
+                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                            //       // blurRadius: 5
+                            //   ) //blur radius of shadow
+                            // ]
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton(
+                                value: servicefilter,
+                                items: [
+                                  //add items in the dropdown
+                                  //default state
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "-",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "-",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Abia",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Abia",
+                                  ),
+                                  //2nd state Adamawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Adamawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Adamawa",
+                                  ),
+                                  //3rd state Akwa Ibom
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Akwa Ibom",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Akwa Ibom",
+                                  ),
+                                  //4th state Anambra
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Anambra",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Anambra",
+                                  ),
+                                  //5th state Bauchi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Bauchi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Bauchi",
+                                  ),
+                                  //6th state Bayelsa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Bayelsa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Bayelsa",
+                                  ),
+                                  //7th state Benue
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Benue",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Benue",
+                                  ),
+                                  //8th state Borno
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Borno",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Borno",
+                                  ),
+                                  //9th state Cross River
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Cross River",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Cross River",
+                                  ),
+                                  //10th state Delta
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Delta",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Delta",
+                                  ),
+                                  //11th state Ebonyi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ebonyi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ebonyi",
+                                  ),
+                                  //12th state Edo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Edo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Edo",
+                                  ),
+                                  //13th state Ekiti
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ekiti",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ekiti",
+                                  ),
+                                  //14th state Enugu
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Enugu",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Enugu",
+                                  ),
+                                  //15th state Gombe
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Gombe",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Gombe",
+                                  ),
+                                  //16th state Imo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Imo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Imo",
+                                  ),
+                                  //17th state Jigawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Jigawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Jigawa",
+                                  ),
+                                  //18th state Kaduna
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kaduna",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kaduna",
+                                  ),
+                                  //19th state Kano
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kano",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kano",
+                                  ),
+                                  //20th state Katsina
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Katsina",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Katsina",
+                                  ),
+                                  //21th state Kebbi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kebbi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kebbi",
+                                  ),
+                                  //22th state kogi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kogi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kogi",
+                                  ),
+                                  //23th state Kwara
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kwara",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kwara",
+                                  ),
+                                  //24th state Lagos
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Lagos",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Lagos",
+                                  ),
+                                  //25th state Nasarawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Nasarawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Nasarawa",
+                                  ),
+                                  //26th state Niger
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Niger",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Niger",
+                                  ),
+                                  //27th  state Ogun
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ogun",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ogun",
+                                  ),
+                                  //28th state Ondo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ondo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ondo",
+                                  ),
+                                  //29th state Osun
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Osun",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Osun",
+                                  ),
+                                  //30th state Oyo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Oyo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Oyo",
+                                  ),
+                                  //31st state Plateau
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Plateau",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Plateau",
+                                  ),
+                                  //32nd state Rivers
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Rivers",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Rivers",
+                                  ),
+                                  //33rd state Sokoto
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Sokoto",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Sokoto",
+                                  ),
+                                  //34th state Taraba
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Taraba",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Taraba",
+                                  ),
+                                  //35th state Yobe
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Yobe",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Yobe",
+                                  ),
+                                  //36th state Zamfara
+                                  DropdownMenuItem(
+                                      child: Text(
+                                        "Zamfara",
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      value: "Zamfara"),
+                                ],
+                                onChanged: (value) {
+                                  //get value when changed
+                                  setState(() {
+                                    productfilter = value!;
+                                  });
+                                  print("You have selected $value");
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              )
+                          )),
+                    );
+                  }),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Container(
+                    margin:
+                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                    child: Text("Price:",style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("From",style: TextStyle(
+                                    fontSize: 12
+                                ),),
+                                TextField(
+                                  controller: _priceFrom,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                    enabledBorder: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("To",style: TextStyle(
+                                      fontSize: 12
+                                  ),),
+                                  TextField(
+                                    controller: _priceTo,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10),
+                                      enabledBorder: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.transparent
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color.fromRGBO(246, 123, 55, 1)
+                    ),
+                    child: Center(
+                      child: Text("Filter",style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2000,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
   }
 
   @override
@@ -784,8 +1792,21 @@ class _WelcomeState extends State<Welcome> {
                                           onTap: (){
                                             FocusManager.instance.primaryFocus
                                                 ?.unfocus();
+
+                                            if(_Controller.text.isNotEmpty){
+                                              //product filter
+                                              filterproducts();
+                                            }else{
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor: Colors.green[800],
+                                                      content: Text("Type a product in the search bar",style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                      ),)));
+                                            }
+
                                             print("==========");
-                                            print("Filter");
+                                            print("product Filter");
                                             print("==========");
                                           },
                                             child: Icon(Icons.filter_alt)),
@@ -876,6 +1897,62 @@ class _WelcomeState extends State<Welcome> {
                                             onTap: (){
                                               FocusManager.instance.primaryFocus
                                                   ?.unfocus();
+
+                                              if(_serviceController.text.isNotEmpty){
+                                                //service filter
+                                                filterService();
+                                              }else{
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                        backgroundColor: Colors.green[800],
+                                                        content: Text("Type a service in the search bar",style: TextStyle(
+                                                          fontWeight: FontWeight.bold,
+                                                        ),)));
+                                              }
+
+                                              //service filter
+                                              // showDialog(
+                                              //     context: context,
+                                              //     builder: (context) => Center(
+                                              //         child: AlertDialog(
+                                              //           title: Text("Fliter"),
+                                              //           actions: [
+                                              //             Row(
+                                              //               mainAxisSize: MainAxisSize.max,
+                                              //               mainAxisAlignment: MainAxisAlignment.center,
+                                              //               children: [
+                                              //                 TextButton(
+                                              //                     onPressed: () {
+                                              //                       setState(() {
+                                              //                         rawservice.sort((a, b) =>
+                                              //                             (int.parse(b['price']))
+                                              //                                 .compareTo(
+                                              //                                 int.parse(a['price'])));
+                                              //                       });
+                                              //                       Navigator.of(context).pop();
+                                              //                     },
+                                              //                     child: Text("Higest to Lowest Price")),
+                                              //               ],
+                                              //             ),
+                                              //             Row(
+                                              //               mainAxisSize: MainAxisSize.max,
+                                              //               mainAxisAlignment: MainAxisAlignment.center,
+                                              //               children: [
+                                              //                 TextButton(
+                                              //                     onPressed: () {
+                                              //                       setState(() {
+                                              //                         rawservice.sort((a, b) =>
+                                              //                             (int.parse(a['price']))
+                                              //                                 .compareTo(
+                                              //                                 int.parse(b['price'])));
+                                              //                       });
+                                              //                       Navigator.of(context).pop();
+                                              //                     },
+                                              //                     child: Text("Lowest to Highest Price")),
+                                              //               ],
+                                              //             ),
+                                              //           ],
+                                              //         )));
                                               print("==========");
                                               print("Filter");
                                               print("==========");
@@ -1316,6 +2393,7 @@ class _WelcomeState extends State<Welcome> {
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return ViewService(
+                                                    username: widget.username,
                                                     name: rawservice[index]
                                                         ['name'],
                                                     amount: rawservice[index]
@@ -2406,210 +3484,214 @@ class _WelcomeState extends State<Welcome> {
                   Flexible(
                       child: showcontactlist
                           ? appcontactlist.length > 0
-                              ? ListView(
-                                  padding: EdgeInsets.zero,
-                                  children: [
-                                    ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: appcontactlist.length,
-                                        padding: EdgeInsets.zero,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                unreadmsgscust[index] = "0";
-                                              });
+                              ? RefreshIndicator(
+                                onRefresh: chatcontact,
+                                child: ListView(
+                                    padding: EdgeInsets.zero,
+                                    children: [
+                                      ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: appcontactlist.length,
+                                          padding: EdgeInsets.zero,
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  unreadmsgscust[index] = "0";
+                                                });
 
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return ServiceMsg(
-                                                    adminemail:
-                                                        adminemaillist[index],
-                                                    servicename:
-                                                        servicenamelist[index],
-                                                    serviceid:
-                                                        appcontactlist[index],
-                                                    useremail: widget.useremail,
-                                                    idname: widget.idname,
-                                                    usertype: widget.usertype);
-                                              }));
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: 10),
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Color.fromRGBO(
-                                                                  217,
-                                                                  217,
-                                                                  217,
-                                                                  1),
-                                                          radius: 30,
-                                                          child: Image.asset("assets/vendo.png"),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .white),
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: 10),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            5),
-                                                                child: Text(
-                                                                  servicenamelist[
-                                                                      index],
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          14),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                child: lastmsg[
-                                                                            index]
-                                                                        .contains(
-                                                                            "https://adeoropelumi.com/vendor/chatsimg/")
-                                                                    ? Container(
-                                                                        child: Icon(
-                                                                            Icons.image),
-                                                                      )
-                                                                    : Text(
-                                                                        modify(lastmsg[
-                                                                            index]),
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                12),
-                                                                      ),
-                                                              )
-                                                            ],
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return ServiceMsg(
+                                                      username: widget.username,
+                                                      adminemail:
+                                                          adminemaillist[index],
+                                                      servicename:
+                                                          servicenamelist[index],
+                                                      serviceid:
+                                                          appcontactlist[index],
+                                                      useremail: widget.useremail,
+                                                      idname: widget.idname,
+                                                      usertype: widget.usertype);
+                                                }));
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                              left: 10),
+                                                          child: CircleAvatar(
+                                                            backgroundColor:
+                                                                Color.fromRGBO(
+                                                                    217,
+                                                                    217,
+                                                                    217,
+                                                                    1),
+                                                            radius: 30,
+                                                            child: Image.asset("assets/vendo.png"),
                                                           ),
                                                         ),
-                                                      ),
-                                                      unreadmsgscust[index] ==
-                                                              "0"
-                                                          ? Container()
-                                                          : Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      right: 10,
-                                                                      left: 5),
-                                                              child:
-                                                                  CircleAvatar(
-                                                                radius: 15,
-                                                                backgroundColor:
-                                                                    Color
-                                                                        .fromRGBO(
-                                                                            243,
-                                                                            207,
-                                                                            198,
-                                                                            1),
-                                                                child: Text(
-                                                                  unreadmsgscust[
-                                                                      index],
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          13),
+                                                        Expanded(
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    color: Colors
+                                                                        .white),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 10),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          bottom:
+                                                                              5),
+                                                                  child: Text(
+                                                                    servicenamelist[
+                                                                        index],
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  child: lastmsg[
+                                                                              index]
+                                                                          .contains(
+                                                                              "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                      ? Container(
+                                                                          child: Icon(
+                                                                              Icons.image),
+                                                                        )
+                                                                      : Text(
+                                                                          modify(lastmsg[
+                                                                              index]),
+                                                                          style: TextStyle(
+                                                                              fontSize:
+                                                                                  12),
+                                                                        ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        unreadmsgscust[index] ==
+                                                                "0"
+                                                            ? Container()
+                                                            : Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        right: 10,
+                                                                        left: 5),
+                                                                child:
+                                                                    CircleAvatar(
+                                                                  radius: 15,
+                                                                  backgroundColor:
+                                                                      Color
+                                                                          .fromRGBO(
+                                                                              243,
+                                                                              207,
+                                                                              198,
+                                                                              1),
+                                                                  child: Text(
+                                                                    unreadmsgscust[
+                                                                        index],
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            13),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  //pay vendor button
-                                                  // GestureDetector(
-                                                  //   onTap: () {
-                                                  //     print("pay vendor");
-                                                  //
-                                                  //     Navigator.push(context,
-                                                  //         MaterialPageRoute(
-                                                  //             builder:
-                                                  //                 (context) {
-                                                  //       return PayforService(
-                                                  //         idname: widget.idname,
-                                                  //         sidname:
-                                                  //             appcontactlist[
-                                                  //                 index],
-                                                  //         useremail:
-                                                  //             widget.useremail,
-                                                  //         adminemail:
-                                                  //             adminemaillist[
-                                                  //                 index],
-                                                  //         servicename:
-                                                  //             servicenamelist[
-                                                  //                 index],
-                                                  //       );
-                                                  //     }));
-                                                  //   },
-                                                  //   child: Container(
-                                                  //     decoration: BoxDecoration(
-                                                  //         border: Border.all(
-                                                  //             color: Colors
-                                                  //                 .orangeAccent),
-                                                  //         color: Colors.green),
-                                                  //     padding:
-                                                  //         EdgeInsets.symmetric(
-                                                  //             vertical: 10),
-                                                  //     margin: EdgeInsets.only(
-                                                  //         top: 3),
-                                                  //     child: Row(
-                                                  //       children: [
-                                                  //         Expanded(
-                                                  //             child: Text(
-                                                  //           "Pay Vendor",
-                                                  //           textAlign: TextAlign
-                                                  //               .center,
-                                                  //           style: TextStyle(
-                                                  //               color: Colors
-                                                  //                   .white,
-                                                  //               fontWeight:
-                                                  //                   FontWeight
-                                                  //                       .bold,
-                                                  //               fontSize: 14),
-                                                  //         ))
-                                                  //       ],
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  Divider(),
-                                                ],
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    //pay vendor button
+                                                    // GestureDetector(
+                                                    //   onTap: () {
+                                                    //     print("pay vendor");
+                                                    //
+                                                    //     Navigator.push(context,
+                                                    //         MaterialPageRoute(
+                                                    //             builder:
+                                                    //                 (context) {
+                                                    //       return PayforService(
+                                                    //         idname: widget.idname,
+                                                    //         sidname:
+                                                    //             appcontactlist[
+                                                    //                 index],
+                                                    //         useremail:
+                                                    //             widget.useremail,
+                                                    //         adminemail:
+                                                    //             adminemaillist[
+                                                    //                 index],
+                                                    //         servicename:
+                                                    //             servicenamelist[
+                                                    //                 index],
+                                                    //       );
+                                                    //     }));
+                                                    //   },
+                                                    //   child: Container(
+                                                    //     decoration: BoxDecoration(
+                                                    //         border: Border.all(
+                                                    //             color: Colors
+                                                    //                 .orangeAccent),
+                                                    //         color: Colors.green),
+                                                    //     padding:
+                                                    //         EdgeInsets.symmetric(
+                                                    //             vertical: 10),
+                                                    //     margin: EdgeInsets.only(
+                                                    //         top: 3),
+                                                    //     child: Row(
+                                                    //       children: [
+                                                    //         Expanded(
+                                                    //             child: Text(
+                                                    //           "Pay Vendor",
+                                                    //           textAlign: TextAlign
+                                                    //               .center,
+                                                    //           style: TextStyle(
+                                                    //               color: Colors
+                                                    //                   .white,
+                                                    //               fontWeight:
+                                                    //                   FontWeight
+                                                    //                       .bold,
+                                                    //               fontSize: 14),
+                                                    //         ))
+                                                    //       ],
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                    // SizedBox(
+                                                    //   height: 10,
+                                                    // ),
+                                                    Divider(),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        })
-                                  ],
-                                )
+                                            );
+                                          })
+                                    ],
+                                  ),
+                              )
                               : Container(
                                   child: Center(
                                     child: Column(

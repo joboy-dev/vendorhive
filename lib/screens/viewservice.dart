@@ -19,8 +19,9 @@ class ViewService extends StatefulWidget {
   String description = "";
   String serviceid = "";
   String adminemail = "";
+  String username = "";
 
-  ViewService({required this.name, required this.amount, required this.imagename,
+  ViewService({required this.username, required this.name, required this.amount, required this.imagename,
   required this.description, required this.idname, required this.useremail,
   required this.usertype, required this.packagename, required this.serviceid,
   required this.adminemail});
@@ -283,7 +284,9 @@ class _ViewServiceState extends State<ViewService> {
             GestureDetector(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return ServiceMsg(useremail: widget.useremail,
+                  return ServiceMsg(
+                    username: widget.username,
+                    useremail: widget.useremail,
                     adminemail: widget.adminemail,
                   idname: widget.idname,
                   serviceid: widget.serviceid,

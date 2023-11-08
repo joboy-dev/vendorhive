@@ -29,7 +29,9 @@ class ChatMsg extends StatefulWidget {
   String idname = "";
   String usertype = "";
   String servicename = "";
-  ChatMsg({required this.sidname,
+  String username = "";
+
+  ChatMsg({required this.username,required this.sidname,
     required this.useremail, required this.adminemail,
     required this.idname,required this.usertype,
   required this.servicename});
@@ -329,6 +331,7 @@ class _ChatMsgState extends State<ChatMsg> {
                     child: CircleAvatar(
                       radius: 28,
                       backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                      child: Image.asset("assets/vendo.png"),
                     ),
                   ),
                   Expanded(
@@ -339,7 +342,7 @@ class _ChatMsgState extends State<ChatMsg> {
                         children: [
                           Container(
                             child: Text(
-                              widget.servicename,
+                              widget.username,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 16),
                             ),
@@ -347,7 +350,7 @@ class _ChatMsgState extends State<ChatMsg> {
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              widget.useremail,
+                              widget.servicename,
                               style: TextStyle(
                                   fontSize: 13,
                                   fontStyle: FontStyle.italic

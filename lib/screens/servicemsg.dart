@@ -28,6 +28,7 @@ enum MessageType{
 }
 
 class ServiceMsg extends StatefulWidget {
+  String username = "";
   String useremail = "";
   String adminemail = "";
   String idname = "";
@@ -35,7 +36,9 @@ class ServiceMsg extends StatefulWidget {
   String serviceid = "";
   String servicename = "";
 
-  ServiceMsg({required this.useremail,
+  ServiceMsg({
+    required this.username,
+    required this.useremail,
     required this.adminemail,
     required this.idname,
     required this.usertype,
@@ -468,7 +471,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                           //service name
                           Container(
                             child: Text(
-                              widget.servicename,
+                              widget.username,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 16),
                             ),
@@ -477,7 +480,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              widget.adminemail,
+                              widget.servicename,
                               style: TextStyle(
                                   fontSize: 13,
                                   fontStyle: FontStyle.italic

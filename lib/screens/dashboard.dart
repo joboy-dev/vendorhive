@@ -44,8 +44,8 @@ import 'forgotpin.dart';
 
 class Chatdetails {
   String useremail = "";
-
-  Chatdetails({required this.useremail});
+  String username = "";
+  Chatdetails({required this.useremail, required this.username});
 }
 
 class ProductTag {
@@ -1133,6 +1133,10 @@ class _DashboardState extends State<Dashboard> {
             Uri.https('adeoropelumi.com', 'vendor/vendorgetchatuseremail.php'),
             body: {'sidname': appcontactlist[o]});
 
+        var username = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/vendorgetusername.php'),
+            body: {'useremail': jsonDecode(useremaildetails.body)});
+
         final getlastmsg = await http.post(
             Uri.https('adeoropelumi.com', 'vendor/vendorgetlastmsg.php'),
             body: {
@@ -1155,7 +1159,8 @@ class _DashboardState extends State<Dashboard> {
           print(jsonDecode(useremaildetails.body));
 
           chatdetails
-              .add(Chatdetails(useremail: jsonDecode(useremaildetails.body)));
+              .add(Chatdetails(useremail: jsonDecode(useremaildetails.body),
+          username: jsonDecode(username.body)));
 
           servicenamelist.add(jsonDecode(servicename.body));
 
@@ -2733,6 +2738,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
 
                       if (_selectedIndex == 0) ...[
+                        //home
                         Flexible(
                             child: ListView(
                           children: [
@@ -2929,152 +2935,159 @@ class _DashboardState extends State<Dashboard> {
                         Flexible(
                           child: showcontactlist
                               ? appcontactlist.length > 0
-                                  ? ListView(children: [
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemCount: appcontactlist.length,
-                                          padding: EdgeInsets.zero,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  unreadmsgs[index] = "0";
-                                                });
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return ChatMsg(
-                                                    sidname:
-                                                        appcontactlist[index],
-                                                    useremail:
-                                                        chatdetails[index]
-                                                            .useremail,
-                                                    adminemail:
-                                                        widget.useremail,
-                                                    idname: widget.idname,
-                                                    usertype: widget.usertype,
-                                                    servicename:
-                                                        servicenamelist[index],
-                                                  );
-                                                }));
-                                              },
-                                              child: Container(
-                                                margin:
-                                                    EdgeInsets.only(top: 10),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: 10),
-                                                          child: CircleAvatar(
-                                                            backgroundColor:
-                                                                Color.fromRGBO(
-                                                                    217,
-                                                                    217,
-                                                                    217,
-                                                                    1),
-                                                            radius: 30,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .white),
+                                  ? RefreshIndicator(
+                                    onRefresh: chatcontact,
+                                    child: ListView(children: [
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount: appcontactlist.length,
+                                            padding: EdgeInsets.zero,
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    unreadmsgs[index] = "0";
+                                                  });
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                    return ChatMsg(
+                                                      username: chatdetails[
+                                                      index]
+                                                          .username,
+                                                      sidname:
+                                                          appcontactlist[index],
+                                                      useremail:
+                                                          chatdetails[index]
+                                                              .useremail,
+                                                      adminemail:
+                                                          widget.useremail,
+                                                      idname: widget.idname,
+                                                      usertype: widget.usertype,
+                                                      servicename:
+                                                          servicenamelist[index],
+                                                    );
+                                                  }));
+                                                },
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Container(
                                                             margin:
                                                                 EdgeInsets.only(
                                                                     left: 10),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          bottom:
-                                                                              5),
-                                                                  child: Text(
-                                                                    chatdetails[
-                                                                            index]
-                                                                        .useremail,
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w500),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  child: lastmsg[
-                                                                              index]
-                                                                          .contains(
-                                                                              "https://adeoropelumi.com/vendor/chatsimg/")
-                                                                      ? Container(
-                                                                          child:
-                                                                              Icon(Icons.image),
-                                                                        )
-                                                                      : Text(
-                                                                          modify(
-                                                                              lastmsg[index]),
-                                                                          maxLines:
-                                                                              2,
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                          style:
-                                                                              TextStyle(fontSize: 12),
-                                                                        ),
-                                                                )
-                                                              ],
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color.fromRGBO(
+                                                                      217,
+                                                                      217,
+                                                                      217,
+                                                                      1),
+                                                              radius: 30,
+                                                              child: Image.asset("assets/vendo.png"),
                                                             ),
                                                           ),
-                                                        ),
-                                                        unreadmsgs[index] == "0"
-                                                            ? Container()
-                                                            : Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        right:
-                                                                            10,
-                                                                        left:
-                                                                            5),
-                                                                child:
-                                                                    CircleAvatar(
-                                                                  radius: 15,
-                                                                  backgroundColor:
-                                                                      Color.fromRGBO(
-                                                                          243,
-                                                                          207,
-                                                                          198,
-                                                                          1),
-                                                                  child: Text(
-                                                                    unreadmsgs[
-                                                                        index],
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black),
+                                                          Expanded(
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      color: Colors
+                                                                          .white),
+                                                              margin:
+                                                                  EdgeInsets.only(
+                                                                      left: 10),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            bottom:
+                                                                                5),
+                                                                    child: Text(
+                                                                      chatdetails[
+                                                                              index]
+                                                                          .username,
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    child: lastmsg[
+                                                                                index]
+                                                                            .contains(
+                                                                                "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                        ? Container(
+                                                                            child:
+                                                                                Icon(Icons.image),
+                                                                          )
+                                                                        : Text(
+                                                                            modify(
+                                                                                lastmsg[index]),
+                                                                            maxLines:
+                                                                                2,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style:
+                                                                                TextStyle(fontSize: 12),
+                                                                          ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          unreadmsgs[index] == "0"
+                                                              ? Container()
+                                                              : Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              10,
+                                                                          left:
+                                                                              5),
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    radius: 15,
+                                                                    backgroundColor:
+                                                                        Color.fromRGBO(
+                                                                            243,
+                                                                            207,
+                                                                            198,
+                                                                            1),
+                                                                    child: Text(
+                                                                      unreadmsgs[
+                                                                          index],
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Divider()
-                                                  ],
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Divider()
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          })
-                                    ])
+                                              );
+                                            })
+                                      ]),
+                                  )
                                   : Container(
                                       child: Center(
                                         child: Column(
