@@ -126,10 +126,13 @@ class _WelcomeState extends State<Welcome> {
   bool value = false;
   String productfilter = "-";
   String servicefilter = "-";
+  String service_payment_option = "-";
   TextEditingController _Controller = new TextEditingController();
   TextEditingController _serviceController = new TextEditingController();
   TextEditingController _priceFrom = new TextEditingController();
   TextEditingController _priceTo = new TextEditingController();
+  TextEditingController _priceFromService = new TextEditingController();
+  TextEditingController _priceToService = new TextEditingController();
 
   List<String> lastmsg = [];
   List<String> servicenamelist = [];
@@ -353,8 +356,8 @@ class _WelcomeState extends State<Welcome> {
     var searchproduct = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/vendorgetfilter.php'),
         body: {
-          'from': _priceFrom.text,
-          'to' : _priceTo.text,
+          'from': _priceFrom.text.isEmpty?"":_priceFrom.text,
+          'to' : _priceTo.text.isEmpty?"":_priceTo.text,
           'word' : _Controller.text,
           'location' : productfilter=="-" ? "" : productfilter
         });
@@ -377,6 +380,46 @@ class _WelcomeState extends State<Welcome> {
       }
     } else {
       print("product filtered search ${searchproduct.statusCode}");
+    }
+  }
+
+  Future search_filter_service() async {
+    setState(() {
+      showservice = false;
+    });
+
+    var searchservice = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetservicefilter.php'),
+        body: {
+          'from': _priceFromService.text.isEmpty?"":_priceFromService.text,
+          'to' : _priceToService.text.isEmpty?"":_priceToService.text,
+          'word' : _serviceController.text,
+          'location' : servicefilter=="-" ? "" : servicefilter,
+          'paymentoption' : service_payment_option == "-"? "" : service_payment_option
+        });
+
+    if (searchservice.statusCode == 200) {
+      print("serach word is " + _serviceController.text);
+      print(jsonDecode(searchservice.body));
+
+      setState(() {
+        rawservice = jsonDecode(searchservice.body);
+      });
+
+      if (rawservice.length > 0) {
+        setState(() {
+          showservice = true;
+          searchservices = true;
+        });
+      } else {
+        setState(() {
+          showservice = true;
+          searchservices = false;
+        });
+      }
+    }
+    else {
+      print("Service search issues ${searchservice.statusCode}");
     }
   }
 
@@ -489,7 +532,8 @@ class _WelcomeState extends State<Welcome> {
           searchservices = false;
         });
       }
-    } else {
+    }
+    else {
       print("Service search issues ${searchservice.statusCode}");
     }
   }
@@ -1023,10 +1067,39 @@ class _WelcomeState extends State<Welcome> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.of(context).pop();
-                    search_filter_product();
-                    _priceFrom.clear();
-                    _priceTo.clear();
+                    if(_priceFrom.text.isNotEmpty && _priceTo.text.isEmpty){
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                    }
+                    else if(_priceFrom.text.isEmpty && _priceTo.text.isNotEmpty){
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                    }
+                    else if(_priceFrom.text.isEmpty && _priceTo.text.isEmpty && productfilter == "-"){
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
+                    }
+                    else{
+                      if(_priceFrom.text.isNotEmpty && _priceTo.text.isNotEmpty){
+                        if(int.parse(_priceFrom.text) > int.parse(_priceTo.text) ){
+                          _priceTo.clear();
+                          _priceFrom.clear();
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
+                        }else{
+                          Navigator.of(context).pop();
+                          search_filter_product();
+                          _priceFrom.clear();
+                          _priceTo.clear();
+                        }
+                      }else{
+                        Navigator.of(context).pop();
+                        search_filter_product();
+                        _priceFrom.clear();
+                        _priceTo.clear();
+                      }
+
+                    }
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
@@ -1413,7 +1486,97 @@ class _WelcomeState extends State<Welcome> {
                                 onChanged: (value) {
                                   //get value when changed
                                   setState(() {
-                                    productfilter = value!;
+                                    servicefilter = value!;
+                                  });
+                                  print("You have selected $value");
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              )
+                          )),
+                    );
+                  }),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Container(
+                    margin:
+                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                    child: Text("Select payment option:",style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  StatefulBuilder(builder: (context , setState){
+                    return Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                            //   BoxShadow(
+                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                            //       // blurRadius: 5
+                            //   ) //blur radius of shadow
+                            // ]
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton(
+                                value: service_payment_option,
+                                items: [
+                                  //add items in the dropdown
+                                  //default state
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "-",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "-",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Pay after service",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Pay after service",
+                                  ),
+                                  //2nd state Adamawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Contact to negotiate",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Contact to negotiate",
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  //get value when changed
+                                  setState(() {
+                                    service_payment_option = value!;
                                   });
                                   print("You have selected $value");
                                 },
@@ -1467,7 +1630,7 @@ class _WelcomeState extends State<Welcome> {
                                     fontSize: 12
                                 ),),
                                 TextField(
-                                  controller: _priceFrom,
+                                  controller: _priceFromService,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.only(left: 10),
@@ -1491,7 +1654,7 @@ class _WelcomeState extends State<Welcome> {
                                       fontSize: 12
                                   ),),
                                   TextField(
-                                    controller: _priceTo,
+                                    controller: _priceToService,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(left: 10),
@@ -1509,22 +1672,59 @@ class _WelcomeState extends State<Welcome> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.transparent
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromRGBO(246, 123, 55, 1)
-                    ),
-                    child: Center(
-                      child: Text("Filter",style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold
-                      ),),
+                  GestureDetector(
+                    onTap: (){
+                      if(_priceFromService.text.isNotEmpty && _priceToService.text.isEmpty){
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                      }
+                      else if(_priceFromService.text.isEmpty && _priceToService.text.isNotEmpty){
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                      }
+                      else if(_priceFromService.text.isEmpty && _priceToService.text.isEmpty && servicefilter == "-"
+                      && service_payment_option == "-"){
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
+                      }
+                      else{
+                        if(_priceFromService.text.isNotEmpty && _priceToService.text.isNotEmpty){
+                          if(int.parse(_priceFromService.text) > int.parse(_priceToService.text) ){
+                            _priceToService.clear();
+                            _priceFromService.clear();
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
+                          }else{
+                            Navigator.of(context).pop();
+                            search_filter_service();
+                            _priceFromService.clear();
+                            _priceToService.clear();
+                          }
+                        }else{
+                          Navigator.of(context).pop();
+                          search_filter_service();
+                          _priceFromService.clear();
+                          _priceToService.clear();
+                        }
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.transparent
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(246, 123, 55, 1)
+                      ),
+                      child: Center(
+                        child: Text("Filter",style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),),
+                      ),
                     ),
                   ),
                   const SizedBox(
