@@ -172,9 +172,24 @@ class _VendorServiceState extends State<VendorService> {
                                         .of(context)
                                         .size
                                         .width / 8,
-                                    child: Image.network(
+                                    child: FadeInImage(
+                                      image: NetworkImage(
                                         "https://adeoropelumi.com/vendor/serviceimage/" +
-                                            rawservice[index]['serviceimg']),
+                                            rawservice[index]['serviceimg'],
+                                      ),
+                                      placeholder: AssetImage(
+                                          "assets/image.png"),
+                                      imageErrorBuilder:
+                                          (context, error,
+                                          stackTrace) {
+                                        return Image.asset(
+                                            'assets/error.png',
+                                            fit: BoxFit
+                                                .fitWidth);
+                                      },
+                                      fit:
+                                      BoxFit.fitWidth,
+                                    )
                                   ),
                                   Expanded(
                                     child: Container(

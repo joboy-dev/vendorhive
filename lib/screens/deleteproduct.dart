@@ -11,11 +11,15 @@ class DeleteProduct extends StatefulWidget {
   String pidname = "";
   String email = "";
   String productimg = "";
+  String productPrice = "";
+  String productdescription = "";
 
   DeleteProduct(
       {required this.pidname,
       required this.email,
       required this.productimg,
+      required this.productPrice,
+      required this.productdescription,
       Key? key})
       : super(key: key);
 
@@ -25,6 +29,7 @@ class DeleteProduct extends StatefulWidget {
 
 class _DeleteProductState extends State<DeleteProduct> {
   int _loadIndex = 0;
+  int _selectedItem = 0;
 
   Future delete_product() async {
     setState(() {
@@ -61,6 +66,7 @@ class _DeleteProductState extends State<DeleteProduct> {
         child: Scaffold(
       body: _loadIndex == 0
           ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //setting app bar
                 Container(
@@ -75,7 +81,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
-                            "Delete Product",
+                            "Product Settings",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
@@ -84,7 +90,26 @@ class _DeleteProductState extends State<DeleteProduct> {
                         //back button
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            if(_selectedItem == 1){
+                              setState(() {
+                                _selectedItem = 0;
+                              });
+                            }
+                            else if(_selectedItem == 2){
+                              setState(() {
+                                _selectedItem = 0;
+                              });
+                            }
+                            else if(_selectedItem == 3){
+                              setState(() {
+                                _selectedItem = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                Navigator.of(context).pop();
+                              });
+                            }
                           },
                           child: Container(
                               margin: EdgeInsets.only(right: 10),
@@ -99,79 +124,350 @@ class _DeleteProductState extends State<DeleteProduct> {
                         )
                       ],
                     )),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.only(bottom: 40, left: 20, right: 20),
-                  child: Text(
-                    "Do you want to delete this product?",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                if(_selectedItem == 0)...[
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        _selectedItem = 2;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 10, top: 10),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey, width: .5))),
+                      child: Row(
+                        children: [
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width / 8,
+                            margin: EdgeInsets.only(left: 10),
+                            child: Image.asset(
+                                "assets/price_tag.png",
+                                color:
+                                Color.fromRGBO(246, 123, 55, 1)),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 15),
+                            child: Text(
+                              "Edit Price",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          delete_product();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        _selectedItem = 3;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 10, top: 10),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey, width: .5))),
+                      child: Row(
+                        children: [
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width / 8,
+                            margin: EdgeInsets.only(left: 10),
+                            child: Image.asset(
+                                "assets/edit.png",
+                                color:
+                                Color.fromRGBO(246, 123, 55, 1)),
                           ),
+                          Container(
+                            margin: EdgeInsets.only(left: 15),
+                            child: Text(
+                              "Edit Description",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        _selectedItem = 1;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 10, top: 10),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey, width: .5))),
+                      child: Row(
+                        children: [
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width / 8,
+                            margin: EdgeInsets.only(left: 10),
+                            child: Image.asset(
+                                "assets/bin.png",
+                                color:
+                                Color.fromRGBO(246, 123, 55, 1)),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 15),
+                            child: Text(
+                              "Delete Product",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ]
+                else if (_selectedItem == 1)...[
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 40, left: 20, right: 20),
+                      child: Text(
+                        "Do you want to delete this product?",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            "No",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            delete_product();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: Colors.red, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 40),
+                      height: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FadeInImage(
+                        image: NetworkImage(
+                          "https://adeoropelumi.com/vendor/productimage/" +
+                              widget.productimg,
+                        ),
+                        placeholder: AssetImage(
+                            "assets/image.png"),
+                        imageErrorBuilder:
+                            (context, error,
+                            stackTrace) {
+                          return Image.asset(
+                              'assets/error.png',
+                              fit: BoxFit
+                                  .fitWidth);
+                        },
+                        fit:
+                        BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      child: Text(
+                        "Vendorhive360",
+                        style: TextStyle(
+                            color: Colors.orange[900],
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ]
+                else if(_selectedItem == 2)...[
+                  Container(
+                    padding: EdgeInsets.only(left: 10,top: 10),
+                      child: Row(
+                        children: [
+                          Text("Old Price:",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15
+                          ),),
+                          const SizedBox(width: 5,),
+                          Expanded(
+                            child: Text("₦" +widget.productPrice.replaceAllMapped(
+                                RegExp(
+                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                    (Match m) => '${m[1]},'),style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15
+                            ),),
+                          ),
+                        ],
                       )
-                    ],
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 40),
-                  height: MediaQuery.of(context).size.width / 2,
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: Image.network(
-                      "https://adeoropelumi.com/vendor/productimage/" +
-                          widget.productimg),
-                ),
-                Container(
-                  child: Text(
-                    "Vendorhive360",
-                    style: TextStyle(
-                        color: Colors.orange[900],
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 12),
-                    textAlign: TextAlign.center,
+                  Container(
+                    padding: EdgeInsets.only(left: 10,top: 10,right: 10),
+                    child: Row(
+                      children: [
+                        Text("New Price:",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15
+                        ),),
+                        const SizedBox(width: 5,),
+                        Expanded(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: "Set New Price...",
+                                contentPadding: EdgeInsets.only(left: 10),
+                                enabledBorder: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder()
+                              ),
+                            )
+                        ),
+                      ],
+                    )
                   ),
-                ),
-                Spacer(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.transparent
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromRGBO(246, 123, 55, 1)
+                        ),
+                        child: Center(
+                          child: Text("Set Price",style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ),
+                  ),
+                ]
+                else if(_selectedItem == 3)...[
+                  Container(
+                      padding: EdgeInsets.only(left: 10,top: 10,right: 10),
+                      child: Text("Old Description:",style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15
+                      ),),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10,top: 1,right: 10),
+                    child: Text("₦" +widget.productdescription,style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15
+                        ),),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 10,top: 10,right: 10),
+                      child: Text("New Description:",style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15
+                      ),),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10,top: 1,right: 10),
+                    child: TextField(
+                          keyboardType: TextInputType.number,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                              hintText: "Set New Description...",
+                              contentPadding: EdgeInsets.only(left: 10),
+                              enabledBorder: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder()
+                          ),
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.transparent
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(246, 123, 55, 1)
+                      ),
+                      child: Center(
+                        child: Text("Set Description",style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             )
           : Column(

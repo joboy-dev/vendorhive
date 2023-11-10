@@ -163,6 +163,8 @@ flutter:
     - assets/forgot-pin.png
     - assets/trash.png
     - assets/delete-document.png
+    - assets/price_tag.png
+    - assets/bin.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

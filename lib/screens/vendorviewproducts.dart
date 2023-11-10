@@ -169,7 +169,13 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                          return GestureDetector(
                            onTap: (){
                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                               return DeleteProduct(pidname: rawproducts[index]['pidname'], email: widget.adminemail,productimg: rawproducts[index]['productimg'],);
+                               return DeleteProduct(
+                                 pidname: rawproducts[index]['pidname'],
+                                 email: widget.adminemail,
+                                 productimg: rawproducts[index]['productimg'],
+                                 productPrice: rawproducts[index]['productprice'],
+                                 productdescription: rawproducts[index]['productdescription'],
+                               );
                              }));
                            },
                            child: Container(
@@ -182,7 +188,27 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                children: [
                                  Container(
                                    width: MediaQuery.of(context).size.width/8,
-                                   child: Image.network("https://adeoropelumi.com/vendor/productimage/"+rawproducts[index]['productimg']),
+                                   child: FadeInImage(
+                                     image: NetworkImage(
+                                       "https://adeoropelumi.com/vendor/productimage/" +
+                                           rawproducts[
+                                           index]
+                                           [
+                                           'productimg'],
+                                     ),
+                                     placeholder: AssetImage(
+                                         "assets/image.png"),
+                                     imageErrorBuilder:
+                                         (context, error,
+                                         stackTrace) {
+                                       return Image.asset(
+                                           'assets/error.png',
+                                           fit: BoxFit
+                                               .fitWidth);
+                                     },
+                                     fit:
+                                     BoxFit.fitWidth,
+                                   ),
                                  ),
                                  Expanded(
                                    child: Container(
