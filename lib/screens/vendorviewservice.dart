@@ -152,6 +152,10 @@ class _VendorServiceState extends State<VendorService> {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                     return DeleteService(
+                                        payment_option: rawservice[index]['paymentoption'],
+                                        servicename: rawservice[index]['name'],
+                                        serviceoldPrice: rawservice[index]['price'],
+                                        serviceolddescription: rawservice[index]['desription'],
                                         email: widget.adminemail,
                                         sidname: rawservice[index]['sidname'],
                                         serviceimg: rawservice[index]['serviceimg']);

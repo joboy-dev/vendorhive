@@ -22,7 +22,6 @@ class _FailedDeleteState extends State<FailedDelete> {
                   GestureDetector(
                     onTap:(){
                       Navigator.pop(context);
-                      Navigator.pop(context);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height/3,
@@ -31,7 +30,6 @@ class _FailedDeleteState extends State<FailedDelete> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Navigator.pop(context);
                       Navigator.pop(context);
                     },
                     child: Container(

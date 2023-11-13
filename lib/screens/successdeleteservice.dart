@@ -37,6 +37,7 @@ class _SuccessDeleteServiceState extends State<SuccessDeleteService> {
                         onTap: ()  {
                           Navigator.pop(context);
                           Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height/3,
@@ -53,6 +54,7 @@ class _SuccessDeleteServiceState extends State<SuccessDeleteService> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          Navigator.pop(context);
                           Navigator.pop(context);
                           Navigator.pop(context);
                         },
