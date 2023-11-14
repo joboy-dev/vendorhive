@@ -51,6 +51,8 @@ class _BusinessPackageState extends State<BusinessPackage> {
       SafeArea(
         child: ListView(
           children: [
+
+            //Packages Title
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Center(
@@ -61,15 +63,17 @@ class _BusinessPackageState extends State<BusinessPackage> {
               ),
             ),
 
+            //packages subtitle
             Container(
               margin: EdgeInsets.only(left: 15,right: 15,top: 20),
-              child: Text("Choose a package to enjoy extra upload of services and products for our customers. Let them enjoy your services and products. ",
+              child: Text("Choose a package to enjoy extra upload of services and products for our customers. Let them enjoy your services and products.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width/25,
                 ),),
             ),
 
+            //Omega package - 2500
             Container(
               margin: EdgeInsets.only(top: 40,left: 10),
               child: Row(
@@ -85,7 +89,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            child: Text("OMEGA PACKAGE - ₦5,000",style: TextStyle(
+                            child: Text("OMEGA PACKAGE - ₦2,500",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/23,
                                 fontWeight: FontWeight.w500
                             ),),
@@ -116,6 +120,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
               ),
             ),
 
+            //Beta package - 5000
             Container(
               margin: EdgeInsets.only(top: 20,left: 10),
               child: Row(
@@ -131,7 +136,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            child: Text("BETA PACKAGE - ₦10,000",style: TextStyle(
+                            child: Text("BETA PACKAGE - ₦5,000",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/23,
                                 fontWeight: FontWeight.w500
                             ),),
@@ -162,6 +167,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
               ),
             ),
 
+            //Alpha package - 10000
             Container(
               margin: EdgeInsets.only(top: 20,left: 10),
               child: Row(
@@ -177,7 +183,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            child: Text("ALPHA PACKAGE - ₦20,000",style: TextStyle(
+                            child: Text("ALPHA PACKAGE - ₦10,000",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/23,
                                 fontWeight: FontWeight.w500
                             ),),
@@ -230,19 +236,19 @@ class _BusinessPackageState extends State<BusinessPackage> {
                         value: drop,
                         items: [ //add items in the dropdown
                           DropdownMenuItem(
-                            child: Text("Alpha Pacakage - ₦20,000",style: TextStyle(
+                            child: Text("Alpha Pacakage - ₦10,000",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
                             value: "Alpha",
                           ),
                           DropdownMenuItem(
-                              child: Text("Beta Pacakage - ₦10,000",style: TextStyle(
+                              child: Text("Beta Pacakage - ₦5,000",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/22
                               ),),
                               value: "Beta"
                           ),
                           DropdownMenuItem(
-                            child: Text("Omega Pacakage - ₦5,000",style: TextStyle(
+                            child: Text("Omega Pacakage - ₦2,500",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
                             value: "Omega",
@@ -276,13 +282,13 @@ class _BusinessPackageState extends State<BusinessPackage> {
               onTap: (){
 
                 if(drop == 'Alpha'){
-                  amount = "20000";
-                  // amount = "100";
-                }else if(drop == "Beta"){
                   amount = "10000";
                   // amount = "100";
-                }else if(drop == "Omega"){
+                }else if(drop == "Beta"){
                   amount = "5000";
+                  // amount = "100";
+                }else if(drop == "Omega"){
+                  amount = "2500";
                   // amount = "100";
                 }
 

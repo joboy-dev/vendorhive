@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendorandroid/screens/addproduct.dart';
 import 'package:vendorandroid/screens/businesseditprofile.dart';
@@ -113,6 +114,7 @@ class _DashboardState extends State<Dashboard> {
   String trfid = "";
   String location = "Lagos";
   String productlocation = "Lagos";
+  String packageName = "";
 
   int amountofproducts = 0;
   int amountofservice = 0;
@@ -609,15 +611,16 @@ class _DashboardState extends State<Dashboard> {
     });
 
     print("print add product out");
+    final getpackages = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
 
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-
-    final String? packagename = pref.getString('packagename');
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
     final productamount = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/vendorgetpackagedetails.php'),
         body: {
-          'packagename': packagename ?? '',
+          'packagename': jsonDecode(getpackages.body)['package'].toString()
         });
 
     if (productamount.statusCode == 200) {
@@ -629,65 +632,71 @@ class _DashboardState extends State<Dashboard> {
       numberassignedproduct =
           jsonDecode(productamount.body)[0]['productamount'];
       numberofproduct = int.parse(numberassignedproduct);
-    } else {
+
+      print("getting used products");
+      final checkfornumberofproducts = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorcheckproductid.php'),
+          body: {'email': widget.useremail});
+
+      if (checkfornumberofproducts.statusCode == 200) {
+        idnames.clear();
+        print(jsonDecode(checkfornumberofproducts.body));
+
+        jsonDecode(checkfornumberofproducts.body)
+            .forEach((s) => idnames.add(s["pidname"]));
+        print("List lenght is $idnames.length");
+
+        amountofproducts = idnames.length;
+        print(amountofproducts);
+
+        print("Used amount of products :- $amountofproducts");
+
+        // for (int o = 0; o < idnames.length; o++) {
+        //   print("PId names in list " + idnames[o]);
+        // }
+        //
+
+        if (numberofproduct > amountofproducts) {
+          int available = numberofproduct - amountofproducts;
+          ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+            content: Text('You have $available available product to create'),
+          ));
+          setState(() {
+            _selectedpage = 0;
+            _selectedIndex = 4;
+          });
+        }
+        else if (numberofproduct == amountofproducts) {
+          setState(() {
+            _selectedpage = 0;
+          });
+
+          ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+            content: Text('You have used all your available products'),
+          ));
+        }
+        else {
+          setState(() {
+            _selectedpage = 0;
+          });
+
+          ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+            content: Text('You have used all your available products'),
+          ));
+        }
+      }
+      else {
+        setState(() {
+          _selectedpage = 0;
+        });
+      }
+    }
+    else {
       setState(() {
         _selectedpage = 0;
       });
     }
 
-    print("getting used products");
-    final checkfornumberofproducts = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorcheckproductid.php'),
-        body: {'email': widget.useremail});
-
-    if (checkfornumberofproducts.statusCode == 200) {
-      idnames.clear();
-      print(jsonDecode(checkfornumberofproducts.body));
-
-      jsonDecode(checkfornumberofproducts.body)
-          .forEach((s) => idnames.add(s["pidname"]));
-      print("List lenght is $idnames.length");
-
-      amountofproducts = idnames.length;
-      print(amountofproducts);
-
-      print("Used amount of products :- $amountofproducts");
-
-      for (int o = 0; o < idnames.length; o++) {
-        print("PId names in list " + idnames[o]);
-      }
-
-      if (numberofproduct > amountofproducts) {
-        int available = numberofproduct - amountofproducts;
-        ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-          content: Text('You have $available available product to create'),
-        ));
-        setState(() {
-          _selectedpage = 0;
-          _selectedIndex = 4;
-        });
-      } else if (numberofproduct == amountofproducts) {
-        setState(() {
-          _selectedpage = 0;
-        });
-
-        ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-          content: Text('You have used all your available products'),
-        ));
-      } else {
-        setState(() {
-          _selectedpage = 0;
-        });
-
-        ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-          content: Text('You have used all your available products'),
-        ));
-      }
-    } else {
-      setState(() {
-        _selectedpage = 0;
-      });
-    }
   }
 
   Future addservices() async {
@@ -991,14 +1000,16 @@ class _DashboardState extends State<Dashboard> {
       _selectedpage = 1;
     });
 
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final getpackages = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
 
-    final String? packagename = pref.getString('packagename');
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
     final serviceamount = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/vendorgetpackagedetails.php'),
         body: {
-          'packagename': packagename ?? '',
+          'packagename': jsonDecode(getpackages.body)['package'].toString(),
         });
 
     if (serviceamount.statusCode == 200) {
@@ -1686,6 +1697,80 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  Future getPackage() async{
+    final getpackages = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+      setState(() {
+        packageName = "Free";
+      });
+    }
+    else{
+
+      var getExpiredDate = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorgetExpiredDate.php'),
+          body: {
+            'useremail': widget.useremail,
+          });
+
+      print("========");
+      print("Expired date is "+jsonDecode(getExpiredDate.body)[0]['4']);
+      print("========");
+
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(now.year, now.month, now.day);
+      String todaysDate = date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString();
+      String todayDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      print("========");
+      print(todaysDate);
+      print("========");
+
+      print("========");
+      print(todayDate);
+      print("========");
+
+      DateTime dt1 = DateTime.parse(jsonDecode(getExpiredDate.body)[0]['4']);
+      DateTime dt2 = DateTime.parse(todayDate);
+
+      Duration diff = dt1.difference(dt2);
+      print("========");
+      print('Days left ${diff.inDays}');
+      print("========");
+
+      final SharedPreferences pref =
+      await SharedPreferences.getInstance();
+
+      if(diff.inDays <= 0){
+        var resetPackage = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/vendorResetPackage.php'),
+            body: {
+              'useremail':widget.useremail
+            }
+        );
+
+        if(jsonDecode(resetPackage.body) == "true"){
+          setState(() {
+            packageName = "Free";
+          });
+          await pref.setString('packagename', packageName);
+        }
+
+      }
+    }
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getPackage();
+    finalbalance = widget.finalbalance;
+    pendingbalance = widget.pendingbalance;
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 712));
@@ -1710,29 +1795,40 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 //welcome + package
                                 Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Welcome, " + widget.username,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          "Package: " + widget.packagename,
-                                          style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  26),
-                                        )
-                                      ],
+                                  child: GestureDetector(
+                                    onTap: getPackage,
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Welcome, " + widget.username,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            height: 2,
+                                          ),
+                                          packageName == "" ? Text(
+                                            "Package: " + "loading...",
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                    26,
+                                            fontStyle: FontStyle.italic),
+                                          ):Text(
+                                            "Package: " + packageName,
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                    26),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -2070,6 +2166,7 @@ class _DashboardState extends State<Dashboard> {
                                           setState(() {
                                             _selectedIndex = 0;
                                           });
+                                          getPackage();
                                         },
                                         child: Container(
                                           child: FaIcon(FontAwesomeIcons.house,
@@ -2593,6 +2690,7 @@ class _DashboardState extends State<Dashboard> {
                                   setState(() {
                                     _selectedIndex = 0;
                                   });
+                                  getPackage();
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 10),
@@ -2631,6 +2729,7 @@ class _DashboardState extends State<Dashboard> {
                                           setState(() {
                                             _selectedIndex = 0;
                                           });
+                                          getPackage();
                                         },
                                         child: Container(
                                           child: FaIcon(FontAwesomeIcons.house,
@@ -5033,6 +5132,7 @@ class _DashboardState extends State<Dashboard> {
               _selectedIndex = 0;
               _bottomNavIndex = 0;
             });
+            getPackage();
           } else if (index == 1) {
             setState(() {
               _selectedIndex = 1;
@@ -5097,12 +5197,5 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
     );
-  }
-
-  @override
-  initState() {
-    super.initState();
-    finalbalance = widget.finalbalance;
-    pendingbalance = widget.pendingbalance;
   }
 }
