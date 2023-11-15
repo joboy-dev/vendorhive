@@ -56,6 +56,19 @@ class ProductTag {
   ProductTag({required this.id, required this.tag});
 }
 
+class DeliveryPlan {
+  String id = "";
+  String deliveryPlan = "";
+  String deliveryPrice = "";
+  String deliveryTime = "";
+
+  DeliveryPlan({
+    required this.id,
+    required this.deliveryPlan,
+    required this.deliveryPrice,
+    required this.deliveryTime});
+}
+
 class ServiceTags {
   String id = "";
   String tag = "";
@@ -239,6 +252,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   List<ProductTag> producttags = [];
+  List<DeliveryPlan> deliverySchedule = [];
   List<ServiceTags> servicetags = [];
   List<String> lastmsg = [];
   List<Chatdetails> chatdetails = [];
@@ -256,6 +270,10 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController _proddesc = new TextEditingController();
   TextEditingController _prodprice = new TextEditingController();
   TextEditingController _proddeliveryprice = new TextEditingController();
+  TextEditingController _deliveryPlan = new TextEditingController();
+  TextEditingController _deliveryPrice = new TextEditingController();
+  TextEditingController _deliveryTime = new TextEditingController();
+
   TextEditingController _numberofdays = new TextEditingController();
 
   TextEditingController _servicename = new TextEditingController();
@@ -505,6 +523,38 @@ class _DashboardState extends State<Dashboard> {
           'pidname': pidname,
           'useremail': widget.useremail,
         });
+
+    //add delivery plan
+    for(int i = 0; i < deliverySchedule.length; i++){
+        var deliveryplan = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendordeliveryplan.php'),
+          body: {
+            'idname': widget.idname,
+            'useremail': widget.useremail,
+            'pidname': pidname,
+            'plan': deliverySchedule[i].deliveryPlan,
+            'price':  deliverySchedule[i].deliveryPrice.replaceAll(",", ""),
+            'time': deliverySchedule[i].deliveryTime,
+          });
+
+        if (deliveryplan.statusCode == 200) {
+          if (jsonDecode(deliveryplan.body) == "true") {
+            print(deliverySchedule[i].deliveryPlan + " is added");
+            setState(() {
+              appproductstatus = deliverySchedule[i].deliveryPlan + " is registered";
+            });
+          } else {
+            print(deliverySchedule[i].deliveryPlan + " did not register");
+            setState(() {
+              appproductstatus = deliverySchedule[i].deliveryPlan + " did not register";
+            });
+          }
+        } else {
+          print('Network Issues');
+
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Network Issues')));
+        }
+    }
 
     try {
       //product details
@@ -3621,12 +3671,13 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-
+                          //product delivery price text
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
                             child: Text("Delivery price"),
                           ),
+                          //product delivery price textfield
                           Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: TextField(
@@ -3645,11 +3696,13 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
+                          //product days of delivery text
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
                             child: Text("Number of days for delivery"),
                           ),
+                          //product days of delivery textfield
                           Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: Row(
@@ -3678,10 +3731,12 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ),
                           ),
+                          //product delivery option text
                           Container(
                             margin: EdgeInsets.only(left: 10, top: 20),
                             child: Text("Delivery Options"),
                           ),
+                          //product delivery option dropdown
                           Container(
                             margin:
                                 EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -3745,11 +3800,13 @@ class _DashboardState extends State<Dashboard> {
                                           true, //make true to make width 100%
                                     ))),
                           ),
+                          //product attach text
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
                             child: Text("Attach"),
                           ),
+                          //product upload images
                           Container(
                             height: 150,
                             child: ListView(
@@ -3882,11 +3939,13 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ),
                           ),
+                          //product tags text
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
                             child: Text("Tags"),
                           ),
+                          //product tags textfield
                           Container(
                             margin:
                                 EdgeInsets.only(top: 5, left: 10, right: 10),
@@ -3921,6 +3980,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
+                          //view products tags inputed
                           Container(
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(229, 228, 226, 1),
@@ -3964,13 +4024,15 @@ class _DashboardState extends State<Dashboard> {
                               ]),
                             ),
                           ),
-                              Container(
+                          //product product location text
+                          Container(
                                 margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                                child: Text("Location"),
+                                child: Text("Product Location"),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                          //product product location dropdown
+                          Container(
+                                margin: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 10),
                                 child: DecoratedBox(
                                     decoration: BoxDecoration(
                                       color: Colors.grey,
@@ -4309,9 +4371,296 @@ class _DashboardState extends State<Dashboard> {
                                         )
                                     )),
                               ),
+                          Divider(),
+                          //set delivery price header
+                          Container(
+                                margin:
+                                EdgeInsets.only(top: 10, left: 10, bottom: 10,right: 10),
+                                padding: EdgeInsets.only(top: 10,bottom: 10),
+                                child: Center(
+                                  child: Text("Set Delivery price",style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                  ),),
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: Colors.grey[100],
+                                ),
+                              ),
+                          //delivery plan text
+                          Container(
+                                margin:
+                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                                child: Text("Delivery Plan"),
+                              ),
+                          //delivery plan textfield
+                          Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: TextField(
+                                  controller: _deliveryPlan,
+                                  keyboardType: TextInputType.text,
+                                  // inputFormatters: [
+                                  //   ThousandsFormatter(allowFraction: true)
+                                  // ],
+                                  decoration: InputDecoration(
+                                    hintText: "E.g within Lagos, Outside Ibadan",
+                                    hintStyle: TextStyle(
+                                        color: Colors.grey[400]
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: .5, color: Colors.grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: .5, color: Colors.grey)),
+                                  ),
+                                ),
+                              ),
+                          //delivery price text
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                            child: Text("Delivery Price"),
+                          ),
+                          //delivery price textfield
+                          Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: TextField(
+                              controller: _deliveryPrice,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                ThousandsFormatter(allowFraction: true)
+                              ],
+                              decoration: InputDecoration(
+                                hintText: "E.g 2,500",
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400]
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: .5, color: Colors.grey)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: .5, color: Colors.grey)),
+                              ),
+                            ),
+                          ),
+                          //delivery estimated delivery time text
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                            child: Text("Estimated Delivery Time"),
+                          ),
+                          //delivery estimated delivery time textfield
+                          Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: _deliveryTime,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          hintText: "E.g 3 or 14 or 31",
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey[400]
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: .5, color: Colors.grey)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: .5, color: Colors.grey)),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        "days",
+                                        style: TextStyle(fontSize: 14.sp),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                          //Add delivery plan button
+                          GestureDetector(
+                                onTap: () {
+                                  if(_deliveryPlan.text.isNotEmpty && _deliveryPrice.text.isNotEmpty &&
+                                  _deliveryTime.text.isNotEmpty){
+
+                                    var rand = Random();
+                                    int id = rand.nextInt(1000000000);
+                                    print("Delivery Plan");
+                                    setState(() {
+
+                                      deliverySchedule.add(DeliveryPlan(
+                                        id: id.toString(),
+                                        deliveryPlan: _deliveryPlan.text,
+                                        deliveryPrice: _deliveryPrice.text,
+                                        deliveryTime: _deliveryTime.text,
+                                      ));
+
+                                      _deliveryPlan.clear();
+                                      _deliveryPrice.clear();
+                                      _deliveryTime.clear();
+
+                                    });
+
+                                  }
+                                  else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.grey[200],
+                                          content: Text("Fill all Delivery fields!",style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red
+                                      ),))
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                      // color: Color.fromRGBO(246, 123, 55, 1),
+                                    color: Colors.green[900],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                        "Add Delivery Plan",
+                                        style: TextStyle(
+                                            color: Colors.amber,
+                                            fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                      )),
+                                ),
+                              ),
+                          // view inputed delivery plans
+                          for (int i = 0; i < deliverySchedule.length; i++)
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(229, 228, 226, 1),
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              margin: EdgeInsets.only(
+                                  left: 10, top: 3.5, bottom: 3.5,right: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                            text: "No: ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: (i+1).toString(),
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.normal
+                                                ),
+                                              )
+                                            ]
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              deliverySchedule.removeWhere((a) =>
+                                              a.id == deliverySchedule[i].id);
+                                            });
+                                          },
+                                          child: Container(
+                                              padding:
+                                              EdgeInsets.only(left: 8),
+                                              child: Icon(
+                                                Icons.cancel,
+                                                size: 20,
+                                              ))),
+                                    ],
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: "Delivery Plan: ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: deliverySchedule[i].deliveryPlan,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          )
+                                        ]
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: "Delivery Price: ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: "₦ "+deliverySchedule[i].deliveryPrice,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          )
+                                        ]
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: "Estimated Delivery Time: ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text: deliverySchedule[i].deliveryTime+" days",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.normal
+                                              )
+                                          )
+                                        ]
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          Divider(),
                           GestureDetector(
                             onTap: () {
-                              addproducts();
+                              if(_prodname.text.isNotEmpty &&
+                              _proddesc.text.isNotEmpty &&
+                              _prodprice.text.isNotEmpty && 
+                              _proddeliveryprice.text.isNotEmpty &&
+                              _numberofdays.text.isNotEmpty && deliverySchedule.length > 0){
+                                addproducts();
+                              }else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Ensure to Fill all fields",style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontWeight: FontWeight.bold
+                                  ),))
+                                );
+                              }
                             },
                             child: Container(
                               margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
@@ -4321,9 +4670,10 @@ class _DashboardState extends State<Dashboard> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                "NEXT",
+                                "ADD PRODUCT",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 17),
+                                    color: Colors.white, fontSize: 17,
+                                    fontWeight: FontWeight.bold),
                               )),
                             ),
                           ),

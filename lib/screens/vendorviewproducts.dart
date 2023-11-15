@@ -172,6 +172,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                return DeleteProduct(
                                  productname: rawproducts[index]['productname'],
                                  pidname: rawproducts[index]['pidname'],
+                                 payment_option: rawproducts[index]['paymentoption'],
                                  email: widget.adminemail,
                                  productimg: rawproducts[index]['productimg'],
                                  productPrice: rawproducts[index]['productprice'],
