@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:vendorandroid/screens/welcome.dart';
 
+
 class ViewProduct extends StatefulWidget {
   String idname = "";
   String username = "";
@@ -49,9 +50,60 @@ class _ViewProductState extends State<ViewProduct> {
   bool showlist = false;
   bool showrating = false;
   double finalratings = 0.0;
+  String drop = "";
+  String deliveryprice = "";
+  String deliverydays = "";
+  String deliveryplan = "";
 
   List rawservice = [];
   List<String> productsimg = [];
+
+  List<DropdownMenuItem<String>> dropdownItems = [];
+  List items = [];
+
+  Future get_delivery_method() async{
+
+      print("============");
+      print(widget.prodid);
+      print("============");
+
+      var response = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorgetdeliveryplan.php'),
+          body: {
+            'pidname': widget.prodid,
+          });
+
+      print("============");
+      print(response.statusCode);
+      print("============");
+
+      if(response.statusCode == 200){
+
+        print("============");
+        print(jsonDecode(response.body));
+        print("============");
+
+        setState(() {
+          items = jsonDecode(response.body);
+          drop = items[0]['price']+"==="+items[0]['days']+"==="+items[0]['plan'];
+          deliveryprice = items[0]['price'];
+          deliverydays = items[0]['days'];
+          deliveryplan = items[0]['plan'];
+        });
+
+        dropdownItems = List.generate(
+          items.length,
+              (index) => DropdownMenuItem(
+            value: items[index]['price']+"==="+items[index]['days']+"==="+items[index]['plan'],
+            child: Text(
+              items[index]['plan'],
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
+        );
+
+      }
+  }
 
   Future productimages() async {
     setState(() {
@@ -113,10 +165,203 @@ class _ViewProductState extends State<ViewProduct> {
     }
   }
 
+  void selectDeliverymethod(){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled:true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        ),
+        builder: (context){
+          return StatefulBuilder(builder: (context, setState){
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Center(
+                        child: Text("Select a Delivery Method for "+widget.name,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),textAlign: TextAlign.center,),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20,left: 20,right: 20),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton<String>(
+                                items: dropdownItems,
+                                value: drop,
+                                onChanged: (value) {
+                                  setState(() {
+                                    drop = value!;
+                                    print("======");
+                                    print("You have selected $value");
+                                    print("======");
+                                    final names= drop;
+                                    final splitNames= names.split('===');
+
+                                    for (int i = 0; i < splitNames.length; i++){
+                                      print(splitNames[i]);
+                                      deliveryprice = splitNames[0];
+                                      deliverydays = splitNames[1];
+                                      deliveryplan = splitNames[2];
+                                    }
+
+                                    print("====================");
+                                    print(widget.prodid);
+                                    print("Delivery plan = "+deliveryplan);
+                                    print("Delivery price = "+deliveryprice);
+                                    print("Delivery Days = "+deliverydays);
+                                    print("====================");
+                                  });
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              ))),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Delivery Price :- "+deliveryprice,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                          ),),
+                          Text("Delivery Days :- "+deliverydays+" days",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold
+                            ),),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        addCartItem();
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.transparent
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromRGBO(246, 123, 55, 1)
+                        ),
+                        child: Center(
+                          child: Text("Filter",style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2000,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+        }
+    );
+  }
+
+  addCartItem(){
+    setState(() {
+      var rng = Random();
+      int id = rng.nextInt(2000000000);
+      print(id);
+
+      for (int o = 0; o < cartitems.length; o++) {
+        print(cartitems[o].id);
+        while (id == cartitems[o].id) {
+          id = rng.nextInt(2000000000);
+          print("another id $id");
+        }
+      }
+
+      print(id);
+      print(widget.name);
+      print(widget.amount);
+      print(widget.imagename);
+      print(widget.prodid);
+      print(widget.deliveryprice);
+      print(widget.location);
+
+      cartitems.add(Cart(
+          id: id,
+          name: widget.name,
+          quantity: 1,
+          amount:
+          double.parse(widget.amount.replaceAll(',', '')),
+          imagename: widget.imagename,
+          prodid: widget.prodid,
+          adminemail: widget.adminemail,
+          deliveryprice: widget.deliveryprice,
+          location: widget.location));
+
+      print("Item added cart");
+    });
+
+    ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+      content: Text('Item added to cart'),
+    ));
+  }
+
   @override
   initState() {
     super.initState();
-
+    get_delivery_method();
     productimages();
     loadratings();
   }
@@ -265,45 +510,7 @@ class _ViewProductState extends State<ViewProduct> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        var rng = Random();
-                        int id = rng.nextInt(2000000000);
-                        print(id);
-
-                        for (int o = 0; o < cartitems.length; o++) {
-                          print(cartitems[o].id);
-                          while (id == cartitems[o].id) {
-                            id = rng.nextInt(2000000000);
-                            print("another id $id");
-                          }
-                        }
-
-                        print(id);
-                        print(widget.name);
-                        print(widget.amount);
-                        print(widget.imagename);
-                        print(widget.prodid);
-                        print(widget.deliveryprice);
-                        print(widget.location);
-
-                        cartitems.add(Cart(
-                            id: id,
-                            name: widget.name,
-                            quantity: 1,
-                            amount:
-                                double.parse(widget.amount.replaceAll(',', '')),
-                            imagename: widget.imagename,
-                            prodid: widget.prodid,
-                            adminemail: widget.adminemail,
-                            deliveryprice: widget.deliveryprice,
-                            location: widget.location));
-
-                        print("Item added cart");
-                      });
-
-                      ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-                        content: Text('Item added to cart'),
-                      ));
+                      selectDeliverymethod();
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 20, left: 10, right: 10),
@@ -407,6 +614,7 @@ class _ViewProductState extends State<ViewProduct> {
                 )),
               ),
             ),
+            const SizedBox(height: 20,),
           ],
         ),
       ),
