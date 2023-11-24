@@ -146,7 +146,9 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                         'adminemail': cartitems[o].adminemail,
                         'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
                         'deliveryprice' : cartitems[o].deliveryprice.toString(),
-                        'quantity' : cartitems[o].quantity.toString()
+                        'quantity' : cartitems[o].quantity.toString(),
+                        'deliveryplan': cartitems[o].deliveryplan,
+                        'deliveryday' : cartitems[o].deliverydays
                       }
                   );
 
@@ -265,7 +267,10 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
 
             ScaffoldMessenger.of(this.context).showSnackBar(
                 SnackBar(
-                  content: Text('Wrong pin'),
+                  content: Text('Wrong pin',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
+                  ),),
                 ));
 
           }
@@ -291,7 +296,6 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
         print("get balance issues ${getbalance.statusCode}");
 
       }
-
     }
     catch(e){
 
@@ -513,7 +517,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Container(
-                                  child: Text("Edit",
+                                  child: Text("Amount",
                                     style: TextStyle(
                                         fontSize: MediaQuery.of(context).size.width/25,
                                         color: Colors.greenAccent,

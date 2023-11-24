@@ -8,6 +8,9 @@ class Cart{
   String adminemail = "";
   double deliveryprice = 0;
   String location = "";
+  String deliveryplan = "";
+  String deliverydays = "";
+
   Cart({required this.id,
     required this.name,
     required this.amount,
@@ -16,7 +19,9 @@ class Cart{
     required this.prodid,
     required this.adminemail,
     required this.deliveryprice,
-    required this.location});
+    required this.location,
+    required this.deliveryplan,
+    required this.deliverydays});
 }
 
 List<Cart> cartitems = [

@@ -127,6 +127,7 @@ class _WelcomeState extends State<Welcome> {
   String productfilter = "-";
   String servicefilter = "-";
   String service_payment_option = "-";
+
   TextEditingController _Controller = new TextEditingController();
   TextEditingController _serviceController = new TextEditingController();
   TextEditingController _priceFrom = new TextEditingController();
@@ -137,10 +138,12 @@ class _WelcomeState extends State<Welcome> {
   List<String> lastmsg = [];
   List<String> servicenamelist = [];
   List<String> adminemaillist = [];
+  List<String> adminusername = [];
   List<String> chatcontactlist = [];
   List<String> appcontactlist = [];
 
   Future chatcontact() async {
+
     setState(() {
       showcontactlist = false;
     });
@@ -157,6 +160,7 @@ class _WelcomeState extends State<Welcome> {
       appcontactlist.clear();
       lastmsg.clear();
       adminemaillist.clear();
+      adminusername.clear();
       servicenamelist.clear();
       unreadmsgscust.clear();
 
@@ -176,10 +180,17 @@ class _WelcomeState extends State<Welcome> {
       int move = 0;
 
       for (int o = 0; o < appcontactlist.length; o++) {
+
         var adminemail = await http.post(
             Uri.https('adeoropelumi.com', 'vendor/vendorgetadminemailcust.php'),
             body: {
               'sidname': appcontactlist[o],
+            });
+
+        var admingetusername = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/vendorgetamdinusernamecust.php'),
+            body: {
+              'adminemail': jsonDecode(adminemail.body),
             });
 
         var servicename = await http.post(
@@ -207,9 +218,11 @@ class _WelcomeState extends State<Welcome> {
           print(appcontactlist[o]);
           print(jsonDecode(servicename.body));
           print(jsonDecode(adminemail.body));
+          print(jsonDecode(admingetusername.body));
           print(jsonDecode(getlastmsg.body));
           print(jsonDecode(unread.body));
           adminemaillist.add(jsonDecode(adminemail.body));
+          adminusername.add(jsonDecode(admingetusername.body));
           servicenamelist.add(jsonDecode(servicename.body));
           lastmsg.add(jsonDecode(getlastmsg.body));
           unreadmsgscust.add(jsonDecode(unread.body).toString());
@@ -224,6 +237,7 @@ class _WelcomeState extends State<Welcome> {
         });
       }
     }
+
   }
 
   Future viewproduct() async {
@@ -3489,12 +3503,16 @@ class _WelcomeState extends State<Welcome> {
                                             alignment: Alignment.centerRight,
                                             child: Container(
                                               child: Text(
-                                                "Enter Shipping Address ",
+                                                "₦" +
+                                                    "${deliverysum-totalsum}"
+                                                        .replaceAllMapped(
+                                                    RegExp(
+                                                        r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                        (Match m) =>
+                                                    '${m[1]},'),
                                                 style: TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 12,
-                                                    decoration: TextDecoration
-                                                        .underline),
+                                                    fontSize: 12,),
                                               ),
                                             ),
                                           ),
@@ -3705,7 +3723,7 @@ class _WelcomeState extends State<Welcome> {
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return ServiceMsg(
-                                                      username: widget.username,
+                                                      username: adminusername[index],
                                                       adminemail:
                                                           adminemaillist[index],
                                                       servicename:

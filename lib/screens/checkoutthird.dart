@@ -90,20 +90,18 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
-                        ),
-                        width: MediaQuery.of(context).size.width/13,
-                        height: MediaQuery.of(context).size.width/13,
-                        child: Center(
-                          child: Text("1",style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width/23,
-                              color: Colors.white
-                          ),),
-                        ),
-                      )
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
+                    ),
+                    width: MediaQuery.of(context).size.width/13,
+                    height: MediaQuery.of(context).size.width/13,
+                    child: Center(
+                      child: Text("1",style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/23,
+                          color: Colors.white
+                      ),),
+                    ),
                   ),
                   Expanded(child: Container(
                     margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/60,),
@@ -118,20 +116,18 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                     ),),
                   ),
                   Container(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
-                        ),
-                        width: MediaQuery.of(context).size.width/13,
-                        height: MediaQuery.of(context).size.width/13,
-                        child: Center(
-                          child: Text("2",style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width/23,
-                              color: Colors.white
-                          ),),
-                        ),
-                      )
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
+                    ),
+                    width: MediaQuery.of(context).size.width/13,
+                    height: MediaQuery.of(context).size.width/13,
+                    child: Center(
+                      child: Text("2",style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/23,
+                          color: Colors.white
+                      ),),
+                    ),
                   ),
                   Expanded(child: Container(
                     margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/60,),
@@ -146,20 +142,18 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                     ),),
                   ),
                   Container(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
-                        ),
-                        width: MediaQuery.of(context).size.width/13,
-                        height: MediaQuery.of(context).size.width/13,
-                        child: Center(
-                          child: Text("3",style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width/23,
-                              color: Colors.white
-                          ),),
-                        ),
-                      )
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/23,)
+                    ),
+                    width: MediaQuery.of(context).size.width/13,
+                    height: MediaQuery.of(context).size.width/13,
+                    child: Center(
+                      child: Text("3",style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width/23,
+                          color: Colors.white
+                      ),),
+                    ),
                   ),
                   Expanded(child: Container(
                     margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/60,),
@@ -175,7 +169,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
               padding: EdgeInsets.zero,
               children:[
                 Container(
-                  margin: EdgeInsets.only(left: 10,top: 10),
+                  margin: EdgeInsets.only(left: 10,top: 10,right: 10),
                   child: Text("Please confirm and submit your order",
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width/18,
@@ -216,7 +210,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Container(
-                                child: Text("Edit",
+                                child: Text("Amount",
                                   style: TextStyle(
                                       fontSize: MediaQuery.of(context).size.width/25,
                                       color: Colors.greenAccent,
@@ -289,7 +283,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Container(
-                                  child: Text("Edit",style: TextStyle(
+                                  child: Text("Details",style: TextStyle(
                                       fontSize: MediaQuery.of(context).size.width/25,
                                       color: Colors.greenAccent,
                                       fontWeight: FontWeight.w500

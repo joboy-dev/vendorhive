@@ -194,6 +194,8 @@ class _ViewProductState extends State<ViewProduct> {
                           ),textAlign: TextAlign.center,),
                       ),
                     ),
+                    const SizedBox(height: 10,),
+                    Divider(),
                     Container(
                       margin: EdgeInsets.only(top: 20,left: 20,right: 20),
                       child: DecoratedBox(
@@ -277,6 +279,8 @@ class _ViewProductState extends State<ViewProduct> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10,),
+                    Divider(),
                     const SizedBox(
                       height: 20,
                     ),
@@ -296,9 +300,9 @@ class _ViewProductState extends State<ViewProduct> {
                             color: Color.fromRGBO(246, 123, 55, 1)
                         ),
                         child: Center(
-                          child: Text("Filter",style: TextStyle(
+                          child: Text("Add to Cart",style: TextStyle(
                               fontSize: 16,
-                              color: Colors.white,
+                              color: Colors.green[900],
                               fontWeight: FontWeight.bold
                           ),),
                         ),
@@ -318,6 +322,7 @@ class _ViewProductState extends State<ViewProduct> {
 
   addCartItem(){
     setState(() {
+
       var rng = Random();
       int id = rng.nextInt(2000000000);
       print(id);
@@ -342,15 +347,18 @@ class _ViewProductState extends State<ViewProduct> {
           id: id,
           name: widget.name,
           quantity: 1,
-          amount:
-          double.parse(widget.amount.replaceAll(',', '')),
+          amount: double.parse(widget.amount.replaceAll(',', '')),
           imagename: widget.imagename,
           prodid: widget.prodid,
           adminemail: widget.adminemail,
-          deliveryprice: widget.deliveryprice,
-          location: widget.location));
+          deliveryprice: double.parse(deliveryprice),
+          location: widget.location,
+          deliveryplan: deliveryplan,
+          deliverydays: deliverydays
+      ));
 
       print("Item added cart");
+
     });
 
     ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
@@ -510,7 +518,14 @@ class _ViewProductState extends State<ViewProduct> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      selectDeliverymethod();
+                      if(items.length > 0){
+                        selectDeliverymethod();
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Processing, please try again"))
+                        );
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 20, left: 10, right: 10),

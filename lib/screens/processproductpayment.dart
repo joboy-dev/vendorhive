@@ -84,7 +84,9 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
               'adminemail': cartitems[o].adminemail,
               'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
               'deliveryprice' : cartitems[o].deliveryprice.toString(),
-              'quantity' : cartitems[o].quantity.toString()
+              'quantity' : cartitems[o].quantity.toString(),
+              'deliveryplan': cartitems[o].deliveryplan,
+              'deliveryday' : cartitems[o].deliverydays
             }
         );
 

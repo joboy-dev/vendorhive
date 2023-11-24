@@ -704,6 +704,7 @@ class _CheckoutState extends State<Checkout> {
                                             isExpanded: true, //make true to make width 100%
                                           ))),
                                 ),
+
                                 GestureDetector(
                                   onTap: () {
                                     if (_fname.text.isEmpty ||

@@ -20,6 +20,7 @@ class CheckoutSecond extends StatefulWidget {
   String state = "";
   String idname = "";
   String useremail = "";
+
   CheckoutSecond({required this.totalamount,required this.totalamountplusdelivery,
   required this.fullname, required this.phonenumber,required this.streetaddress,
   required this.state,required this.idname, required this.useremail});
@@ -28,13 +29,9 @@ class CheckoutSecond extends StatefulWidget {
   _CheckoutSecondState createState() => _CheckoutSecondState();
 }
 
-enum Fruit {
-  apple,
-  banana
-}
+
 class _CheckoutSecondState extends State<CheckoutSecond> {
-  int amount = 60350;
-  Fruit? _fruit = Fruit.apple;
+
   String paymentmethod = "wallet";
 
   @override
@@ -194,19 +191,13 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                   ),),
                 ),
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 10,top: 5,bottom: 5),
-                        child: Text("₦"+"${widget.totalamountplusdelivery}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey
-                        ),),
-                      )
-                    ],
-                  ),
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(right: 10,top: 5,bottom: 5),
+                  child: Text("₦"+"${widget.totalamountplusdelivery}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey
+                    ),),
                 ),
                 GestureDetector(
                   onTap: (){
