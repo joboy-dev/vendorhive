@@ -174,7 +174,8 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                       body: {
                         'message': cartitems[o].name+" has being ordered",
                         'info': cartitems[o].adminemail,
-                        'tag': 'product',
+                        'tag': 'Product',
+                        'quantity' : cartitems[o].quantity.toString(),
                         'refno':trfid
                       }
                   );

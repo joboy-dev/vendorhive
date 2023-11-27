@@ -112,7 +112,8 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
             body: {
               'message': cartitems[o].name+" has being ordered",
               'info': cartitems[o].adminemail,
-              'tag': 'product',
+              'tag': 'Product',
+              'quantity' : cartitems[o].quantity.toString(),
               'refno': trfid,
             }
         );

@@ -4353,10 +4353,10 @@ class _WelcomeState extends State<Welcome> {
           BottomNavigationBarItem(
               icon: CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 13,
-                  backgroundColor: Color.fromRGBO(246, 123, 55, 1),
+                  backgroundColor: _selectedIndex == 2 ? Color(0xffFFE0B1): Color.fromRGBO(246, 123, 55, 1),
                   child: FaIcon(
                     FontAwesomeIcons.cartShopping,
-                    color: _selectedIndex == 2 ? Colors.green : Colors.white,
+                    color: _selectedIndex == 2 ? Colors.green[900] : Colors.white,
                     size: MediaQuery.of(context).size.width / 13,
                   )),
               label: ''),

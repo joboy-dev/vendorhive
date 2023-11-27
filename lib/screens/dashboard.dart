@@ -557,6 +557,7 @@ class _DashboardState extends State<Dashboard> {
     }
 
     try {
+
       //product details
       final addproducts = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/vendoraddproduct.php'),
@@ -580,6 +581,7 @@ class _DashboardState extends State<Dashboard> {
           if (jsonDecode(addproducts.body) == "product added") {
             setState(() {
               _selectedpage = 0;
+              deliverySchedule.clear();
             });
 
             Navigator.pushAndRemoveUntil(context,
@@ -4644,49 +4646,49 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                          Divider(),
-                          GestureDetector(
-                            onTap: () {
-                              if(_prodname.text.isNotEmpty &&
-                              _proddesc.text.isNotEmpty &&
-                              _prodprice.text.isNotEmpty && 
-                              _proddeliveryprice.text.isNotEmpty &&
-                              _numberofdays.text.isNotEmpty && deliverySchedule.length > 0){
-                                addproducts();
-                              }else{
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Ensure to Fill all fields",style: TextStyle(
-                                    color: Colors.yellow,
-                                    fontWeight: FontWeight.bold
-                                  ),))
-                                );
-                              }
-                            },
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                              padding: EdgeInsets.symmetric(vertical: 18),
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(246, 123, 55, 1),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                "ADD PRODUCT",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Center(
-                              child: Text(
-                                appproductstatus,
-                                style: TextStyle(
-                                    fontStyle: FontStyle.italic, fontSize: 13),
+                            Divider(),
+                            GestureDetector(
+                              onTap: () {
+                                if(_prodname.text.isNotEmpty &&
+                                _proddesc.text.isNotEmpty &&
+                                _prodprice.text.isNotEmpty &&
+                                _proddeliveryprice.text.isNotEmpty &&
+                                _numberofdays.text.isNotEmpty && deliverySchedule.length > 0){
+                                  addproducts();
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Ensure to Fill all fields",style: TextStyle(
+                                      color: Colors.yellow,
+                                      fontWeight: FontWeight.bold
+                                    ),))
+                                  );
+                                }
+                              },
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                padding: EdgeInsets.symmetric(vertical: 18),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(246, 123, 55, 1),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(
+                                    child: Text(
+                                  "ADD PRODUCT",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                )),
                               ),
                             ),
-                          )
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: Center(
+                                child: Text(
+                                  appproductstatus,
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic, fontSize: 13),
+                                ),
+                              ),
+                            )
                         ]))
                       ] else if (_selectedIndex == 5) ...[
                         //Add service
