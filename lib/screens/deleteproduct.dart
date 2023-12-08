@@ -8,6 +8,7 @@ import 'package:vendorandroid/screens/successdeleteproduct.dart';
 import 'faileddelete.dart';
 
 class DeleteProduct extends StatefulWidget {
+  
   String pidname = "";
   String email = "";
   String productimg = "";

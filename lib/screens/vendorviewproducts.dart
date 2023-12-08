@@ -18,7 +18,8 @@ class MyProducts{
 class VendorViewProducts extends StatefulWidget {
   String adminemail = "";
   String idname = "";
-  VendorViewProducts({required this.adminemail,required this.idname});
+  String username = "";
+  VendorViewProducts({required this.adminemail,required this.idname,required this.username});
 
   @override
   _VendorViewProductsState createState() => _VendorViewProductsState();
@@ -123,7 +124,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
         child: SafeArea(
           child: Column(
             children: [
-
+              //header and back button
               Container(
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(217, 217, 217, .5),
@@ -154,7 +155,93 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                     ],
                   )
               ),
-
+              //picture + business name + call + menu button
+              Container(
+                  margin:EdgeInsets.only(left: 10,right: 10,top: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/vendo.png")
+                        ),
+                        border:Border.all(
+                          color: Colors.transparent
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.lime[100],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.username,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                            Text(widget.username+" shop in Lagos",
+                            style: TextStyle(
+                              fontSize: 9,
+                            ),)
+                          ],
+                        )
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.lime[100],
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Icon(Icons.phone,size: 15,color: Colors.black,),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                          color: Colors.lime[100],
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Icon(Icons.more_horiz,size: 15,color: Colors.black,),
+                    )
+                  ],
+                )
+              ),
+              //Brief Explanation
+              Container(
+                margin:EdgeInsets.only(left: 10,right: 10,top: 10),
+                child: Text("Lorem ipsum dolor sit amet consectetur. In a blandit amet volutpat sed aliquam. Vitae augue sed arcu sit lacus eu varius dictum habitant. Facilisi mauris nec tincidunt est. Eget nibh urna ultrices at sit. Non vitae hac tempor eget mattis felis. Scelerisque aliquam mauris amet vitae proin a turpis diam aliquam. Lorem eget eget risus mauris aliquam erat accumsan ac. Amet molestie nibh molestie nisl. Dui aenean vulputate sit turpis sem. Sapien ac tellus quam senectus viverra lorem. Vitae diam ut massa arcu sit aliquam.",
+                style: TextStyle(
+                  fontSize: 9
+                ),),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                  borderRadius: BorderRadius.circular(5)
+                ),
+                child: Center(
+                  child: Text("Send Message",style: TextStyle(
+                    color: Colors.white
+                  ),),
+                ),
+              ),
+              //products
               Flexible(
                   child:
                  _selectedPage == 0 ?
@@ -162,9 +249,13 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                  rawproducts.length > 0 ?
                  RefreshIndicator(
                    onRefresh: getproducts,
-                   child: ListView.builder(
+                   child: GridView.builder(
                        padding: EdgeInsets.zero,
                        itemCount: rawproducts.length,
+                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                         crossAxisCount: 2,
+                         childAspectRatio: .7
+                       ),
                        itemBuilder: (context,index){
                          return GestureDetector(
                            onTap: (){
@@ -181,15 +272,17 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                              }));
                            },
                            child: Container(
-                             padding: EdgeInsets.only(top: 10,bottom: 10,left: 10),
-                             margin:EdgeInsets.only(left: 10,top: 10,right: 10),
+                             // padding: EdgeInsets.only(top: 10,bottom: 10),
+                             margin:EdgeInsets.only(left: 10,right: 10,top: 10),
                              decoration: BoxDecoration(
-                                 color: Color.fromRGBO(229, 228, 226, 1)
+                                 color: Color.fromRGBO(229, 228, 226, 1),
+                               borderRadius: BorderRadius.circular(5)
                              ),
-                             child: Row(
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
                                children: [
-                                 Container(
-                                   width: MediaQuery.of(context).size.width/8,
+                                 AspectRatio(
+                                   aspectRatio: 1,
                                    child: FadeInImage(
                                      image: NetworkImage(
                                        "https://adeoropelumi.com/vendor/productimage/" +
@@ -212,36 +305,31 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                      BoxFit.fitWidth,
                                    ),
                                  ),
-                                 Expanded(
-                                   child: Container(
-                                     margin:EdgeInsets.only(left: 10,right: 10),
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.end,
-                                       children: [
-                                         Container(
-                                           child: Text(rawproducts[index]['productname'],
-                                             textAlign: TextAlign.end,
-                                             style: TextStyle(
-                                                 fontWeight: FontWeight.w500,
-                                                 fontSize: MediaQuery.of(context).size.width/24
-                                             ),
+                                 Spacer(),
+                                 Container(
+                                   padding: EdgeInsets.symmetric(horizontal: 2),
+                                   child: Row(
+                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                     children: [
+                                       Container(
+                                         child: Text(rawproducts[index]['productname'],
+                                           style: TextStyle(
+                                               fontWeight: FontWeight.w500,
+                                               fontSize: 15
                                            ),
                                          ),
-                                         SizedBox(
-                                           height: 5,
-                                         ),
-                                         Container(
-                                           child: Text("₦"+rawproducts[index]['productprice'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                             textAlign: TextAlign.end,
-                                             style: TextStyle(
-                                               fontSize: MediaQuery.of(context).size.width/26
-                                             ),
+                                       ),
+
+                                       Container(
+                                         child: Text("₦"+rawproducts[index]['productprice'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                           style: TextStyle(
+                                               fontSize: 14
                                            ),
-                                         )
-                                       ],
-                                     ),
+                                         ),
+                                       )
+                                     ],
                                    ),
-                                 )
+                                 ),
                                ],
                              ),
                            ),

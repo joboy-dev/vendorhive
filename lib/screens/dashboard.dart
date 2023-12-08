@@ -136,6 +136,8 @@ class _DashboardState extends State<Dashboard> {
   int numberofproduct = 0;
   int numberofservice = 0;
 
+  bool getlogo = false;
+
   File? produploadimage;
   File? produploadimage2;
   File? produploadimage3;
@@ -262,6 +264,7 @@ class _DashboardState extends State<Dashboard> {
   List<String> servicenamelist = [];
   List<String> chatcontactlist = [];
   List<String> appcontactlist = [];
+  List vendorgettinglogo = [];
 
   TextEditingController products = new TextEditingController();
   TextEditingController service = new TextEditingController();
@@ -1406,6 +1409,7 @@ class _DashboardState extends State<Dashboard> {
                         return VendorViewProducts(
                           idname: widget.idname,
                           adminemail: widget.useremail,
+                          username: widget.username
                         );
                       }));
                     },
@@ -1815,12 +1819,33 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  Future vendorgetlogo() async{
+    final gettinglogo = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorgetlogo.php'),
+    body: {
+      'useremail' : widget.useremail
+    });
+    if(gettinglogo.statusCode == 200){
+      setState(() {
+        vendorgettinglogo = jsonDecode(gettinglogo.body);
+        getlogo = true;
+      });
+      print(jsonDecode(gettinglogo.body));
+      print(vendorgettinglogo[0]["logoname"]);
+    }else{
+      print("Error Getting Image");
+      setState(() {
+        getlogo = false;
+      });
+    }
+  }
+
   @override
   initState() {
     super.initState();
     getPackage();
     finalbalance = widget.finalbalance;
     pendingbalance = widget.pendingbalance;
+    vendorgetlogo();
   }
 
   @override
@@ -1917,17 +1942,15 @@ class _DashboardState extends State<Dashboard> {
 
                                       GestureDetector(
                                         onTap: () {
-                                          // Navigator.push(context,
-                                          //     MaterialPageRoute(builder: (context) {
-                                          //       return Notifications(
-                                          //         email: widget.useremail,
-                                          //       );
-                                          //     }));
+                                          vendorgetlogo();
                                         },
                                         child: CircleAvatar(
                                           backgroundColor: Colors.orange[100],
-                                          child: Image.asset("assets/vendo.png",
-                                            width: MediaQuery.of(context).size.width/14,),
+                                          child: getlogo?Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Image.network("https://www.adeoropelumi.com/vendor/blogo/"+vendorgettinglogo[0]["logoname"],
+                                              width: MediaQuery.of(context).size.width/14,),
+                                          ):CircularProgressIndicator(),
                                         ),
                                       ),
 
@@ -2893,12 +2916,10 @@ class _DashboardState extends State<Dashboard> {
                         Flexible(
                             child: ListView(
                           children: [
-                            //My Account takes you to the wallet
+                            //view My Products / Services
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  _selectedIndex = 1;
-                                });
+                                showMyPandS();
                               },
                               child: Container(
                                 margin: EdgeInsets.only(top: 15),
@@ -2906,26 +2927,23 @@ class _DashboardState extends State<Dashboard> {
                                 decoration: BoxDecoration(
                                     color: Color.fromRGBO(238, 252, 233, 1)),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       width:
-                                          MediaQuery.of(context).size.width / 8,
+                                      MediaQuery.of(context).size.width / 8,
                                       margin: EdgeInsets.only(left: 15),
-                                      child: Image.asset(
-                                          "assets/businessaccount.png"),
+                                      child: Image.asset("assets/store.png"),
                                     ),
                                     Expanded(
                                       child: Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "My Account",
+                                          "My Products/Services",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
+                                                  .size
+                                                  .width /
                                                   22),
                                         ),
                                       ),
@@ -2933,7 +2951,7 @@ class _DashboardState extends State<Dashboard> {
                                     Container(
                                       margin: EdgeInsets.only(right: 15),
                                       child:
-                                          Icon(Icons.arrow_forward_ios_rounded),
+                                      Icon(Icons.arrow_forward_ios_rounded),
                                     )
                                   ],
                                 ),
@@ -3033,10 +3051,12 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
-                            //view My Products / Services
+                            //My Account takes you to the wallet
                             GestureDetector(
                               onTap: () {
-                                showMyPandS();
+                                setState(() {
+                                  _selectedIndex = 1;
+                                });
                               },
                               child: Container(
                                 margin: EdgeInsets.only(top: 15),
@@ -3044,23 +3064,26 @@ class _DashboardState extends State<Dashboard> {
                                 decoration: BoxDecoration(
                                     color: Color.fromRGBO(238, 252, 233, 1)),
                                 child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       width:
-                                          MediaQuery.of(context).size.width / 8,
+                                      MediaQuery.of(context).size.width / 8,
                                       margin: EdgeInsets.only(left: 15),
-                                      child: Image.asset("assets/store.png"),
+                                      child: Image.asset(
+                                          "assets/businessaccount.png"),
                                     ),
                                     Expanded(
                                       child: Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "My Products/Services",
+                                          "My Account",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
+                                                  .size
+                                                  .width /
                                                   22),
                                         ),
                                       ),
@@ -3068,7 +3091,7 @@ class _DashboardState extends State<Dashboard> {
                                     Container(
                                       margin: EdgeInsets.only(right: 15),
                                       child:
-                                          Icon(Icons.arrow_forward_ios_rounded),
+                                      Icon(Icons.arrow_forward_ios_rounded),
                                     )
                                   ],
                                 ),
