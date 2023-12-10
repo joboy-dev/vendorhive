@@ -861,7 +861,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -895,7 +896,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -929,7 +931,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -976,7 +979,7 @@ class _DashboardState extends State<Dashboard> {
             'useremail': widget.useremail,
             'name': replacingwords(_servicename.text),
             'description': replacingwords(_servicedesc.text),
-            'price': _serviceprice.text.replaceAll(',', ''),
+            'price': "0",
             'paymentoption': options,
             'img': servicefilename,
             'location' : location
@@ -1006,7 +1009,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print('Customer services were not registered');
         }
-      } else {
+      }
+      else {
         print('Network Error');
       }
     } catch (e) {
@@ -1032,7 +1036,8 @@ class _DashboardState extends State<Dashboard> {
             return Failed(trfid: pidname);
           }));
         }
-      } else {
+      }
+      else {
         setState(() {
           _selectedpage = 0;
         });
@@ -4757,30 +4762,35 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Starting Price"),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: TextField(
-                              controller: _serviceprice,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                ThousandsFormatter(allowFraction: true)
-                              ],
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  width: .5,
-                                )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.grey)),
-                              ),
-                            ),
-                          ),
+
+                          //starting price text
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                          //   child: Text("Starting Price"),
+                          // ),
+                          //starting price textfield
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 10, right: 10),
+                          //   child: TextField(
+                          //     controller: _serviceprice,
+                          //     keyboardType: TextInputType.number,
+                          //     inputFormatters: [
+                          //       ThousandsFormatter(allowFraction: true)
+                          //     ],
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //         width: .5,
+                          //       )),
+                          //       focusedBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //               width: .5, color: Colors.grey)),
+                          //     ),
+                          //   ),
+                          // ),
+                          //attach photo text
+
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
@@ -5415,6 +5425,33 @@ class _DashboardState extends State<Dashboard> {
                                     )
                                 )),
                           ),
+                          // starting price text
+                          Container(
+                            margin:
+                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                            child: Text("City"),
+                          ),
+                          // starting price textfield
+                          Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: TextField(
+                              controller: _serviceprice,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                ThousandsFormatter(allowFraction: true)
+                              ],
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  width: .5,
+                                )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: .5, color: Colors.grey)),
+                              ),
+                            ),
+                          ),
+                          // attach photo text
                           GestureDetector(
                             onTap: () {
                               addservices();
