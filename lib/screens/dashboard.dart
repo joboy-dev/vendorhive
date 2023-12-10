@@ -106,6 +106,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  String cities_item = "Lagos Island";
   int _selectedpage = 0;
   String appproductstatus = "Vendorhive360";
   String appservicestatus = "Vendorhive360";
@@ -265,6 +266,120 @@ class _DashboardState extends State<Dashboard> {
   List<String> chatcontactlist = [];
   List<String> appcontactlist = [];
   List vendorgettinglogo = [];
+
+  var cities = [
+    "Abeokuta",
+    "Abakaliki",
+    "Aba",
+    "Abeokuta",
+    "Abuja",
+    "Ado-Ekiti",
+    "Agaie",
+    "Argungu",
+    "Asaba",
+    "Awka",
+    "Azare",
+    "Badagry",
+    "Baro",
+    "Benin City",
+    "Biu",
+    "Birnin Kebbi",
+    "Birnin Kudu",
+    "Bonny",
+    "Brass",
+    "Bukuru",
+    "Burutu",
+    "Calabar",
+    "Damaturu",
+    "Daura",
+    "Degema",
+    "Deba Habe",
+    "Dikwa",
+    "Dutse",
+    "Ede",
+    "Effon-Alaiye",
+    "Enugu",
+    "Epe",
+    "Gombe",
+    "Gusau",
+    "Gwandu",
+    "Gumel",
+    "Hadejia",
+    "Ibadan",
+    "Ibi",
+    "Idah",
+    "Ijebu-Ode",
+    "Ikorodu",
+    "Ikot Abasi",
+    "Ikot Ekpene",
+    "Ikare",
+    "Ikeja",
+    "Ikire",
+    "Ikirun",
+    "Ila",
+    "Ile-Ife",
+    "Ilesha",
+    "Ilobu"
+    "Iloko-Ijesha (Inisa)",
+    "Ilaro",
+    "Ilorin",
+    "Iseyin",
+    "Iwo",
+    "Jebba",
+    "Jalingo",
+    "Jamaare",
+    "Jimeta",
+    "Jos",
+    "Kabba",
+    "Kano",
+    "Katsina",
+    "Kaura Namoda",
+    "Kazaure",
+    "Keffi",
+    "Kontagora",
+    "Koko",
+    "Lagos Island",
+    "Lafia",
+    "Lapai",
+    "Lokoja",
+    "Muri",
+    "Maiduguri",
+    "Makurdi",
+    "Minna",
+    "Misau",
+    "Mushin",
+    "Nguru",
+    "Nsukka",
+    "Numan",
+    "Ogoja",
+    "Oka-Akoko",
+    "Oke-Agbe",
+    "Okene",
+    "Okrika",
+    "Ondo",
+    "Onitsha",
+    "Oron",
+    "Oshogbo",
+    "Owerri",
+    "Owo",
+    "Oyo",
+    "Pategi",
+    "Port Harcourt",
+    "Saki",
+    "Sapele",
+    "Shagamu",
+    "Shomolu",
+    "Sokoto",
+    "Suleja",
+    "Ughelli",
+    "Umuahia",
+    "Uyo",
+    "Vom",
+    "Wase",
+    "Warri",
+    "Yelwa",
+    "Yola",
+  ];
 
   TextEditingController products = new TextEditingController();
   TextEditingController service = new TextEditingController();
@@ -1844,6 +1959,8 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  List<DropdownMenuItem<String>> dropdownItems = [];
+
   @override
   initState() {
     super.initState();
@@ -1851,6 +1968,16 @@ class _DashboardState extends State<Dashboard> {
     finalbalance = widget.finalbalance;
     pendingbalance = widget.pendingbalance;
     vendorgetlogo();
+    dropdownItems = List.generate(
+      cities.length,
+          (index) => DropdownMenuItem(
+        value: cities[index],
+        child: Text(
+          cities[index],
+          style: TextStyle(fontSize: 17),
+        ),
+      ),
+    );
   }
 
   @override
