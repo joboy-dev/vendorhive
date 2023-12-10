@@ -1558,6 +1558,7 @@ class _DashboardState extends State<Dashboard> {
                         return VendorService(
                           idname: widget.idname,
                           adminemail: widget.useremail,
+                          username: widget.username,
                         );
                       }));
                     },
@@ -2078,10 +2079,25 @@ class _DashboardState extends State<Dashboard> {
                                         },
                                         child: CircleAvatar(
                                           backgroundColor: Colors.orange[100],
+                                          radius: MediaQuery.of(context).size.width/17,
                                           child: getlogo?Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Image.network("https://www.adeoropelumi.com/vendor/blogo/"+vendorgettinglogo[0]["logoname"],
-                                              width: MediaQuery.of(context).size.width/14,),
+                                            padding: const EdgeInsets.all(7.0),
+                                            child: FadeInImage(
+                                              image: NetworkImage(
+                                                  "https://www.adeoropelumi.com/vendor/blogo/"+vendorgettinglogo[0]["logoname"],
+                                              ),
+                                              placeholder: AssetImage(
+                                                  "assets/image.png"),
+                                              imageErrorBuilder:
+                                                  (context, error,
+                                                  stackTrace) {
+                                                return Image.asset(
+                                                    'assets/error.png',
+                                                    fit: BoxFit
+                                                        .fitWidth);
+                                              },
+                                              fit: BoxFit.fitWidth,
+                                            )
                                           ):CircularProgressIndicator(),
                                         ),
                                       ),
@@ -4185,7 +4201,7 @@ class _DashboardState extends State<Dashboard> {
                           Container(
                                 margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                                child: Text("Product Location"),
+                                child: Text("Select a State"),
                               ),
                           //product product location dropdown
                           Container(
@@ -4528,6 +4544,63 @@ class _DashboardState extends State<Dashboard> {
                                         )
                                     )),
                               ),
+                          // select city text
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                            child: Text("Select a City"),
+                          ),
+                          // select city dropdown menu
+                          Container(
+                            margin: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 10),
+                            child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  //background color of dropdown button
+                                  border:
+                                  Border.all(color: Colors.grey, width: 1),
+                                  //border of dropdown button
+                                  borderRadius: BorderRadius.circular(
+                                      10), //border raiuds of dropdown button
+                                  // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                                  //   BoxShadow(
+                                  //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                                  //       // blurRadius: 5
+                                  //   ) //blur radius of shadow
+                                  // ]
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 20, right: 20),
+                                    child: DropdownButton<String>(
+                                      items: dropdownItems,
+                                      value: cities_item,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          cities_item = value!;
+                                          print("You have selected $value");
+                                        });
+                                      },
+                                      icon: Padding(
+                                        //Icon at tail, arrow bottom is default icon
+                                          padding: EdgeInsets.only(left: 20),
+                                          child: Icon(Icons.arrow_drop_down)),
+                                      iconEnabledColor: Colors.white,
+                                      //Icon color
+                                      style: TextStyle(
+                                        //te
+                                          color: Colors.white, //Font color
+                                          fontSize:
+                                          20 //font size on dropdown button
+                                      ),
+
+                                      dropdownColor: Colors.grey,
+                                      //dropdown background color
+                                      underline: Container(),
+                                      //remove underline
+                                      isExpanded:
+                                      true, //make true to make width 100%
+                                    ))),
+                          ),
                           Divider(),
                           //set delivery price header
                           Container(
@@ -4890,13 +4963,13 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
 
-                          //starting price text
+                          // //starting price text
                           // Container(
                           //   margin:
                           //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
                           //   child: Text("Starting Price"),
                           // ),
-                          //starting price textfield
+                          // //starting price textfield
                           // Container(
                           //   margin: EdgeInsets.only(left: 10, right: 10),
                           //   child: TextField(
@@ -4916,6 +4989,7 @@ class _DashboardState extends State<Dashboard> {
                           //     ),
                           //   ),
                           // ),
+
                           //attach photo text
 
                           Container(
@@ -5210,7 +5284,7 @@ class _DashboardState extends State<Dashboard> {
                           Container(
                             margin:
                             EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Location"),
+                            child: Text("Select a State"),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 10, right: 10, top: 5),
@@ -5552,32 +5626,64 @@ class _DashboardState extends State<Dashboard> {
                                     )
                                 )),
                           ),
-                          // starting price text
+                          // select city text
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("City"),
+                            child: Text("Select a City"),
                           ),
-                          // starting price textfield
+                          // select city dropdown menu
                           Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: TextField(
-                              controller: _serviceprice,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                ThousandsFormatter(allowFraction: true)
-                              ],
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  width: .5,
-                                )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.grey)),
+                                margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                                child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      //background color of dropdown button
+                                      border:
+                                      Border.all(color: Colors.grey, width: 1),
+                                      //border of dropdown button
+                                      borderRadius: BorderRadius.circular(
+                                          10), //border raiuds of dropdown button
+                                      // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                                      //   BoxShadow(
+                                      //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                                      //       // blurRadius: 5
+                                      //   ) //blur radius of shadow
+                                      // ]
+                                    ),
+                                    child: Padding(
+                                        padding: EdgeInsets.only(left: 20, right: 20),
+                                        child: DropdownButton<String>(
+                                          items: dropdownItems,
+                                          value: cities_item,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              cities_item = value!;
+                                              print("You have selected $value");
+                                            });
+                                          },
+                                          icon: Padding(
+                                            //Icon at tail, arrow bottom is default icon
+                                              padding: EdgeInsets.only(left: 20),
+                                              child: Icon(Icons.arrow_drop_down)),
+                                          iconEnabledColor: Colors.white,
+                                          //Icon color
+                                          style: TextStyle(
+                                            //te
+                                              color: Colors.white, //Font color
+                                              fontSize:
+                                              20 //font size on dropdown button
+                                          ),
+
+                                          dropdownColor: Colors.grey,
+                                          //dropdown background color
+                                          underline: Container(),
+                                          //remove underline
+                                          isExpanded:
+                                          true, //make true to make width 100%
+                                        ))),
                               ),
-                            ),
-                          ),
+
                           // attach photo text
                           GestureDetector(
                             onTap: () {

@@ -19,8 +19,9 @@ class MyService {
 class VendorService extends StatefulWidget {
   String adminemail = "";
   String idname = "";
+  String username = "";
 
-  VendorService({required this.adminemail, required this.idname});
+  VendorService({required this.adminemail, required this.idname,required this.username});
 
   @override
   _VendorServiceState createState() => _VendorServiceState();
@@ -30,6 +31,8 @@ class _VendorServiceState extends State<VendorService> {
   int _selectedPages = 0;
   List rawservice = [];
   bool myservices = false;
+  List getallresults = [];
+  bool getlogo = false;
 
   Future getservice() async {
     print('get services');
@@ -87,11 +90,32 @@ class _VendorServiceState extends State<VendorService> {
     }
   }
 
+  Future vendorgetdescriptionsummary() async{
+    final gettinglogo = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorgetlogo.php'),
+        body: {
+          'useremail' : widget.adminemail
+        });
+    if(gettinglogo.statusCode == 200){
+      setState(() {
+        getallresults = jsonDecode(gettinglogo.body);
+        getlogo = true;
+      });
+      print(jsonDecode(gettinglogo.body));
+      print(getallresults[0]["logoname"]);
+    }else{
+      print("Error Getting Image");
+      setState(() {
+        getlogo = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getservice();
+    vendorgetdescriptionsummary();
   }
 
   @override
@@ -103,7 +127,9 @@ class _VendorServiceState extends State<VendorService> {
         ),
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //header and back button
               Container(
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(217, 217, 217, .5),
@@ -136,6 +162,122 @@ class _VendorServiceState extends State<VendorService> {
                   )
               ),
 
+              //picture + business name + call + menu button
+              Container(
+                  margin:EdgeInsets.only(left: 10,right: 10,top: 10),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.lime[100],
+                        radius: 20,
+                        child: getlogo ?
+                        Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: FadeInImage(
+                            image: NetworkImage(
+                              "https://www.adeoropelumi.com/vendor/blogo/"+getallresults[0]["logoname"],
+                            ),
+                            placeholder: AssetImage(
+                                "assets/image.png"),
+                            imageErrorBuilder:
+                                (context, error,
+                                stackTrace) {
+                              return Image.asset(
+                                  'assets/error.png',
+                                  fit: BoxFit
+                                      .fitWidth);
+                            },
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ):
+                        CircularProgressIndicator(),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.username,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold
+                                  ),),
+                                Text(getlogo? widget.username+" shop in "+getallresults[0]["state"]:"loading...",
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                  ),)
+                              ],
+                            )
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            color: Colors.lime[100],
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Icon(Icons.phone,size: 15,color: Colors.black,),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            color: Colors.lime[100],
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Icon(Icons.more_horiz,size: 15,color: Colors.black,),
+                      )
+                    ],
+                  )
+              ),
+
+              //Brief Explanation
+              Container(
+                margin:EdgeInsets.only(left: 10,right: 10,top: 10),
+                child: Text(getlogo?getallresults[0]["description"]:"loading...",
+                  style: TextStyle(
+                      fontSize: 9
+                  ),maxLines: 6,overflow: TextOverflow.ellipsis,),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              //send message button
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    borderRadius: BorderRadius.circular(5)
+                ),
+                child: Center(
+                  child: Text("Send Message",style: TextStyle(
+                      color: Colors.white
+                  ),),
+                ),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              // My Services text
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text("My Services",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold
+                  ),),
+              ),
+
               Flexible(
                   child:
                   _selectedPages == 0 ?
@@ -143,7 +285,11 @@ class _VendorServiceState extends State<VendorService> {
                   rawservice.length > 0 ?
                   RefreshIndicator(
                     onRefresh: getservice,
-                    child: ListView.builder(
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: .7
+                        ),
                         padding: EdgeInsets.zero,
                         itemCount: rawservice.length,
                         itemBuilder: (context, index) {
@@ -162,51 +308,48 @@ class _VendorServiceState extends State<VendorService> {
                                   }));
                             },
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  top: 10, bottom: 10, left: 10),
+                              // padding: EdgeInsets.only(
+                              //     top: 10, bottom: 10, left: 10),
                               margin: EdgeInsets.only(
                                   left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(229, 228, 226, 1)
+                                  color: Color.fromRGBO(229, 228, 226, 1),
+                                  borderRadius: BorderRadius.circular(5)
                               ),
-                              child: Row(
+                              child: Column(
                                 children: [
-                                  Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width / 8,
-                                    child: FadeInImage(
-                                      image: NetworkImage(
-                                        "https://adeoropelumi.com/vendor/serviceimage/" +
-                                            rawservice[index]['serviceimg'],
-                                      ),
-                                      placeholder: AssetImage(
-                                          "assets/image.png"),
-                                      imageErrorBuilder:
-                                          (context, error,
-                                          stackTrace) {
-                                        return Image.asset(
-                                            'assets/error.png',
-                                            fit: BoxFit
-                                                .fitWidth);
-                                      },
-                                      fit:
-                                      BoxFit.fitWidth,
-                                    )
+                                  AspectRatio(
+                                      aspectRatio: 1,
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                          "https://adeoropelumi.com/vendor/serviceimage/" +
+                                              rawservice[index]['serviceimg'],
+                                        ),
+                                        placeholder: AssetImage(
+                                            "assets/image.png"),
+                                        imageErrorBuilder:
+                                            (context, error,
+                                            stackTrace) {
+                                          return Image.asset(
+                                              'assets/error.png',
+                                              fit: BoxFit
+                                                  .fitWidth);
+                                        },
+                                        fit:
+                                        BoxFit.fitWidth,
+                                      )
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .end,
-                                        children: [
-                                          Container(
+                                  Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 2),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
                                             child: Text(
                                               rawservice[index]['name'],
-                                              textAlign: TextAlign.end,
+                                              textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: MediaQuery
@@ -216,28 +359,28 @@ class _VendorServiceState extends State<VendorService> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Container(
-                                            child: Text("Starting Price: ₦" +
-                                                rawservice[index]['price']
-                                                    .replaceAllMapped(RegExp(
-                                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
-                                                    Match m) => '${m[1]},'),
-                                              textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                  fontSize: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .width / 26
-                                              ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Container(
+                                          child: Text("₦" +
+                                              rawservice[index]['price']
+                                                  .replaceAllMapped(RegExp(
+                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
+                                                  Match m) => '${m[1]},'),
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                                fontSize: MediaQuery
+                                                    .of(context)
+                                                    .size
+                                                    .width / 26
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
