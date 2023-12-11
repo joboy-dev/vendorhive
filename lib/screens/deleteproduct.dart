@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:vendorandroid/screens/editdeliverymethod.dart';
 import 'package:vendorandroid/screens/successdeleteproduct.dart';
 
 import 'faileddelete.dart';
@@ -445,7 +446,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            _selectedItem = 4;
+                            _selectedItem = 5;
                           });
                         },
                         child: Container(
@@ -943,30 +944,149 @@ class _DeleteProductState extends State<DeleteProduct> {
                             height: 10,
                           ),
                           Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text("Click on the Delivery Plan to Edit",style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold
+                                  ),maxLines: 2, overflow: TextOverflow.ellipsis,),
+                                ),
+                                const SizedBox(width: 10,),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {  },
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          set_delivery ?
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
                             child: GridView.builder(
+                              shrinkWrap: true,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 1
+                                childAspectRatio: 1,
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5
                               ), itemCount: getting_delivery_plan.length,
                               itemBuilder: (context,index){
-                                  return Container(
-                                    child: Column(
-                                      children: [
-                                        Row(
+                                  return GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        return EditDeliveryMethod(adminemail: widget.email,
+                                            pidname: widget.pidname,
+                                            productname: widget.productname,
+                                            deliveryplan: getting_delivery_plan[index]["3"],
+                                            amount: getting_delivery_plan[index]["4"],
+                                            days: getting_delivery_plan[index]["5"]);
+                                      }));
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.orange[100]
+                                      ),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              child: Text("Delivery Plan:"),
+                                              child: Text("${index+1}",style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold
+                                              ),),
                                             ),
-                                            Container(
-                                              child: Text(getting_delivery_plan[index]["3"]),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text("Delivery Plan:",style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14
+                                                  ),),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Text(getting_delivery_plan[index]["3"],style: TextStyle(
+                                                        fontSize: 14
+                                                    ),),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Divider(),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text("Amount:",style: TextStyle(
+                                                      fontSize: 14
+                                                  ),),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Text("₦"+getting_delivery_plan[index]["4"].replaceAllMapped(
+                                                        RegExp(
+                                                            r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                            (Match m) => '${m[1]},'),
+                                                      style: TextStyle(
+                                                        fontSize: 14
+                                                    ),),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text("Days of Delivery:",style: TextStyle(
+                                                      fontSize: 14
+                                                  ),),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Text(getting_delivery_plan[index]["5"],style: TextStyle(
+                                                        fontSize: 14
+                                                    ),),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   );
                               },),
-                          )
+                          ):
+                          Center(child: CircularProgressIndicator()),
                         ],
                   ],
                 ),
