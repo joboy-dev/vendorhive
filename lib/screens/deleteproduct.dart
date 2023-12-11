@@ -39,6 +39,8 @@ class _DeleteProductState extends State<DeleteProduct> {
   String descriptionStatus = "";
   String product_payment_option = "-";
   String paymentOptionStatus = "";
+  List getting_delivery_plan = [];
+  bool set_delivery = false;
 
   TextEditingController _newPrice = new TextEditingController();
   TextEditingController _newDescription = new TextEditingController();
@@ -202,6 +204,26 @@ class _DeleteProductState extends State<DeleteProduct> {
     }
   }
 
+  Future get_deliveryplan() async{
+    setState(() {
+      set_delivery = false;
+    });
+    final response = await http.post(Uri.https('adeoropelumi.com','vendor/vendorgetdeliveryplan.php'),
+    body: {
+      'pidname':widget.pidname
+    });
+    if(response.statusCode == 200){
+      getting_delivery_plan = jsonDecode(response.body);
+      print(jsonDecode(response.body));
+      setState(() {
+        set_delivery = true;
+      });
+    }
+    else{
+      print("Network Error");
+    }
+  }
+
   //modify sent message
   String replacing(String word) {
     word = word.replaceAll("'", "{(L!I_0)}");
@@ -219,6 +241,7 @@ class _DeleteProductState extends State<DeleteProduct> {
   void initState() {
     print(widget.pidname);
     super.initState();
+    get_deliveryplan();
   }
 
   @override
@@ -281,6 +304,11 @@ class _DeleteProductState extends State<DeleteProduct> {
                                     _selectedItem = 0;
                                   });
                                 }
+                                else if(_selectedItem == 5){
+                                  setState(() {
+                                    _selectedItem = 0;
+                                  });
+                                }
                                 else{
                                   setState(() {
                                     Navigator.of(context).pop();
@@ -302,6 +330,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                         )),
                     
                     if(_selectedItem == 0)...[
+                      //Edit price
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -338,6 +367,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                           ),
                         ),
                       ),
+                      //Edit Description
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -374,6 +404,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                           ),
                         ),
                       ),
+                      //Edit Payment Option
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -410,6 +441,44 @@ class _DeleteProductState extends State<DeleteProduct> {
                           ),
                         ),
                       ),
+                      //Edit Delivery Method
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            _selectedItem = 4;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset(
+                                    "assets/bus.png",
+                                    color:
+                                    Color.fromRGBO(246, 123, 55, 1)),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Edit Delivery Method",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      //Delete Product
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -721,154 +790,184 @@ class _DeleteProductState extends State<DeleteProduct> {
                         ),),
                       )
                     ]
-                        else if(_selectedItem == 4)...[
-                            Container(
-                              padding: EdgeInsets.only(left: 10,top: 10,right: 10),
-                              child: Text("Old Payment Option:",style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15
-                              ),),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10,top: 1,right: 10),
-                              child: Text(modify(widget.payment_option),style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15
-                              ),),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10,top: 10,right: 10),
-                              child: Text("Select new payment option:",style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15
-                              ),),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                              child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    //background color of dropdown button
-                                    border:
-                                    Border.all(color: Colors.grey, width: 1),
-                                    //border of dropdown button
-                                    borderRadius: BorderRadius.circular(
-                                        10), //border raiuds of dropdown button
-                                    // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                                    //   BoxShadow(
-                                    //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                                    //       // blurRadius: 5
-                                    //   ) //blur radius of shadow
-                                    // ]
-                                  ),
-                                  child: Padding(
-                                      padding: EdgeInsets.only(left: 20, right: 20),
-                                      child: DropdownButton(
-                                        value: product_payment_option,
-                                        items: [
-                                          //add items in the dropdown
-                                          //default state
-                                          DropdownMenuItem(
-                                            child: Text(
-                                              "-",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            value: "-",
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text(
-                                              "Pay on Delivery",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            value: "Pay on Delivery",
-                                          ),
-                                          //2nd state Adamawa
-                                          DropdownMenuItem(
-                                            child: Text(
-                                              "Pay Online",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            value: "Pay Online",
-                                          ),
-                                        ],
-                                        onChanged: (value) {
-                                          //get value when changed
-                                          setState(() {
-                                            product_payment_option = value!;
-                                          });
-                                          print("You have selected $value");
-                                        },
-                                        icon: Padding(
-                                          //Icon at tail, arrow bottom is default icon
-                                            padding: EdgeInsets.only(left: 20),
-                                            child: Icon(Icons.arrow_drop_down)),
-                                        iconEnabledColor: Colors.white,
-                                        //Icon color
-                                        style: TextStyle(
-                                          //te
-                                            color: Colors.white, //Font color
-                                            fontSize:
-                                            20 //font size on dropdown button
-                                        ),
-
-                                        dropdownColor: Colors.grey,
-                                        //dropdown background color
-                                        underline: Container(),
-                                        //remove underline
-                                        isExpanded:
-                                        true, //make true to make width 100%
-                                      )
-                                  )),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                if(product_payment_option == "-"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text("Select a new payment option!",style: TextStyle(
-                                              fontWeight: FontWeight.bold
-                                          ),)
-                                      )
-                                  );
-                                }else{
-                                  update_product_payment_option();
-                                }
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.transparent
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromRGBO(246, 123, 55, 1)
-                                ),
-                                child: Center(
-                                  child: Text("Set Payment Option",style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold
-                                  ),),
-                                ),
+                    else if(_selectedItem == 4)...[
+                        Container(
+                          padding: EdgeInsets.only(left: 10,top: 10,right: 10),
+                          child: Text("Old Payment Option:",style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15
+                          ),),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10,top: 1,right: 10),
+                          child: Text(modify(widget.payment_option),style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15
+                          ),),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10,top: 10,right: 10),
+                          child: Text("Select new payment option:",style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15
+                          ),),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                          child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                //background color of dropdown button
+                                border:
+                                Border.all(color: Colors.grey, width: 1),
+                                //border of dropdown button
+                                borderRadius: BorderRadius.circular(
+                                    10), //border raiuds of dropdown button
+                                // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                                //   BoxShadow(
+                                //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                                //       // blurRadius: 5
+                                //   ) //blur radius of shadow
+                                // ]
                               ),
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  child: DropdownButton(
+                                    value: product_payment_option,
+                                    items: [
+                                      //add items in the dropdown
+                                      //default state
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          "-",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        value: "-",
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          "Pay on Delivery",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        value: "Pay on Delivery",
+                                      ),
+                                      //2nd state Adamawa
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          "Pay Online",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        value: "Pay Online",
+                                      ),
+                                    ],
+                                    onChanged: (value) {
+                                      //get value when changed
+                                      setState(() {
+                                        product_payment_option = value!;
+                                      });
+                                      print("You have selected $value");
+                                    },
+                                    icon: Padding(
+                                      //Icon at tail, arrow bottom is default icon
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: Icon(Icons.arrow_drop_down)),
+                                    iconEnabledColor: Colors.white,
+                                    //Icon color
+                                    style: TextStyle(
+                                      //te
+                                        color: Colors.white, //Font color
+                                        fontSize:
+                                        20 //font size on dropdown button
+                                    ),
+
+                                    dropdownColor: Colors.grey,
+                                    //dropdown background color
+                                    underline: Container(),
+                                    //remove underline
+                                    isExpanded:
+                                    true, //make true to make width 100%
+                                  )
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            if(product_payment_option == "-"){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("Select a new payment option!",style: TextStyle(
+                                          fontWeight: FontWeight.bold
+                                      ),)
+                                  )
+                              );
+                            }else{
+                              update_product_payment_option();
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.transparent
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(246, 123, 55, 1)
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Center(
-                              child: Text(paymentOptionStatus,style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic
+                            child: Center(
+                              child: Text("Set Payment Option",style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold
                               ),),
-                            )
-                          ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Center(
+                          child: Text(paymentOptionStatus,style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic
+                          ),),
+                        )
+                      ]
+                      else if(_selectedItem == 5)...[
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            child: GridView.builder(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1
+                              ), itemCount: getting_delivery_plan.length,
+                              itemBuilder: (context,index){
+                                  return Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              child: Text("Delivery Plan:"),
+                                            ),
+                                            Container(
+                                              child: Text(getting_delivery_plan[index]["3"]),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                              },),
+                          )
+                        ],
                   ],
                 ),
             ),

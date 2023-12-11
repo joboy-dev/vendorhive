@@ -686,11 +686,12 @@ class _DashboardState extends State<Dashboard> {
             'prodname': replacingwords(_prodname.text),
             'proddesc': replacingwords(_proddesc.text),
             'prodprice': _prodprice.text.replaceAll(",", ""),
-            'productdeliveryprice': _proddeliveryprice.text.replaceAll(",", ""),
+            'productdeliveryprice': "0",
             'location': productlocation,
             'img': prodfilename,
             'deliveryoption': option,
-            'addstat': 'no'
+            'addstat': 'no',
+            'city':cities_item
           });
 
       if (addproducts.statusCode == 200) {
@@ -1097,7 +1098,8 @@ class _DashboardState extends State<Dashboard> {
             'price': "0",
             'paymentoption': options,
             'img': servicefilename,
-            'location' : location
+            'location' : location,
+            'city': cities_item
           });
 
       if (addservice.statusCode == 200) {
@@ -3844,67 +3846,69 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-                          //product delivery price text
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Delivery price"),
-                          ),
-                          //product delivery price textfield
-                          Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: TextField(
-                              controller: _proddeliveryprice,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                ThousandsFormatter(allowFraction: true)
-                              ],
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.grey)),
-                              ),
-                            ),
-                          ),
-                          //product days of delivery text
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Number of days for delivery"),
-                          ),
-                          //product days of delivery textfield
-                          Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: _numberofdays,
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: .5, color: Colors.grey)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: .5, color: Colors.grey)),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    "days",
-                                    style: TextStyle(fontSize: 14.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+
+                          // //product delivery price text
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                          //   child: Text("Delivery price"),
+                          // ),
+                          // //product delivery price textfield
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 10, right: 10),
+                          //   child: TextField(
+                          //     controller: _proddeliveryprice,
+                          //     keyboardType: TextInputType.number,
+                          //     inputFormatters: [
+                          //       ThousandsFormatter(allowFraction: true)
+                          //     ],
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //               width: .5, color: Colors.grey)),
+                          //       focusedBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //               width: .5, color: Colors.grey)),
+                          //     ),
+                          //   ),
+                          // ),
+                          // //product days of delivery text
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                          //   child: Text("Number of days for delivery"),
+                          // ),
+                          // //product days of delivery textfield
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 10, right: 10),
+                          //   child: Row(
+                          //     children: [
+                          //       Expanded(
+                          //         child: TextField(
+                          //           controller: _numberofdays,
+                          //           keyboardType: TextInputType.number,
+                          //           decoration: InputDecoration(
+                          //             enabledBorder: OutlineInputBorder(
+                          //                 borderSide: BorderSide(
+                          //                     width: .5, color: Colors.grey)),
+                          //             focusedBorder: OutlineInputBorder(
+                          //                 borderSide: BorderSide(
+                          //                     width: .5, color: Colors.grey)),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Container(
+                          //         margin: EdgeInsets.only(left: 5),
+                          //         child: Text(
+                          //           "days",
+                          //           style: TextStyle(fontSize: 14.sp),
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           //product delivery option text
+
                           Container(
                             margin: EdgeInsets.only(left: 10, top: 20),
                             child: Text("Delivery Options"),
@@ -4880,8 +4884,7 @@ class _DashboardState extends State<Dashboard> {
                                 if(_prodname.text.isNotEmpty &&
                                 _proddesc.text.isNotEmpty &&
                                 _prodprice.text.isNotEmpty &&
-                                _proddeliveryprice.text.isNotEmpty &&
-                                _numberofdays.text.isNotEmpty && deliverySchedule.length > 0){
+                                    deliverySchedule.length > 0){
                                   addproducts();
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(

@@ -167,6 +167,7 @@ flutter:
     - assets/bin.png
     - assets/payment_option.png
     - assets/mobile-payment.png
+    - assets/bus.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
