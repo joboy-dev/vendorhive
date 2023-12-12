@@ -313,6 +313,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context){
                             return DeleteProduct(
+                              idname: widget.idname,
                               productname: rawproducts[index]['productname'],
                               pidname: rawproducts[index]['pidname'],
                               payment_option: rawproducts[index]['paymentoption'],

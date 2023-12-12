@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EditDeliveryMethod extends StatefulWidget {
   String adminemail = "";
@@ -24,13 +27,178 @@ class EditDeliveryMethod extends StatefulWidget {
 
 class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
 
+  bool loading = true;
+  int done = 0;
+
   TextEditingController amount = TextEditingController();
   TextEditingController days = TextEditingController();
+
+  Future update_delivery_price() async{
+
+    print(widget.pidname);
+
+    setState(() {
+      loading = false;
+    });
+
+    final response = await http.post(
+        Uri.https("adeoropelumi.com","vendor/vendorupdatedeliveryprice.php"),
+        body: {
+          'amount':amount.text,
+          'pidname' : widget.pidname,
+          'plan' : widget.deliveryplan
+        }
+    );
+
+    if(response.statusCode == 200){
+      if(jsonDecode(response.body) == "true"){
+        setState(() {
+          loading = true;
+          done = 1;
+          amount.clear();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Amount is changed!"))
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Request timed out"))
+        );
+      }
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Request timed out"))
+      );
+    }
+  }
+
+  Future update_delivery_days() async{
+
+    print(widget.pidname);
+
+    setState(() {
+      loading = false;
+    });
+
+    final response = await http.post(
+        Uri.https("adeoropelumi.com","vendor/vendorupdatedeliverydays.php"),
+        body: {
+          'days':days.text,
+          'pidname' : widget.pidname,
+          'plan' : widget.deliveryplan
+        }
+    );
+
+    if(response.statusCode == 200){
+      if(jsonDecode(response.body) == "true"){
+        setState(() {
+          loading = true;
+          done = 1;
+          days.clear();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Days is changed!"))
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Request timed out"))
+        );
+      }
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Request timed out"))
+      );
+    }
+  }
+
+  Future _showAlertDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog( // <-- SEE HERE
+          title: const Text('Delete'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure want to delete this delivery plan?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                delete_delivery_plan();
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future delete_delivery_plan() async{
+
+    setState(() {
+      loading = false;
+    });
+
+    final response = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendordeletedeliverymethod.php'),
+        body:{
+          'email':widget.adminemail,
+          'pidname':widget.pidname,
+          'plan':widget.deliveryplan,
+        }
+    );
+
+    if(response.statusCode == 200){
+      if(jsonDecode(response.body) == "true"){
+        setState(() {
+          loading = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Delivery Method is deleted"))
+        );
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      }
+      else{
+        setState(() {
+          loading = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Request timed out"))
+        );
+      }
+    }
+    else{
+      setState(() {
+        loading = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Request timed out"))
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: loading?
+      done == 0 ?
+      SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,18 +241,28 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
                       )
                     ],
                   )),
-              const SizedBox(height: 10,),
               Container(
-                child: Center(
-                  child: Text("Edit Details for "+widget.deliveryplan,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.orange[700]
-                    ),),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Edit Details for "+widget.deliveryplan,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.orange[700]
+                      ),),
+                    IconButton(onPressed: _showAlertDialog,
+                        icon: Icon(Icons.cancel),
+                      iconSize: 20,
+                      color: Colors.red,
+                    )
+                  ],
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -111,6 +289,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
                   controller: amount,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     hintText: "Enter new Amount",
@@ -122,7 +301,33 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(height: 20,),
+              GestureDetector(
+                onTap: (){
+                  if(amount.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Fill amount field"))
+                    );
+                  }else{
+                    update_delivery_price();
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(246, 123, 55, 1),
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Text("Edit Amount",style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -146,7 +351,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
                   controller: days,
-
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     hintText: "Enter new days",
@@ -163,12 +368,12 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
               ),
               GestureDetector(
                 onTap: (){
-                  if(amount.text.isEmpty || days.text.isEmpty){
+                  if(days.text.isEmpty){
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Fill all fields"))
+                      SnackBar(content: Text("Fill days field"))
                     );
                   }else{
-
+                    update_delivery_days();
                   }
                 },
                 child: Container(
@@ -179,7 +384,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
                       borderRadius: BorderRadius.circular(5)
                   ),
                   child: Center(
-                    child: Text("Edit "+widget.deliveryplan,style: TextStyle(
+                    child: Text("Edit Delivery Days",style: TextStyle(
                         color: Colors.white,
                       fontWeight: FontWeight.bold
                     ),),
@@ -197,6 +402,115 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
             ],
           ),
         ),
+      )
+          :
+      Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  Colors.orange.shade100,
+                  Colors.green.shade100
+                ]
+            )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap:(){
+
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height/3,
+                        child: Image.asset("assets/successs.png",),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          done = 0;
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        child: Text("Click here to go back",style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width/23
+                        ),),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text('Vendorhive360',style: TextStyle(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+          :
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Processing",
+                      style: TextStyle(
+                          color: Color.fromRGBO(246, 123, 55, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize:
+                          MediaQuery.of(context).size.width / 26),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text(
+                        'Vendorhive360',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
