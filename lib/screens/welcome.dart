@@ -107,6 +107,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  String cities_item = "-";
   String walletbal = "";
   int lilo = 0;
   int _selectedIndex = 0;
@@ -141,6 +142,123 @@ class _WelcomeState extends State<Welcome> {
   List<String> adminusername = [];
   List<String> chatcontactlist = [];
   List<String> appcontactlist = [];
+
+  List<DropdownMenuItem<String>> dropdownItems = [];
+
+  var cities = [
+    "-",
+    "Abeokuta",
+    "Abakaliki",
+    "Aba",
+    "Abeokuta",
+    "Abuja",
+    "Ado-Ekiti",
+    "Agaie",
+    "Argungu",
+    "Asaba",
+    "Awka",
+    "Azare",
+    "Badagry",
+    "Baro",
+    "Benin City",
+    "Biu",
+    "Birnin Kebbi",
+    "Birnin Kudu",
+    "Bonny",
+    "Brass",
+    "Bukuru",
+    "Burutu",
+    "Calabar",
+    "Damaturu",
+    "Daura",
+    "Degema",
+    "Deba Habe",
+    "Dikwa",
+    "Dutse",
+    "Ede",
+    "Effon-Alaiye",
+    "Enugu",
+    "Epe",
+    "Gombe",
+    "Gusau",
+    "Gwandu",
+    "Gumel",
+    "Hadejia",
+    "Ibadan",
+    "Ibi",
+    "Idah",
+    "Ijebu-Ode",
+    "Ikorodu",
+    "Ikot Abasi",
+    "Ikot Ekpene",
+    "Ikare",
+    "Ikeja",
+    "Ikire",
+    "Ikirun",
+    "Ila",
+    "Ile-Ife",
+    "Ilesha",
+    "Ilobu",
+    "Iloko-Ijesha (Inisa)",
+    "Ilaro",
+    "Ilorin",
+    "Iseyin",
+    "Iwo",
+    "Jebba",
+    "Jalingo",
+    "Jamaare",
+    "Jimeta",
+    "Jos",
+    "Kabba",
+    "Kano",
+    "Katsina",
+    "Kaura Namoda",
+    "Kazaure",
+    "Keffi",
+    "Kontagora",
+    "Koko",
+    "Lagos Island",
+    "Lafia",
+    "Lapai",
+    "Lokoja",
+    "Muri",
+    "Maiduguri",
+    "Makurdi",
+    "Minna",
+    "Misau",
+    "Mushin",
+    "Nguru",
+    "Nsukka",
+    "Numan",
+    "Ogoja",
+    "Oka-Akoko",
+    "Oke-Agbe",
+    "Okene",
+    "Okrika",
+    "Ondo",
+    "Onitsha",
+    "Oron",
+    "Oshogbo",
+    "Owerri",
+    "Owo",
+    "Oyo",
+    "Pategi",
+    "Port Harcourt",
+    "Saki",
+    "Sapele",
+    "Shagamu",
+    "Shomolu",
+    "Sokoto",
+    "Suleja",
+    "Ughelli",
+    "Umuahia",
+    "Uyo",
+    "Vom",
+    "Wase",
+    "Warri",
+    "Yelwa",
+    "Yola",
+  ];
 
   Future chatcontact() async {
 
@@ -373,7 +491,8 @@ class _WelcomeState extends State<Welcome> {
           'from': _priceFrom.text.isEmpty?"":_priceFrom.text,
           'to' : _priceTo.text.isEmpty?"":_priceTo.text,
           'word' : _Controller.text,
-          'location' : productfilter=="-" ? "" : productfilter
+          'location' : productfilter=="-" ? "" : productfilter,
+          'city': cities_item
         });
 
     if (searchproduct.statusCode == 200) {
@@ -636,510 +755,570 @@ class _WelcomeState extends State<Welcome> {
               topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         ),
       builder: (context){
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.75,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: Text("Filter",style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),),
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.only(top: 0, left: 10, bottom: 0),
-                  child: Text("Select State:",style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold
-                  ),),
-                ),
-                StatefulBuilder(builder: (context , setState){
-                  return Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                    child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          //background color of dropdown button
-                          border:
-                          Border.all(color: Colors.grey, width: 1),
-                          //border of dropdown button
-                          borderRadius: BorderRadius.circular(
-                              10), //border raiuds of dropdown button
-                          // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                          //   BoxShadow(
-                          //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                          //       // blurRadius: 5
-                          //   ) //blur radius of shadow
-                          // ]
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            child: DropdownButton(
-                              value: productfilter,
-                              items: [
-                                //add items in the dropdown
-                                //default state
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "-",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "-",
-                                ),
-                                //first
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Abia",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Abia",
-                                ),
-                                //2nd state Adamawa
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Adamawa",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Adamawa",
-                                ),
-                                //3rd state Akwa Ibom
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Akwa Ibom",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Akwa Ibom",
-                                ),
-                                //4th state Anambra
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Anambra",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Anambra",
-                                ),
-                                //5th state Bauchi
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Bauchi",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Bauchi",
-                                ),
-                                //6th state Bayelsa
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Bayelsa",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Bayelsa",
-                                ),
-                                //7th state Benue
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Benue",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Benue",
-                                ),
-                                //8th state Borno
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Borno",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Borno",
-                                ),
-                                //9th state Cross River
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Cross River",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Cross River",
-                                ),
-                                //10th state Delta
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Delta",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Delta",
-                                ),
-                                //11th state Ebonyi
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Ebonyi",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Ebonyi",
-                                ),
-                                //12th state Edo
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Edo",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Edo",
-                                ),
-                                //13th state Ekiti
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Ekiti",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Ekiti",
-                                ),
-                                //14th state Enugu
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Enugu",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Enugu",
-                                ),
-                                //15th state Gombe
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Gombe",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Gombe",
-                                ),
-                                //16th state Imo
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Imo",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Imo",
-                                ),
-                                //17th state Jigawa
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Jigawa",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Jigawa",
-                                ),
-                                //18th state Kaduna
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Kaduna",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Kaduna",
-                                ),
-                                //19th state Kano
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Kano",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Kano",
-                                ),
-                                //20th state Katsina
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Katsina",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Katsina",
-                                ),
-                                //21th state Kebbi
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Kebbi",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Kebbi",
-                                ),
-                                //22th state kogi
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Kogi",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Kogi",
-                                ),
-                                //23th state Kwara
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Kwara",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Kwara",
-                                ),
-                                //24th state Lagos
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Lagos",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Lagos",
-                                ),
-                                //25th state Nasarawa
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Nasarawa",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Nasarawa",
-                                ),
-                                //26th state Niger
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Niger",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Niger",
-                                ),
-                                //27th  state Ogun
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Ogun",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Ogun",
-                                ),
-                                //28th state Ondo
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Ondo",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Ondo",
-                                ),
-                                //29th state Osun
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Osun",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Osun",
-                                ),
-                                //30th state Oyo
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Oyo",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Oyo",
-                                ),
-                                //31st state Plateau
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Plateau",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Plateau",
-                                ),
-                                //32nd state Rivers
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Rivers",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Rivers",
-                                ),
-                                //33rd state Sokoto
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Sokoto",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Sokoto",
-                                ),
-                                //34th state Taraba
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Taraba",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Taraba",
-                                ),
-                                //35th state Yobe
-                                DropdownMenuItem(
-                                  child: Text(
-                                    "Yobe",
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  value: "Yobe",
-                                ),
-                                //36th state Zamfara
-                                DropdownMenuItem(
-                                    child: Text(
-                                      "Zamfara",
-                                      style: TextStyle(fontSize: 17),
-                                    ),
-                                    value: "Zamfara"),
-                              ],
-                              onChanged: (value) {
-                                //get value when changed
-                                setState(() {
-                                  productfilter = value!;
-                                });
-                                print("You have selected $value");
-                              },
-                              icon: Padding(
-                                //Icon at tail, arrow bottom is default icon
-                                  padding: EdgeInsets.only(left: 20),
-                                  child: Icon(Icons.arrow_drop_down)),
-                              iconEnabledColor: Colors.white,
-                              //Icon color
-                              style: TextStyle(
-                                //te
-                                  color: Colors.white, //Font color
-                                  fontSize:
-                                  20 //font size on dropdown button
-                              ),
-
-                              dropdownColor: Colors.grey,
-                              //dropdown background color
-                              underline: Container(),
-                              //remove underline
-                              isExpanded:
-                              true, //make true to make width 100%
-                            )
-                        )),
-                  );
-                }),
-                const SizedBox(
-                  height: 7,
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.only(top: 0, left: 10, bottom: 0),
-                  child: Text("Price:",style: TextStyle(
-                      fontSize: 14,
-                    fontWeight: FontWeight.bold
-                  ),),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("From",style: TextStyle(
-                                fontSize: 12
-                              ),),
-                              TextField(
-                                controller: _priceFrom,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(left: 10),
-                                  enabledBorder: OutlineInputBorder(),
-                                    focusedBorder: OutlineInputBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("To",style: TextStyle(
-                                fontSize: 12
-                            ),),
-                            TextField(
-                              controller: _priceTo,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(left: 10),
-                                  enabledBorder: OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder(),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: (){
-                    if(_priceFrom.text.isNotEmpty && _priceTo.text.isEmpty){
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
-                    }
-                    else if(_priceFrom.text.isEmpty && _priceTo.text.isNotEmpty){
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
-                    }
-                    else if(_priceFrom.text.isEmpty && _priceTo.text.isEmpty && productfilter == "-"){
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
-                    }
-                    else{
-                      if(_priceFrom.text.isNotEmpty && _priceTo.text.isNotEmpty){
-                        if(int.parse(_priceFrom.text) > int.parse(_priceTo.text) ){
-                          _priceTo.clear();
-                          _priceFrom.clear();
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
-                        }else{
-                          Navigator.of(context).pop();
-                          search_filter_product();
-                          _priceFrom.clear();
-                          _priceTo.clear();
-                        }
-                      }else{
-                        Navigator.of(context).pop();
-                        search_filter_product();
-                        _priceFrom.clear();
-                        _priceTo.clear();
-                      }
-
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.transparent
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromRGBO(246, 123, 55, 1)
+        return StatefulBuilder(builder: (context, setState){
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                    child: Center(
+                    Center(
                       child: Text("Filter",style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
                       ),),
                     ),
-                  ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                      child: Text("Select State:",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                            //   BoxShadow(
+                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                            //       // blurRadius: 5
+                            //   ) //blur radius of shadow
+                            // ]
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton(
+                                value: productfilter,
+                                items: [
+                                  //add items in the dropdown
+                                  //default state
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "-",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "-",
+                                  ),
+                                  //first
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Abia",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Abia",
+                                  ),
+                                  //2nd state Adamawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Adamawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Adamawa",
+                                  ),
+                                  //3rd state Akwa Ibom
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Akwa Ibom",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Akwa Ibom",
+                                  ),
+                                  //4th state Anambra
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Anambra",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Anambra",
+                                  ),
+                                  //5th state Bauchi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Bauchi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Bauchi",
+                                  ),
+                                  //6th state Bayelsa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Bayelsa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Bayelsa",
+                                  ),
+                                  //7th state Benue
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Benue",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Benue",
+                                  ),
+                                  //8th state Borno
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Borno",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Borno",
+                                  ),
+                                  //9th state Cross River
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Cross River",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Cross River",
+                                  ),
+                                  //10th state Delta
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Delta",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Delta",
+                                  ),
+                                  //11th state Ebonyi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ebonyi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ebonyi",
+                                  ),
+                                  //12th state Edo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Edo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Edo",
+                                  ),
+                                  //13th state Ekiti
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ekiti",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ekiti",
+                                  ),
+                                  //14th state Enugu
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Enugu",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Enugu",
+                                  ),
+                                  //15th state Gombe
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Gombe",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Gombe",
+                                  ),
+                                  //16th state Imo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Imo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Imo",
+                                  ),
+                                  //17th state Jigawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Jigawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Jigawa",
+                                  ),
+                                  //18th state Kaduna
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kaduna",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kaduna",
+                                  ),
+                                  //19th state Kano
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kano",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kano",
+                                  ),
+                                  //20th state Katsina
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Katsina",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Katsina",
+                                  ),
+                                  //21th state Kebbi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kebbi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kebbi",
+                                  ),
+                                  //22th state kogi
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kogi",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kogi",
+                                  ),
+                                  //23th state Kwara
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Kwara",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Kwara",
+                                  ),
+                                  //24th state Lagos
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Lagos",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Lagos",
+                                  ),
+                                  //25th state Nasarawa
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Nasarawa",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Nasarawa",
+                                  ),
+                                  //26th state Niger
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Niger",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Niger",
+                                  ),
+                                  //27th  state Ogun
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ogun",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ogun",
+                                  ),
+                                  //28th state Ondo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Ondo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Ondo",
+                                  ),
+                                  //29th state Osun
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Osun",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Osun",
+                                  ),
+                                  //30th state Oyo
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Oyo",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Oyo",
+                                  ),
+                                  //31st state Plateau
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Plateau",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Plateau",
+                                  ),
+                                  //32nd state Rivers
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Rivers",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Rivers",
+                                  ),
+                                  //33rd state Sokoto
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Sokoto",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Sokoto",
+                                  ),
+                                  //34th state Taraba
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Taraba",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Taraba",
+                                  ),
+                                  //35th state Yobe
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Yobe",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    value: "Yobe",
+                                  ),
+                                  //36th state Zamfara
+                                  DropdownMenuItem(
+                                      child: Text(
+                                        "Zamfara",
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      value: "Zamfara"),
+                                ],
+                                onChanged: (value) {
+                                  //get value when changed
+                                  setState(() {
+                                    productfilter = value!;
+                                  });
+                                  print("You have selected $value");
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              )
+                          )),
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 10, left: 10, bottom: 0),
+                      child: Text("Select a City",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    // select city dropdown menu
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 10),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                            //   BoxShadow(
+                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                            //       // blurRadius: 5
+                            //   ) //blur radius of shadow
+                            // ]
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton<String>(
+                                items: dropdownItems,
+                                value: cities_item,
+                                onChanged: (value) {
+                                  setState(() {
+                                    cities_item = value!;
+                                    print("You have selected $value");
+                                  });
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              ))),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                      child: Text("Price:",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("From",style: TextStyle(
+                                      fontSize: 12
+                                  ),),
+                                  TextField(
+                                    controller: _priceFrom,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10),
+                                      enabledBorder: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("To",style: TextStyle(
+                                        fontSize: 12
+                                    ),),
+                                    TextField(
+                                      controller: _priceTo,
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(left: 10),
+                                        enabledBorder: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        if(_priceFrom.text.isNotEmpty && _priceTo.text.isEmpty){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                        }
+                        else if(_priceFrom.text.isEmpty && _priceTo.text.isNotEmpty){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                        }
+                        else if(_priceFrom.text.isEmpty && _priceTo.text.isEmpty && productfilter == "-" && cities_item == "-"){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
+                        }
+                        else{
+                          if(_priceFrom.text.isNotEmpty && _priceTo.text.isNotEmpty){
+                            if(int.parse(_priceFrom.text) > int.parse(_priceTo.text) ){
+                              _priceTo.clear();
+                              _priceFrom.clear();
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
+                            }else{
+                              Navigator.of(context).pop();
+                              search_filter_product();
+                              _priceFrom.clear();
+                              _priceTo.clear();
+                            }
+                          }else{
+                            Navigator.of(context).pop();
+                            search_filter_product();
+                            _priceFrom.clear();
+                            _priceTo.clear();
+                          }
+
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.transparent
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromRGBO(246, 123, 55, 1)
+                        ),
+                        child: Center(
+                          child: Text("Filter",style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2000,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 2000,
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       }
     );
@@ -1752,6 +1931,36 @@ class _WelcomeState extends State<Welcome> {
     );
   }
 
+  Future popup_notification() async{
+    await Future.delayed(Duration(seconds: 3));
+    showDialog(
+      context: context,
+      builder:(context){
+        return AlertDialog(
+          title: const Text('Welcome'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text("Welcome "+widget.username+" to Vendorhive360, a shopping hub where you can "
+                    "find any product/service you want from different range of sellers, "
+                    "a place where you have the control to only release payment after a product "
+                    "has been delivered or after a service has been rendered to you.")
+              ],
+            )
+          ),
+          actions:[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ]
+        );
+      }
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -1767,6 +1976,19 @@ class _WelcomeState extends State<Welcome> {
 
     walletbal = widget.custwalletbalance;
     getvendors();
+
+    dropdownItems = List.generate(
+      cities.length,
+          (index) => DropdownMenuItem(
+        value: cities[index],
+        child: Text(
+          cities[index],
+          style: TextStyle(fontSize: 17),
+        ),
+      ),
+    );
+
+    popup_notification();
   }
 
   @override
@@ -1952,12 +2174,7 @@ class _WelcomeState extends State<Welcome> {
 
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(context,
-                                  //     MaterialPageRoute(builder: (context) {
-                                  //       return Notifications(
-                                  //         email: widget.useremail,
-                                  //       );
-                                  //     }));
+                                  popup_notification();
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: Colors.orange[100],
@@ -2315,7 +2532,7 @@ class _WelcomeState extends State<Welcome> {
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
-                                            childAspectRatio: 1 / 2,
+                                            childAspectRatio: 1 / 2.1,
                                             crossAxisSpacing: 10,
                                           ),
                                           itemCount: rawproduct.length,
@@ -2484,7 +2701,7 @@ class _WelcomeState extends State<Welcome> {
                                                           maxLines: 2,
                                                           style: TextStyle(
                                                             color: Colors.white,
-                                                            fontSize: 16,
+                                                            fontSize: 15,
                                                           ),
                                                         ),
                                                       ),
@@ -2497,16 +2714,38 @@ class _WelcomeState extends State<Welcome> {
                                                             top: 5),
                                                         child: Text(
                                                               rawproduct[index][
-                                                              'paymentoption'],
+                                                              'location'],
                                                           textAlign:
                                                           TextAlign.center,
                                                           overflow: TextOverflow
                                                               .ellipsis,
-                                                          maxLines: 2,
+                                                          maxLines: 1,
                                                           style: TextStyle(
-                                                            color: Colors.white,
+                                                            color: Colors.yellow,
                                                             fontSize: 13,
                                                             fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Flexible(
+                                                      child: Container(
+                                                        padding:
+                                                        EdgeInsets.only(
+                                                            left: 5,
+                                                            top: 5),
+                                                        child: Text(
+                                                          rawproduct[index][
+                                                          'city'],
+                                                          textAlign:
+                                                          TextAlign.center,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              color: Colors.lightGreenAccent,
+                                                              fontSize: 11,
+                                                              fontWeight: FontWeight.bold
                                                           ),
                                                         ),
                                                       ),
@@ -2595,7 +2834,7 @@ class _WelcomeState extends State<Welcome> {
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
-                                            childAspectRatio: 1 / 2,
+                                            childAspectRatio: 1 / 2.1,
                                             crossAxisSpacing: 10,
                                           ),
                                           itemCount: rawservice.length,
@@ -2679,6 +2918,7 @@ class _WelcomeState extends State<Welcome> {
                                                                 )),
                                                           )
                                                         : Container(),
+
                                                     //service image
                                                     Container(
                                                         child: Center(
@@ -2709,6 +2949,7 @@ class _WelcomeState extends State<Welcome> {
                                                         ),
                                                       ),
                                                     ))),
+
                                                     //service name
                                                     Flexible(
                                                       child: Container(
@@ -2735,7 +2976,7 @@ class _WelcomeState extends State<Welcome> {
                                                       ),
                                                     ),
 
-                                                    //payment option
+                                                    //location
                                                     Flexible(
                                                       child: Container(
                                                         padding:
@@ -2744,7 +2985,7 @@ class _WelcomeState extends State<Welcome> {
                                                                 top: 5),
                                                         child: Text(
                                                           rawservice[index]
-                                                                      ['paymentoption'],
+                                                                      ['location'],
                                                           textAlign:
                                                               TextAlign.center,
                                                           overflow: TextOverflow
@@ -2752,14 +2993,14 @@ class _WelcomeState extends State<Welcome> {
                                                           maxLines: 2,
                                                           style: TextStyle(
                                                               color:
-                                                                  Colors.white,
+                                                                  Colors.yellow,
                                                               fontSize: 13,
                                                           fontWeight: FontWeight.bold),
                                                         ),
                                                       ),
                                                     ),
 
-                                                    //location
+                                                    //city
                                                     Flexible(
                                                       child: Container(
                                                         padding:
@@ -2768,7 +3009,7 @@ class _WelcomeState extends State<Welcome> {
                                                             top: 5),
                                                         child: Text(
                                                           rawservice[index]
-                                                          ['location'],
+                                                          ['city'],
                                                           textAlign:
                                                           TextAlign.center,
                                                           overflow: TextOverflow
@@ -2776,7 +3017,7 @@ class _WelcomeState extends State<Welcome> {
                                                           maxLines: 2,
                                                           style: TextStyle(
                                                               color:
-                                                              Colors.white,
+                                                              Colors.lightGreenAccent,
                                                               fontSize: 10,
                                                               fontWeight: FontWeight.bold),
                                                         ),

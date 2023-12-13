@@ -319,7 +319,7 @@ class _DashboardState extends State<Dashboard> {
     "Ila",
     "Ile-Ife",
     "Ilesha",
-    "Ilobu"
+    "Ilobu",
     "Iloko-Ijesha (Inisa)",
     "Ilaro",
     "Ilorin",
