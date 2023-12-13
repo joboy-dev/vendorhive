@@ -542,6 +542,14 @@ class _ServiceMsgState extends State<ServiceMsg> {
                 ),
               ),
             ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 2),
+              child: Text("Pay Vendor helps you pend a payment in a vendors wallet not until a service has been rendered/provided to you, before you finally release Payment & also giving you the control to rate & review a service rendered.",
+              style:TextStyle(
+                fontSize: 10,
+              ),textAlign: TextAlign.center,),
+            ),
+            Divider(),
             Flexible(
                 child: ListView(
                   children: [

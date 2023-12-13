@@ -492,7 +492,7 @@ class _WelcomeState extends State<Welcome> {
           'to' : _priceTo.text.isEmpty?"":_priceTo.text,
           'word' : _Controller.text,
           'location' : productfilter=="-" ? "" : productfilter,
-          'city': cities_item
+          'city': cities_item == "-" ? "" : cities_item
         });
 
     if (searchproduct.statusCode == 200) {
@@ -1333,31 +1333,31 @@ class _WelcomeState extends State<Welcome> {
               topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         ),
         builder: (context){
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.75,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Text("Filter",style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                  Container(
-                    margin:
-                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
-                    child: Text("Select State:",style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                  StatefulBuilder(builder: (context , setState){
-                    return Container(
+          return StatefulBuilder(builder: (context,setState){
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text("Filter",style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                      child: Text("Select State:",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    Container(
                       margin: EdgeInsets.only(left: 10, right: 10, top: 5),
                       child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -1704,21 +1704,78 @@ class _WelcomeState extends State<Welcome> {
                                 true, //make true to make width 100%
                               )
                           )),
-                    );
-                  }),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  Container(
-                    margin:
-                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
-                    child: Text("Select payment option:",style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                  StatefulBuilder(builder: (context , setState){
-                    return Container(
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 10, left: 10, bottom: 0),
+                      child: Text("Select a City",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    // select city dropdown menu
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 10),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            //background color of dropdown button
+                            border:
+                            Border.all(color: Colors.grey, width: 1),
+                            //border of dropdown button
+                            borderRadius: BorderRadius.circular(
+                                10), //border raiuds of dropdown button
+                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                            //   BoxShadow(
+                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                            //       // blurRadius: 5
+                            //   ) //blur radius of shadow
+                            // ]
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: DropdownButton<String>(
+                                items: dropdownItems,
+                                value: cities_item,
+                                onChanged: (value) {
+                                  setState(() {
+                                    cities_item = value!;
+                                    print("You have selected $value");
+                                  });
+                                },
+                                icon: Padding(
+                                  //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.white,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                    color: Colors.white, //Font color
+                                    fontSize:
+                                    20 //font size on dropdown button
+                                ),
+
+                                dropdownColor: Colors.grey,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded:
+                                true, //make true to make width 100%
+                              ))),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                      child: Text("Select payment option:",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    Container(
                       margin: EdgeInsets.only(left: 10, right: 10, top: 5),
                       child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -1794,60 +1851,35 @@ class _WelcomeState extends State<Welcome> {
                                 true, //make true to make width 100%
                               )
                           )),
-                    );
-                  }),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  Container(
-                    margin:
-                    EdgeInsets.only(top: 0, left: 10, bottom: 0),
-                    child: Text("Price:",style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("From",style: TextStyle(
-                                    fontSize: 12
-                                ),),
-                                TextField(
-                                  controller: _priceFromService,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(left: 10),
-                                    enabledBorder: OutlineInputBorder(),
-                                    focusedBorder: OutlineInputBorder(),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Container(
+                      margin:
+                      EdgeInsets.only(top: 0, left: 10, bottom: 0),
+                      child: Text("Price:",style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          Expanded(
                             child: Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("To",style: TextStyle(
+                                  Text("From",style: TextStyle(
                                       fontSize: 12
                                   ),),
                                   TextField(
-                                    controller: _priceToService,
+                                    controller: _priceFromService,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(left: 10),
@@ -1857,76 +1889,101 @@ class _WelcomeState extends State<Welcome> {
                                   )
                                 ],
                               ),
-                            )
-                        )
-                      ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("To",style: TextStyle(
+                                        fontSize: 12
+                                    ),),
+                                    TextField(
+                                      controller: _priceToService,
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(left: 10),
+                                        enabledBorder: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if(_priceFromService.text.isNotEmpty && _priceToService.text.isEmpty){
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
-                      }
-                      else if(_priceFromService.text.isEmpty && _priceToService.text.isNotEmpty){
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
-                      }
-                      else if(_priceFromService.text.isEmpty && _priceToService.text.isEmpty && servicefilter == "-"
-                      && service_payment_option == "-"){
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
-                      }
-                      else{
-                        if(_priceFromService.text.isNotEmpty && _priceToService.text.isNotEmpty){
-                          if(int.parse(_priceFromService.text) > int.parse(_priceToService.text) ){
-                            _priceToService.clear();
-                            _priceFromService.clear();
-                            Navigator.of(context).pop();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        if(_priceFromService.text.isNotEmpty && _priceToService.text.isEmpty){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                        }
+                        else if(_priceFromService.text.isEmpty && _priceToService.text.isNotEmpty){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
+                        }
+                        else if(_priceFromService.text.isEmpty && _priceToService.text.isEmpty && servicefilter == "-"
+                            && service_payment_option == "-" && cities_item == "-"){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
+                        }
+                        else{
+                          if(_priceFromService.text.isNotEmpty && _priceToService.text.isNotEmpty){
+                            if(int.parse(_priceFromService.text) > int.parse(_priceToService.text) ){
+                              _priceToService.clear();
+                              _priceFromService.clear();
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Price from can't be greater than price to")));
+                            }else{
+                              Navigator.of(context).pop();
+                              search_filter_service();
+                              _priceFromService.clear();
+                              _priceToService.clear();
+                            }
                           }else{
                             Navigator.of(context).pop();
                             search_filter_service();
                             _priceFromService.clear();
                             _priceToService.clear();
                           }
-                        }else{
-                          Navigator.of(context).pop();
-                          search_filter_service();
-                          _priceFromService.clear();
-                          _priceToService.clear();
                         }
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.transparent
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color.fromRGBO(246, 123, 55, 1)
-                      ),
-                      child: Center(
-                        child: Text("Filter",style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
-                        ),),
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.transparent
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromRGBO(246, 123, 55, 1)
+                        ),
+                        child: Center(
+                          child: Text("Filter",style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 2000,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 2000,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          });
         }
     );
   }

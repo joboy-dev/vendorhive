@@ -66,7 +66,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
             //packages subtitle
             Container(
               margin: EdgeInsets.only(left: 15,right: 15,top: 20),
-              child: Text("Choose a package to enjoy extra upload of services and products for our customers. Let them enjoy your services and products.",
+              child: Text("Choose a package to enjoy extra upload of services and products for your customers to generate more sales.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width/25,

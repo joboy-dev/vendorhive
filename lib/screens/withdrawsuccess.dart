@@ -33,7 +33,7 @@ class WithdrawSuccess extends StatelessWidget {
                       padding: const EdgeInsets.all(7.0),
                       child: Center(
                         child: Text(
-                          "Note: You're transfer request has being received and will be proceed within the next 24 hrs.",
+                          "Note: Your transfer request has been received and will be processed within the next 24 hrs",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
