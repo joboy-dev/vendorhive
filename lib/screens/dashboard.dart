@@ -1962,6 +1962,34 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  void switch_button(){
+    showDialog(
+        context: context,
+        builder:(context){
+          return AlertDialog(
+              title: const Text('Switch Account'),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(widget.username+", to switch account to customer. Please sign out and login with you "
+                          "customer account and if you don't have a customer account, kindly sign out and create a new "
+                          "customer account. Thank you ")
+                    ],
+                  )
+              ),
+              actions:[
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ]
+          );
+        }
+    );
+  }
+
   List<DropdownMenuItem<String>> dropdownItems = [];
 
   @override
@@ -3675,6 +3703,41 @@ class _DashboardState extends State<Dashboard> {
                                       margin: EdgeInsets.only(left: 15),
                                       child: Text(
                                         "Upgrade to Pro User",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            //switch to customer profile
+                            GestureDetector(
+                              onTap: () {
+                                switch_button();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(bottom: 10, top: 10),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey, width: .5))),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width / 8,
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Image.asset(
+                                        "assets/switchprofile.png",
+                                        color: Color.fromRGBO(246, 123, 55, 1),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 15),
+                                      child: Text(
+                                        "Switch to Customer Profile",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),

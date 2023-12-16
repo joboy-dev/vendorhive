@@ -108,6 +108,7 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   String cities_item = "-";
+  String cities_item_service = "-";
   String walletbal = "";
   int lilo = 0;
   int _selectedIndex = 0;
@@ -528,7 +529,8 @@ class _WelcomeState extends State<Welcome> {
           'to' : _priceToService.text.isEmpty?"":_priceToService.text,
           'word' : _serviceController.text,
           'location' : servicefilter=="-" ? "" : servicefilter,
-          'paymentoption' : service_payment_option == "-"? "" : service_payment_option
+          'paymentoption' : service_payment_option == "-"? "" : service_payment_option,
+          'city': cities_item_service == "-" ? "" : cities_item_service
         });
 
     if (searchservice.statusCode == 200) {
@@ -1736,10 +1738,10 @@ class _WelcomeState extends State<Welcome> {
                               padding: EdgeInsets.only(left: 20, right: 20),
                               child: DropdownButton<String>(
                                 items: dropdownItems,
-                                value: cities_item,
+                                value: cities_item_service,
                                 onChanged: (value) {
                                   setState(() {
-                                    cities_item = value!;
+                                    cities_item_service = value!;
                                     print("You have selected $value");
                                   });
                                 },
@@ -1984,6 +1986,34 @@ class _WelcomeState extends State<Welcome> {
               ),
             );
           });
+        }
+    );
+  }
+
+  void switch_button(){
+    showDialog(
+        context: context,
+        builder:(context){
+          return AlertDialog(
+              title: const Text('Switch Account'),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(widget.username+", to switch account to vendor. Please sign out and login with you "
+                          "vendor account and if you don't have a vendor account, kindly sign out and create a new "
+                          "vendor account. Thank you ")
+                    ],
+                  )
+              ),
+              actions:[
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ]
+          );
         }
     );
   }
@@ -4495,6 +4525,42 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
+                      //switch to customer profile
+                      GestureDetector(
+                        onTap: () {
+                          switch_button();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset(
+                                  "assets/switchprofile.png",
+                                  color: Color.fromRGBO(246, 123, 55, 1),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Switch to Customer Profile",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+
                       //contect support button
                       GestureDetector(
                         onTap: () {
@@ -4609,24 +4675,28 @@ class _WelcomeState extends State<Welcome> {
               _serviceController.clear();
               _Controller.clear();
             });
-          } else if (index == 1) {
+          }
+          else if (index == 1) {
             walletbalance();
             setState(() {
               searchbar = false;
               _selectedIndex = 1;
             });
-          } else if (index == 2) {
+          }
+          else if (index == 2) {
             setState(() {
               searchbar = false;
               _selectedIndex = 2;
             });
-          } else if (index == 3) {
+          }
+          else if (index == 3) {
             chatcontact();
             setState(() {
               searchbar = false;
               _selectedIndex = 3;
             });
-          } else if (index == 4) {
+          }
+          else if (index == 4) {
             setState(() {
               searchbar = false;
               _selectedIndex = 4;
