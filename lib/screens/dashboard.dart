@@ -843,7 +843,7 @@ class _DashboardState extends State<Dashboard> {
           });
 
           ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-            content: Text('You have used all your available products'),
+            content: Text("You've used up your available package, Upgrade package"),
           ));
         }
         else {
@@ -3522,87 +3522,87 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             //View vendor products ordered by customer button
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return MyOrders(
-                                    idname: widget.idname,
-                                    useremail: widget.useremail,
-                                  );
-                                }));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(bottom: 10, top: 10),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey, width: .5))),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 8,
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Image.asset(
-                                        "assets/clipboard.png",
-                                        color: Color.fromRGBO(246, 123, 55, 1),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Text(
-                                        "My Orders",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            //View vendor serices paid by customer button
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return BusinessPaidServices(
-                                    useremail: widget.useremail,
-                                    idname: widget.idname,
-                                  );
-                                }));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(bottom: 10, top: 10),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey, width: .5))),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 8,
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Image.asset(
-                                        "assets/services.png",
-                                        color: Color.fromRGBO(246, 123, 55, 1),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Text(
-                                        "Paid Services",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(context,
+                            //         MaterialPageRoute(builder: (context) {
+                            //       return MyOrders(
+                            //         idname: widget.idname,
+                            //         useremail: widget.useremail,
+                            //       );
+                            //     }));
+                            //   },
+                            //   child: Container(
+                            //     padding: EdgeInsets.only(bottom: 10, top: 10),
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: Colors.grey, width: .5))),
+                            //     child: Row(
+                            //       children: [
+                            //         Container(
+                            //           width:
+                            //               MediaQuery.of(context).size.width / 8,
+                            //           margin: EdgeInsets.only(left: 10),
+                            //           child: Image.asset(
+                            //             "assets/clipboard.png",
+                            //             color: Color.fromRGBO(246, 123, 55, 1),
+                            //           ),
+                            //         ),
+                            //         Container(
+                            //           margin: EdgeInsets.only(left: 15),
+                            //           child: Text(
+                            //             "My Orders",
+                            //             style: TextStyle(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 fontSize: 16),
+                            //           ),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // //View vendor serices paid by customer button
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(context,
+                            //         MaterialPageRoute(builder: (context) {
+                            //       return BusinessPaidServices(
+                            //         useremail: widget.useremail,
+                            //         idname: widget.idname,
+                            //       );
+                            //     }));
+                            //   },
+                            //   child: Container(
+                            //     padding: EdgeInsets.only(bottom: 10, top: 10),
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: Colors.grey, width: .5))),
+                            //     child: Row(
+                            //       children: [
+                            //         Container(
+                            //           width:
+                            //               MediaQuery.of(context).size.width / 8,
+                            //           margin: EdgeInsets.only(left: 10),
+                            //           child: Image.asset(
+                            //             "assets/services.png",
+                            //             color: Color.fromRGBO(246, 123, 55, 1),
+                            //           ),
+                            //         ),
+                            //         Container(
+                            //           margin: EdgeInsets.only(left: 15),
+                            //           child: Text(
+                            //             "Paid Services",
+                            //             style: TextStyle(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 fontSize: 16),
+                            //           ),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             //refer you friends with your code button
                             GestureDetector(
                               onTap: () {
