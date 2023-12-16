@@ -138,6 +138,7 @@ class _WelcomeState extends State<Welcome> {
   TextEditingController _priceToService = new TextEditingController();
 
   List<String> lastmsg = [];
+  List<String> getLogo = [];
   List<String> servicenamelist = [];
   List<String> adminemaillist = [];
   List<String> adminusername = [];
@@ -278,6 +279,7 @@ class _WelcomeState extends State<Welcome> {
       chatcontactlist.clear();
       appcontactlist.clear();
       lastmsg.clear();
+      getLogo.clear();
       adminemaillist.clear();
       adminusername.clear();
       servicenamelist.clear();
@@ -312,6 +314,12 @@ class _WelcomeState extends State<Welcome> {
               'adminemail': jsonDecode(adminemail.body),
             });
 
+        var getonlyLogo = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/vendorgetonlylogo.php'),
+            body: {
+              'useremail': jsonDecode(adminemail.body),
+            });
+
         var servicename = await http.post(
             Uri.https('adeoropelumi.com', 'vendor/vendorservicenamecust.php'),
             body: {
@@ -340,6 +348,7 @@ class _WelcomeState extends State<Welcome> {
           print(jsonDecode(admingetusername.body));
           print(jsonDecode(getlastmsg.body));
           print(jsonDecode(unread.body));
+          getLogo.add(jsonDecode(getonlyLogo.body));
           adminemaillist.add(jsonDecode(adminemail.body));
           adminusername.add(jsonDecode(admingetusername.body));
           servicenamelist.add(jsonDecode(servicename.body));
@@ -4051,6 +4060,7 @@ class _WelcomeState extends State<Welcome> {
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return ServiceMsg(
+                                                      logo: getLogo[index],
                                                       username: adminusername[index],
                                                       adminemail:
                                                           adminemaillist[index],
@@ -4083,7 +4093,25 @@ class _WelcomeState extends State<Welcome> {
                                                                     217,
                                                                     1),
                                                             radius: 30,
-                                                            child: Image.asset("assets/vendo.png"),
+                                                            child: Padding(
+                                                                padding: const EdgeInsets.all(10.0),
+                                                                child: FadeInImage(
+                                                                  image: NetworkImage(
+                                                                    "https://www.adeoropelumi.com/vendor/blogo/"+getLogo[index],
+                                                                  ),
+                                                                  placeholder: AssetImage(
+                                                                      "assets/image.png"),
+                                                                  imageErrorBuilder:
+                                                                      (context, error,
+                                                                      stackTrace) {
+                                                                    return Image.asset(
+                                                                        'assets/error.png',
+                                                                        fit: BoxFit
+                                                                            .fitWidth);
+                                                                  },
+                                                                  fit: BoxFit.fitWidth,
+                                                                )
+                                                            ),
                                                           ),
                                                         ),
                                                         Expanded(

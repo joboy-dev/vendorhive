@@ -57,6 +57,17 @@ class _ProcesstopupState extends State<Processtopup> {
           }
       );
 
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': "₦"+widget.amount+" was credited into your account",
+            'info': widget.email,
+            'tag': 'Top-Up',
+            'quantity' : "1",
+            'refno': trfid,
+          }
+      );
+
       if(creditcustwallet.statusCode == 200){
 
         print(jsonDecode(creditcustwallet.body));

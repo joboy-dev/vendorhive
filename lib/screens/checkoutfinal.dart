@@ -1,6 +1,8 @@
 import 'package:vendorandroid/screens/activeproductorders.dart';
 import 'package:flutter/material.dart';
 
+import 'cart.dart';
+
 class CheckoutFinal extends StatefulWidget {
   String useremail = "";
   String idname = "";
@@ -14,6 +16,17 @@ class _CheckoutFinalState extends State<CheckoutFinal> {
 
   Future<bool> _onWillPop() async {
     return false; //<-- SEE HERE
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {
+      cartitems.clear();
+    });
+
   }
 
   @override

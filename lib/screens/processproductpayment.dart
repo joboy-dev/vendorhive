@@ -131,12 +131,6 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
 
                     if(o == (cartitems.length-1)){
 
-                      setState(() {
-
-                        cartitems.clear();
-
-                      });
-
                       Navigator.push(context, MaterialPageRoute(builder: (context){
                         return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
                       }));

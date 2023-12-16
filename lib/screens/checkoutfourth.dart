@@ -30,6 +30,7 @@ class CheckoutFourth extends StatefulWidget {
 }
 
 class _CheckoutFourthState extends State<CheckoutFourth> {
+
   TextEditingController pin1 = new TextEditingController();
   TextEditingController pin2 = new TextEditingController();
   TextEditingController pin3 = new TextEditingController();
@@ -180,7 +181,6 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                       }
                   );
 
-
                   if(orders.statusCode == 200){
                     if(jsonDecode(orders.body)=='true'){
                       if(notifyuser.statusCode == 200){
@@ -197,10 +197,6 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                               if(o == (cartitems.length-1)){
 
                                 setState(() {
-                                  cartitems.clear();
-                                });
-
-                                setState(() {
 
                                   _selectedpage = 0;
                                   pin1.clear();
@@ -213,6 +209,8 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
                                   return CheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
                                 }));
+
+
 
                               }
                               else{
@@ -475,7 +473,6 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   child: ListView(
                 padding: EdgeInsets.zero,
                 children:[
-
                   Container(
                     margin: EdgeInsets.only(left: 10,top: 10),
                     child: Text("Please confirm and submit your order",
@@ -759,10 +756,10 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                       ],
                     ),
                   ),
-
                 ]
               )
               )
+
             ],
           ),
         ),

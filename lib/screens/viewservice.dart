@@ -32,6 +32,9 @@ class ViewService extends StatefulWidget {
 
 class _ViewServiceState extends State<ViewService> {
   String imagename = "";
+  String logo = "";
+  String admin_username = "";
+  bool setlogo = false;
   bool showlist = false;
   bool showrating = false;
   double finalratings = 0.0;
@@ -124,12 +127,45 @@ class _ViewServiceState extends State<ViewService> {
     }
   }
 
+  Future gettingLogo() async{
+
+    setState(() {
+      setlogo = false;
+    });
+
+    var getonlyLogo = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetonlylogo.php'),
+        body: {
+          'useremail': widget.adminemail,
+        });
+
+    var admingetusername = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetamdinusernamecust.php'),
+        body: {
+          'adminemail': widget.adminemail,
+        });
+
+    if(getonlyLogo.statusCode == 200 && admingetusername.statusCode == 200){
+
+      setState(() {
+        logo = jsonDecode(getonlyLogo.body);
+        admin_username = jsonDecode(admingetusername.body);
+        setlogo = true;
+      });
+
+    }
+    else{
+
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     serviceimages();
     loadratings();
+    gettingLogo();
     print("Login Id "+widget.idname);
     print("Admin email "+widget.adminemail);
     print("User Email "+widget.useremail);
@@ -141,8 +177,8 @@ class _ViewServiceState extends State<ViewService> {
     print("Customer package name "+widget.packagename);
     print("User type "+widget.usertype);
     print("Description "+widget.description);
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -283,16 +319,21 @@ class _ViewServiceState extends State<ViewService> {
             
             GestureDetector(
               onTap: (){
+                setlogo ?
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return ServiceMsg(
-                    username: widget.username,
+                    logo: logo,
+                    username: admin_username,
                     useremail: widget.useremail,
                     adminemail: widget.adminemail,
                   idname: widget.idname,
                   serviceid: widget.serviceid,
                   usertype: widget.usertype,
                   servicename: widget.name,);
-                }));
+                }))
+                :ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Try again, Chat is loading"))
+                );
               },
               child: Container(
                 margin: EdgeInsets.only(top: 20,left: 10,right: 10),

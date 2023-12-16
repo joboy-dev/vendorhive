@@ -35,6 +35,7 @@ class ServiceMsg extends StatefulWidget {
   String usertype = "";
   String serviceid = "";
   String servicename = "";
+  String logo = "";
 
   ServiceMsg({
     required this.username,
@@ -43,6 +44,7 @@ class ServiceMsg extends StatefulWidget {
     required this.idname,
     required this.usertype,
   required this.serviceid,
+    required this.logo,
   required this.servicename});
 
   @override
@@ -457,7 +459,25 @@ class _ServiceMsgState extends State<ServiceMsg> {
                     child: CircleAvatar(
                       radius: 28,
                       backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-                      child: Image.asset('assets/vendo.png'),
+                      child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: FadeInImage(
+                            image: NetworkImage(
+                              "https://www.adeoropelumi.com/vendor/blogo/"+widget.logo,
+                            ),
+                            placeholder: AssetImage(
+                                "assets/image.png"),
+                            imageErrorBuilder:
+                                (context, error,
+                                stackTrace) {
+                              return Image.asset(
+                                  'assets/error.png',
+                                  fit: BoxFit
+                                      .fitWidth);
+                            },
+                            fit: BoxFit.fitWidth,
+                          )
+                      ),
                     ),
                   ),
 
