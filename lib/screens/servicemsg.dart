@@ -452,7 +452,6 @@ class _ServiceMsgState extends State<ServiceMsg> {
               padding: EdgeInsets.only(top: 10,bottom: 10),
               child: Row(
                 children: [
-
                   //Vendorhive360 logo
                   Container(
                     margin: EdgeInsets.only(left: 10),
@@ -528,7 +527,6 @@ class _ServiceMsgState extends State<ServiceMsg> {
                       ),
                     ),
                   )
-
                 ],
               ),
             ),

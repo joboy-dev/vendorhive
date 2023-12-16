@@ -3185,6 +3185,50 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+                            //view promote products and services
+                            GestureDetector(
+                              onTap: () {
+                                promotion();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 15),
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(238, 252, 233, 1)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width / 8,
+                                      margin: EdgeInsets.only(left: 15),
+                                      child:
+                                      Image.asset("assets/promotion.png"),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Promote",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                                  22),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 15),
+                                      child:
+                                      Icon(Icons.arrow_forward_ios_rounded),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                             //view promoted products and services
                             GestureDetector(
                               onTap: () {
@@ -3210,7 +3254,7 @@ class _DashboardState extends State<Dashboard> {
                                       child: Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "Promotion",
+                                          "Ongoing Promotion",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: MediaQuery.of(context)

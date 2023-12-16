@@ -4553,7 +4553,7 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
-                      //switch to customer profile
+                      //switch to vendor profile
                       GestureDetector(
                         onTap: () {
                           switch_button();
@@ -4578,7 +4578,7 @@ class _WelcomeState extends State<Welcome> {
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 child: Text(
-                                  "Switch to Customer Profile",
+                                  "Switch to Vendor Profile",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),

@@ -93,6 +93,17 @@ class _ProcessServicePaymentState extends State<ProcessServicePayment> {
           }
       );
 
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': "₦"+widget.amount+" was paid for "+widget.servicename,
+            'info': widget.adminemail,
+            'tag': 'Service',
+            'quantity' : "1",
+            'refno': trfid,
+          }
+      );
+
       if(savepayment.statusCode == 200){
         if(jsonDecode(savepayment.body) == 'true'){
 

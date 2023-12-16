@@ -146,6 +146,17 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                     }
                 );
 
+                var notifyuser = await http.post(
+                    Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+                    body: {
+                      'message': "₦"+widget.amount+" was paid for "+widget.servicename,
+                      'info': widget.adminemail,
+                      'tag': 'Service',
+                      'quantity' : "1",
+                      'refno': trfid,
+                    }
+                );
+
                 print(savepayment.statusCode);
 
                 if(savepayment.statusCode == 200){
@@ -288,7 +299,6 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
       }
     }
     catch(e){
-
       print("error is "+e.toString());
 
       var failedservicepayment = await http.post(
@@ -347,7 +357,6 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
         child: SafeArea(
           child: Column(
             children: [
-
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, .5),
