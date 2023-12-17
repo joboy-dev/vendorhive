@@ -20,10 +20,11 @@ class CheckoutSecond extends StatefulWidget {
   String state = "";
   String idname = "";
   String useremail = "";
+  double service_fee = 0;
 
   CheckoutSecond({required this.totalamount,required this.totalamountplusdelivery,
   required this.fullname, required this.phonenumber,required this.streetaddress,
-  required this.state,required this.idname, required this.useremail});
+  required this.state,required this.idname, required this.useremail, required this.service_fee});
 
   @override
   _CheckoutSecondState createState() => _CheckoutSecondState();
@@ -310,7 +311,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                       Navigator.push(context, MaterialPageRoute(builder: (context){
                         return CheckoutThird(totalamount: widget.totalamount,totalamountplusdelivery: widget.totalamountplusdelivery,
                           fullname: widget.fullname,phonenumber: widget.phonenumber,streetaddress: widget.streetaddress,
-                          state: widget.state,paymentmethod: paymentmethod,idname: widget.idname,useremail: widget.useremail,);
+                          state: widget.state,service_fee:widget.service_fee, paymentmethod: paymentmethod,idname: widget.idname,useremail: widget.useremail,);
                       }));
                     }else if(paymentmethod == 'card'){
                       print("Proceed to card payment");
@@ -444,6 +445,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                 BuyProduct(
                   topuplink: topupurl,
                   refnumber: initiaterefno,
+                  service_fee: widget.service_fee,
                   idname: widget.idname,
                   useremail: widget.useremail,
                   amount: widget.totalamountplusdelivery.toString().replaceAll(",", ""),

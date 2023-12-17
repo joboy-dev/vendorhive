@@ -16,6 +16,8 @@ class ProcessServicePayment extends StatefulWidget {
   String servicename = "";
   String amount = "";
   String desc = "";
+  double service_fee = 0;
+
   ProcessServicePayment({Key? key,
   required this.idname,
   required this.sidname,
@@ -23,7 +25,7 @@ class ProcessServicePayment extends StatefulWidget {
   required this.adminemail,
   required this.servicename,
   required this.amount,
-  required this.desc}) : super(key: key);
+  required this.desc, required this.service_fee}) : super(key: key);
 
   @override
   _ProcessServicePaymentState createState() => _ProcessServicePaymentState();
@@ -58,6 +60,17 @@ class _ProcessServicePaymentState extends State<ProcessServicePayment> {
     print('service payment saved');
 
     try{
+
+      var vendor_five_percent = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+          body: {
+            'idname': widget.idname,
+            'email' : widget.useremail,
+            'percent' : widget.service_fee.toString(),
+            'refno' : trfid,
+            'type' : 'service'
+          }
+      );
 
       var savepayment = await http.post(
           Uri.https('adeoropelumi.com','vendor/vendorservicepayment.php'),
@@ -104,7 +117,7 @@ class _ProcessServicePaymentState extends State<ProcessServicePayment> {
           }
       );
 
-      if(savepayment.statusCode == 200){
+      if(savepayment.statusCode == 200 && vendor_five_percent.statusCode == 200){
         if(jsonDecode(savepayment.body) == 'true'){
 
           print('service payment saved');

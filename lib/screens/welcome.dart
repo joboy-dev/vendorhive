@@ -2084,7 +2084,7 @@ class _WelcomeState extends State<Welcome> {
       ),
     );
 
-    popup_notification();
+    if(widget.pagenumber != 2)popup_notification();
   }
 
   @override
@@ -2615,7 +2615,8 @@ class _WelcomeState extends State<Welcome> {
                                       setState(() {
                                         itemselected = 1;
                                       });
-                                    } else
+                                    }
+                                    else
                                       print("Dragging in -X direction");
                                   },
                                   child: Container(
@@ -2753,26 +2754,24 @@ class _WelcomeState extends State<Welcome> {
                                                         ),
                                                       )),
                                                     ),
-                                                    Flexible(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 5,
-                                                                top: 5),
-                                                        child: Text(
-                                                          rawproduct[index]
-                                                              ['productname'],
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 2,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 16),
-                                                        ),
+                                                    Container(
+                                                      padding:
+                                                      EdgeInsets.only(
+                                                          left: 5,
+                                                          top: 5),
+                                                      child: Text(
+                                                        rawproduct[index]
+                                                        ['productname'],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                            color:
+                                                            Colors.white,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold,
+                                                            fontSize: 16),
                                                       ),
                                                     ),
                                                     Flexible(
@@ -3571,9 +3570,22 @@ class _WelcomeState extends State<Welcome> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Image.network(
-                                    "https://adeoropelumi.com/vendor/productimage/" +
-                                        cartitems[index].imagename,
+                                  child: FadeInImage(
+                                    image: NetworkImage(
+                                      "https://adeoropelumi.com/vendor/productimage/" +
+                                          cartitems[index].imagename,
+                                    ),
+                                    placeholder: AssetImage(
+                                        "assets/image.png"),
+                                    imageErrorBuilder:
+                                        (context, error,
+                                        stackTrace) {
+                                      return Image.asset(
+                                          'assets/error.png',
+                                          fit: BoxFit
+                                              .fitWidth);
+                                    },
+                                    fit: BoxFit.fitWidth,
                                   ),
                                   width: MediaQuery.of(context).size.width / 8,
                                   height: MediaQuery.of(context).size.width / 8,
@@ -3858,6 +3870,44 @@ class _WelcomeState extends State<Welcome> {
                                     ),
                                   ),
 
+                                  //service fee
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            "Service Fee",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Container(
+                                              child: Text(
+                                                "₦" +
+                                                    "${(totalsumplusdelivery*0.05)}"
+                                                        .replaceAllMapped(
+                                                        RegExp(
+                                                            r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                            (Match m) =>
+                                                        '${m[1]},'),
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+
                                   //total text and amount
                                   Container(
                                     margin: EdgeInsets.only(bottom: 15),
@@ -3880,7 +3930,7 @@ class _WelcomeState extends State<Welcome> {
                                             child: Container(
                                               child: Text(
                                                 "₦" +
-                                                    "${totalsumplusdelivery}"
+                                                    "${totalsumplusdelivery+(totalsumplusdelivery*0.05)}"
                                                         .replaceAllMapped(
                                                             RegExp(
                                                                 r'(\d{1,3})(?=(\d{3})+(?!\d))'),
@@ -3953,7 +4003,8 @@ class _WelcomeState extends State<Welcome> {
                                           return Checkout(
                                             totalamount: totalsum,
                                             totalamountplusdelivery:
-                                                totalsumplusdelivery,
+                                            totalsumplusdelivery+(totalsumplusdelivery*0.05),
+                                            service_fee: (totalsumplusdelivery*0.05),
                                             useremail: widget.useremail,
                                             idname: widget.idname,
                                           );

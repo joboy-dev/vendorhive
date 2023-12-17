@@ -20,10 +20,12 @@ class CheckoutFourth extends StatefulWidget {
   String paymentmethod = "";
   String idname = "";
   String useremail = "";
+  double service_fee = 0;
+
   CheckoutFourth({required this.totalamount, required this.totalamountplusdelivery,
     required this.fullname, required this.phonenumber, required this.streetaddress,
     required this.state, required this.paymentmethod,
-  required this.idname, required this.useremail});
+  required this.idname, required this.useremail, required this.service_fee});
 
   @override
   _CheckoutFourthState createState() => _CheckoutFourthState();
@@ -119,7 +121,18 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   }
               );
 
-              if(debitcustwallet.statusCode == 200){
+              var vendor_five_percent = await http.post(
+                Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+                body: {
+                  'idname': widget.idname,
+                  'email' : widget.useremail,
+                  'percent' : widget.service_fee.toString(),
+                  'refno' : trfid,
+                  'type' : 'product'
+                }
+              );
+
+              if(debitcustwallet.statusCode == 200 && vendor_five_percent.statusCode == 200){
 
                 print(jsonDecode(debitcustwallet.body));
                 print('Wallet debited');
@@ -197,24 +210,18 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                               if(o == (cartitems.length-1)){
 
                                 setState(() {
-
                                   _selectedpage = 0;
                                   pin1.clear();
                                   pin2.clear();
                                   pin3.clear();
                                   pin4.clear();
-
                                 });
 
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
                                   return CheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
                                 }));
-
-
-
                               }
                               else{
-
                                 setState(() {
                                   _selectedpage = 0;
                                   pin1.clear();
@@ -226,7 +233,6 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text("Failed"))
                                 );
-
                               }
                             }
                           }

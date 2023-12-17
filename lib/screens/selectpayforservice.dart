@@ -242,7 +242,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
 
     String amt = widget.amount.toString().replaceAll(",", "");
     String amount = double.parse(amt).toStringAsFixed(2);
-    double a = double.parse(amount);
+    double a = double.parse(amount)+(double.parse(amount)*0.05);
     double b = a *100;
     String c = b.toStringAsFixed(0);
 
@@ -286,6 +286,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
                   adminemail: widget.adminemail,
                   servicename: widget.servicename,
                   desc: widget.desc,
+                  service_fee: (double.parse(widget.amount.replaceAll(",", "")) * 0.05),
                 )
             )
         );
@@ -317,6 +318,12 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.amount);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -375,20 +382,90 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
                           fontSize: MediaQuery.of(context).size.width/27,
                         ),),
                     ),
+
+                    Divider(),
                     Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(right: 10,top: 5,bottom: 5),
-                            child: Text("₦"+"${widget.amount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                            child: Text("Amount: ",
                               style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27,
-                                  color: Colors.grey
+                                  color: Colors.grey,
+                                fontWeight: FontWeight.bold
                               ),),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Text("₦"+"${widget.amount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width/27,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                ),textAlign: TextAlign.end,),
+                            ),
                           )
                         ],
                       ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text("Service Fee: ",
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Text("₦"+"${double.parse(widget.amount)*0.05}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width/27,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                ),textAlign: TextAlign.end,),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text("Total: ",
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Text("₦"+"${double.parse(widget.amount)+(double.parse(widget.amount)*0.05)}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width/27,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                ),textAlign: TextAlign.end,),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(),
+
+                    const SizedBox(
+                      height: 20,
                     ),
 
                     //select wallet
@@ -514,7 +591,8 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
                                 amount: widget.amount,
                                 description: widget.desc,
                             sidname: widget.sidname,
-                            servicename: widget.servicename,);
+                            servicename: widget.servicename,
+                            service_fee: (double.parse(widget.amount) * 0.05),);
                           }));
                         }else if(paymentmethod == 'card'){
                           print("Proceed with card payment");

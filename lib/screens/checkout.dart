@@ -20,10 +20,12 @@ class Checkout extends StatefulWidget {
   double totalamountplusdelivery = 0;
   String idname = "";
   String useremail = "";
+  double service_fee = 0;
 
   Checkout(
       {required this.totalamount,
       required this.totalamountplusdelivery,
+      required this.service_fee,
       required this.idname,
       required this.useremail});
 
@@ -726,6 +728,7 @@ class _CheckoutState extends State<Checkout> {
                                               state: options,
                                               idname: widget.idname,
                                               useremail: widget.useremail,
+                                              service_fee: widget.service_fee,
                                             );
                                           }));
                                     }

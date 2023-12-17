@@ -17,6 +17,8 @@ class BuyService extends StatefulWidget {
   String servicename = "";
   String amount = "";
   String desc = "";
+  double service_fee = 0;
+
   BuyService({Key? key,
   required this.idname,
   required this.sidname,
@@ -26,7 +28,8 @@ class BuyService extends StatefulWidget {
   required this.desc,
   required this.amount,
   required this.topuplink,
-  required this.refnumber}) : super(key: key);
+  required this.refnumber,
+  required this.service_fee}) : super(key: key);
 
   @override
   _BuyServiceState createState() => _BuyServiceState();
@@ -65,6 +68,7 @@ class _BuyServiceState extends State<BuyService> {
             sidname: widget.sidname,
             servicename: widget.servicename,
             desc: widget.desc,
+            service_fee: (double.parse(widget.amount.replaceAll(",", "")) * 0.05),
           );
         }));
 

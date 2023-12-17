@@ -6,6 +6,8 @@ import 'package:vendorandroid/screens/delete.dart';
 import 'package:vendorandroid/screens/deletevendor.dart';
 import 'package:flutter/material.dart';
 
+import 'cart.dart';
+
 class Settings extends StatefulWidget {
   String idname = "";
   String email = "";
@@ -215,6 +217,11 @@ class _SettingsState extends State<Settings> {
                 //sign out button
                 GestureDetector(
                   onTap: () async {
+
+                    setState(() {
+                      cartitems.clear();
+                    });
+
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
 

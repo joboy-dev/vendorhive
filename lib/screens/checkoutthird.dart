@@ -11,10 +11,12 @@ class CheckoutThird extends StatefulWidget {
   String paymentmethod = "";
   String idname = "";
   String useremail = "";
+  double service_fee = 0;
+
   CheckoutThird({required this.totalamount, required this.totalamountplusdelivery,
   required this.fullname, required this.phonenumber, required this.streetaddress,
   required this.state, required this.paymentmethod,
-  required this.idname, required this.useremail});
+  required this.idname, required this.useremail, required this.service_fee});
 
   @override
   _CheckoutThirdState createState() => _CheckoutThirdState();
@@ -417,11 +419,33 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                             ),
                             Expanded(
                               child: Container(
-                                child: Text("₦"+"${widget.totalamountplusdelivery - widget.totalamount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                child: Text("₦"+"${widget.totalamountplusdelivery - (widget.totalamount+widget.service_fee)}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                   textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27,
                                 ),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text("Service Fee",style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width/27,
+                              ),),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Text("₦"+"${widget.service_fee}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width/27,
+                                  ),),
                               ),
                             )
                           ],
@@ -461,6 +485,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                             state: widget.state,
                             paymentmethod: widget.paymentmethod,
                             useremail: widget.useremail,
+                            service_fee: widget.service_fee,
                             idname: widget.idname,);
                           }));
                         },

@@ -15,6 +15,8 @@ class ServiceWalletPayment extends StatefulWidget {
   String description = "";
   String sidname = "";
   String servicename = "";
+  double service_fee = 0;
+
   ServiceWalletPayment({Key? key,
     required this.idname,
   required this.useremail,
@@ -22,7 +24,7 @@ class ServiceWalletPayment extends StatefulWidget {
   required this.amount,
   required this.description,
   required this.sidname,
-  required this.servicename}) : super(key: key);
+  required this.servicename, required this.service_fee}) : super(key: key);
 
   @override
   _ServiceWalletPaymentState createState() => _ServiceWalletPaymentState();
@@ -107,7 +109,18 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                   }
               );
 
-              if(debitcustwallet.statusCode == 200){
+              var vendor_five_percent = await http.post(
+                  Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+                  body: {
+                    'idname': widget.idname,
+                    'email' : widget.useremail,
+                    'percent' : widget.service_fee.toString(),
+                    'refno' : trfid,
+                    'type' : 'service'
+                  }
+              );
+              
+              if(debitcustwallet.statusCode == 200 && vendor_five_percent.statusCode == 200){
 
                 print(jsonDecode(debitcustwallet.body));
                 print('Wallet debited');
@@ -468,7 +481,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                                       ),
                                     ),
                                     Container(
-                                      child: Text("₦"+"${widget.amount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      child: Text("₦"+"${double.parse(widget.amount)+widget.service_fee}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                         style: TextStyle(
                                           fontSize: MediaQuery.of(context).size.width/25,
                                         ),),
