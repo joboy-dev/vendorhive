@@ -265,7 +265,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                             SizedBox(width: 10,),
                             Expanded(
                               child: Container(
-                                child: Text('Unclaimed Earnings:- ',style: TextStyle(
+                                child: Text('Product upload rewards:- ',style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   fontSize: MediaQuery.of(context).size.width/24,
                                 ),),
@@ -273,7 +273,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width/3,
-                              child: Text("₦"+amtearnings,style: TextStyle(
+                              child: Text(number,style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/24,
                               ),),
                             )

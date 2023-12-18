@@ -4559,51 +4559,6 @@ class _WelcomeState extends State<Welcome> {
                         ),
                       ),
 
-                      //Refer your friends button
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return Refers(
-                              idname: widget.idname,
-                              email: widget.useremail,
-                            );
-                          }));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(bottom: 10, top: 10),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.grey, width: .5))),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 8,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Image.asset(
-                                  "assets/people.png",
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    "Refer your friends",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22.5,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
                       //switch to vendor profile
                       GestureDetector(
                         onTap: () {
