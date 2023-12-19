@@ -136,6 +136,8 @@ class _DashboardState extends State<Dashboard> {
   String numberassignedservice = "";
   int numberofproduct = 0;
   int numberofservice = 0;
+  int number_of_referals = 0;
+  int number_of_referals_service = 0;
 
   bool getlogo = false;
 
@@ -266,6 +268,8 @@ class _DashboardState extends State<Dashboard> {
   List<String> chatcontactlist = [];
   List<String> appcontactlist = [];
   List vendorgettinglogo = [];
+  List referals = [];
+  List referals_service = [];
 
   var cities = [
     "Abeokuta",
@@ -794,7 +798,15 @@ class _DashboardState extends State<Dashboard> {
           'packagename': jsonDecode(getpackages.body)['package'].toString()
         });
 
-    if (productamount.statusCode == 200) {
+    var earn = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+
+    if (productamount.statusCode == 200 && earn.statusCode == 200) {
       print('getting assigned products');
       print(jsonDecode(productamount.body));
       print(jsonDecode(productamount.body)[0]);
@@ -803,7 +815,10 @@ class _DashboardState extends State<Dashboard> {
       numberassignedproduct =
           jsonDecode(productamount.body)[0]['productamount'];
       numberofproduct = int.parse(numberassignedproduct);
-
+      print(jsonDecode(earn.body));
+      referals = jsonDecode(earn.body);
+      print('Number of referals ${referals.length}');
+      number_of_referals = referals.length;
       print("getting used products");
       final checkfornumberofproducts = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/vendorcheckproductid.php'),
@@ -815,7 +830,7 @@ class _DashboardState extends State<Dashboard> {
 
         jsonDecode(checkfornumberofproducts.body)
             .forEach((s) => idnames.add(s["pidname"]));
-        print("List lenght is $idnames.length");
+        print("List lenght is ${idnames.length}");
 
         amountofproducts = idnames.length;
         print(amountofproducts);
@@ -827,8 +842,8 @@ class _DashboardState extends State<Dashboard> {
         // }
         //
 
-        if (numberofproduct > amountofproducts) {
-          int available = numberofproduct - amountofproducts;
+        if ((numberofproduct + number_of_referals) > amountofproducts) {
+          int available = (numberofproduct + number_of_referals) - amountofproducts;
           ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
             content: Text('You have $available available product to create'),
           ));
@@ -1189,7 +1204,14 @@ class _DashboardState extends State<Dashboard> {
           'packagename': jsonDecode(getpackages.body)['package'].toString(),
         });
 
-    if (serviceamount.statusCode == 200) {
+    var earn = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+    if (serviceamount.statusCode == 200 && earn.statusCode == 200) {
       print(jsonDecode(serviceamount.body));
 
       print(jsonDecode(serviceamount.body)[0]);
@@ -1223,23 +1245,26 @@ class _DashboardState extends State<Dashboard> {
 
       jsonDecode(checkfornumberofservices.body)
           .forEach((s) => sidnames.add(s["sidname"]));
-      print("List lenght is $sidnames.length");
+      print("List lenght is ${sidnames.length}");
 
       amountofservice = sidnames.length;
       print(amountofservice);
 
       print("Used amount of services :- $amountofservice");
 
-      for (int o = 0; o < sidnames.length; o++) {
-        print("SId names in list " + sidnames[o]);
-      }
+      // for (int o = 0; o < sidnames.length; o++) {
+      //   print("SId names in list " + sidnames[o]);
+      // }
 
-      if (numberofservice > amountofservice) {
+      referals_service = jsonDecode(earn.body);
+      number_of_referals_service = referals_service.length;
+
+      if ((numberofservice + number_of_referals_service) > amountofservice) {
         setState(() {
           _selectedpage = 0;
         });
 
-        int available = numberofservice - amountofservice;
+        int available = (numberofservice + number_of_referals_service) - amountofservice;
 
         ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
           content: Text('You have $available available service to create'),

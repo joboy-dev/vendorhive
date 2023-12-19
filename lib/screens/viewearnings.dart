@@ -204,7 +204,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(left: 10),
-                          child: Text("View Earnings",style: TextStyle(
+                          child: Text("Active Referals",style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14
                           ),),
@@ -289,7 +289,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                             SizedBox(width: 10,),
                             Expanded(
                               child: Container(
-                                child: Text('Earnings Claimed:- ',style: TextStyle(
+                                child: Text('Service upload rewards:- ',style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   fontSize: MediaQuery.of(context).size.width/24,
                                 ),),
@@ -297,7 +297,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width/3,
-                              child: Text("₦"+claimedearning,style: TextStyle(
+                              child: Text(number,style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/24,
                               ),),
                             )
@@ -305,38 +305,28 @@ class _ViewEarningsState extends State<ViewEarnings> {
                         ),
                       ),
 
-                      GestureDetector(
-                        onTap: (){
-                          if(claiming){
-                            print("claiming activated");
-                            depositearning();
-                          }else{
-                            print('cannot claim');
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              border: Border.all(color: Colors.orange)
-                          ),
-                          child: claiming ?
-                          Center(
-                            child: Text('Claim Earnings',style: TextStyle(
-                                color: Colors.white,
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(color: Colors.orange)
+                        ),
+                        child: claiming ?
+                        Center(
+                          child: Text('Free Product and Service Upload',style: TextStyle(
+                              color: Colors.yellowAccent,
                               fontSize: 16,
                               fontWeight: FontWeight.bold
-                            ),),
-                          )
-                          :
-                          Center(
-                            child: Text('loading...',style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ),
+                          ),),
+                        )
+                            :
+                        Center(
+                          child: Text('loading...',style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),),
                         ),
                       ),
 

@@ -23,9 +23,7 @@ class _MyOrdersState extends State<MyOrders> {
   Future myorders() async {
 
     setState(() {
-
       showorder = false;
-
     });
 
     try{
@@ -199,9 +197,22 @@ class _MyOrdersState extends State<MyOrders> {
                                           color: Color.fromRGBO(192, 192, 192, 1),
                                           borderRadius: BorderRadius.circular(5)),
                                       width: MediaQuery.of(context).size.width/8,
-                                      child: Image.network(
-                                        "https://adeoropelumi.com/vendor/productimage/" +
-                                            raworders[index]['prodimagename'],
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                          "https://adeoropelumi.com/vendor/productimage/" +
+                                              raworders[index]['prodimagename'],
+                                        ),
+                                        placeholder: AssetImage(
+                                            "assets/image.png"),
+                                        imageErrorBuilder:
+                                            (context, error,
+                                            stackTrace) {
+                                          return Image.asset(
+                                              'assets/error.png',
+                                              fit: BoxFit
+                                                  .fitWidth);
+                                        },
+                                        fit: BoxFit.fitWidth,
                                       ),
                                     ),
 

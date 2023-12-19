@@ -265,7 +265,23 @@ class _ViewadminorderState extends State<Viewadminorder> {
                   //Image
                   Container(
                     height: MediaQuery.of(context).size.height/4,
-                    child: Center(child: Image.network("https://adeoropelumi.com/vendor/productimage/"+widget.productimage)),
+                    child: Center(child: FadeInImage(
+                      image: NetworkImage(
+                        "https://adeoropelumi.com/vendor/productimage/"+widget.productimage,
+                      ),
+                      placeholder: AssetImage(
+                          "assets/image.png"),
+                      imageErrorBuilder:
+                          (context, error,
+                          stackTrace) {
+                        return Image.asset(
+                            'assets/error.png',
+                            fit: BoxFit
+                                .fitWidth);
+                      },
+                      fit: BoxFit.fitWidth,
+                    )
+                    ),
                   ),
                   //inform
                   Container(
