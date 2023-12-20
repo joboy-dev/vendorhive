@@ -170,7 +170,15 @@ class _MyOrdersState extends State<MyOrders> {
                                 deliveryprice: raworders[index]['deliveryprice'],
                                 adminemail: raworders[index]['adminemail'],
                                 useremail: raworders[index]['useremail'],
-                                tkid: raworders[index]['tkid'],);
+                                tkid: raworders[index]['tkid'],
+                                customername: raworders[index]['customername'],
+                                customerlocation: raworders[index]['customerlocation'],
+                                customernumber: raworders[index]['customernumber'],
+                                customerstate: raworders[index]['customerstate'],
+                                quantity: raworders[index]['quantity'],
+                                trackid: raworders[index]['trackid'],
+                                date: raworders[index]['date'],
+                                time: raworders[index]['time'],);
                               }));
                             },
                             child: Container(

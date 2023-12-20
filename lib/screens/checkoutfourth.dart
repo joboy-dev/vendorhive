@@ -158,11 +158,14 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                         'trackid':trackid,
                         'tkid':trfid,
                         'adminemail': cartitems[o].adminemail,
-                        'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
+                        'customerlocation' : replacing(widget.streetaddress),
                         'deliveryprice' : cartitems[o].deliveryprice.toString(),
                         'quantity' : cartitems[o].quantity.toString(),
                         'deliveryplan': cartitems[o].deliveryplan,
-                        'deliveryday' : cartitems[o].deliverydays
+                        'deliveryday' : cartitems[o].deliverydays,
+                        'customername' : replacing(widget.fullname),
+                        'customernumber' : widget.phonenumber,
+                        'customerstate' : widget.state,
                       }
                   );
 

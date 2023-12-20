@@ -101,7 +101,6 @@ class _CheckoutState extends State<Checkout> {
     super.initState();
     print(widget.totalamount);
     print(widget.totalamountplusdelivery);
-    get_delivery_method();
   }
 
   @override

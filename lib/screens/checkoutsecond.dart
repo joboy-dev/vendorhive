@@ -452,6 +452,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                   state: widget.state,
                   fullname: widget.fullname,
                   streetaddress: widget.streetaddress,
+                  phone_number: widget.phonenumber,
                 )
             )
         );

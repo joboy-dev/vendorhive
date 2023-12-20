@@ -16,6 +16,7 @@ class BuyProduct extends StatefulWidget {
   String fullname = "";
   String streetaddress = "";
   double service_fee = 0;
+  String phone_number = "";
 
   BuyProduct({Key? key,
   required this.topuplink,
@@ -26,7 +27,7 @@ class BuyProduct extends StatefulWidget {
   required this.amount,
   required this.fullname,
   required this.streetaddress,
-  required this.service_fee}) : super(key: key);
+  required this.service_fee, required this.phone_number}) : super(key: key);
 
   @override
   _BuyProductState createState() => _BuyProductState();
@@ -64,6 +65,7 @@ class _BuyProductState extends State<BuyProduct> {
             fullname: widget.fullname,
             streetaddress: widget.streetaddress,
             service_fee: widget.service_fee,
+            phonenumber: widget.phone_number,
             );
         }));
 

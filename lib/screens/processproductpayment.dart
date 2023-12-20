@@ -14,13 +14,15 @@ class ProcessProductPayment extends StatefulWidget {
   String fullname = "";
   String streetaddress = "";
   double service_fee = 0;
+  String phonenumber = "";
+
   ProcessProductPayment({Key? key,
   required this.idname,
   required this.useremail,
   required this.state,
   required this.fullname,
   required this.streetaddress,
-  required this.service_fee}) : super(key: key);
+  required this.service_fee, required this.phonenumber}) : super(key: key);
 
   @override
   _ProcessProductPaymentState createState() => _ProcessProductPaymentState();
@@ -96,11 +98,14 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
                 'trackid':trackid,
                 'tkid':trfid,
                 'adminemail': cartitems[o].adminemail,
-                'customerlocation' : 'Name of individual:- '+replacing(widget.fullname)+" Address:- "+replacing(widget.streetaddress)+', '+widget.state+'.',
+                'customerlocation' : replacing(widget.streetaddress),
                 'deliveryprice' : cartitems[o].deliveryprice.toString(),
                 'quantity' : cartitems[o].quantity.toString(),
                 'deliveryplan': cartitems[o].deliveryplan,
-                'deliveryday' : cartitems[o].deliverydays
+                'deliveryday' : cartitems[o].deliverydays,
+                'customername' : replacing(widget.fullname),
+                'customernumber' : widget.phonenumber,
+                'customerstate' : widget.state,
               }
           );
 
