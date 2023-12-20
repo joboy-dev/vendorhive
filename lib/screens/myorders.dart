@@ -178,7 +178,9 @@ class _MyOrdersState extends State<MyOrders> {
                                 quantity: raworders[index]['quantity'],
                                 trackid: raworders[index]['trackid'],
                                 date: raworders[index]['date'],
-                                time: raworders[index]['time'],);
+                                time: raworders[index]['time'],
+                                deliveryplan: raworders[index]['deliveryplan'],
+                                deliveryday: raworders[index]['deliveryday'],);
                               }));
                             },
                             child: Container(

@@ -63,12 +63,12 @@ class _BuyServiceState extends State<BuyService> {
           return ProcessServicePayment(
             idname: widget.idname,
             useremail: widget.useremail,
-            amount: widget.amount.replaceAll(",", ""),
+            amount: (double.parse(widget.amount.replaceAll(",", "")) + widget.service_fee).toString(),
             adminemail: widget.adminemail,
             sidname: widget.sidname,
             servicename: widget.servicename,
             desc: widget.desc,
-            service_fee: (double.parse(widget.amount.replaceAll(",", "")) * 0.05),
+            service_fee: widget.service_fee,
           );
         }));
 

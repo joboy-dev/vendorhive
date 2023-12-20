@@ -481,7 +481,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                                       ),
                                     ),
                                     Container(
-                                      child: Text("₦"+"${double.parse(widget.amount)+widget.service_fee}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      child: Text("₦"+"${widget.amount}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                         style: TextStyle(
                                           fontSize: MediaQuery.of(context).size.width/25,
                                         ),),

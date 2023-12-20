@@ -588,7 +588,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
                               idname: widget.idname,
                                 useremail: widget.useremail,
                                 adminemail: widget.adminemail,
-                                amount: widget.amount,
+                                amount: (double.parse(widget.amount.replaceAll(",", "")) + (double.parse(widget.amount.replaceAll(",", "")) * 0.05)).toString(),
                                 description: widget.desc,
                             sidname: widget.sidname,
                             servicename: widget.servicename,

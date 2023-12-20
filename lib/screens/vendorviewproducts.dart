@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/deleteproduct.dart';
+import 'package:vendorandroid/screens/myorders.dart';
 
 class MyProducts{
   String productname = "";
@@ -265,17 +266,24 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
             ),
 
             //send message button
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(246, 123, 55, 1),
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Center(
-                child: Text("Send Message",style: TextStyle(
-                    color: Colors.white
-                ),),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return MyOrders(idname: widget.idname, useremail: widget.adminemail);
+                }));
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    borderRadius: BorderRadius.circular(5)
+                ),
+                child: Center(
+                  child: Text("View Orders",style: TextStyle(
+                      color: Colors.white
+                  ),),
+                ),
               ),
             ),
 

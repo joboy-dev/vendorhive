@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/deleteservice.dart';
+import 'package:vendorandroid/screens/paidservices.dart';
 
 class MyService {
   String servicename = "";
@@ -250,17 +251,24 @@ class _VendorServiceState extends State<VendorService> {
               ),
 
               //send message button
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(246, 123, 55, 1),
-                    borderRadius: BorderRadius.circular(5)
-                ),
-                child: Center(
-                  child: Text("Send Message",style: TextStyle(
-                      color: Colors.white
-                  ),),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return PaidServices(useremail: widget.adminemail, idname: widget.idname);
+                  }));
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(246, 123, 55, 1),
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Text("View Paid Service",style: TextStyle(
+                        color: Colors.white
+                    ),),
+                  ),
                 ),
               ),
 

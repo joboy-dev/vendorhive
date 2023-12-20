@@ -23,8 +23,12 @@ class Viewadminorder extends StatefulWidget {
   String trackid = "";
   String date = "";
   String time = "";
+  String deliveryplan = "";
+  String deliveryday = "";
 
   Viewadminorder({
+    required this.deliveryplan,
+    required this.deliveryday,
     required this.date,
     required this.time,
     required this.trackid,
@@ -234,20 +238,93 @@ class _ViewadminorderState extends State<Viewadminorder> {
       _selectedpage = 1;
     });
 
-    var order_reject = await http.post(Uri.https('adeoropelumi.com','vendor/vendorgetidname.php'),
-    body: {
-      'useremail' : widget.useremail
-    });
+    var order_reject = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorgetidname.php'),
+        body: {
+          'useremail' : widget.useremail
+        }
+    );
 
     print(jsonDecode(order_reject.body));
-    if(order_reject.statusCode == 200){
-      setState(() {
-        _selectedpage = 0;
-      });
-      WidgetsBinding.instance
-          .addPostFrameCallback((_){
-        _scrollDown();
-      });
+    if(order_reject.statusCode == 200 && jsonDecode(order_reject.body) != "false"){
+
+      // a refund is to be done for product price
+      var credit_custwallet_amount = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          body: {
+            'idname': jsonDecode(order_reject.body).toString(),
+            'email':widget.useremail,
+            'debit': "0",
+            'credit': widget.productprice,
+            'desc':'RVS Product amount',
+            'refno': widget.tkid,
+          }
+      );
+
+      // a refund is to be done for product price
+      var credit_custwallet_delivery = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          body: {
+            'idname': jsonDecode(order_reject.body).toString(),
+            'email':widget.useremail,
+            'debit': "0",
+            'credit': widget.deliveryprice,
+            'desc':'RVS Delivery amount',
+            'refno': widget.tkid,
+          }
+      );
+
+      //a record of the rejection should be done
+      var record_reject = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorreject.php'),
+          body: {
+            'productid': widget.productid,
+            'productname': widget.productname,
+            'productprice': widget.productprice,
+            'deliveryprice': widget.deliveryprice,
+            'deliverplan': widget.deliveryplan,
+            'deliveryday': widget.deliveryday,
+            'customernumber': widget.customernumber,
+            'customerlocation': widget.customerlocation,
+            'customerstate': widget.customerstate,
+            'customername': widget.customername,
+            'customeremail': widget.useremail,
+            'vendoremail': widget.adminemail,
+            'quantity': widget.quantity,
+            'trackid': widget.trackid,
+            'reason' : _reject_reason.text
+          }
+      );
+
+      //delete the product from orders
+      var delete_ordered = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendorrejectorder.php'),
+          body:{
+            'pidname' : widget.productid,
+            'tkid' : widget.tkid,
+            'useremail' : widget.useremail,
+            'adminemail' : widget.adminemail,
+          }
+      );
+
+      if(jsonDecode(delete_ordered.body) == "true" &&
+      jsonDecode(record_reject.body) == "true" &&
+      jsonDecode(credit_custwallet_delivery.body) == "true" &&
+      jsonDecode(credit_custwallet_amount.body) == "true"){
+        setState(() {
+          _selectedpage = 0;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Product is rejected")));
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+
+
+      // WidgetsBinding.instance
+      //     .addPostFrameCallback((_){
+      //   _scrollDown();
+      // });
     }
   }
 
@@ -277,6 +354,10 @@ class _ViewadminorderState extends State<Viewadminorder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _scrollDown,
+        child: Icon(Icons.arrow_drop_down_circle_rounded),
+      ),
       body: _selectedpage == 0 ?
       Container(
         decoration: BoxDecoration(
@@ -458,6 +539,52 @@ class _ViewadminorderState extends State<Viewadminorder> {
                           Expanded(
                             child: Container(
                               child: Text(widget.quantity,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),textAlign: TextAlign.end,),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text("Delivery Plan: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14
+                              ),),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Text(widget.deliveryplan,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),textAlign: TextAlign.end,),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text("Days of delivery: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14
+                              ),),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Text(widget.deliveryday,
                                 style: TextStyle(
                                   fontSize: 14,
                                 ),textAlign: TextAlign.end,),
