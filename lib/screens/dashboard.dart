@@ -693,7 +693,7 @@ class _DashboardState extends State<Dashboard> {
             'productdeliveryprice': "0",
             'location': productlocation,
             'img': prodfilename,
-            'deliveryoption': option,
+            'deliveryoption': "Pay Online",
             'addstat': 'no',
             'city':cities_item
           });
@@ -4085,79 +4085,80 @@ class _DashboardState extends State<Dashboard> {
                           // ),
                           //product delivery option text
 
-                          Container(
-                            margin: EdgeInsets.only(left: 10, top: 20),
-                            child: Text("Delivery Options"),
-                          ),
-                          //product delivery option dropdown
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 10, right: 10, top: 10),
-                            child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  //background color of dropdown button
-                                  border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                  //border of dropdown button
-                                  borderRadius: BorderRadius.circular(
-                                      10), //border raiuds of dropdown button
-                                ),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                    child: DropdownButton(
-                                      value: option,
-                                      items: [
-                                        //add items in the dropdown
-                                        DropdownMenuItem(
-                                          child: Text(
-                                            "Pay on Delivery",
-                                            style: TextStyle(fontSize: 17),
-                                          ),
-                                          value: "Pay on Delivery",
-                                        ),
-                                        DropdownMenuItem(
-                                            child: Text(
-                                              "Pay Online",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            value: "Pay Online"),
-                                      ],
-                                      onChanged: (value) {
-                                        //get value when changed
-                                        setState(() {
-                                          option = value!;
-                                        });
-                                        print("You have selected $value");
-                                      },
-                                      icon: Padding(
-                                          //Icon at tail, arrow bottom is default icon
-                                          padding: EdgeInsets.only(left: 20),
-                                          child: Icon(Icons.arrow_drop_down)),
-                                      iconEnabledColor: Colors.white,
-                                      //Icon color
-                                      style: TextStyle(
-                                          //te
-                                          color: Colors.white,
-                                          //Font color
-                                          fontSize:
-                                              20 //font size on dropdown button
-                                          ),
-
-                                      dropdownColor: Colors.grey,
-                                      //dropdown background color
-                                      underline: Container(),
-                                      //remove underline
-                                      isExpanded:
-                                          true, //make true to make width 100%
-                                    ))),
-                          ),
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 10, top: 20),
+                          //   child: Text("Delivery Options"),
+                          // ),
+                          // //product delivery option dropdown
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(left: 10, right: 10, top: 10),
+                          //   child: DecoratedBox(
+                          //       decoration: BoxDecoration(
+                          //         color: Colors.grey,
+                          //         //background color of dropdown button
+                          //         border:
+                          //             Border.all(color: Colors.grey, width: 1),
+                          //         //border of dropdown button
+                          //         borderRadius: BorderRadius.circular(
+                          //             10), //border raiuds of dropdown button
+                          //       ),
+                          //       child: Padding(
+                          //           padding:
+                          //               EdgeInsets.only(left: 20, right: 20),
+                          //           child: DropdownButton(
+                          //             value: option,
+                          //             items: [
+                          //               //add items in the dropdown
+                          //               DropdownMenuItem(
+                          //                 child: Text(
+                          //                   "Pay on Delivery",
+                          //                   style: TextStyle(fontSize: 17),
+                          //                 ),
+                          //                 value: "Pay on Delivery",
+                          //               ),
+                          //               DropdownMenuItem(
+                          //                   child: Text(
+                          //                     "Pay Online",
+                          //                     style: TextStyle(fontSize: 17),
+                          //                   ),
+                          //                   value: "Pay Online"),
+                          //             ],
+                          //             onChanged: (value) {
+                          //               //get value when changed
+                          //               setState(() {
+                          //                 option = value!;
+                          //               });
+                          //               print("You have selected $value");
+                          //             },
+                          //             icon: Padding(
+                          //                 //Icon at tail, arrow bottom is default icon
+                          //                 padding: EdgeInsets.only(left: 20),
+                          //                 child: Icon(Icons.arrow_drop_down)),
+                          //             iconEnabledColor: Colors.white,
+                          //             //Icon color
+                          //             style: TextStyle(
+                          //                 //te
+                          //                 color: Colors.white,
+                          //                 //Font color
+                          //                 fontSize:
+                          //                     20 //font size on dropdown button
+                          //                 ),
+                          //
+                          //             dropdownColor: Colors.grey,
+                          //             //dropdown background color
+                          //             underline: Container(),
+                          //             //remove underline
+                          //             isExpanded:
+                          //                 true, //make true to make width 100%
+                          //           ))),
+                          // ),
                           //product attach text
+
                           Container(
                             margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Attach"),
+                            child: Text("Attach Photos"),
                           ),
                           //product upload images
                           Container(
