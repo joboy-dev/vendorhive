@@ -51,7 +51,6 @@ class _BusinessPackageState extends State<BusinessPackage> {
       SafeArea(
         child: ListView(
           children: [
-
             //Packages Title
             Container(
               margin: EdgeInsets.only(top: 20),
@@ -278,9 +277,9 @@ class _BusinessPackageState extends State<BusinessPackage> {
                   )
               ),
             ),
+
             GestureDetector(
               onTap: (){
-
                 if(drop == 'Alpha'){
                   amount = "10000";
                   // amount = "100";

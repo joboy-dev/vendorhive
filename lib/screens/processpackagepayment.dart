@@ -62,6 +62,18 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
           }
       );
 
+      //notify user
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': "You are now on "+widget.package+" package",
+            'info': widget.email,
+            'tag': 'Package',
+            'quantity' : "1 package",
+            'refno': trfid
+          }
+      );
+
       if(upgradepackage.statusCode == 200){
         if(jsonDecode(upgradepackage.body) == 'true'){
           print('User is upgraded to '+widget.package);

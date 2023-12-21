@@ -29,11 +29,10 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
 
   bool one_time_payment = true;
   int _selectedpage = 0;
+  int itemnumbers = 0;
   String paymentmethod = "wallet";
-
   String trfid = "";
   String finalbalance = "";
-  int itemnumbers = 0;
 
   void currentdate(){
     print('Timestamp is gotten as refno');
@@ -77,6 +76,18 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
           body: {
             'email':widget.email,
             'package':widget.package
+          }
+      );
+
+      //notify user
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': "You are now on "+widget.package+" package",
+            'info': widget.email,
+            'tag': 'Package',
+            'quantity' : "1 package",
+            'refno': trfid
           }
       );
 

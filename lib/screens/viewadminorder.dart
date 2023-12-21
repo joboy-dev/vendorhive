@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
+import 'successfulproductreject.dart';
+
 class Viewadminorder extends StatefulWidget {
   String productname = "";
   String productid = "";
@@ -307,17 +309,40 @@ class _ViewadminorderState extends State<Viewadminorder> {
           }
       );
 
+      //notify user
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': widget.productname+" has being rejected",
+            'info': widget.useremail,
+            'tag': 'Product',
+            'quantity' : widget.quantity,
+            'refno': widget.tkid
+          }
+      );
+
       if(jsonDecode(delete_ordered.body) == "true" &&
       jsonDecode(record_reject.body) == "true" &&
       jsonDecode(credit_custwallet_delivery.body) == "true" &&
       jsonDecode(credit_custwallet_amount.body) == "true"){
+
+        setState(() {
+          _selectedpage = 0;
+        });
+
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return SuccessReject();
+        }));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Product is rejected")));
+      }
+      else{
         setState(() {
           _selectedpage = 0;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Product is rejected")));
-        Navigator.pop(context);
-        Navigator.pop(context);
+            SnackBar(content: Text("Request timed out")));
       }
 
 
