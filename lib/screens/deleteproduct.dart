@@ -49,12 +49,15 @@ class _DeleteProductState extends State<DeleteProduct> {
   TextEditingController _newDescription = new TextEditingController();
 
   Future delete_product() async {
+
     setState(() {
       _loadIndex = 1;
     });
+
     var response = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/delete_product.php'),
         body: {'pidname': widget.pidname});
+
     if (response.statusCode == 200) {
       if (jsonDecode(response.body) == "true") {
         setState(() {
@@ -395,39 +398,39 @@ class _DeleteProductState extends State<DeleteProduct> {
                         ),
                       ),
                       //Edit Payment Option
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = 4;
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(bottom: 10, top: 10),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.grey, width: .5))),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 8,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Image.asset("assets/mobile-payment.png",
-                                    color: Color.fromRGBO(246, 123, 55, 1)),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "Edit Payment Option",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       _selectedItem = 4;
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     padding: EdgeInsets.only(bottom: 10, top: 10),
+                      //     decoration: BoxDecoration(
+                      //         border: Border(
+                      //             bottom: BorderSide(
+                      //                 color: Colors.grey, width: .5))),
+                      //     child: Row(
+                      //       children: [
+                      //         Container(
+                      //           width: MediaQuery.of(context).size.width / 8,
+                      //           margin: EdgeInsets.only(left: 10),
+                      //           child: Image.asset("assets/mobile-payment.png",
+                      //               color: Color.fromRGBO(246, 123, 55, 1)),
+                      //         ),
+                      //         Container(
+                      //           margin: EdgeInsets.only(left: 15),
+                      //           child: Text(
+                      //             "Edit Payment Option",
+                      //             style: TextStyle(
+                      //                 fontWeight: FontWeight.w500,
+                      //                 fontSize: 16),
+                      //           ),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       //Edit Delivery Method
                       GestureDetector(
                         onTap: () {

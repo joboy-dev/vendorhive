@@ -266,7 +266,8 @@ class _VendorServiceState extends State<VendorService> {
                   ),
                   child: Center(
                     child: Text("View Paid Service",style: TextStyle(
-                        color: Colors.white
+                        color: Colors.white,
+                      fontWeight: FontWeight.bold
                     ),),
                   ),
                 ),

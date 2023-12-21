@@ -281,7 +281,8 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                 ),
                 child: Center(
                   child: Text("View Orders",style: TextStyle(
-                      color: Colors.white
+                      color: Colors.white,
+                    fontWeight: FontWeight.bold
                   ),),
                 ),
               ),
