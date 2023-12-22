@@ -184,21 +184,16 @@ class _MyOrdersState extends State<MyOrders> {
                               }));
                             },
                             child: Container(
-
                                 padding: EdgeInsets.only(bottom: 15, top: 10),
-
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom:
                                             BorderSide(width: .5, color: Colors.grey))),
-
                                 margin: EdgeInsets.only(
                                   top: 10,
                                 ),
-
                                 child: Row(
                                   children: [
-
                                     Container(
                                       margin: EdgeInsets.only(
                                         left: 10,

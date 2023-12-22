@@ -92,9 +92,9 @@ class _ViewadminorderState extends State<Viewadminorder> {
     );
 
     if(productstatus.statusCode == 200){
-
       print(jsonDecode(productstatus.body)[0]['ordershipped']);
-      if(jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone'){
+      if(jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone' &&
+          jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone'){
 
         setState(() {
           enableshipping = true;
@@ -114,7 +114,8 @@ class _ViewadminorderState extends State<Viewadminorder> {
         });
 
         print(jsonDecode(productstatus.body)[0]['orderarrived']);
-        if(jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone'){
+        if(jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone' &&
+            jsonDecode(productstatus.body)[0]['ordershipped'] == 'done'){
 
           setState(() {
             loading = true;
@@ -139,7 +140,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
   }
 
   Future updateshippedorder() async {
-
+    print("Update order to shipped");
     setState(() {
       _selectedpage = 1;
     });
@@ -147,9 +148,10 @@ class _ViewadminorderState extends State<Viewadminorder> {
     var updateshiporder = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorupdateshipped.php'),
         body: {
-          'productid':widget.tkid,
+          'productid':widget.productid,
           'adminemail':widget.adminemail,
           'useremail':widget.useremail,
+          'tkid' : widget.tkid
         }
     );
 
@@ -182,7 +184,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
   }
 
   Future updatearrivedorder() async {
-
+    print("Update order to arrived");
     setState(() {
       _selectedpage = 1;
     });
@@ -190,15 +192,15 @@ class _ViewadminorderState extends State<Viewadminorder> {
     var updatearrive = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorupdatearrived.php'),
         body: {
-          'productid':widget.tkid,
+          'productid':widget.productid,
           'useremail':widget.useremail,
-          'adminemail': widget.adminemail
+          'adminemail': widget.adminemail,
+          'tkid' : widget.tkid
         }
     );
 
     if(updatearrive.statusCode == 200){
       if(jsonDecode(updatearrive.body)=='true'){
-
         setState(() {
           _selectedpage = 0;
           delivered = false;
@@ -206,30 +208,22 @@ class _ViewadminorderState extends State<Viewadminorder> {
           loadingdeli = true;
           loading = true;
         });
-
         print("Product has arrived at destination");
-
       }
       else{
-
         setState(() {
           _selectedpage = 0;
         });
-
         print("Product has not arrived at destination");
-
       }
     }
     else{
-
       setState(() {
         _selectedpage = 0;
       });
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Network Issues'))
       );
-
     }
   }
 

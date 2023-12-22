@@ -165,7 +165,8 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                               datepprelease: raworders[index]['dateppreleased'],
                               productimage: raworders[index]['prodimagename'],
                               productname: raworders[index]['productname'],
-                              deliveryprice: raworders[index]['deliveryprice'],);
+                              deliveryprice: raworders[index]['deliveryprice'],
+                              tkid: raworders[index]['tkid'],);
                             }));
                           },
                           child:

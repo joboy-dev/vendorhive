@@ -130,7 +130,6 @@ class _DashboardState extends State<Dashboard> {
   String location = "Lagos";
   String productlocation = "Lagos";
   String packageName = "";
-
   int amountofproducts = 0;
   int amountofservice = 0;
   String numberassignedproduct = "";
@@ -819,7 +818,7 @@ class _DashboardState extends State<Dashboard> {
       print(jsonDecode(earn.body));
       referals = jsonDecode(earn.body);
       print('Number of referals ${referals.length}');
-      number_of_referals = referals.length;
+      number_of_referals = referals.length * 3;
       print("getting used products");
       final checkfornumberofproducts = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/vendorcheckproductid.php'),
@@ -1258,7 +1257,7 @@ class _DashboardState extends State<Dashboard> {
       // }
 
       referals_service = jsonDecode(earn.body);
-      number_of_referals_service = referals_service.length;
+      number_of_referals_service = referals_service.length * 3;
 
       if ((numberofservice + number_of_referals_service) > amountofservice) {
         setState(() {
@@ -3390,156 +3389,154 @@ class _DashboardState extends State<Dashboard> {
                               ? appcontactlist.length > 0
                                   ? RefreshIndicator(
                                     onRefresh: chatcontact,
-                                    child: ListView(children: [
-                                        ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemCount: appcontactlist.length,
-                                            padding: EdgeInsets.zero,
-                                            itemBuilder: (context, index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    unreadmsgs[index] = "0";
-                                                  });
-                                                  Navigator.push(context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                    return ChatMsg(
-                                                      username: chatdetails[
-                                                      index]
-                                                          .username,
-                                                      sidname:
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                        NeverScrollableScrollPhysics(),
+                                        itemCount: appcontactlist.length,
+                                        padding: EdgeInsets.zero,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                unreadmsgs[index] = "0";
+                                              });
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return ChatMsg(
+                                                          username: chatdetails[
+                                                          index]
+                                                              .username,
+                                                          sidname:
                                                           appcontactlist[index],
-                                                      useremail:
+                                                          useremail:
                                                           chatdetails[index]
                                                               .useremail,
-                                                      adminemail:
+                                                          adminemail:
                                                           widget.useremail,
-                                                      idname: widget.idname,
-                                                      usertype: widget.usertype,
-                                                      servicename:
+                                                          idname: widget.idname,
+                                                          usertype: widget.usertype,
+                                                          servicename:
                                                           servicenamelist[index],
-                                                    );
-                                                  }));
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  child: Column(
+                                                        );
+                                                      }));
+                                            },
+                                            child: Container(
+                                              margin:
+                                              EdgeInsets.only(top: 10),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                     children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 10),
-                                                            child: CircleAvatar(
-                                                              backgroundColor:
-                                                                  Color.fromRGBO(
-                                                                      217,
-                                                                      217,
-                                                                      217,
-                                                                      1),
-                                                              radius: 30,
-                                                              child: Image.asset("assets/vendo.png"),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      color: Colors
-                                                                          .white),
-                                                              margin:
-                                                                  EdgeInsets.only(
-                                                                      left: 10),
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Container(
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                            bottom:
-                                                                                5),
-                                                                    child: Text(
-                                                                      chatdetails[
-                                                                              index]
-                                                                          .username,
-                                                                      style: TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                    child: lastmsg[
-                                                                                index]
-                                                                            .contains(
-                                                                                "https://adeoropelumi.com/vendor/chatsimg/")
-                                                                        ? Container(
-                                                                            child:
-                                                                                Icon(Icons.image),
-                                                                          )
-                                                                        : Text(
-                                                                            modify(
-                                                                                lastmsg[index]),
-                                                                            maxLines:
-                                                                                2,
-                                                                            overflow:
-                                                                                TextOverflow.ellipsis,
-                                                                            style:
-                                                                                TextStyle(fontSize: 12),
-                                                                          ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          unreadmsgs[index] == "0"
-                                                              ? Container()
-                                                              : Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          right:
-                                                                              10,
-                                                                          left:
-                                                                              5),
-                                                                  child:
-                                                                      CircleAvatar(
-                                                                    radius: 15,
-                                                                    backgroundColor:
-                                                                        Color.fromRGBO(
-                                                                            243,
-                                                                            207,
-                                                                            198,
-                                                                            1),
-                                                                    child: Text(
-                                                                      unreadmsgs[
-                                                                          index],
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .black),
-                                                                    ),
-                                                                  ),
+                                                      Container(
+                                                        margin:
+                                                        EdgeInsets.only(
+                                                            left: 10),
+                                                        child: CircleAvatar(
+                                                          backgroundColor:
+                                                          Color.fromRGBO(
+                                                              217,
+                                                              217,
+                                                              217,
+                                                              1),
+                                                          radius: 30,
+                                                          child: Image.asset("assets/vendo.png"),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          decoration:
+                                                          BoxDecoration(
+                                                              color: Colors
+                                                                  .white),
+                                                          margin:
+                                                          EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                    bottom:
+                                                                    5),
+                                                                child: Text(
+                                                                  chatdetails[
+                                                                  index]
+                                                                      .username,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight.w500),
                                                                 ),
-                                                        ],
+                                                              ),
+                                                              Container(
+                                                                child: lastmsg[
+                                                                index]
+                                                                    .contains(
+                                                                    "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                    ? Container(
+                                                                  child:
+                                                                  Icon(Icons.image),
+                                                                )
+                                                                    : Text(
+                                                                  modify(
+                                                                      lastmsg[index]),
+                                                                  maxLines:
+                                                                  2,
+                                                                  overflow:
+                                                                  TextOverflow.ellipsis,
+                                                                  style:
+                                                                  TextStyle(fontSize: 12),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
-                                                      SizedBox(
-                                                        height: 10,
+                                                      unreadmsgs[index] == "0"
+                                                          ? Container()
+                                                          : Container(
+                                                        margin: EdgeInsets
+                                                            .only(
+                                                            right:
+                                                            10,
+                                                            left:
+                                                            5),
+                                                        child:
+                                                        CircleAvatar(
+                                                          radius: 15,
+                                                          backgroundColor:
+                                                          Color.fromRGBO(
+                                                              243,
+                                                              207,
+                                                              198,
+                                                              1),
+                                                          child: Text(
+                                                            unreadmsgs[
+                                                            index],
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
                                                       ),
-                                                      Divider()
                                                     ],
                                                   ),
-                                                ),
-                                              );
-                                            })
-                                      ]),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Divider()
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                   )
                                   : Container(
                                       child: Center(
@@ -5946,25 +5943,29 @@ class _DashboardState extends State<Dashboard> {
               _bottomNavIndex = 0;
             });
             getPackage();
-          } else if (index == 1) {
+          }
+          else if (index == 1) {
             setState(() {
               _selectedIndex = 1;
               _bottomNavIndex = 1;
             });
             availablebalance();
             finalpendinglebalance();
-          } else if (index == 2) {
+          }
+          else if (index == 2) {
             setState(() {
               _bottomNavIndex = 2;
               showModal();
             });
-          } else if (index == 3) {
+          }
+          else if (index == 3) {
             chatcontact();
             setState(() {
               _selectedIndex = 2;
               _bottomNavIndex = 3;
             });
-          } else if (index == 4) {
+          }
+          else if (index == 4) {
             setState(() {
               _selectedIndex = 3;
               _bottomNavIndex = 4;
@@ -6061,49 +6062,52 @@ class _DashboardState extends State<Dashboard> {
       )
     )
     :Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: SpinKitFadingCube(
-                        color: Colors.orange,
-                        size: 100,
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        "Processing",
-                        style: TextStyle(
-                            color: Color.fromRGBO(246, 123, 55, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize:
-                            MediaQuery.of(context).size.width / 26),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Text(
-                          'Vendorhive360',
-                          style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
+        body: WillPopScope(
+          onWillPop: _onWillPop,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: SpinKitFadingCube(
+                          color: Colors.orange,
+                          size: 100,
                         ),
                       ),
-                    )
-                  ],
+                      Container(
+                        child: Text(
+                          "Processing",
+                          style: TextStyle(
+                              color: Color.fromRGBO(246, 123, 55, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                              MediaQuery.of(context).size.width / 26),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                          child: Text(
+                            'Vendorhive360',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         )
     );
   }

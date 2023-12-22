@@ -64,7 +64,7 @@ class _RefersState extends State<Refers> {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                        onLongPress:(){
+                        onTap:(){
                           Clipboard.setData(ClipboardData(text: widget.idname));
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text("Copied to Clipboard"),
@@ -80,7 +80,7 @@ class _RefersState extends State<Refers> {
                         ),
                       ),
                       GestureDetector(
-                        onLongPress: (){
+                        onTap: (){
                           Clipboard.setData(ClipboardData(text: widget.idname));
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text("Copied to Clipboard"),

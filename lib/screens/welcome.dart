@@ -1383,12 +1383,6 @@ class _WelcomeState extends State<Welcome> {
                             //border of dropdown button
                             borderRadius: BorderRadius.circular(
                                 10), //border raiuds of dropdown button
-                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                            //   BoxShadow(
-                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                            //       // blurRadius: 5
-                            //   ) //blur radius of shadow
-                            // ]
                           ),
                           child: Padding(
                               padding: EdgeInsets.only(left: 20, right: 20),
@@ -1740,12 +1734,6 @@ class _WelcomeState extends State<Welcome> {
                             //border of dropdown button
                             borderRadius: BorderRadius.circular(
                                 10), //border raiuds of dropdown button
-                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                            //   BoxShadow(
-                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                            //       // blurRadius: 5
-                            //   ) //blur radius of shadow
-                            // ]
                           ),
                           child: Padding(
                               padding: EdgeInsets.only(left: 20, right: 20),
@@ -1801,12 +1789,6 @@ class _WelcomeState extends State<Welcome> {
                             //border of dropdown button
                             borderRadius: BorderRadius.circular(
                                 10), //border raiuds of dropdown button
-                            // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                            //   BoxShadow(
-                            //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                            //       // blurRadius: 5
-                            //   ) //blur radius of shadow
-                            // ]
                           ),
                           child: Padding(
                               padding: EdgeInsets.only(left: 20, right: 20),
@@ -1947,7 +1929,7 @@ class _WelcomeState extends State<Welcome> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You can't just fill one price")));
                         }
                         else if(_priceFromService.text.isEmpty && _priceToService.text.isEmpty && servicefilter == "-"
-                            && service_payment_option == "-" && cities_item == "-"){
+                            && service_payment_option == "-" && cities_item_service == "-"){
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select a filter category")));
                         }
@@ -1964,7 +1946,8 @@ class _WelcomeState extends State<Welcome> {
                               _priceFromService.clear();
                               _priceToService.clear();
                             }
-                          }else{
+                          }
+                          else{
                             Navigator.of(context).pop();
                             search_filter_service();
                             _priceFromService.clear();
@@ -4129,230 +4112,225 @@ class _WelcomeState extends State<Welcome> {
                           ? appcontactlist.length > 0
                               ? RefreshIndicator(
                                 onRefresh: chatcontact,
-                                child: ListView(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: appcontactlist.length,
                                     padding: EdgeInsets.zero,
-                                    children: [
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: appcontactlist.length,
-                                          padding: EdgeInsets.zero,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  unreadmsgscust[index] = "0";
-                                                });
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            unreadmsgscust[index] = "0";
+                                          });
 
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return ServiceMsg(
-                                                      logo: getLogo[index],
-                                                      username: adminusername[index],
-                                                      adminemail:
-                                                          adminemaillist[index],
-                                                      servicename:
-                                                          servicenamelist[index],
-                                                      serviceid:
-                                                          appcontactlist[index],
-                                                      useremail: widget.useremail,
-                                                      idname: widget.idname,
-                                                      usertype: widget.usertype);
-                                                }));
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(top: 10),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Container(
-                                                          margin: EdgeInsets.only(
-                                                              left: 10),
-                                                          child: CircleAvatar(
-                                                            backgroundColor:
-                                                                Color.fromRGBO(
-                                                                    217,
-                                                                    217,
-                                                                    217,
-                                                                    1),
-                                                            radius: 30,
-                                                            child: Padding(
-                                                                padding: const EdgeInsets.all(10.0),
-                                                                child: FadeInImage(
-                                                                  image: NetworkImage(
-                                                                    "https://www.adeoropelumi.com/vendor/blogo/"+getLogo[index],
-                                                                  ),
-                                                                  placeholder: AssetImage(
-                                                                      "assets/image.png"),
-                                                                  imageErrorBuilder:
-                                                                      (context, error,
-                                                                      stackTrace) {
-                                                                    return Image.asset(
-                                                                        'assets/error.png',
-                                                                        fit: BoxFit
-                                                                            .fitWidth);
-                                                                  },
-                                                                  fit: BoxFit.fitWidth,
-                                                                )
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return ServiceMsg(
+                                                        logo: getLogo[index],
+                                                        username: adminusername[index],
+                                                        adminemail:
+                                                        adminemaillist[index],
+                                                        servicename:
+                                                        servicenamelist[index],
+                                                        serviceid:
+                                                        appcontactlist[index],
+                                                        useremail: widget.useremail,
+                                                        idname: widget.idname,
+                                                        usertype: widget.usertype);
+                                                  }));
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: CircleAvatar(
+                                                      backgroundColor:
+                                                      Color.fromRGBO(
+                                                          217,
+                                                          217,
+                                                          217,
+                                                          1),
+                                                      radius: 30,
+                                                      child: Padding(
+                                                          padding: const EdgeInsets.all(10.0),
+                                                          child: FadeInImage(
+                                                            image: NetworkImage(
+                                                              "https://www.adeoropelumi.com/vendor/blogo/"+getLogo[index],
+                                                            ),
+                                                            placeholder: AssetImage(
+                                                                "assets/image.png"),
+                                                            imageErrorBuilder:
+                                                                (context, error,
+                                                                stackTrace) {
+                                                              return Image.asset(
+                                                                  'assets/error.png',
+                                                                  fit: BoxFit
+                                                                      .fitWidth);
+                                                            },
+                                                            fit: BoxFit.fitWidth,
+                                                          )
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      decoration:
+                                                      BoxDecoration(
+                                                          color: Colors
+                                                              .white),
+                                                      margin:
+                                                      EdgeInsets.only(
+                                                          left: 10),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          Container(
+                                                            margin: EdgeInsets
+                                                                .only(
+                                                                bottom:
+                                                                5),
+                                                            child: Text(
+                                                              servicenamelist[
+                                                              index],
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                                  fontSize:
+                                                                  14),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .white),
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 10),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          bottom:
-                                                                              5),
-                                                                  child: Text(
-                                                                    servicenamelist[
-                                                                        index],
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  child: lastmsg[
-                                                                              index]
-                                                                          .contains(
-                                                                              "https://adeoropelumi.com/vendor/chatsimg/")
-                                                                      ? Container(
-                                                                          child: Icon(
-                                                                              Icons.image),
-                                                                        )
-                                                                      : Text(
-                                                                          modify(lastmsg[
-                                                                              index]),
-                                                                          style: TextStyle(
-                                                                              fontSize:
-                                                                                  12),
-                                                                        ),
-                                                                )
-                                                              ],
+                                                          Container(
+                                                            child: lastmsg[
+                                                            index]
+                                                                .contains(
+                                                                "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                ? Container(
+                                                              child: Icon(
+                                                                  Icons.image),
+                                                            )
+                                                                : Text(
+                                                              modify(lastmsg[
+                                                              index]),
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                  12),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        unreadmsgscust[index] ==
-                                                                "0"
-                                                            ? Container()
-                                                            : Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        right: 10,
-                                                                        left: 5),
-                                                                child:
-                                                                    CircleAvatar(
-                                                                  radius: 15,
-                                                                  backgroundColor:
-                                                                      Color
-                                                                          .fromRGBO(
-                                                                              243,
-                                                                              207,
-                                                                              198,
-                                                                              1),
-                                                                  child: Text(
-                                                                    unreadmsgscust[
-                                                                        index],
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                      ],
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                    SizedBox(
-                                                      height: 10,
+                                                  ),
+                                                  unreadmsgscust[index] ==
+                                                      "0"
+                                                      ? Container()
+                                                      : Container(
+                                                    margin: EdgeInsets
+                                                        .only(
+                                                        right: 10,
+                                                        left: 5),
+                                                    child:
+                                                    CircleAvatar(
+                                                      radius: 15,
+                                                      backgroundColor:
+                                                      Color
+                                                          .fromRGBO(
+                                                          243,
+                                                          207,
+                                                          198,
+                                                          1),
+                                                      child: Text(
+                                                        unreadmsgscust[
+                                                        index],
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black,
+                                                            fontSize:
+                                                            13),
+                                                      ),
                                                     ),
-                                                    //pay vendor button
-                                                    // GestureDetector(
-                                                    //   onTap: () {
-                                                    //     print("pay vendor");
-                                                    //
-                                                    //     Navigator.push(context,
-                                                    //         MaterialPageRoute(
-                                                    //             builder:
-                                                    //                 (context) {
-                                                    //       return PayforService(
-                                                    //         idname: widget.idname,
-                                                    //         sidname:
-                                                    //             appcontactlist[
-                                                    //                 index],
-                                                    //         useremail:
-                                                    //             widget.useremail,
-                                                    //         adminemail:
-                                                    //             adminemaillist[
-                                                    //                 index],
-                                                    //         servicename:
-                                                    //             servicenamelist[
-                                                    //                 index],
-                                                    //       );
-                                                    //     }));
-                                                    //   },
-                                                    //   child: Container(
-                                                    //     decoration: BoxDecoration(
-                                                    //         border: Border.all(
-                                                    //             color: Colors
-                                                    //                 .orangeAccent),
-                                                    //         color: Colors.green),
-                                                    //     padding:
-                                                    //         EdgeInsets.symmetric(
-                                                    //             vertical: 10),
-                                                    //     margin: EdgeInsets.only(
-                                                    //         top: 3),
-                                                    //     child: Row(
-                                                    //       children: [
-                                                    //         Expanded(
-                                                    //             child: Text(
-                                                    //           "Pay Vendor",
-                                                    //           textAlign: TextAlign
-                                                    //               .center,
-                                                    //           style: TextStyle(
-                                                    //               color: Colors
-                                                    //                   .white,
-                                                    //               fontWeight:
-                                                    //                   FontWeight
-                                                    //                       .bold,
-                                                    //               fontSize: 14),
-                                                    //         ))
-                                                    //       ],
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
-                                                    // SizedBox(
-                                                    //   height: 10,
-                                                    // ),
-                                                    Divider(),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                          })
-                                    ],
-                                  ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              //pay vendor button
+                                              // GestureDetector(
+                                              //   onTap: () {
+                                              //     print("pay vendor");
+                                              //
+                                              //     Navigator.push(context,
+                                              //         MaterialPageRoute(
+                                              //             builder:
+                                              //                 (context) {
+                                              //       return PayforService(
+                                              //         idname: widget.idname,
+                                              //         sidname:
+                                              //             appcontactlist[
+                                              //                 index],
+                                              //         useremail:
+                                              //             widget.useremail,
+                                              //         adminemail:
+                                              //             adminemaillist[
+                                              //                 index],
+                                              //         servicename:
+                                              //             servicenamelist[
+                                              //                 index],
+                                              //       );
+                                              //     }));
+                                              //   },
+                                              //   child: Container(
+                                              //     decoration: BoxDecoration(
+                                              //         border: Border.all(
+                                              //             color: Colors
+                                              //                 .orangeAccent),
+                                              //         color: Colors.green),
+                                              //     padding:
+                                              //         EdgeInsets.symmetric(
+                                              //             vertical: 10),
+                                              //     margin: EdgeInsets.only(
+                                              //         top: 3),
+                                              //     child: Row(
+                                              //       children: [
+                                              //         Expanded(
+                                              //             child: Text(
+                                              //           "Pay Vendor",
+                                              //           textAlign: TextAlign
+                                              //               .center,
+                                              //           style: TextStyle(
+                                              //               color: Colors
+                                              //                   .white,
+                                              //               fontWeight:
+                                              //                   FontWeight
+                                              //                       .bold,
+                                              //               fontSize: 14),
+                                              //         ))
+                                              //       ],
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              // SizedBox(
+                                              //   height: 10,
+                                              // ),
+                                              Divider(),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
                               )
                               : Container(
                                   child: Center(

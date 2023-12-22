@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/rateproduct.dart';
 import 'package:vendorandroid/screens/requestrefund.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,9 @@ class TrackOrder extends StatefulWidget {
   String datepprelease = "";
   String productimage = "";
   String deliveryprice = "";
+  String tkid = "";
   TrackOrder({
+    required this.tkid,
     required this.deliveryprice,
     required this.productname,
     required this.idname,
@@ -63,7 +66,6 @@ class TrackOrder extends StatefulWidget {
 }
 
 class _TrackOrderState extends State<TrackOrder> {
-
   bool rdeliverlypayment = true;
   bool rproductpayment = true;
   String ordershipped = 'undone';
@@ -72,10 +74,13 @@ class _TrackOrderState extends State<TrackOrder> {
   String ppreleased = 'undone';
   List rawtracks = [];
   bool ppprocessing = false;
-
   bool showtracks = true;
+  int _selectedPage = 0;
 
   Future realeasepayment() async{
+    setState(() {
+      _selectedPage = 1;
+    });
 
     print("processing payment");
     print(widget.productid);
@@ -87,7 +92,8 @@ class _TrackOrderState extends State<TrackOrder> {
         body: {
           'pidname':widget.productid,
           'useremail':widget.useremail,
-          'adminemail':widget.adminemail
+          'adminemail':widget.adminemail,
+          'tkid' : widget.tkid
         }
     );
 
@@ -109,13 +115,15 @@ class _TrackOrderState extends State<TrackOrder> {
             print("Wallet is updated");
 
             setState(() {
+              _selectedPage = 0;
               dpreleased = 'done';
-              Navigator.pop(context);
               if(dpreleased == 'undone'){
                 dpreleased = 'done';
               }
             });
-
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Congratulations!, Payment is released"))
+            );
           }
         }
       }
@@ -124,7 +132,6 @@ class _TrackOrderState extends State<TrackOrder> {
       }
     }
   }
-
 
   @override
   void initState() {
@@ -135,16 +142,20 @@ class _TrackOrderState extends State<TrackOrder> {
     dpreleased = widget.deliverypayment;
     ppreleased = widget.productpayment;
     showtracks = true;
+    print(widget.tkid);
+    print(widget.productid);
+    print(widget.useremail);
+    print(widget.adminemail);
     // gettrackorder();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: _selectedPage ==0 ?
+      SafeArea(
         child: Column(
           children: [
-
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(217, 217, 217, .5),
@@ -195,15 +206,12 @@ class _TrackOrderState extends State<TrackOrder> {
                 fontWeight: FontWeight.w500
               ),),
             ),
-
             Flexible(
                 child: ListView(
               children: [
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height/40,
                 ),
-
                 Container(
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(238, 252, 233, 1),
@@ -213,7 +221,6 @@ class _TrackOrderState extends State<TrackOrder> {
                   margin: EdgeInsets.only(left: 10,right: 10),
                   child: Column(
                     children: [
-
                       //Track order and id
                       Container(
                         padding:EdgeInsets.only(bottom: 20,top: 20),
@@ -249,7 +256,6 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       Container(
                         child: Row(
                           children: [
@@ -313,21 +319,14 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height/40,
                       ),
-
                       Container(
                         child: Row(
                           children: [
-
                             showtracks ?
-
-                            ordershipped == 'undone'
-
-                                ?
-
+                            ordershipped == 'undone' ?
                             Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
@@ -338,10 +337,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                            :
-
-                            Container(
+                            : Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
                                   color: Colors.green,
@@ -351,14 +347,10 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                            :
-
-                            CircularProgressIndicator(
+                            : CircularProgressIndicator(
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
-
                             Container(
                               padding: EdgeInsets.only(left: 10),
                               child: Column(
@@ -415,20 +407,14 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height/40,
                       ),
-
                       Container(
                         child: Row(
                           children: [
-
                             showtracks ?
-
-                            orderarrived == 'undone'
-                                ?
-
+                            orderarrived == 'undone' ?
                             Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
@@ -439,10 +425,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-
-                            Container(
+                            : Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
                                   color: Colors.green,
@@ -452,14 +435,10 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-
-                            CircularProgressIndicator(
+                            : CircularProgressIndicator(
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
-
                             Container(
                               padding: EdgeInsets.only(left: 10),
                               child: Column(
@@ -516,11 +495,9 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height/40,
                       ),
-
                       Container(
                         child: Row(
                           children: [
@@ -618,11 +595,9 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height/40,
                       ),
-
                       Container(
                         child: Row(
                           children: [
@@ -718,22 +693,19 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height/40,
                       ),
-
                     ],
                   ),
                 ),
-
                 GestureDetector(
                   onTap: () async {
                     double total = double.parse(widget.amount) + double.parse(widget.deliveryprice);
                     if(dpreleased == 'undone' && widget.ordershipped == 'done' && widget.orderarrived == 'done'){
                       await showDialog(
                         context: context,
-                        builder: (context) {
+                        builder: (cxt) {
                           return AlertDialog(
                             title: Center(
                                 child: Text('₦'+total.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),)),
@@ -745,6 +717,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   builder: (BuildContext context, BoxConstraints constraints) {
                                     return GestureDetector(
                                       onTap: (){
+                                        Navigator.of(cxt).pop();
                                         realeasepayment();
                                       },
                                       child: Container(
@@ -769,7 +742,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                       onTap: (){
                                         setState(() {
                                           ppprocessing = true;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(cxt).pop();
                                         });
                                       },
                                       child: Container(
@@ -901,6 +874,50 @@ class _TrackOrderState extends State<TrackOrder> {
             )
           ],
         ),
+      )
+      :Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Processing",
+                      style: TextStyle(
+                          color: Color.fromRGBO(246, 123, 55, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize:
+                          MediaQuery.of(context).size.width / 26),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text(
+                        'Vendorhive360',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
