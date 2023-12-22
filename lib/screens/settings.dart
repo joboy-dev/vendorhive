@@ -5,6 +5,7 @@ import 'package:vendorandroid/screens/login.dart';
 import 'package:vendorandroid/screens/delete.dart';
 import 'package:vendorandroid/screens/deletevendor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'cart.dart';
 
@@ -25,6 +26,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  int _selectedIndex = 0;
+
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
 
   @override
   void initState() {
@@ -38,7 +44,8 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: _selectedIndex == 0?
+      Scaffold(
         body: Column(
           children: [
             //setting app bar
@@ -220,7 +227,10 @@ class _SettingsState extends State<Settings> {
 
                     setState(() {
                       cartitems.clear();
+                      _selectedIndex = 1;
                     });
+
+                    await Future.delayed(Duration(seconds: 5));
 
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
@@ -277,7 +287,56 @@ class _SettingsState extends State<Settings> {
             )),
           ],
         ),
+      )
+      :Scaffold(
+        body: WillPopScope(
+          onWillPop: _onWillPop,
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        "Logging out",
+                        style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                            MediaQuery.of(context).size.width / 26),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text(
+                          'Vendorhive360',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
       ),
+        ),
+      )
     );
   }
 }

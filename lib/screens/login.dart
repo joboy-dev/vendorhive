@@ -28,6 +28,7 @@ class _LoginState extends State<Login> {
   String finalbalance = "";
   String pendingbalance = "";
   String username = "";
+
   TextEditingController email = new TextEditingController();
   TextEditingController pass = new TextEditingController();
 
@@ -74,11 +75,13 @@ class _LoginState extends State<Login> {
           Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
           body: {'useremail': email.text});
 
+      print(jsonDecode(userdetails.body));
+
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == "login") {
           if (userdetails.statusCode == 200) {
             if (jsonDecode(userdetails.body)['status']) {
-              print("userdetails point");
+              print("==== userdetails point ====");
 
               serveremail = jsonDecode(userdetails.body)['email'];
 
@@ -90,7 +93,7 @@ class _LoginState extends State<Login> {
 
               if (getpackages.statusCode == 200) {
                 if (jsonDecode(getpackages.body)['status']) {
-                  print("package point");
+                  print("==== package point ====");
 
                   packagename =
                       jsonDecode(getpackages.body)['package'].toString();
@@ -159,12 +162,14 @@ class _LoginState extends State<Login> {
                     }
                   }
                   else if (serverusertype == 'customer') {
+
                     var getbalance = await http.post(
                         Uri.https(
                             'adeoropelumi.com', 'vendor/vendorcustbalance.php'),
                         body: {'custemail': email.text});
 
                     if (getbalance.statusCode == 200) {
+
                       setState(() {
                         finalbalance = jsonDecode(getbalance.body);
                       });
@@ -254,7 +259,8 @@ class _LoginState extends State<Login> {
             appstatus = 'Wrong email or password';
           });
         }
-      } else {
+      }
+      else {
         print("Network issue");
       }
     } catch (e) {
@@ -380,7 +386,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                           appstatus,
                           style: TextStyle(
-                              fontStyle: FontStyle.italic, fontSize: 14),
+                              fontStyle: FontStyle.italic, fontSize: 14,color: Colors.red, fontWeight: FontWeight.bold),
                         )),
                       ),
 

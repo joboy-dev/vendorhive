@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendorandroid/components/profiles.dart';
 import 'package:vendorandroid/screens/activeproductorders.dart';
@@ -30,6 +31,8 @@ import 'package:vendorandroid/screens/cart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import 'login.dart';
 
 class Lilo {
   String name = "";
@@ -110,8 +113,15 @@ class _WelcomeState extends State<Welcome> {
   String cities_item = "-";
   String cities_item_service = "-";
   String walletbal = "";
+  String finalbalance = "0";
+  String pendingbalance = "0";
+  String productfilter = "-";
+  String servicefilter = "-";
+  String service_payment_option = "-";
   int lilo = 0;
+  int _loguot = 0;
   int _selectedIndex = 0;
+  int itemselected = 1;
   double totalsum = 0;
   double totalsumplusdelivery = 0;
   double deliverysum = 0;
@@ -119,16 +129,10 @@ class _WelcomeState extends State<Welcome> {
   bool showservice = false;
   bool searchproducts = false;
   bool searchservices = false;
-  int itemselected = 1;
   bool showcontactlist = false;
-  String finalbalance = "0";
-  String pendingbalance = "0";
   bool searchbar = false;
   bool pricesort = false;
   bool value = false;
-  String productfilter = "-";
-  String servicefilter = "-";
-  String service_payment_option = "-";
 
   TextEditingController _Controller = new TextEditingController();
   TextEditingController _serviceController = new TextEditingController();
@@ -2002,7 +2006,7 @@ class _WelcomeState extends State<Welcome> {
   void switch_button(){
     showDialog(
         context: context,
-        builder:(context){
+        builder:(cxt){
           return AlertDialog(
               title: const Text('Switch Account'),
               content: SingleChildScrollView(
@@ -2016,9 +2020,36 @@ class _WelcomeState extends State<Welcome> {
               ),
               actions:[
                 TextButton(
-                  child: const Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                  child: const Text('Sign Out'),
+                  onPressed: () async{
+
+                    Navigator.pop(cxt);
+
+                    setState(() {
+                      cartitems.clear();
+                      _loguot = 1;
+                    });
+
+                    await Future.delayed(Duration(seconds: 5));
+
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    await prefs.remove('counter');
+                    await prefs.remove('idname');
+                    await prefs.remove('useremail');
+                    await prefs.remove('packagename');
+                    await prefs.remove('usertype');
+                    await prefs.remove('pagenumber');
+                    await prefs.remove('finalbalance');
+                    await prefs.remove('pendingbalance');
+
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return Login();
+                        }), (r) {
+                          return false;
+                        });
                   },
                 ),
               ]
@@ -2037,7 +2068,7 @@ class _WelcomeState extends State<Welcome> {
           content: SingleChildScrollView(
             child: ListBody(
               children: [
-                Text("Welcome "+widget.username+" to Vendorhive360, a shopping hub where you can "
+                Text(""+widget.username+" welcome to Vendorhive360, a shopping hub where you can "
                     "find any product/service you want from different range of sellers, "
                     "a place where you have the control to only release payment after a product "
                     "has been delivered or after a service has been rendered to you.")
@@ -2055,6 +2086,10 @@ class _WelcomeState extends State<Welcome> {
         );
       }
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
   }
 
   @override
@@ -2091,7 +2126,8 @@ class _WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     // ScreenUtil.init(context, designSize: const Size(360, 712));
     double pad = MediaQuery.of(context).size.width / 13;
-    return Scaffold(
+    return _loguot == 0 ?
+    Scaffold(
       floatingActionButton: searchbar
           ? FloatingActionButton(
               onPressed: () {
@@ -2386,7 +2422,8 @@ class _WelcomeState extends State<Welcome> {
                             height: 0,
                           ),
 
-                  ] else if (itemselected == 1) ...[
+                  ]
+                  else if (itemselected == 1) ...[
                     // searchbar
                     true
                         ? Container(
@@ -4775,6 +4812,55 @@ class _WelcomeState extends State<Welcome> {
               ),
               label: 'Profile')
         ],
+      ),
+    )
+    :Scaffold(
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        "Logging out",
+                        style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                            MediaQuery.of(context).size.width / 26),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text(
+                          'Vendorhive360',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -42,6 +42,7 @@ import 'package:vendorandroid/screens/viewpromotedproducts.dart';
 import 'package:vendorandroid/screens/viewpromotedservice.dart';
 
 import 'forgotpin.dart';
+import 'login.dart';
 
 class Chatdetails {
   String useremail = "";
@@ -387,7 +388,6 @@ class _DashboardState extends State<Dashboard> {
 
   TextEditingController products = new TextEditingController();
   TextEditingController service = new TextEditingController();
-
   TextEditingController _prodname = new TextEditingController();
   TextEditingController _proddesc = new TextEditingController();
   TextEditingController _prodprice = new TextEditingController();
@@ -395,9 +395,7 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController _deliveryPlan = new TextEditingController();
   TextEditingController _deliveryPrice = new TextEditingController();
   TextEditingController _deliveryTime = new TextEditingController();
-
   TextEditingController _numberofdays = new TextEditingController();
-
   TextEditingController _servicename = new TextEditingController();
   TextEditingController _servicedesc = new TextEditingController();
   TextEditingController _serviceprice = new TextEditingController();
@@ -569,7 +567,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -670,7 +669,8 @@ class _DashboardState extends State<Dashboard> {
               appproductstatus = deliverySchedule[i].deliveryPlan + " did not register";
             });
           }
-        } else {
+        }
+        else {
           print('Network Issues');
 
           ScaffoldMessenger.of(context)
@@ -733,7 +733,8 @@ class _DashboardState extends State<Dashboard> {
           });
           print("Product ID did not add");
         }
-      } else {
+      }
+      else {
         setState(() {
           _selectedpage = 0;
         });
@@ -1990,7 +1991,7 @@ class _DashboardState extends State<Dashboard> {
   void switch_button(){
     showDialog(
         context: context,
-        builder:(context){
+        builder:(cxt){
           return AlertDialog(
               title: const Text('Switch Account'),
               content: SingleChildScrollView(
@@ -2004,15 +2005,45 @@ class _DashboardState extends State<Dashboard> {
               ),
               actions:[
                 TextButton(
-                  child: const Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                  child: const Text('Sign Out'),
+                  onPressed: () async{
+
+                    Navigator.of(cxt).pop();
+
+                    setState(() {
+                      _selectedpage = 10;
+                    });
+
+                    await Future.delayed(Duration(seconds: 5));
+
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    await prefs.remove('counter');
+                    await prefs.remove('idname');
+                    await prefs.remove('useremail');
+                    await prefs.remove('packagename');
+                    await prefs.remove('usertype');
+                    await prefs.remove('pagenumber');
+                    await prefs.remove('finalbalance');
+                    await prefs.remove('pendingbalance');
+
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return Login();
+                        }), (r) {
+                          return false;
+                        });
                   },
                 ),
               ]
           );
         }
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
   }
 
   List<DropdownMenuItem<String>> dropdownItems = [];
@@ -2039,9 +2070,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 712));
-    return Scaffold(
-      body: _selectedpage == 0
-          ? GestureDetector(
+    return _selectedpage == 0 ?
+    Scaffold(
+      body: GestureDetector(
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -2084,7 +2115,8 @@ class _DashboardState extends State<Dashboard> {
                                                     .width /
                                                     26,
                                             fontStyle: FontStyle.italic),
-                                          ):Text(
+                                          )
+                                              :Text(
                                             "Package: " + packageName,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context)
@@ -3273,7 +3305,7 @@ class _DashboardState extends State<Dashboard> {
                                           MediaQuery.of(context).size.width / 8,
                                       margin: EdgeInsets.only(left: 15),
                                       child:
-                                          Image.asset("assets/promotion.png"),
+                                          Image.asset("assets/megaphone.png"),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -5901,50 +5933,6 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height / 3,
-                          child: SpinKitFadingCube(
-                            color: Colors.orange,
-                            size: 100,
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            "Processing",
-                            style: TextStyle(
-                                color: Color.fromRGBO(246, 123, 55, 1),
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 26),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Center(
-                            child: Text(
-                              'Vendorhive360',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
             ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -6021,6 +6009,102 @@ class _DashboardState extends State<Dashboard> {
               label: 'Profile')
         ],
       ),
+    )
+    : _selectedpage == 10 ?
+    Scaffold(
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        "Logging out",
+                        style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                            MediaQuery.of(context).size.width / 26),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text(
+                          'Vendorhive360',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+    )
+    :Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: SpinKitFadingCube(
+                        color: Colors.orange,
+                        size: 100,
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        "Processing",
+                        style: TextStyle(
+                            color: Color.fromRGBO(246, 123, 55, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                            MediaQuery.of(context).size.width / 26),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text(
+                          'Vendorhive360',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
     );
   }
 }
