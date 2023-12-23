@@ -57,7 +57,7 @@ class _ContactSupportState extends State<ContactSupport> {
   }
 
   Future sendhelp() async{
-
+    //timestamp
     currentdate();
 
     print("Contacting support");
@@ -84,7 +84,6 @@ class _ContactSupportState extends State<ContactSupport> {
 
       if(contactsupport.statusCode == 200){
         if(jsonDecode(contactsupport.body)=='true'){
-
           print('Complain is sent');
 
           setState(() {
@@ -97,10 +96,8 @@ class _ContactSupportState extends State<ContactSupport> {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("We have received your complain and will get back to you shortly"))
           );
-
         }
         else{
-
           setState(() {
             sendinghelp = false;
             conplainsent = true;
@@ -111,11 +108,9 @@ class _ContactSupportState extends State<ContactSupport> {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Request timed out, Try again"))
           );
-
         }
       }
       else{
-
         setState(() {
           sendinghelp = false;
           conplainsent = true;
@@ -127,12 +122,9 @@ class _ContactSupportState extends State<ContactSupport> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Request timed out, Try again"))
         );
-
       }
-
     }
     catch(e){
-
       print("error is "+e.toString());
 
       var failedsupport = await http.post(
@@ -144,7 +136,6 @@ class _ContactSupportState extends State<ContactSupport> {
 
       if(failedsupport.statusCode == 200){
         if(jsonDecode(failedsupport.body)=="true"){
-
           setState(() {
             _selectedpage = 0;
           });
@@ -152,10 +143,8 @@ class _ContactSupportState extends State<ContactSupport> {
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return Failed(trfid: trfid);
           }));
-
         }
         else{
-
           setState(() {
             _selectedpage = 0;
           });
@@ -163,11 +152,9 @@ class _ContactSupportState extends State<ContactSupport> {
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return Failed(trfid: trfid);
           }));
-
         }
       }
       else{
-
         setState(() {
           _selectedpage = 0;
         });
@@ -175,9 +162,7 @@ class _ContactSupportState extends State<ContactSupport> {
         Navigator.push(context, MaterialPageRoute(builder: (context){
           return Failed(trfid: trfid);
         }));
-
       }
-
     }
   }
 
