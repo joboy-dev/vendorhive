@@ -216,25 +216,25 @@ class _VendorServiceState extends State<VendorService> {
                             )
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            color: Colors.lime[100],
-                            borderRadius: BorderRadius.circular(20)
-                        ),
-                        child: Icon(Icons.phone,size: 15,color: Colors.black,),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            color: Colors.lime[100],
-                            borderRadius: BorderRadius.circular(20)
-                        ),
-                        child: Icon(Icons.more_horiz,size: 15,color: Colors.black,),
-                      )
+                      // Container(
+                      //   padding: EdgeInsets.all(6),
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.lime[100],
+                      //       borderRadius: BorderRadius.circular(20)
+                      //   ),
+                      //   child: Icon(Icons.phone,size: 15,color: Colors.black,),
+                      // ),
+                      // const SizedBox(
+                      //   width: 5,
+                      // ),
+                      // Container(
+                      //   padding: EdgeInsets.all(6),
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.lime[100],
+                      //       borderRadius: BorderRadius.circular(20)
+                      //   ),
+                      //   child: Icon(Icons.more_horiz,size: 15,color: Colors.black,),
+                      // )
                     ],
                   )
               ),
