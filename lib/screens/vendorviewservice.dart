@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/deleteservice.dart';
 import 'package:vendorandroid/screens/paidservices.dart';
 
+import 'businesspaidservices.dart';
+
 class MyService {
   String servicename = "";
   String siname = "";
@@ -254,7 +256,7 @@ class _VendorServiceState extends State<VendorService> {
               GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return PaidServices(useremail: widget.adminemail, idname: widget.idname);
+                    return BusinessPaidServices(useremail: widget.adminemail, idname: widget.idname);
                   }));
                 },
                 child: Container(

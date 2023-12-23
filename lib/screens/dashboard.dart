@@ -3235,6 +3235,56 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+                            //view products ordered by customers on your product
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return BusinessPaidServices(
+                                        idname: widget.idname,
+                                        useremail: widget.useremail,
+                                      );
+                                    }));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 15),
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(238, 252, 233, 1)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width / 8,
+                                      margin: EdgeInsets.only(left: 15),
+                                      child:
+                                      Image.asset("assets/services.png"),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Paid Services",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                                  22),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 15),
+                                      child:
+                                      Icon(Icons.arrow_forward_ios_rounded),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                             //view promote products and services
                             GestureDetector(
                               onTap: () {
@@ -4800,12 +4850,26 @@ class _DashboardState extends State<Dashboard> {
                           Container(
                                 margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10,right: 10),
-                                padding: EdgeInsets.only(top: 10,bottom: 10),
+                                padding: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
                                 child: Center(
-                                  child: Text("Set Delivery price",
-                                    style: TextStyle(
-                                    fontWeight: FontWeight.bold
-                                  ),),
+                                  child: Column(
+                                    children: [
+                                      Text("Set Delivery method",
+                                        style: TextStyle(
+                                        fontWeight: FontWeight.bold
+                                      ),),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text("We'll advice you to add/set multiple delivery methods "
+                                          "that can help you set affordable& multiple delivery fee options "
+                                          "for your customers which automatically triggers sales",
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                          color: Colors.red
+                                        ),textAlign: TextAlign.center,),
+                                    ],
+                                  ),
                                 ),
                                 decoration: BoxDecoration(
                                   border: Border.all(),
