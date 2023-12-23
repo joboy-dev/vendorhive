@@ -7,6 +7,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/vendo" />
+            android:src="@drawable/logo_vendo" />
     </item>
 </layer-list>
