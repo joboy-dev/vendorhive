@@ -329,7 +329,8 @@ class _ViewServiceState extends State<ViewService> {
                   idname: widget.idname,
                   serviceid: widget.serviceid,
                   usertype: widget.usertype,
-                  servicename: widget.name,);
+                  servicename: widget.name,
+                  custname: widget.username,);
                 }))
                 :ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Try again, Chat is loading"))

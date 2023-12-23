@@ -36,8 +36,10 @@ class ServiceMsg extends StatefulWidget {
   String serviceid = "";
   String servicename = "";
   String logo = "";
+  String custname = "";
 
   ServiceMsg({
+    required this.custname,
     required this.username,
     required this.useremail,
     required this.adminemail,
@@ -58,15 +60,17 @@ class _ServiceMsgState extends State<ServiceMsg> {
   int? addChat;
   int? secondaddChat;
   int sec =0;
+  String filename = '';
+  String textt = '';
+  bool showchat = false;
+  bool cancelTimer = false;
 
   List? chatdata;
   List? secondchatdata;
   List<ServiceChatMessage> messages = [];
-  bool showchat = false;
-  bool cancelTimer = false;
+
   File? uploadimage;
-  String filename = '';
-  String textt = '';
+
   final ImagePicker _picker = ImagePicker();
 
   Future<void> chooseImage() async{
@@ -172,6 +176,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
       List<int> imageBytes = uploadimage!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
       print(baseimage);
+
       var sendimg = await http.post(Uri.https('adeoropelumi.com','vendor/vendorsendimg.php'),body: {
         'idname':widget.idname,
         'useremail': widget.useremail,
@@ -182,6 +187,14 @@ class _ServiceMsgState extends State<ServiceMsg> {
         'filename':filename,
         'img': baseimage,
       });
+
+      var message_notify = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+          body: {
+            'name':widget.custname,
+            'email':widget.adminemail,
+            'message':"Photo was sent",
+          });
 
       if(sendimg.statusCode == 200){
         print('upload almost done');
@@ -205,7 +218,9 @@ class _ServiceMsgState extends State<ServiceMsg> {
       sendingdata = false;
     });
 
-    final sending = await http.post(Uri.https('adeoropelumi.com','vendor/vendorsendcustomerchat.php'),body: {
+    final sending = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorsendcustomerchat.php'),
+        body: {
       'idname':widget.idname,
       'useremail': widget.useremail,
       'adminemail':widget.adminemail,
@@ -213,6 +228,14 @@ class _ServiceMsgState extends State<ServiceMsg> {
       'usertype' : widget.usertype,
       'sidname': widget.serviceid,
       'servicename' : widget.servicename
+    });
+
+    var message_notify = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+    body: {
+      'name':widget.custname,
+      'email':widget.adminemail,
+      'message':_messages.text,
     });
 
     if(sending.statusCode == 200){

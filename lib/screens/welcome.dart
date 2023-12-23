@@ -2111,105 +2111,6 @@ class _WelcomeState extends State<Welcome> {
     double pad = MediaQuery.of(context).size.width / 13;
     return _loguot == 0 ?
     Scaffold(
-      floatingActionButton: searchbar
-          ? FloatingActionButton(
-              onPressed: () {
-                itemselected == 0
-                    ?
-                    //product filter
-                    showDialog(
-                        context: context,
-                        builder: (context) => Center(
-                                child: AlertDialog(
-                              title: Text("Fliter"),
-                              actions: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            rawproduct.sort((a, b) =>
-                                                (int.parse(b['productprice']))
-                                                    .compareTo(int.parse(
-                                                        a['productprice'])));
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Higest to Lowest Price")),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            rawproduct.sort((a, b) =>
-                                                (int.parse(a['productprice']))
-                                                    .compareTo(int.parse(
-                                                        b['productprice'])));
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Lowest to Highest Price")),
-                                  ],
-                                ),
-                              ],
-                            )))
-                    :
-                    //service filter
-                    showDialog(
-                        context: context,
-                        builder: (context) => Center(
-                                child: AlertDialog(
-                              title: Text("Fliter"),
-                              actions: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            rawservice.sort((a, b) =>
-                                                (int.parse(b['price']))
-                                                    .compareTo(
-                                                        int.parse(a['price'])));
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Higest to Lowest Price")),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            rawservice.sort((a, b) =>
-                                                (int.parse(a['price']))
-                                                    .compareTo(
-                                                        int.parse(b['price'])));
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Lowest to Highest Price")),
-                                  ],
-                                ),
-                              ],
-                            )));
-              },
-              child: Icon(
-                Icons.filter_alt_outlined,
-                color: Colors.green[900],
-              ),
-            )
-          : Container(),
       body: GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -2322,7 +2223,8 @@ class _WelcomeState extends State<Welcome> {
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
                                         searchproduct();
-                                      } else {
+                                      }
+                                      else {
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
                                         print('search product is empty');
@@ -2404,7 +2306,6 @@ class _WelcomeState extends State<Welcome> {
                             width: 0,
                             height: 0,
                           ),
-
                   ]
                   else if (itemselected == 1) ...[
                     // searchbar
@@ -2425,7 +2326,8 @@ class _WelcomeState extends State<Welcome> {
                                         // FocusManager.instance.primaryFocus
                                         //     ?.unfocus();
                                         searchservice();
-                                      } else {
+                                      }
+                                      else {
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
                                         print('============');
@@ -2448,7 +2350,8 @@ class _WelcomeState extends State<Welcome> {
                                               if(_serviceController.text.isNotEmpty){
                                                 //service filter
                                                 filterService();
-                                              }else{
+                                              }
+                                              else{
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                     SnackBar(
                                                         backgroundColor: Colors.green[800],
@@ -2553,7 +2456,6 @@ class _WelcomeState extends State<Welcome> {
                             width: 0,
                             height: 0,
                           ),
-
                   ],
 
                   //services and products button
@@ -4138,7 +4040,8 @@ class _WelcomeState extends State<Welcome> {
                                                         appcontactlist[index],
                                                         useremail: widget.useremail,
                                                         idname: widget.idname,
-                                                        usertype: widget.usertype);
+                                                        usertype: widget.usertype,
+                                                    custname: widget.username,);
                                                   }));
                                         },
                                         child: Container(

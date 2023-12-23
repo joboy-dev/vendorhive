@@ -1398,7 +1398,8 @@ class _DashboardState extends State<Dashboard> {
           showcontactlist = true;
         });
       }
-    } else {
+    }
+    else {
       print("chat contact issues ${chatcontact.statusCode}");
     }
   }
@@ -2106,7 +2107,8 @@ class _DashboardState extends State<Dashboard> {
                                           SizedBox(
                                             height: 2,
                                           ),
-                                          packageName == "" ? Text(
+                                          packageName == "" ?
+                                          Text(
                                             "Package: " + "loading...",
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context)
@@ -2115,7 +2117,7 @@ class _DashboardState extends State<Dashboard> {
                                                     26,
                                             fontStyle: FontStyle.italic),
                                           )
-                                              :Text(
+                                          :Text(
                                             "Package: " + packageName,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context)
@@ -3074,25 +3076,21 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 10),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedIndex = 0;
-                                          });
-                                        },
-                                        child: Container(
-                                          child: Icon(
-                                            Icons.home,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                10,
-                                          ),
-                                        ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedIndex = 0;
+                                      });
+                                    },
+                                    child: Container(
+                                      child: Icon(
+                                        Icons.home,
+                                        size: MediaQuery.of(context)
+                                            .size
+                                            .width /
+                                            10,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -3119,25 +3117,21 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(right: 10),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedIndex = 0;
-                                        });
-                                      },
-                                      child: Container(
-                                        child: Icon(
-                                          Icons.home,
-                                          size: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              10,
-                                        ),
-                                      ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedIndex = 0;
+                                    });
+                                  },
+                                  child: Container(
+                                    child: Icon(
+                                      Icons.home,
+                                      size: MediaQuery.of(context)
+                                          .size
+                                          .width /
+                                          10,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               )
                             ],
@@ -3405,6 +3399,7 @@ class _DashboardState extends State<Dashboard> {
                                                   MaterialPageRoute(
                                                       builder: (context) {
                                                         return ChatMsg(
+                                                          sender_name: widget.username,
                                                           username: chatdetails[
                                                           index]
                                                               .username,
@@ -3647,6 +3642,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                             ),
+
                             //View vendor products ordered by customer button
                             // GestureDetector(
                             //   onTap: () {
@@ -3730,6 +3726,7 @@ class _DashboardState extends State<Dashboard> {
                             //   ),
                             // ),
                             //refer you friends with your code button
+
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(context,
@@ -4425,12 +4422,6 @@ class _DashboardState extends State<Dashboard> {
                                       //border of dropdown button
                                       borderRadius: BorderRadius.circular(
                                           10), //border raiuds of dropdown button
-                                      // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                                      //   BoxShadow(
-                                      //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                                      //       // blurRadius: 5
-                                      //   ) //blur radius of shadow
-                                      // ]
                                     ),
                                     child: Padding(
                                         padding: EdgeInsets.only(left: 20, right: 20),
@@ -4744,7 +4735,6 @@ class _DashboardState extends State<Dashboard> {
                                               fontSize:
                                               20 //font size on dropdown button
                                           ),
-
                                           dropdownColor: Colors.grey,
                                           //dropdown background color
                                           underline: Container(),
@@ -4772,12 +4762,6 @@ class _DashboardState extends State<Dashboard> {
                                   //border of dropdown button
                                   borderRadius: BorderRadius.circular(
                                       10), //border raiuds of dropdown button
-                                  // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                                  //   BoxShadow(
-                                  //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                                  //       // blurRadius: 5
-                                  //   ) //blur radius of shadow
-                                  // ]
                                 ),
                                 child: Padding(
                                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -4802,7 +4786,6 @@ class _DashboardState extends State<Dashboard> {
                                           fontSize:
                                           20 //font size on dropdown button
                                       ),
-
                                       dropdownColor: Colors.grey,
                                       //dropdown background color
                                       underline: Container(),
@@ -4818,7 +4801,8 @@ class _DashboardState extends State<Dashboard> {
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10,right: 10),
                                 padding: EdgeInsets.only(top: 10,bottom: 10),
                                 child: Center(
-                                  child: Text("Set Delivery price",style: TextStyle(
+                                  child: Text("Set Delivery price",
+                                    style: TextStyle(
                                     fontWeight: FontWeight.bold
                                   ),),
                                 ),
@@ -5092,7 +5076,8 @@ class _DashboardState extends State<Dashboard> {
                                 _prodprice.text.isNotEmpty &&
                                     deliverySchedule.length > 0){
                                   addproducts();
-                                }else{
+                                }
+                                else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text("Ensure to Fill all fields",style: TextStyle(
                                       color: Colors.yellow,
@@ -5506,12 +5491,6 @@ class _DashboardState extends State<Dashboard> {
                                   //border of dropdown button
                                   borderRadius: BorderRadius.circular(
                                       10), //border raiuds of dropdown button
-                                  // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                                  //   BoxShadow(
-                                  //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                                  //       // blurRadius: 5
-                                  //   ) //blur radius of shadow
-                                  // ]
                                 ),
                                 child: Padding(
                                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -5853,12 +5832,6 @@ class _DashboardState extends State<Dashboard> {
                                       //border of dropdown button
                                       borderRadius: BorderRadius.circular(
                                           10), //border raiuds of dropdown button
-                                      // boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
-                                      //   BoxShadow(
-                                      //       // color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                                      //       // blurRadius: 5
-                                      //   ) //blur radius of shadow
-                                      // ]
                                     ),
                                     child: Padding(
                                         padding: EdgeInsets.only(left: 20, right: 20),

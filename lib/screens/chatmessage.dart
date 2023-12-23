@@ -30,8 +30,9 @@ class ChatMsg extends StatefulWidget {
   String usertype = "";
   String servicename = "";
   String username = "";
+  String sender_name = "";
 
-  ChatMsg({required this.username,required this.sidname,
+  ChatMsg({required this.sender_name, required this.username,required this.sidname,
     required this.useremail, required this.adminemail,
     required this.idname,required this.usertype,
   required this.servicename});
@@ -221,7 +222,8 @@ class _ChatMsgState extends State<ChatMsg> {
       sendingdata = false;
     });
 
-    final sending = await http.post(Uri.https('adeoropelumi.com','vendor/vendorsendchat.php'),body: {
+    final sending = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendorsendchat.php'),body: {
       'idname':widget.idname,
       'useremail': widget.useremail,
       'adminemail':widget.adminemail,
@@ -230,6 +232,14 @@ class _ChatMsgState extends State<ChatMsg> {
       'sidname': widget.sidname,
       'servicename': widget.servicename
     });
+
+    var message_notify = await http.post(
+        Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+        body: {
+          'name':widget.sender_name,
+          'email':widget.useremail,
+          'message':_messages.text,
+        });
 
     if(sending.statusCode == 200){
       if(jsonDecode(sending.body)=='true'){
@@ -275,6 +285,14 @@ class _ChatMsgState extends State<ChatMsg> {
         'filename':filename,
         'img': baseimage,
       });
+
+      var message_notify = await http.post(
+          Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+          body: {
+            'name':widget.sender_name,
+            'email':widget.useremail,
+            'message':"Photo was sent",
+          });
 
       if(sendimg.statusCode == 200){
         print('upload almost done');

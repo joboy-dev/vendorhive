@@ -108,10 +108,8 @@ class _TrackOrderState extends State<TrackOrder> {
 
     if(releasepayment.statusCode == 200){
       if(jsonDecode(releasepayment.body)=='true'){
-
         if(updatebusinesswallet.statusCode == 200){
           if(jsonDecode(updatebusinesswallet.body)=='true'){
-
             print("Wallet is updated");
 
             setState(() {
@@ -164,12 +162,14 @@ class _TrackOrderState extends State<TrackOrder> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text("Order Status",style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                    ),),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text("Order Status",style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
                   ),
                   GestureDetector(
                     onTap: (){
@@ -189,14 +189,13 @@ class _TrackOrderState extends State<TrackOrder> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Center(
-                child: showtracks ? Text(orderarrived == 'undone' ?
+                child: showtracks ?
+                Text(orderarrived == 'undone' ?
                 "Estimated Delivery Time"
-                  :
-                  "Delivered Time",style: TextStyle(
+                : "Delivered Time",style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width/25,
                 ),)
-                :
-                Icon(Icons.more_horiz),
+                : Icon(Icons.more_horiz),
               ),
             ),
             Container(
@@ -356,7 +355,6 @@ class _TrackOrderState extends State<TrackOrder> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-
                                   Container(
                                     child: Text("Order Shipped",style: TextStyle(
                                       fontSize: MediaQuery.of(context).size.width/24
@@ -369,9 +367,8 @@ class _TrackOrderState extends State<TrackOrder> {
                                       children: [
 
                                         ordershipped == 'undone' ?
-                                            Container()
-                                            :
-                                        Container(
+                                        Container()
+                                        : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -379,8 +376,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         ordershipped == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.dateshipped,style: TextStyle(
                                               fontSize: 10,
@@ -390,8 +386,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         ordershipped == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timeshipped,style: TextStyle(
                                               fontSize: 10,
@@ -458,8 +453,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -467,8 +461,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.datearrived,style: TextStyle(
                                               fontSize: 10,
@@ -478,8 +471,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timearrived,style: TextStyle(
                                               fontSize: 10,
@@ -503,11 +495,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           children: [
 
                             showtracks ?
-
-                            dpreleased == 'undone'
-
-                                ?
-
+                            dpreleased == 'undone' ?
                             Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
@@ -518,10 +506,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-
-                            Container(
+                            : Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
                                   color: Colors.green,
@@ -531,10 +516,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-
-                            CircularProgressIndicator(
+                            : CircularProgressIndicator(
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
@@ -558,8 +540,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -567,8 +548,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.datedprelease,style: TextStyle(
                                               fontSize: 10,
@@ -578,8 +558,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timedprelease,style: TextStyle(
                                               fontSize: 10,
@@ -601,12 +580,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       Container(
                         child: Row(
                           children: [
-
                             showtracks ?
-
-                            ppreleased == 'undone'
-                                ?
-
+                            ppreleased == 'undone' ?
                             Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
@@ -617,10 +592,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-
-                            Container(
+                            : Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
                                   color: Colors.green,
@@ -630,9 +602,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
-
-                                :
-                            CircularProgressIndicator(
+                            : CircularProgressIndicator(
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
@@ -656,8 +626,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         ppreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -665,8 +634,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         ppreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.datepprelease,style: TextStyle(
                                               fontSize: 10,
@@ -676,8 +644,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         ppreleased == 'undone' ?
                                         Container()
-                                            :
-                                        Container(
+                                        : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timepprelease,style: TextStyle(
                                               fontSize: 10,
@@ -699,6 +666,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     ],
                   ),
                 ),
+                
                 GestureDetector(
                   onTap: () async {
                     double total = double.parse(widget.amount) + double.parse(widget.deliveryprice);
@@ -766,7 +734,8 @@ class _TrackOrderState extends State<TrackOrder> {
                           );
                         },
                       );
-                    }else if(dpreleased == 'done'){
+                    }
+                    else if(dpreleased == 'done'){
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Payment has being released "))
                       );
@@ -788,8 +757,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     child: Center(
                       child: Text(dpreleased == 'undone' ?
                       "Release product payment"
-                        :
-                        "Product payment is released",style: TextStyle(
+                      : "Product payment is released",style: TextStyle(
                           color: Colors.white,
                         fontSize: MediaQuery.of(context).size.width/24,
                         fontWeight: FontWeight.w500
