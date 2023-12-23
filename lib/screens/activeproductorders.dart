@@ -8,7 +8,9 @@ import 'package:http/http.dart' as http;
 class ActiveProductOrders extends StatefulWidget {
   String useremail = "";
   String idname = "";
-  ActiveProductOrders({required this.useremail,required this.idname});
+  String custname = "";
+
+  ActiveProductOrders({required this.useremail,required this.idname,required this.custname});
 
   @override
   _ActiveProductOrdersState createState() => _ActiveProductOrdersState();
@@ -166,7 +168,9 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                               productimage: raworders[index]['prodimagename'],
                               productname: raworders[index]['productname'],
                               deliveryprice: raworders[index]['deliveryprice'],
-                              tkid: raworders[index]['tkid'],);
+                              tkid: raworders[index]['tkid'],
+                              quantity: raworders[index]['quantity'],
+                              username: widget.custname,);
                             }));
                           },
                           child:

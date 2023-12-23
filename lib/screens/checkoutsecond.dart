@@ -21,8 +21,9 @@ class CheckoutSecond extends StatefulWidget {
   String idname = "";
   String useremail = "";
   double service_fee = 0;
+  String username = "";
 
-  CheckoutSecond({required this.totalamount,required this.totalamountplusdelivery,
+  CheckoutSecond({required this.username, required this.totalamount,required this.totalamountplusdelivery,
   required this.fullname, required this.phonenumber,required this.streetaddress,
   required this.state,required this.idname, required this.useremail, required this.service_fee});
 
@@ -311,7 +312,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                       Navigator.push(context, MaterialPageRoute(builder: (context){
                         return CheckoutThird(totalamount: widget.totalamount,totalamountplusdelivery: widget.totalamountplusdelivery,
                           fullname: widget.fullname,phonenumber: widget.phonenumber,streetaddress: widget.streetaddress,
-                          state: widget.state,service_fee:widget.service_fee, paymentmethod: paymentmethod,idname: widget.idname,useremail: widget.useremail,);
+                          state: widget.state,service_fee:widget.service_fee, paymentmethod: paymentmethod,idname: widget.idname,useremail: widget.useremail,username: widget.username,);
                       }));
                     }else if(paymentmethod == 'card'){
                       print("Proceed to card payment");
@@ -443,6 +444,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context)=>
                 BuyProduct(
+                  username: widget.username,
                   topuplink: topupurl,
                   refnumber: initiaterefno,
                   service_fee: widget.service_fee,
@@ -581,7 +583,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
                         });
 
                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
+                          return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,username: widget.username,);
                         }));
 
                       }

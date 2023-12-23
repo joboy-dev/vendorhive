@@ -17,8 +17,10 @@ class BuyProduct extends StatefulWidget {
   String streetaddress = "";
   double service_fee = 0;
   String phone_number = "";
+  String username = "";
 
   BuyProduct({Key? key,
+    required this.username,
   required this.topuplink,
   required this.refnumber,
   required this.idname,
@@ -59,6 +61,7 @@ class _BuyProductState extends State<BuyProduct> {
 
         Navigator.push(context, MaterialPageRoute(builder: (context){
           return ProcessProductPayment(
+            username: widget.username,
             idname: widget.idname,
             useremail: widget.useremail,
             state: widget.state,

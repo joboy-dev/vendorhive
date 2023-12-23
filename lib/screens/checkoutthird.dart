@@ -12,8 +12,9 @@ class CheckoutThird extends StatefulWidget {
   String idname = "";
   String useremail = "";
   double service_fee = 0;
+  String username = "";
 
-  CheckoutThird({required this.totalamount, required this.totalamountplusdelivery,
+  CheckoutThird({required this.username, required this.totalamount, required this.totalamountplusdelivery,
   required this.fullname, required this.phonenumber, required this.streetaddress,
   required this.state, required this.paymentmethod,
   required this.idname, required this.useremail, required this.service_fee});
@@ -486,7 +487,8 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                             paymentmethod: widget.paymentmethod,
                             useremail: widget.useremail,
                             service_fee: widget.service_fee,
-                            idname: widget.idname,);
+                            idname: widget.idname,
+                            username: widget.username,);
                           }));
                         },
                         child: Container(

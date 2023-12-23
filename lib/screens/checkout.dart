@@ -21,9 +21,11 @@ class Checkout extends StatefulWidget {
   String idname = "";
   String useremail = "";
   double service_fee = 0;
+  String username = "";
 
   Checkout(
-      {required this.totalamount,
+      {required this.username,
+        required this.totalamount,
       required this.totalamountplusdelivery,
       required this.service_fee,
       required this.idname,
@@ -718,6 +720,7 @@ class _CheckoutState extends State<Checkout> {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
                                             return CheckoutSecond(
+                                              username: widget.username,
                                               totalamount: widget.totalamount,
                                               totalamountplusdelivery:
                                               widget.totalamountplusdelivery,

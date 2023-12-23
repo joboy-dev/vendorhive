@@ -33,7 +33,12 @@ class TrackOrder extends StatefulWidget {
   String productimage = "";
   String deliveryprice = "";
   String tkid = "";
+  String quantity = "";
+  String username = "";
+
   TrackOrder({
+    required this.username,
+    required this.quantity,
     required this.tkid,
     required this.deliveryprice,
     required this.productname,
@@ -774,6 +779,11 @@ class _TrackOrderState extends State<TrackOrder> {
                           email: widget.useremail,
                           refno: widget.trackid,
                           amount: widget.amount,
+                          adminemail: widget.adminemail,
+                          quantity: widget.quantity,
+                          username: widget.username,
+                          product_name: widget.productname,
+                          trackid: widget.trackid,
                         );
                       }));
                     }else{

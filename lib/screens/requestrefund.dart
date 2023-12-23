@@ -11,8 +11,18 @@ class RequestRefund extends StatefulWidget {
   String email = "";
   String amount = "";
   String refno = "";
+  String adminemail = "";
+  String quantity = "";
+  String username = "";
+  String product_name = "";
+  String trackid = "";
 
   RequestRefund({Key? key,
+    required this.trackid,
+    required this.product_name,
+    required this.username,
+    required this.quantity,
+    required this.adminemail,
     required this.idname,
     required this.email,
     required this.amount,
@@ -54,7 +64,7 @@ class _RequestRefundState extends State<RequestRefund> {
   }
 
   Future requestrefund() async{
-
+    //timestamp
     currentdate();
 
     setState(() {
@@ -74,28 +84,34 @@ class _RequestRefundState extends State<RequestRefund> {
           }
       );
 
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': "A refund is asked by "+widget.username+" on "+widget.product_name+" product and "
+                "track order id is "+widget.trackid,
+            'info': widget.adminemail,
+            'tag': 'Produuct Refund',
+            'quantity' : widget.quantity,
+            'refno':trfid
+          }
+      );
+
       if(refundrequest.statusCode == 200){
         if(jsonDecode(refundrequest.body) == "true"){
-
           setState(() {
             _selectedpage = 0;
           });
-
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return Success();
           }));
-
         }
         else{
-
           setState(() {
             _selectedpage = 0;
           });
-
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return Failed(trfid: widget.idname);
           }));
-
         }
       }
       else{
@@ -112,7 +128,6 @@ class _RequestRefundState extends State<RequestRefund> {
 
     }
     catch(e){
-
       setState(() {
         _selectedpage = 0;
       });
@@ -126,7 +141,6 @@ class _RequestRefundState extends State<RequestRefund> {
 
       if(failedrefund.statusCode == 200){
         if(jsonDecode(failedrefund.body) == "true"){
-
           setState(() {
             _selectedpage = 0;
           });
@@ -137,7 +151,6 @@ class _RequestRefundState extends State<RequestRefund> {
 
         }
         else{
-
           setState(() {
             _selectedpage = 0;
           });
@@ -145,11 +158,9 @@ class _RequestRefundState extends State<RequestRefund> {
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return Failed(trfid: widget.idname);
           }));
-
         }
       }
       else{
-
         setState(() {
           _selectedpage = 0;
         });
@@ -157,7 +168,6 @@ class _RequestRefundState extends State<RequestRefund> {
         Navigator.push(context, MaterialPageRoute(builder: (context){
           return Failed(trfid: widget.idname);
         }));
-
       }
     }
   }

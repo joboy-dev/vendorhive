@@ -3929,6 +3929,7 @@ class _WelcomeState extends State<Welcome> {
                                             service_fee: (totalsumplusdelivery*0.05),
                                             useremail: widget.useremail,
                                             idname: widget.idname,
+                                            username: widget.username,
                                           );
                                         }));
                                       }
@@ -4393,6 +4394,7 @@ class _WelcomeState extends State<Welcome> {
                             return ActiveProductOrders(
                               useremail: widget.useremail,
                               idname: widget.idname,
+                              custname: widget.username,
                             );
                           }));
                         },

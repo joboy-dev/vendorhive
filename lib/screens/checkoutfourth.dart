@@ -21,8 +21,9 @@ class CheckoutFourth extends StatefulWidget {
   String idname = "";
   String useremail = "";
   double service_fee = 0;
+  String username = "";
 
-  CheckoutFourth({required this.totalamount, required this.totalamountplusdelivery,
+  CheckoutFourth({required this.username, required this.totalamount, required this.totalamountplusdelivery,
     required this.fullname, required this.phonenumber, required this.streetaddress,
     required this.state, required this.paymentmethod,
   required this.idname, required this.useremail, required this.service_fee});
@@ -221,7 +222,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                                 });
 
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return CheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
+                                  return CheckoutFinal(useremail: widget.useremail,idname: widget.idname,username: widget.username,);
                                 }));
                               }
                               else{

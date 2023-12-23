@@ -15,8 +15,10 @@ class ProcessProductPayment extends StatefulWidget {
   String streetaddress = "";
   double service_fee = 0;
   String phonenumber = "";
+  String username = "";
 
   ProcessProductPayment({Key? key,
+    required this.username,
   required this.idname,
   required this.useremail,
   required this.state,
@@ -151,7 +153,7 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
                       if(o == (cartitems.length-1)){
 
                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,);
+                          return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,username: widget.username,);
                         }));
 
                       }

@@ -6,7 +6,8 @@ import 'cart.dart';
 class CardCheckoutFinal extends StatefulWidget {
   String useremail = "";
   String idname = "";
-  CardCheckoutFinal({required this.useremail,required this.idname});
+  String username = "";
+  CardCheckoutFinal({required this.username, required this.useremail,required this.idname});
 
   @override
   _CardCheckoutFinalState createState() => _CardCheckoutFinalState();
@@ -195,7 +196,7 @@ class _CardCheckoutFinalState extends State<CardCheckoutFinal> {
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return ActiveProductOrders(useremail:widget.useremail,idname: widget.idname,);
+                                  return ActiveProductOrders(useremail:widget.useremail,idname: widget.idname,custname: widget.username,);
                                 }));
                               },
                               child: Container(
