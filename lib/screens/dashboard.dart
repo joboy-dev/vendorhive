@@ -3894,6 +3894,7 @@ class _DashboardState extends State<Dashboard> {
                                   return ContactSupport(
                                     mail: widget.useremail,
                                     idname: widget.idname,
+                                    username: widget.username,
                                   );
                                 }));
                               },

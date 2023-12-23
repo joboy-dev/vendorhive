@@ -9,22 +9,22 @@ import 'package:vendorandroid/screens/failed.dart';
 class ContactSupport extends StatefulWidget {
   String mail = "";
   String idname = "";
-  ContactSupport({required this.mail, required this.idname});
+  String username = "";
+
+  ContactSupport({required this.username, required this.mail, required this.idname});
 
   @override
   _ContactSupportState createState() => _ContactSupportState();
 }
 
 class _ContactSupportState extends State<ContactSupport> {
-
+  String trfid = "";
   int _selectedpage = 0 ;
   String drop = "Unable to Top-up Wallet";
   bool sendinghelp = false;
   bool conplainsent = false;
 
   TextEditingController _message = new TextEditingController();
-
-  String trfid = "";
 
   void currentdate(){
     print('Timestamp is gotten as refno');
@@ -63,11 +63,9 @@ class _ContactSupportState extends State<ContactSupport> {
     print("Contacting support");
 
     setState(() {
-
       _selectedpage =1;
       sendinghelp = true;
       conplainsent = false;
-
     });
 
     try{
@@ -79,7 +77,8 @@ class _ContactSupportState extends State<ContactSupport> {
             'frommail': widget.mail,
             'message': replacing(_message.text),
             'idname': widget.idname,
-            'refno': trfid
+            'refno': trfid,
+            'name' : widget.username
           }
       );
 
@@ -216,14 +215,12 @@ class _ContactSupportState extends State<ContactSupport> {
                 fontSize: MediaQuery.of(context).size.width/25,
               ),),
             ),
-
             Container(
               margin: EdgeInsets.only(left: 10,top: 40,bottom: 10,right: 10),
               child: Text("Select Issue",style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width/25
               ),),
             ),
-
             Container(
               margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
               child: DecoratedBox(
@@ -232,14 +229,11 @@ class _ContactSupportState extends State<ContactSupport> {
                     border: Border.all(color: Colors.grey, width:1), //border of dropdown button
                     borderRadius: BorderRadius.circular(10), //border raiuds of dropdown button
                   ),
-
                   child:Padding(
                       padding: EdgeInsets.only(left:20, right:20),
                       child:DropdownButton(
                         value: drop,
-
                         items: [ //add items in the dropdown
-
                           DropdownMenuItem(
                             child: Text("Unable to Top-up Wallet",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
@@ -257,28 +251,29 @@ class _ContactSupportState extends State<ContactSupport> {
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
                             value: "Unsatified with Vendor service",
+                          ),
+                          DropdownMenuItem(
+                            child: Text("Other",style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width/22
+                            ),),
+                            value: "Other",
                           )
-
                         ],
-
                         onChanged: (value){ //get value when changed
                           setState(() {
                             drop = value!;
                           });
                           print("You have selected $value");
                         },
-
                         icon: Padding( //Icon at tail, arrow bottom is default icon
                             padding: EdgeInsets.only(left:10),
                             child:Icon(Icons.arrow_drop_down)
                         ),
-
                         iconEnabledColor: Colors.white, //Icon color
                         style: TextStyle(  //te
                             color: Colors.white, //Font color
                             fontSize: MediaQuery.of(context).size.width/22
                         ),
-
                         dropdownColor: Colors.grey, //dropdown background color
                         underline: Container(), //remove underline
                         isExpanded: true, //make true to make width 100%
@@ -286,7 +281,6 @@ class _ContactSupportState extends State<ContactSupport> {
                   )
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(left: 10,top: 10,bottom: 10,right: 10),
               child: Text("Message",style: TextStyle(
@@ -325,34 +319,24 @@ class _ContactSupportState extends State<ContactSupport> {
                   ),),
               ),
             )
-            :
-            GestureDetector(
+            : GestureDetector(
               onTap: (){
-
                 if(sendinghelp == false){
                   if(_message.text.isNotEmpty){
-
                     sendhelp();
-
                   }
                   else{
-
                     print("Fill all fields");
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Fill all fields"))
                     );
-
                   }
                 }
                 else if(sendinghelp == true){
-
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("We are already contacting support"))
                   );
-
                 }
-
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 20),

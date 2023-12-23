@@ -4523,6 +4523,7 @@ class _WelcomeState extends State<Welcome> {
                             return ContactSupport(
                               idname: widget.idname,
                               mail: widget.useremail,
+                              username: widget.username,
                             );
                           }));
                         },
