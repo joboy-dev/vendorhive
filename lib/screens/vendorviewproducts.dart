@@ -221,7 +221,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold
                                 ),),
-                              Text(getlogo? widget.username+" shop in "+getallresults[0]["state"]:"loading...",
+                              Text(getlogo? "Vendor in "+getallresults[0]["state"]:"loading...",
                                 style: TextStyle(
                                   fontSize: 9,
                                 ),)

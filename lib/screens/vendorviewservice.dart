@@ -208,7 +208,7 @@ class _VendorServiceState extends State<VendorService> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                Text(getlogo? widget.username+" shop in "+getallresults[0]["state"]:"loading...",
+                                Text(getlogo? "Vendor in "+getallresults[0]["state"]:"loading...",
                                   style: TextStyle(
                                     fontSize: 9,
                                   ),)
@@ -374,21 +374,21 @@ class _VendorServiceState extends State<VendorService> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Container(
-                                          child: Text("₦" +
-                                              rawservice[index]['price']
-                                                  .replaceAllMapped(RegExp(
-                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
-                                                  Match m) => '${m[1]},'),
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                fontSize: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width / 26
-                                            ),
-                                          ),
-                                        )
+                                        // Container(
+                                        //   child: Text("₦" +
+                                        //       rawservice[index]['price']
+                                        //           .replaceAllMapped(RegExp(
+                                        //           r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
+                                        //           Match m) => '${m[1]},'),
+                                        //     textAlign: TextAlign.end,
+                                        //     style: TextStyle(
+                                        //         fontSize: MediaQuery
+                                        //             .of(context)
+                                        //             .size
+                                        //             .width / 26
+                                        //     ),
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),

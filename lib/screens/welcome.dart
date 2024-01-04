@@ -1995,7 +1995,7 @@ class _WelcomeState extends State<Welcome> {
               content: SingleChildScrollView(
                   child: ListBody(
                     children: [
-                      Text(widget.username+", to switch account to vendor. Please sign out and login with you "
+                      Text(widget.username+", to switch account to vendor. Please sign out and login with your "
                           "vendor account and if you don't have a vendor account, kindly sign out and create a new "
                           "vendor account. Thank you ")
                     ],

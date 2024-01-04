@@ -1997,7 +1997,7 @@ class _DashboardState extends State<Dashboard> {
               content: SingleChildScrollView(
                   child: ListBody(
                     children: [
-                      Text(widget.username+", to switch account to customer. Please sign out and login with you "
+                      Text(widget.username+", to switch account to customer. Please sign out and login with your "
                           "customer account and if you don't have a customer account, kindly sign out and create a new "
                           "customer account. Thank you ")
                     ],
@@ -2806,58 +2806,58 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   ),
                                   //set promotion budget button
-                                  GestureDetector(
-                                    onTap: () {
-                                      promotion();
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        top: 10,
-                                      ),
-                                      padding:
-                                          EdgeInsets.only(top: 10, bottom: 10),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(238, 252, 233, 1)),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                8,
-                                            margin: EdgeInsets.only(left: 10),
-                                            child: Image.asset(
-                                                "assets/promotions.png"),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              child: Text(
-                                                "Set Promotions Budget",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            23),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            child: Icon(
-                                              Icons.arrow_forward_ios_outlined,
-                                              size: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  15,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     promotion();
+                                  //   },
+                                  //   child: Container(
+                                  //     margin: EdgeInsets.only(
+                                  //       top: 10,
+                                  //     ),
+                                  //     padding:
+                                  //         EdgeInsets.only(top: 10, bottom: 10),
+                                  //     decoration: BoxDecoration(
+                                  //         color:
+                                  //             Color.fromRGBO(238, 252, 233, 1)),
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Container(
+                                  //           width: MediaQuery.of(context)
+                                  //                   .size
+                                  //                   .width /
+                                  //               8,
+                                  //           margin: EdgeInsets.only(left: 10),
+                                  //           child: Image.asset(
+                                  //               "assets/promotions.png"),
+                                  //         ),
+                                  //         Expanded(
+                                  //           child: Container(
+                                  //             margin: EdgeInsets.only(left: 10),
+                                  //             child: Text(
+                                  //               "Set Promotions Budget",
+                                  //               style: TextStyle(
+                                  //                   fontSize:
+                                  //                       MediaQuery.of(context)
+                                  //                               .size
+                                  //                               .width /
+                                  //                           23),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           margin: EdgeInsets.only(right: 10),
+                                  //           child: Icon(
+                                  //             Icons.arrow_forward_ios_outlined,
+                                  //             size: MediaQuery.of(context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                 15,
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   //set pin button
                                   GestureDetector(
                                     onTap: () {
@@ -3777,46 +3777,47 @@ class _DashboardState extends State<Dashboard> {
                             // ),
                             //refer you friends with your code button
 
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Refers(
-                                    idname: widget.idname,
-                                    email: widget.useremail,
-                                  );
-                                }));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(bottom: 10, top: 10),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey, width: .5))),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 8,
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Image.asset(
-                                        "assets/people.png",
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Text(
-                                        "Refer your friends",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(context,
+                            //         MaterialPageRoute(builder: (context) {
+                            //       return Refers(
+                            //         idname: widget.idname,
+                            //         email: widget.useremail,
+                            //       );
+                            //     }));
+                            //   },
+                            //   child: Container(
+                            //     padding: EdgeInsets.only(bottom: 10, top: 10),
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: Colors.grey, width: .5))),
+                            //     child: Row(
+                            //       children: [
+                            //         Container(
+                            //           width:
+                            //               MediaQuery.of(context).size.width / 8,
+                            //           margin: EdgeInsets.only(left: 10),
+                            //           child: Image.asset(
+                            //             "assets/people.png",
+                            //           ),
+                            //         ),
+                            //         Container(
+                            //           margin: EdgeInsets.only(left: 15),
+                            //           child: Text(
+                            //             "Refer your friends",
+                            //             style: TextStyle(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 fontSize: 16),
+                            //           ),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             //updrage your package
+
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(context,

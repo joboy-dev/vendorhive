@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vendorandroid/screens/businesschangefullname.dart';
 import 'package:vendorandroid/screens/businesschangephone.dart';
 
+import 'change_profile_picture.dart';
+
 class BusinessEditProfile extends StatefulWidget {
   String email = "";
   String idname = "";
@@ -97,6 +99,7 @@ class _BusinessEditProfileState extends State<BusinessEditProfile> {
                       ),
                     ),
 
+                    //change full name
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -126,6 +129,45 @@ class _BusinessEditProfileState extends State<BusinessEditProfile> {
                             Container(
                               margin: EdgeInsets.only(top: 10,left: 15),
                               child: Text("Change Full Name",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/22.5,
+                                  fontWeight: FontWeight.w500
+                              ),),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    //change profile picture
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return ChnageProfilePicture(idname: widget.idname,
+                            email: widget.email,);
+                        }));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: .5,
+                                    color: Colors.grey
+                                )
+                            )
+                        ),
+                        padding: EdgeInsets.only(bottom: 20),
+                        margin: EdgeInsets.only(top: 5),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10,left: 10),
+                              child: Image.asset("assets/profile.png",
+                                width: MediaQuery.of(context).size.width/8,
+                                color: Color.fromRGBO(246, 123, 55, 1),),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10,left: 15),
+                              child: Text("Change Profile Picture",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/22.5,
                                   fontWeight: FontWeight.w500
                               ),),

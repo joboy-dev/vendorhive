@@ -304,11 +304,11 @@ class _MyOrdersState extends State<MyOrders> {
                                                   vertical: 5, horizontal: 10),
                                               child: Text(
                                                 raworders[index]['status'] == 'active'
-                                                    ? "pending"
+                                                    ? "Payment is pending"
                                                     : raworders[index]['status'] ==
                                                     'complete'
-                                                    ? "completed"
-                                                    : "cancelled",
+                                                    ? "Payment is completed"
+                                                    : "Payment is cancelled",
                                                 style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.width/34,
                                                     color: raworders[index]['status']==
@@ -318,7 +318,41 @@ class _MyOrdersState extends State<MyOrders> {
                                                         'complete'
                                                         ? Colors.green
                                                         : Colors.red,
-                                                    fontWeight: FontWeight.w500),
+                                                    fontWeight: FontWeight.w500),textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: raworders[index]['productpayment'] ==
+                                                      'undone'
+                                                      ? Color.fromRGBO(255, 250, 160, 1)
+                                                      : raworders[index]['productpayment'] ==
+                                                      'done'
+                                                      ? Colors.greenAccent
+                                                      : Colors.redAccent,
+                                                  borderRadius: BorderRadius.circular(3)),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5, horizontal: 10),
+                                              child: Text(
+                                                raworders[index]['productpayment'] == 'undone'
+                                                    ? "Awaiting vendor response"
+                                                    : raworders[index]['productpayment'] ==
+                                                    'done'
+                                                    ? "Order is Accepted"
+                                                    : "Payment is cancelled",
+                                                style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.width/34,
+                                                    color: raworders[index]['productpayment']==
+                                                        'undone'
+                                                        ? Color.fromRGBO(244, 187, 68, 1)
+                                                        : raworders[index]['productpayment'] ==
+                                                        'done'
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                    fontWeight: FontWeight.w500),textAlign: TextAlign.center,
                                               ),
                                             ),
                                           ],

@@ -55,7 +55,7 @@ class Viewadminorder extends StatefulWidget {
 }
 
 class _ViewadminorderState extends State<Viewadminorder> {
-
+  bool checker = false;
   int _selectedpage = 0;
   bool shipped = false;
   bool delivered = false;
@@ -67,6 +67,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
   bool enabledelivery = false;
   bool loading = false;
   bool loadingdeli = false;
+  String productPayment = "";
   String appstat = "Vendorhive360";
 
   ScrollController _controller = ScrollController();
@@ -91,6 +92,9 @@ class _ViewadminorderState extends State<Viewadminorder> {
         }
     );
 
+    productPayment = jsonDecode(productstatus.body)[0]['productpayment'];
+    print(productPayment);
+
     if(productstatus.statusCode == 200){
       print(jsonDecode(productstatus.body)[0]['ordershipped']);
       if(jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone' &&
@@ -102,6 +106,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           loading = true;
           loadingdeli = false;
           appstat = "Vendorhive360";
+          checker = true;
         });
 
       }
@@ -111,6 +116,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           loading = false;
           enableshipping = false;
           enabledelivery = false;
+          checker = true;
         });
 
         print(jsonDecode(productstatus.body)[0]['orderarrived']);
@@ -122,6 +128,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             enabledelivery = true;
             loadingdeli = false;
             appstat = "Vendorhive360";
+            checker = true;
           });
 
         }
@@ -132,6 +139,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             enabledelivery = false;
             loadingdeli = true;
             appstat = "Vendorhive360";
+            checker = true;
           });
 
         }
@@ -354,6 +362,43 @@ class _ViewadminorderState extends State<Viewadminorder> {
       duration: Duration(seconds: 2),
       curve: Curves.fastOutSlowIn,
     );
+  }
+
+  //accept order
+  Future<void> acceptOrder()async{
+    //indicate loading
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    //sets the product payment to done in the vendororderstatus table
+    try{
+      var response = await http.post(Uri.https('adeoropelumi.com', 'vendor/accept_order.php'), body: {
+        'tkid':widget.tkid,
+        'customer_email': widget.useremail,
+        'vendor_email': widget.adminemail,
+      });
+
+      if(jsonDecode(response.body)=="true"){
+        //stop loading
+        setState(() {
+          productPayment = "done";
+          _selectedpage = 0;
+        });
+
+        //pop alert box
+        Navigator.of(context).pop();
+      }
+    }catch(e){
+      //request timed out
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Request Timed Out"))
+      );
+      //stop loading
+      setState(() {
+        _selectedpage = 0;
+      });
+    }
   }
 
   @override
@@ -667,366 +712,392 @@ class _ViewadminorderState extends State<Viewadminorder> {
                       ),
                     ),
 
-                  enableshipping ?
-                  GestureDetector(
-                    onTap: () {
-                      if(shipped == false){
-                        var rng = Random();
-                        shippedpin = rng.nextInt(9999);
-                        setState(() {
-                          shipped = true;
-                        });
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((_){
-                          _scrollDown();
-                        });
-                      }else if(shipped == true){
-                        setState(() {
-                          shipped = false;
-                        });
-                      }
+                  checker?
+                  Column(
+                    children: [
+                      if(productPayment == "done")...[
+                        enableshipping ?
+                        GestureDetector(
+                          onTap: () {
+                            if(shipped == false){
+                              var rng = Random();
+                              shippedpin = rng.nextInt(9999);
+                              setState(() {
+                                shipped = true;
+                              });
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_){
+                                _scrollDown();
+                              });
+                            }else if(shipped == true){
+                              setState(() {
+                                shipped = false;
+                              });
+                            }
 
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(14, 44, 3, 1),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Order is shipped",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17
-                      ),)),
-                    ),
-                  )
-                  :Container(
-                      margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(178, 190, 181, 1),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child:
-                      loading ?
-                      Text("Customer is notified of shipped order",
-                        textAlign: TextAlign.center,style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14
-                      ),)
-                          :
-                          Icon(Icons.more_horiz)
-                      ),
-                    ),
-
-                  shipped ?
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
-                      child: Text("Shipped pin is ${shippedpin}"),
-                    ),
-                  )
-                  :Container(),
-
-                  shipped ?
-                  Container(
-                    margin: EdgeInsets.only(left: 10,right: 10),
-                    child: TextField(
-                      controller: _shippedpin,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: 'Enter shipped pin',
-                        enabledBorder: OutlineInputBorder(
-
-                        ),
-                        focusedBorder: OutlineInputBorder(
-
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(14, 44, 3, 1),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Order is shipped",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17
+                            ),)),
+                          ),
                         )
-                      ),
-                    ),
-                  )
-                  :Container(),
-
-                  shipped ?
-                  GestureDetector(
-                    onTap: () {
-                      if(_shippedpin.text == shippedpin.toString()){
-                        print("Correct pin");
-                        updateshippedorder();
-                      }else{
-                        print("wrong pin");
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                            SnackBar(
-                              content: Text('wrong pin'),
-                            ));
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Click here to confirm shipment",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                        fontWeight: FontWeight.bold
-                      ),textAlign: TextAlign.center,)),
-                    ),
-                  )
-                  :Container(),
-
-                  enabledelivery ?
-                  GestureDetector(
-                    onTap: (){
-                      if(delivered == false){
-                        var rng = Random();
-                        deliveredpin = rng.nextInt(9999);
-                        setState(() {
-                          delivered = true;
-                        });
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((_){
-                          _scrollDown();
-                        });
-                      }else if(delivered == true){
-                        setState(() {
-                          delivered = false;
-                        });
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(14, 44, 3, 1),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Order is delivered",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17
-                      ),)),
-                    ),
-                  )
-                  :Container(
-
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                    padding: EdgeInsets.symmetric(vertical: 18),
-
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(178, 190, 181, 1),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-
-                    child: Center(
-                        child: loadingdeli ?
-                    Text("Customer is notified of delivered order",
-                      textAlign: TextAlign.center,style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14
-                    ),)
-                    :Icon(Icons.more_horiz)
-
-                    ),
-                  ),
-
-                  delivered ?
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
-                      child: Text("Delivery pin is ${deliveredpin}"),
-                    ),
-                  )
-                  :Container(),
-
-                  delivered ?
-                  Container(
-                    margin: EdgeInsets.only(left: 10,right: 10),
-                    child: TextField(
-                      controller: _deliveredpin,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          hintText: 'Enter delivery pin',
-                          enabledBorder: OutlineInputBorder(
-
+                            :Container(
+                          margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
+                          padding: EdgeInsets.symmetric(vertical: 18),
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(178, 190, 181, 1),
+                              borderRadius: BorderRadius.circular(10)
                           ),
-                          focusedBorder: OutlineInputBorder(
-
-                          )
-                      ),
-                    ),
-                  )
-                  :Container(),
-
-                  delivered ?
-                  GestureDetector(
-                    onTap: () {
-                      if(_deliveredpin.text == deliveredpin.toString()){
-                        print("Correct pin");
-                        updatearrivedorder();
-
-                      }else{
-                        print("wrong pin");
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                            SnackBar(
-                              content: Text('wrong pin'),
-                            ));
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Click here to confirm delivery",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17
-                      ),)),
-                    ),
-                  )
-                  :Container(),
-
-                  reject ?
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
-                      child: Text("Reject pin is ${rejectpin}"),
-                    ),
-                  )
-                  :Container(),
-
-                  reject ?
-                  Container(
-                    margin: EdgeInsets.only(left: 10,right: 10),
-                    child: TextField(
-                      controller: _rejectpin,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          hintText: 'Enter reject pin',
-                          enabledBorder: OutlineInputBorder(
-
+                          child: Center(child:
+                          loading ?
+                          Text("Customer is notified of shipped order",
+                            textAlign: TextAlign.center,style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14
+                            ),)
+                              :
+                          Icon(Icons.more_horiz)
                           ),
-                          focusedBorder: OutlineInputBorder(
-
-                          )
-                      ),
-                    ),
-                  )
-                  :Container(),
-
-                  reject ?
-                  const SizedBox(
-                    height: 10,
-                  )
-                  : Container(),
-
-                  reject ?
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: TextField(
-                      controller: _reject_reason,
-                      decoration: InputDecoration(
-                        hintText: "Enter reason for rejecting",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
                         ),
-                        enabledBorder: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder()
-                      ),
-                    ),
-                  )
-                  : Container(),
 
-                  reject ?
-                  const SizedBox(
-                    height: 10,
-                  )
-                  : Container(),
+                        shipped ?
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text("Shipped pin is ${shippedpin}"),
+                          ),
+                        )
+                            :Container(),
 
-                  reject ?
-                  GestureDetector(
-                    onTap: () {
-                      if(_rejectpin.text.isEmpty || _reject_reason.text.isEmpty){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Fill all rejection fileds"))
-                        );
-                      }else{
-                        if(_rejectpin.text == rejectpin.toString()){
-                          print("Correct pin");
-                          reject_order();
-                        }
-                        else{
-                          print("wrong pin");
-                          ScaffoldMessenger.of(this.context).showSnackBar(
-                              SnackBar(
-                                content: Text('Wrong pin'),
-                              ));
-                        }
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 4, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Click here to reject",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                        fontWeight: FontWeight.bold
-                      ),)),
-                    ),
-                  )
-                  :Container(),
+                        shipped ?
+                        Container(
+                          margin: EdgeInsets.only(left: 10,right: 10),
+                          child: TextField(
+                            controller: _shippedpin,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                hintText: 'Enter shipped pin',
+                                enabledBorder: OutlineInputBorder(
 
-                  enableshipping == false && enabledelivery == false ?
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                    padding: EdgeInsets.symmetric(vertical: 18),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[100],
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Center(child:
-                    Icon(Icons.more_horiz)
-                    ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+
+                                )
+                            ),
+                          ),
+                        )
+                            :Container(),
+
+                        shipped ?
+                        GestureDetector(
+                          onTap: () {
+                            if(_shippedpin.text == shippedpin.toString()){
+                              print("Correct pin");
+                              updateshippedorder();
+                            }else{
+                              print("wrong pin");
+                              ScaffoldMessenger.of(this.context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('wrong pin'),
+                                  ));
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Click here to confirm shipment",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),textAlign: TextAlign.center,)),
+                          ),
+                        )
+                            :Container(),
+
+                        enabledelivery ?
+                        GestureDetector(
+                          onTap: (){
+                            if(delivered == false){
+                              var rng = Random();
+                              deliveredpin = rng.nextInt(9999);
+                              setState(() {
+                                delivered = true;
+                              });
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_){
+                                _scrollDown();
+                              });
+                            }else if(delivered == true){
+                              setState(() {
+                                delivered = false;
+                              });
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(14, 44, 3, 1),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Order is delivered",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17
+                            ),)),
+                          ),
+                        )
+                            :Container(
+
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                          padding: EdgeInsets.symmetric(vertical: 18),
+
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(178, 190, 181, 1),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+
+                          child: Center(
+                              child: loadingdeli ?
+                              Text("Customer is notified of delivered order",
+                                textAlign: TextAlign.center,style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14
+                                ),)
+                                  :Icon(Icons.more_horiz)
+
+                          ),
+                        ),
+
+                        delivered ?
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text("Delivery pin is ${deliveredpin}"),
+                          ),
+                        )
+                            :Container(),
+
+                        delivered ?
+                        Container(
+                          margin: EdgeInsets.only(left: 10,right: 10),
+                          child: TextField(
+                            controller: _deliveredpin,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                hintText: 'Enter delivery pin',
+                                enabledBorder: OutlineInputBorder(
+
+                                ),
+                                focusedBorder: OutlineInputBorder(
+
+                                )
+                            ),
+                          ),
+                        )
+                            :Container(),
+
+                        delivered ?
+                        GestureDetector(
+                          onTap: () {
+                            if(_deliveredpin.text == deliveredpin.toString()){
+                              print("Correct pin");
+                              updatearrivedorder();
+
+                            }else{
+                              print("wrong pin");
+                              ScaffoldMessenger.of(this.context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('wrong pin'),
+                                  ));
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Click here to confirm delivery",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17
+                            ),)),
+                          ),
+                        )
+                            :Container(),
+                      ]else...[
+                        GestureDetector(
+                          onTap: () async{
+                            await showDialog(context: context, builder: (cxt){
+                              return AlertDialog(
+                                title: Text("Accept Order"),
+                                content: Text("Are you sure you want to accept order"),
+                                actions: [
+                                  //cancel
+                                  TextButton(onPressed: ()=>Navigator.of(context).pop(), child: Text("Cancel")),
+
+                                  //accept order button
+                                  TextButton(onPressed: acceptOrder, child: Text("Accept")),
+                                ],
+                              );
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Accept Order",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),)),
+                          ),
+                        ),
+                        reject ?
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text("Reject pin is ${rejectpin}"),
+                          ),
+                        )
+                            :Container(),
+
+                        reject ?
+                        Container(
+                          margin: EdgeInsets.only(left: 10,right: 10),
+                          child: TextField(
+                            controller: _rejectpin,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                hintText: 'Enter reject pin',
+                                enabledBorder: OutlineInputBorder(
+
+                                ),
+                                focusedBorder: OutlineInputBorder(
+
+                                )
+                            ),
+                          ),
+                        )
+                            :Container(),
+
+                        reject ?
+                        const SizedBox(
+                          height: 10,
+                        )
+                            : Container(),
+
+                        reject ?
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            controller: _reject_reason,
+                            decoration: InputDecoration(
+                                hintText: "Enter reason for rejecting",
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                ),
+                                enabledBorder: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder()
+                            ),
+                          ),
+                        )
+                            : Container(),
+
+                        reject ?
+                        const SizedBox(
+                          height: 10,
+                        )
+                            : Container(),
+
+                        reject ?
+                        GestureDetector(
+                          onTap: () {
+                            if(_rejectpin.text.isEmpty || _reject_reason.text.isEmpty){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Fill all rejection fileds"))
+                              );
+                            }else{
+                              if(_rejectpin.text == rejectpin.toString()){
+                                print("Correct pin");
+                                reject_order();
+                              }
+                              else{
+                                print("wrong pin");
+                                ScaffoldMessenger.of(this.context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Wrong pin'),
+                                    ));
+                              }
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 4, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Click here to reject",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),)),
+                          ),
+                        )
+                            :Container(),
+
+                        GestureDetector(
+                          onTap: () {
+                            if(reject == false){
+                              var rng = Random();
+                              rejectpin = rng.nextInt(9999);
+                              setState(() {
+                                reject = true;
+                              });
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_){
+                                _scrollDown();
+                              });
+                            }else if(reject == true){
+                              setState(() {
+                                reject = false;
+                              });
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(child: Text("Reject Order",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),)),
+                          ),
+                        ),
+                      ],
+                    ],
                   )
-                  :GestureDetector(
-                    onTap: () {
-                      if(reject == false){
-                        var rng = Random();
-                        rejectpin = rng.nextInt(9999);
-                        setState(() {
-                          reject = true;
-                        });
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((_){
-                          _scrollDown();
-                        });
-                      }else if(reject == true){
-                        setState(() {
-                          reject = false;
-                        });
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(246, 123, 55, 1),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(child: Text("Reject Order",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                        fontWeight: FontWeight.bold
-                      ),)),
-                    ),
-                  ),
+                  :LinearProgressIndicator(),
 
                   Container(
                     margin: EdgeInsets.only(bottom: 10,top: 10),
