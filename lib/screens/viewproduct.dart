@@ -54,6 +54,7 @@ class _ViewProductState extends State<ViewProduct> {
   String deliveryprice = "";
   String deliverydays = "";
   String deliveryplan = "";
+  int quantity = 1;
 
   List rawservice = [];
   List<String> productsimg = [];
@@ -187,15 +188,48 @@ class _ViewProductState extends State<ViewProduct> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Center(
-                        child: Text("Select a Delivery Method for "+widget.name,
+                        child: Text(widget.name,
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold
                           ),textAlign: TextAlign.center,),
                       ),
                     ),
                     const SizedBox(height: 10,),
                     Divider(),
+                    Center(
+                      child: Text("Set Quantity",style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(onPressed: (){
+                          setState((){
+                            quantity++;
+                          });
+                        }, icon: Icon(Icons.add_circle)),
+                        Text('$quantity'),
+                        IconButton(onPressed: (){
+                          setState((){
+                            quantity--;
+                          });
+                        }, icon: Icon(Icons.remove_circle)),
+                      ],
+                    ),
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Center(
+                        child: Text("Select a Delivery Method",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),textAlign: TextAlign.center,),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: 20,left: 20,right: 20),
                       child: DecoratedBox(
@@ -300,7 +334,7 @@ class _ViewProductState extends State<ViewProduct> {
                             color: Color.fromRGBO(246, 123, 55, 1)
                         ),
                         child: Center(
-                          child: Text("Add to Cart",style: TextStyle(
+                          child: Text("Proceed",style: TextStyle(
                               fontSize: 16,
                               color: Colors.green[900],
                               fontWeight: FontWeight.bold

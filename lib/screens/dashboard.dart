@@ -609,32 +609,32 @@ class _DashboardState extends State<Dashboard> {
     }
 
     //product tags
-    for (int o = 0; o < producttags.length; o++) {
-      final addproducttags = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoraddproducttags.php'),
-          body: {
-            'idname': widget.idname,
-            'pidname': pidname,
-            'useremail': widget.useremail,
-            'producttag': replacingwords(producttags[o].tag),
-          });
-
-      if (addproducttags.statusCode == 200) {
-        if (jsonDecode(addproducttags.body) == "product tag added") {
-          print(producttags[o].tag + " is added");
-          setState(() {
-            appproductstatus = producttags[o].tag + " is registered";
-          });
-        } else {
-          print(producttags[o].tag + " did not register");
-        }
-      } else {
-        print('Network Issues');
-
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Network Issues')));
-      }
-    }
+    // for (int o = 0; o < producttags.length; o++) {
+    //   final addproducttags = await http.post(
+    //       Uri.https('adeoropelumi.com', 'vendor/vendoraddproducttags.php'),
+    //       body: {
+    //         'idname': widget.idname,
+    //         'pidname': pidname,
+    //         'useremail': widget.useremail,
+    //         'producttag': replacingwords(producttags[o].tag),
+    //       });
+    //
+    //   if (addproducttags.statusCode == 200) {
+    //     if (jsonDecode(addproducttags.body) == "product tag added") {
+    //       print(producttags[o].tag + " is added");
+    //       setState(() {
+    //         appproductstatus = producttags[o].tag + " is registered";
+    //       });
+    //     } else {
+    //       print(producttags[o].tag + " did not register");
+    //     }
+    //   } else {
+    //     print('Network Issues');
+    //
+    //     ScaffoldMessenger.of(context)
+    //         .showSnackBar(SnackBar(content: Text('Network Issues')));
+    //   }
+    // }
 
     final addproductsid = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/vendoraddproductid.php'),
@@ -4371,92 +4371,95 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ),
                           ),
-                          //product tags text
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Tags"),
-                          ),
-                          //product tags textfield
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 5, left: 10, right: 10),
-                            child: TextField(
-                              controller: products,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  width: .5,
-                                  color: Colors.black,
-                                )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.black)),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      var rand = Random();
-                                      int id = rand.nextInt(1000000000);
-                                      print("lilo");
-                                      print(products.text);
-                                      setState(() {
-                                        producttags.add(ProductTag(
-                                            id: id.toString(),
-                                            tag: products.text));
-                                        products.clear();
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      size: 30,
-                                    )),
-                              ),
-                            ),
-                          ),
-                          //view products tags inputed
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(229, 228, 226, 1),
-                                borderRadius: BorderRadius.circular(10)),
-                            margin:
-                                EdgeInsets.only(left: 10, top: 5, right: 10),
-                            child: Container(
-                              // margin: EdgeInsets.only(left: 10),
-                              child: Wrap(children: [
-                                for (int i = 0; i < producttags.length; i++)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
-                                    margin: EdgeInsets.only(
-                                        left: 10, top: 3.5, bottom: 3.5),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(producttags[i].tag),
-                                        GestureDetector(
-                                            onTap: () {
-                                              print("lilo");
-                                              setState(() {
-                                                producttags.removeWhere((a) =>
-                                                    a.id == producttags[i].id);
-                                              });
-                                            },
-                                            child: Container(
-                                                padding:
-                                                    EdgeInsets.only(left: 8),
-                                                child: Icon(
-                                                  Icons.cancel,
-                                                  size: 20,
-                                                ))),
-                                      ],
-                                    ),
-                                  ),
-                              ]),
-                            ),
-                          ),
+
+                          // //product tags text
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                          //   child: Text("Tags"),
+                          // ),
+                          // //product tags textfield
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 5, left: 10, right: 10),
+                          //   child: TextField(
+                          //     controller: products,
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //         width: .5,
+                          //         color: Colors.black,
+                          //       )),
+                          //       focusedBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //               width: .5, color: Colors.black)),
+                          //       suffixIcon: GestureDetector(
+                          //           onTap: () {
+                          //             var rand = Random();
+                          //             int id = rand.nextInt(1000000000);
+                          //             print("lilo");
+                          //             print(products.text);
+                          //             setState(() {
+                          //               producttags.add(ProductTag(
+                          //                   id: id.toString(),
+                          //                   tag: products.text));
+                          //               products.clear();
+                          //             });
+                          //           },
+                          //           child: Icon(
+                          //             Icons.check_circle,
+                          //             size: 30,
+                          //           )),
+                          //     ),
+                          //   ),
+                          // ),
+                          // //view products tags inputed
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       color: Color.fromRGBO(229, 228, 226, 1),
+                          //       borderRadius: BorderRadius.circular(10)),
+                          //   margin:
+                          //       EdgeInsets.only(left: 10, top: 5, right: 10),
+                          //   child: Container(
+                          //     // margin: EdgeInsets.only(left: 10),
+                          //     child: Wrap(children: [
+                          //       for (int i = 0; i < producttags.length; i++)
+                          //         Container(
+                          //           decoration: BoxDecoration(
+                          //               border: Border.all(),
+                          //               borderRadius: BorderRadius.circular(5)),
+                          //           padding: EdgeInsets.symmetric(
+                          //               horizontal: 5, vertical: 3),
+                          //           margin: EdgeInsets.only(
+                          //               left: 10, top: 3.5, bottom: 3.5),
+                          //           child: Row(
+                          //             mainAxisSize: MainAxisSize.min,
+                          //             children: [
+                          //               Text(producttags[i].tag),
+                          //               GestureDetector(
+                          //                   onTap: () {
+                          //                     print("lilo");
+                          //                     setState(() {
+                          //                       producttags.removeWhere((a) =>
+                          //                           a.id == producttags[i].id);
+                          //                     });
+                          //                   },
+                          //                   child: Container(
+                          //                       padding:
+                          //                           EdgeInsets.only(left: 8),
+                          //                       child: Icon(
+                          //                         Icons.cancel,
+                          //                         size: 20,
+                          //                       ))),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //     ]),
+                          //   ),
+                          // ),
+
                           //product product location text
+
                           Container(
                                 margin:
                                 EdgeInsets.only(top: 10, left: 10, bottom: 10),
@@ -4796,6 +4799,7 @@ class _DashboardState extends State<Dashboard> {
                                         )
                                     )),
                               ),
+
                           // select city text
                           Container(
                             margin:
