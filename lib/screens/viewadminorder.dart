@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'successfulproductreject.dart';
 
 class Viewadminorder extends StatefulWidget {
+  String idname = "";
   String productname = "";
   String productid = "";
   String productimage = "";
@@ -28,27 +29,27 @@ class Viewadminorder extends StatefulWidget {
   String deliveryplan = "";
   String deliveryday = "";
 
-  Viewadminorder({
-    required this.deliveryplan,
-    required this.deliveryday,
-    required this.date,
-    required this.time,
-    required this.trackid,
-    required this.quantity,
-    required this.customername,
-    required this.customernumber,
-    required this.customerlocation,
-    required this.customerstate,
-    required this.productname,
-    required this.productid,
-    required this.productimage,
-    required this.productprice,
-    required this.deliveryprice,
-    required this.location,
-    required this.adminemail,
-    required this.useremail,
-    required this.tkid
-  });
+  Viewadminorder(
+      {required this.idname,
+      required this.deliveryplan,
+      required this.deliveryday,
+      required this.date,
+      required this.time,
+      required this.trackid,
+      required this.quantity,
+      required this.customername,
+      required this.customernumber,
+      required this.customerlocation,
+      required this.customerstate,
+      required this.productname,
+      required this.productid,
+      required this.productimage,
+      required this.productprice,
+      required this.deliveryprice,
+      required this.location,
+      required this.adminemail,
+      required this.useremail,
+      required this.tkid});
 
   @override
   _ViewadminorderState createState() => _ViewadminorderState();
@@ -77,29 +78,27 @@ class _ViewadminorderState extends State<Viewadminorder> {
   TextEditingController _rejectpin = TextEditingController();
   TextEditingController _reject_reason = TextEditingController();
 
-  Future productstats() async{
-
+  Future productstats() async {
     setState(() {
       appstat = "loading...";
     });
 
-    var productstatus = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorshipped.php'),
-        body: {
-          'productid':widget.tkid,
-          'adminemail':widget.adminemail,
-          'useremail':widget.useremail
-        }
-    );
+    var productstatus = await http
+        .post(Uri.https('adeoropelumi.com', 'vendor/vendorshipped.php'), body: {
+      'productid': widget.tkid,
+      'adminemail': widget.adminemail,
+      'useremail': widget.useremail
+    });
 
-    productPayment = jsonDecode(productstatus.body)[0]['productpayment'];
-    print(productPayment);
+    setState(() {
+      productPayment = jsonDecode(productstatus.body)[0]['productpayment'];
+    });
+    print("Product payment "+productPayment);
 
-    if(productstatus.statusCode == 200){
+    if (productstatus.statusCode == 200) {
       print(jsonDecode(productstatus.body)[0]['ordershipped']);
-      if(jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone' &&
-          jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone'){
-
+      if (jsonDecode(productstatus.body)[0]['ordershipped'] == 'undone' &&
+          jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone') {
         setState(() {
           enableshipping = true;
           enabledelivery = false;
@@ -108,10 +107,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           appstat = "Vendorhive360";
           checker = true;
         });
-
-      }
-      else{
-
+      } else {
         setState(() {
           loading = false;
           enableshipping = false;
@@ -120,9 +116,8 @@ class _ViewadminorderState extends State<Viewadminorder> {
         });
 
         print(jsonDecode(productstatus.body)[0]['orderarrived']);
-        if(jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone' &&
-            jsonDecode(productstatus.body)[0]['ordershipped'] == 'done'){
-
+        if (jsonDecode(productstatus.body)[0]['orderarrived'] == 'undone' &&
+            jsonDecode(productstatus.body)[0]['ordershipped'] == 'done') {
           setState(() {
             loading = true;
             enabledelivery = true;
@@ -130,10 +125,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
             appstat = "Vendorhive360";
             checker = true;
           });
-
-        }
-        else{
-
+        } else {
           setState(() {
             loading = true;
             enabledelivery = false;
@@ -141,7 +133,6 @@ class _ViewadminorderState extends State<Viewadminorder> {
             appstat = "Vendorhive360";
             checker = true;
           });
-
         }
       }
     }
@@ -154,18 +145,16 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var updateshiporder = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorupdateshipped.php'),
+        Uri.https('adeoropelumi.com', 'vendor/vendorupdateshipped.php'),
         body: {
-          'productid':widget.productid,
-          'adminemail':widget.adminemail,
-          'useremail':widget.useremail,
-          'tkid' : widget.tkid
-        }
-    );
+          'productid': widget.productid,
+          'adminemail': widget.adminemail,
+          'useremail': widget.useremail,
+          'tkid': widget.tkid
+        });
 
-    if(updateshiporder.statusCode == 200){
-      if(jsonDecode(updateshiporder.body)=='true'){
-
+    if (updateshiporder.statusCode == 200) {
+      if (jsonDecode(updateshiporder.body) == 'true') {
         setState(() {
           _selectedpage = 0;
           loading = true;
@@ -177,16 +166,12 @@ class _ViewadminorderState extends State<Viewadminorder> {
         });
 
         print("Shipped order is registered");
-
-      }
-      else{
-
+      } else {
         setState(() {
           _selectedpage = 0;
         });
 
         print("Shipped order is not registered");
-
       }
     }
   }
@@ -198,17 +183,16 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var updatearrive = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorupdatearrived.php'),
+        Uri.https('adeoropelumi.com', 'vendor/vendorupdatearrived.php'),
         body: {
-          'productid':widget.productid,
-          'useremail':widget.useremail,
+          'productid': widget.productid,
+          'useremail': widget.useremail,
           'adminemail': widget.adminemail,
-          'tkid' : widget.tkid
-        }
-    );
+          'tkid': widget.tkid
+        });
 
-    if(updatearrive.statusCode == 200){
-      if(jsonDecode(updatearrive.body)=='true'){
+    if (updatearrive.statusCode == 200) {
+      if (jsonDecode(updatearrive.body) == 'true') {
         setState(() {
           _selectedpage = 0;
           delivered = false;
@@ -217,25 +201,22 @@ class _ViewadminorderState extends State<Viewadminorder> {
           loading = true;
         });
         print("Product has arrived at destination");
-      }
-      else{
+      } else {
         setState(() {
           _selectedpage = 0;
         });
         print("Product has not arrived at destination");
       }
-    }
-    else{
+    } else {
       setState(() {
         _selectedpage = 0;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Network Issues'))
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Network Issues')));
     }
   }
 
-  Future reject_order() async{
+  Future reject_order() async {
     print("Reject Order");
 
     setState(() {
@@ -243,44 +224,39 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var order_reject = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorgetidname.php'),
-        body: {
-          'useremail' : widget.useremail
-        }
-    );
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetidname.php'),
+        body: {'useremail': widget.useremail});
 
     print(jsonDecode(order_reject.body));
-    if(order_reject.statusCode == 200 && jsonDecode(order_reject.body) != "false"){
-
+    if (order_reject.statusCode == 200 &&
+        jsonDecode(order_reject.body) != "false") {
       // a refund is to be done for product price
       var credit_custwallet_amount = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          Uri.https('adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
           body: {
             'idname': jsonDecode(order_reject.body).toString(),
-            'email':widget.useremail,
+            'email': widget.useremail,
             'debit': "0",
             'credit': widget.productprice,
-            'desc':'RVS Product amount',
+            'desc': 'RVS Product amount',
             'refno': widget.tkid,
-          }
-      );
+          });
 
-      // a refund is to be done for product price
+      // a refund is to be done for product delivery price
       var credit_custwallet_delivery = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          Uri.https('adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
           body: {
             'idname': jsonDecode(order_reject.body).toString(),
-            'email':widget.useremail,
+            'email': widget.useremail,
             'debit': "0",
             'credit': widget.deliveryprice,
-            'desc':'RVS Delivery amount',
+            'desc': 'RVS Delivery amount',
             'refno': widget.tkid,
-          }
-      );
+          });
 
       //a record of the rejection should be done
       var record_reject = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorreject.php'),
+          Uri.https('adeoropelumi.com', 'vendor/vendorreject.php'),
           body: {
             'productid': widget.productid,
             'productname': widget.productname,
@@ -296,57 +272,65 @@ class _ViewadminorderState extends State<Viewadminorder> {
             'vendoremail': widget.adminemail,
             'quantity': widget.quantity,
             'trackid': widget.trackid,
-            'reason' : _reject_reason.text
-          }
-      );
+            'reason': _reject_reason.text
+          });
 
-      //delete the product from orders
-      var delete_ordered = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorrejectorder.php'),
-          body:{
+      // //delete the product from orders
+      // var delete_ordered = await http.post(
+      //     Uri.https('adeoropelumi.com', 'vendor/vendorrejectorder.php'),
+      //     body: {
+      //       'pidname': widget.productid,
+      //       'tkid': widget.tkid,
+      //       'useremail': widget.useremail,
+      //       'adminemail': widget.adminemail,
+      //     });
+
+
+      //sets the product payment to reject in the vendororderstatus table
+      var update_to_reject = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/accept_order.php'),
+          body: {
+            'tkid': widget.tkid,
+            'customer_email': widget.useremail,
+            'vendor_email': widget.adminemail,
+            'status' : 'reject',
             'pidname' : widget.productid,
-            'tkid' : widget.tkid,
-            'useremail' : widget.useremail,
-            'adminemail' : widget.adminemail,
-          }
-      );
+            'value' : 'cancelled'
+          });
 
       //notify user
       var notifyuser = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
           body: {
-            'message': widget.productname+" has being rejected",
+            'message': widget.productname + " has being rejected",
             'info': widget.useremail,
             'tag': 'Product',
-            'quantity' : widget.quantity,
+            'quantity': widget.quantity,
             'refno': widget.tkid
-          }
-      );
+          });
 
-      if(jsonDecode(delete_ordered.body) == "true" &&
-      jsonDecode(record_reject.body) == "true" &&
-      jsonDecode(credit_custwallet_delivery.body) == "true" &&
-      jsonDecode(credit_custwallet_amount.body) == "true"){
+      if (jsonDecode(update_to_reject.body) == "true" &&
+          jsonDecode(credit_custwallet_delivery.body) == "true" &&
+          jsonDecode(credit_custwallet_amount.body) == "true") {
 
         setState(() {
+          productPayment = "reject";
           _selectedpage = 0;
         });
 
-        Navigator.push(context, MaterialPageRoute(builder: (context){
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
           return SuccessReject();
         }));
 
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Product is rejected")));
-      }
-      else{
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product is rejected")));
+      } else {
         setState(() {
           _selectedpage = 0;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Request timed out")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Request timed out")));
       }
-
 
       // WidgetsBinding.instance
       //     .addPostFrameCallback((_){
@@ -365,35 +349,81 @@ class _ViewadminorderState extends State<Viewadminorder> {
   }
 
   //accept order
-  Future<void> acceptOrder()async{
+  Future<void> acceptOrder(String service_fee) async {
+    //pop alert box
+    Navigator.of(context).pop();
+
     //indicate loading
     setState(() {
       _selectedpage = 1;
     });
 
-    //sets the product payment to done in the vendororderstatus table
-    try{
-      var response = await http.post(Uri.https('adeoropelumi.com', 'vendor/accept_order.php'), body: {
-        'tkid':widget.tkid,
-        'customer_email': widget.useremail,
-        'vendor_email': widget.adminemail,
-      });
+    try {
+      //debit business wallet of service fee
+      var savetransaction = await http.post(
+          Uri.https(
+              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+          body: {
+            'idname': widget.idname,
+            'useremail': widget.useremail,
+            'adminemail': widget.adminemail,
+            'debit': service_fee,
+            'credit': '0',
+            'status': 'pending',
+            'refno': widget.tkid,
+            'description': "Service Fee",
+            'itemid': widget.productid
+          });
 
-      if(jsonDecode(response.body)=="true"){
-        //stop loading
-        setState(() {
-          productPayment = "done";
-          _selectedpage = 0;
-        });
+      //credit five percent table
+      var vendor_five_percent = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorfivepercent.php'),
+          body: {
+            'idname': widget.idname,
+            'email': widget.adminemail,
+            'percent': service_fee,
+            'refno': widget.tkid,
+            'type': 'product'
+          });
 
-        //pop alert box
-        Navigator.of(context).pop();
+      //sets the product payment to done in the vendororderstatus table
+      var response = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/accept_order.php'),
+          body: {
+            'tkid': widget.tkid,
+            'customer_email': widget.useremail,
+            'vendor_email': widget.adminemail,
+            'status' : 'done',
+            'pidname' : widget.productid,
+            'value' : 'active'
+          });
+
+      //notify user
+      var notifyuser = await http.post(
+          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          body: {
+            'message': widget.productname + " offer is accepted",
+            'info': widget.useremail,
+            'tag': 'Product',
+            'quantity': widget.quantity,
+            'refno': widget.tkid
+          });
+
+      if (jsonDecode(response.body) == "true" &&
+          jsonDecode(vendor_five_percent.body) == "true" &&
+          jsonDecode(savetransaction.body) == "true") {
+
+          //stop loading
+          setState(() {
+            productPayment = "done";
+            _selectedpage = 0;
+          });
+
       }
-    }catch(e){
+    } catch (e) {
       //request timed out
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Request Timed Out"))
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Request Timed Out")));
       //stop loading
       setState(() {
         _selectedpage = 0;
@@ -417,740 +447,1022 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
   @override
   Widget build(BuildContext context) {
+    double total_amount_with_delivery = (double.parse(widget.productprice) +
+        double.parse(widget.deliveryprice));
+    double service_fee = total_amount_with_delivery * 0.05;
+    double amount_after_deduct_serviceFee =
+        total_amount_with_delivery - service_fee;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _scrollDown,
         child: Icon(Icons.arrow_drop_down_circle_rounded),
       ),
-      body: _selectedpage == 0 ?
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(217, 217, 217, .5),
-                  ),
-                  padding: EdgeInsets.only(top: 15, bottom: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Text("Order Status",style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14
-                        ),),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              child: Icon(Icons.arrow_back,color: Colors.white,)
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-              ),
-
-              Flexible(
-                  child: ListView(
-                  controller: _controller,
+      body: _selectedpage == 0
+          ? Container(
+              decoration: BoxDecoration(color: Colors.white),
+              child: SafeArea(
+                child: Column(
                   children: [
-
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height/30,
-                  ),
-
-                  //Image
-                  Container(
-                    height: MediaQuery.of(context).size.height/4,
-                    child: Center(child: FadeInImage(
-                      image: NetworkImage(
-                        "https://adeoropelumi.com/vendor/productimage/"+widget.productimage,
-                      ),
-                      placeholder: AssetImage(
-                          "assets/image.png"),
-                      imageErrorBuilder:
-                          (context, error,
-                          stackTrace) {
-                        return Image.asset(
-                            'assets/error.png',
-                            fit: BoxFit
-                                .fitWidth);
-                      },
-                      fit: BoxFit.fitWidth,
-                    )
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 25,
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(217, 217, 217, .5),
+                        ),
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                "Order Status",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            )
+                          ],
+                        )),
+                    Flexible(
+                        child: ListView(
+                      controller: _controller,
                       children: [
-                        Container(
-                          child: Text("Customer Name: ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14
-                          ),),
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Text(widget.customername,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),textAlign: TextAlign.end,),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Customer Phonenumber: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.customernumber,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Customer Address: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.customerlocation,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Customer State: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.customerstate,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Quantity: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.quantity,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Delivery Plan: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.deliveryplan,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Days of delivery: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.deliveryday,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Product Id: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.trackid,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text("Date & Time: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                              ),),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Text(widget.date+" & "+widget.time,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),textAlign: TextAlign.end,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                  //inform
-                  Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Center(
-                        child: Text("Inform the customer about he/her product "),
-                      ),
-                    ),
-
-                  checker?
-                  Column(
-                    children: [
-                      if(productPayment == "done")...[
-                        enableshipping ?
-                        GestureDetector(
-                          onTap: () {
-                            if(shipped == false){
-                              var rng = Random();
-                              shippedpin = rng.nextInt(9999);
-                              setState(() {
-                                shipped = true;
-                              });
-                              WidgetsBinding.instance
-                                  .addPostFrameCallback((_){
-                                _scrollDown();
-                              });
-                            }else if(shipped == true){
-                              setState(() {
-                                shipped = false;
-                              });
-                            }
-
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(14, 44, 3, 1),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Order is shipped",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17
-                            ),)),
-                          ),
-                        )
-                            :Container(
-                          margin: EdgeInsets.fromLTRB(10, 20, 10, 5),
-                          padding: EdgeInsets.symmetric(vertical: 18),
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(178, 190, 181, 1),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Center(child:
-                          loading ?
-                          Text("Customer is notified of shipped order",
-                            textAlign: TextAlign.center,style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14
-                            ),)
-                              :
-                          Icon(Icons.more_horiz)
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 30,
                         ),
 
-                        shipped ?
+                        //Image
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
+                          height: MediaQuery.of(context).size.height / 4,
                           child: Center(
-                            child: Text("Shipped pin is ${shippedpin}"),
-                          ),
-                        )
-                            :Container(),
-
-                        shipped ?
-                        Container(
-                          margin: EdgeInsets.only(left: 10,right: 10),
-                          child: TextField(
-                            controller: _shippedpin,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: 'Enter shipped pin',
-                                enabledBorder: OutlineInputBorder(
-
-                                ),
-                                focusedBorder: OutlineInputBorder(
-
-                                )
+                              child: FadeInImage(
+                            image: NetworkImage(
+                              "https://adeoropelumi.com/vendor/productimage/" +
+                                  widget.productimage,
                             ),
-                          ),
-                        )
-                            :Container(),
-
-                        shipped ?
-                        GestureDetector(
-                          onTap: () {
-                            if(_shippedpin.text == shippedpin.toString()){
-                              print("Correct pin");
-                              updateshippedorder();
-                            }else{
-                              print("wrong pin");
-                              ScaffoldMessenger.of(this.context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('wrong pin'),
-                                  ));
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Click here to confirm shipment",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),textAlign: TextAlign.center,)),
-                          ),
-                        )
-                            :Container(),
-
-                        enabledelivery ?
-                        GestureDetector(
-                          onTap: (){
-                            if(delivered == false){
-                              var rng = Random();
-                              deliveredpin = rng.nextInt(9999);
-                              setState(() {
-                                delivered = true;
-                              });
-                              WidgetsBinding.instance
-                                  .addPostFrameCallback((_){
-                                _scrollDown();
-                              });
-                            }else if(delivered == true){
-                              setState(() {
-                                delivered = false;
-                              });
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(14, 44, 3, 1),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Order is delivered",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17
-                            ),)),
-                          ),
-                        )
-                            :Container(
-
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                          padding: EdgeInsets.symmetric(vertical: 18),
-
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(178, 190, 181, 1),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-
-                          child: Center(
-                              child: loadingdeli ?
-                              Text("Customer is notified of delivered order",
-                                textAlign: TextAlign.center,style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14
-                                ),)
-                                  :Icon(Icons.more_horiz)
-
-                          ),
+                            placeholder: AssetImage("assets/image.png"),
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset('assets/error.png',
+                                  fit: BoxFit.fitWidth);
+                            },
+                            fit: BoxFit.fitWidth,
+                          )),
                         ),
 
-                        delivered ?
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Center(
-                            child: Text("Delivery pin is ${deliveredpin}"),
-                          ),
-                        )
-                            :Container(),
-
-                        delivered ?
-                        Container(
-                          margin: EdgeInsets.only(left: 10,right: 10),
-                          child: TextField(
-                            controller: _deliveredpin,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: 'Enter delivery pin',
-                                enabledBorder: OutlineInputBorder(
-
-                                ),
-                                focusedBorder: OutlineInputBorder(
-
-                                )
-                            ),
-                          ),
-                        )
-                            :Container(),
-
-                        delivered ?
-                        GestureDetector(
-                          onTap: () {
-                            if(_deliveredpin.text == deliveredpin.toString()){
-                              print("Correct pin");
-                              updatearrivedorder();
-
-                            }else{
-                              print("wrong pin");
-                              ScaffoldMessenger.of(this.context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('wrong pin'),
-                                  ));
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Click here to confirm delivery",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17
-                            ),)),
-                          ),
-                        )
-                            :Container(),
-                      ]else...[
-                        GestureDetector(
-                          onTap: () async{
-                            await showDialog(context: context, builder: (cxt){
-                              return AlertDialog(
-                                title: Text("Accept Order"),
-                                content: Text("Are you sure you want to accept order"),
-                                actions: [
-                                  //cancel
-                                  TextButton(onPressed: ()=>Navigator.of(context).pop(), child: Text("Cancel")),
-
-                                  //accept order button
-                                  TextButton(onPressed: acceptOrder, child: Text("Accept")),
-                                ],
-                              );
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(246, 123, 55, 1),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Accept Order",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),)),
-                          ),
-                        ),
-                        reject ?
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Center(
-                            child: Text("Reject pin is ${rejectpin}"),
-                          ),
-                        )
-                            :Container(),
-
-                        reject ?
-                        Container(
-                          margin: EdgeInsets.only(left: 10,right: 10),
-                          child: TextField(
-                            controller: _rejectpin,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: 'Enter reject pin',
-                                enabledBorder: OutlineInputBorder(
-
-                                ),
-                                focusedBorder: OutlineInputBorder(
-
-                                )
-                            ),
-                          ),
-                        )
-                            :Container(),
-
-                        reject ?
                         const SizedBox(
-                          height: 10,
-                        )
-                            : Container(),
+                          height: 25,
+                        ),
 
-                        reject ?
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Customer Name: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.customername,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Customer Phonenumber: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.customernumber,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Customer Address: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.customerlocation,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Customer State: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.customerstate,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Total Amount: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "₦" +
+                                        widget.productprice.replaceAllMapped(
+                                            RegExp(
+                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                            (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Quantity: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.quantity,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: TextField(
-                            controller: _reject_reason,
-                            decoration: InputDecoration(
-                                hintText: "Enter reason for rejecting",
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Delivery Price: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                                 ),
-                                enabledBorder: OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder()
-                            ),
-                          ),
-                        )
-                            : Container(),
-
-                        reject ?
-                        const SizedBox(
-                          height: 10,
-                        )
-                            : Container(),
-
-                        reject ?
-                        GestureDetector(
-                          onTap: () {
-                            if(_rejectpin.text.isEmpty || _reject_reason.text.isEmpty){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Fill all rejection fileds"))
-                              );
-                            }else{
-                              if(_rejectpin.text == rejectpin.toString()){
-                                print("Correct pin");
-                                reject_order();
-                              }
-                              else{
-                                print("wrong pin");
-                                ScaffoldMessenger.of(this.context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Wrong pin'),
-                                    ));
-                              }
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 4, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Click here to reject",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),)),
-                          ),
-                        )
-                            :Container(),
-
-                        GestureDetector(
-                          onTap: () {
-                            if(reject == false){
-                              var rng = Random();
-                              rejectpin = rng.nextInt(9999);
-                              setState(() {
-                                reject = true;
-                              });
-                              WidgetsBinding.instance
-                                  .addPostFrameCallback((_){
-                                _scrollDown();
-                              });
-                            }else if(reject == true){
-                              setState(() {
-                                reject = false;
-                              });
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(246, 123, 55, 1),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(child: Text("Reject Order",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),)),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "₦" +
+                                        widget.deliveryprice.replaceAllMapped(
+                                            RegExp(
+                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                            (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ],
-                    ],
-                  )
-                  :LinearProgressIndicator(),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Delivery Plan: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.deliveryplan,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Days of delivery: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.deliveryday,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Product Id: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.trackid,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Date & Time: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    widget.date + " & " + widget.time,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Service Fee: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    '₦' +
+                                        '${service_fee}'.replaceAllMapped(
+                                            RegExp(
+                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                            (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Totoal Payout: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    '₦' +
+                                        '${amount_after_deduct_serviceFee}'
+                                            .replaceAllMapped(
+                                                RegExp(
+                                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
 
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10,top: 10),
-                    child: Center(
-                      child: Text(appstat,style: TextStyle(
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ),
-                  )
-                ],
-              )),
-            ],
-          ),
-        ),
-      )
-      :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: SpinKitFadingCube(
-                      color: Colors.orange,
-                      size: 100,
-                    ),
-                  ),
-                  Container(
-                    child: Text("Processing",style: TextStyle(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text('Vendorhive360',style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold
-                      ),),
-                    ),
-                  )
-                ],
+                        //inform
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Center(
+                            child: Text(
+                                "Inform the customer about he/her product "),
+                          ),
+                        ),
+
+                        checker
+                            ? Column(
+                                children: [
+                                  if (productPayment == "done") ...[
+                                    enableshipping
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (shipped == false) {
+                                                var rng = Random();
+                                                shippedpin = rng.nextInt(9999);
+                                                setState(() {
+                                                  shipped = true;
+                                                });
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) {
+                                                  _scrollDown();
+                                                });
+                                              } else if (shipped == true) {
+                                                setState(() {
+                                                  shipped = false;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 20, 10, 5),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 18),
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      14, 44, 3, 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                  child: Text(
+                                                "Order is shipped",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              )),
+                                            ),
+                                          )
+                                        : Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 20, 10, 5),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 18),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    178, 190, 181, 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Center(
+                                                child: loading
+                                                    ? Text(
+                                                        "Customer is notified of shipped order",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14),
+                                                      )
+                                                    : Icon(Icons.more_horiz)),
+                                          ),
+                                    shipped
+                                        ? Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Center(
+                                              child: Text(
+                                                  "Shipped pin is ${shippedpin}"),
+                                            ),
+                                          )
+                                        : Container(),
+                                    shipped
+                                        ? Container(
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: TextField(
+                                              controller: _shippedpin,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                  hintText: 'Enter shipped pin',
+                                                  enabledBorder:
+                                                      OutlineInputBorder(),
+                                                  focusedBorder:
+                                                      OutlineInputBorder()),
+                                            ),
+                                          )
+                                        : Container(),
+                                    shipped
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (_shippedpin.text ==
+                                                  shippedpin.toString()) {
+                                                print("Correct pin");
+                                                updateshippedorder();
+                                              } else {
+                                                print("wrong pin");
+                                                ScaffoldMessenger.of(
+                                                        this.context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text('wrong pin'),
+                                                ));
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 5),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 18),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                  child: Text(
+                                                "Click here to confirm shipment",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              )),
+                                            ),
+                                          )
+                                        : Container(),
+                                    enabledelivery
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (delivered == false) {
+                                                var rng = Random();
+                                                deliveredpin =
+                                                    rng.nextInt(9999);
+                                                setState(() {
+                                                  delivered = true;
+                                                });
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) {
+                                                  _scrollDown();
+                                                });
+                                              } else if (delivered == true) {
+                                                setState(() {
+                                                  delivered = false;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 5),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 18),
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      14, 44, 3, 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                  child: Text(
+                                                "Order is delivered",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              )),
+                                            ),
+                                          )
+                                        : Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 5),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 18),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    178, 190, 181, 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Center(
+                                                child: loadingdeli
+                                                    ? Text(
+                                                        "Customer is notified of delivered order",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14),
+                                                      )
+                                                    : Icon(Icons.more_horiz)),
+                                          ),
+                                    delivered
+                                        ? Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Center(
+                                              child: Text(
+                                                  "Delivery pin is ${deliveredpin}"),
+                                            ),
+                                          )
+                                        : Container(),
+                                    delivered
+                                        ? Container(
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: TextField(
+                                              controller: _deliveredpin,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                  hintText:
+                                                      'Enter delivery pin',
+                                                  enabledBorder:
+                                                      OutlineInputBorder(),
+                                                  focusedBorder:
+                                                      OutlineInputBorder()),
+                                            ),
+                                          )
+                                        : Container(),
+                                    delivered
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (_deliveredpin.text ==
+                                                  deliveredpin.toString()) {
+                                                print("Correct pin");
+                                                updatearrivedorder();
+                                              } else {
+                                                print("wrong pin");
+                                                ScaffoldMessenger.of(
+                                                        this.context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text('wrong pin'),
+                                                ));
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 5),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 18),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                  child: Text(
+                                                "Click here to confirm delivery",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              )),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ] else if(productPayment == 'reject')...[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.green
+                                      ),
+                                      padding: EdgeInsets.symmetric(vertical: 20),
+                                      margin: EdgeInsets.only(top:25),
+                                      child: Center(child: Text(widget.productname+" is Rejected by you",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),)),
+                                    )
+                                  ]
+                                  else ...[
+                                    GestureDetector(
+                                      onTap: () async {
+                                        await showDialog(
+                                            context: context,
+                                            builder: (cxt) {
+                                              return AlertDialog(
+                                                title: Text("Accept Order"),
+                                                content: Text(
+                                                    "Are you sure you want to accept order"),
+                                                actions: [
+                                                  //cancel
+                                                  TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
+                                                      child: Text("Cancel")),
+
+                                                  //accept order button
+                                                  TextButton(
+                                                      onPressed: () =>
+                                                          acceptOrder(
+                                                              service_fee
+                                                                  .toString()),
+                                                      child: Text("Accept")),
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 5),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 18),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                            child: Text(
+                                          "Accept Order",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                      ),
+                                    ),
+                                    reject
+                                        ? Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Center(
+                                              child: Text(
+                                                  "Reject pin is ${rejectpin}"),
+                                            ),
+                                          )
+                                        : Container(),
+                                    reject
+                                        ? Container(
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: TextField(
+                                              controller: _rejectpin,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                  hintText: 'Enter reject pin',
+                                                  enabledBorder:
+                                                      OutlineInputBorder(),
+                                                  focusedBorder:
+                                                      OutlineInputBorder()),
+                                            ),
+                                          )
+                                        : Container(),
+                                    reject
+                                        ? const SizedBox(
+                                            height: 10,
+                                          )
+                                        : Container(),
+                                    reject
+                                        ? Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: TextField(
+                                              controller: _reject_reason,
+                                              decoration: InputDecoration(
+                                                  hintText:
+                                                      "Enter reason for rejecting",
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(),
+                                                  focusedBorder:
+                                                      OutlineInputBorder()),
+                                            ),
+                                          )
+                                        : Container(),
+                                    reject
+                                        ? const SizedBox(
+                                            height: 10,
+                                          )
+                                        : Container(),
+                                    reject
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (_rejectpin.text.isEmpty ||
+                                                  _reject_reason.text.isEmpty) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "Fill all rejection fileds")));
+                                              } else {
+                                                if (_rejectpin.text ==
+                                                    rejectpin.toString()) {
+                                                  print("Correct pin");
+                                                  reject_order();
+                                                } else {
+                                                  print("wrong pin");
+                                                  ScaffoldMessenger.of(
+                                                          this.context)
+                                                      .showSnackBar(SnackBar(
+                                                    content: Text('Wrong pin'),
+                                                  ));
+                                                }
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 4, 10, 5),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 18),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                  child: Text(
+                                                "Click here to reject",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                            ),
+                                          )
+                                        : Container(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (reject == false) {
+                                          var rng = Random();
+                                          rejectpin = rng.nextInt(9999);
+                                          setState(() {
+                                            reject = true;
+                                          });
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) {
+                                            _scrollDown();
+                                          });
+                                        } else if (reject == true) {
+                                          setState(() {
+                                            reject = false;
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 5),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 18),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                            child: Text(
+                                          "Reject Order",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              )
+                            : LinearProgressIndicator(),
+
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          child: Center(
+                            child: Text(
+                              appstat,
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+                  ],
+                ),
               ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: SpinKitFadingCube(
+                            color: Colors.orange,
+                            size: 100,
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            "Processing",
+                            style: TextStyle(
+                              color: Color.fromRGBO(246, 123, 55, 1),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Center(
+                            child: Text(
+                              'Vendorhive360',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }

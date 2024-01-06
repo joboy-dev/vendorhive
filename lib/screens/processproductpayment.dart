@@ -65,113 +65,114 @@ class _ProcessProductPaymentState extends State<ProcessProductPayment> {
 
       print('processing payment');
 
-      var vendor_five_percent = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
-          body: {
-            'idname': widget.idname,
-            'email' : widget.useremail,
-            'percent' : widget.service_fee.toString(),
-            'refno' : trfid,
-            'type' : 'product'
-          }
-      );
+      // var vendor_five_percent = await http.post(
+      //     Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+      //     body: {
+      //       'idname': widget.idname,
+      //       'email' : widget.useremail,
+      //       'percent' : widget.service_fee.toString(),
+      //       'refno' : trfid,
+      //       'type' : 'product'
+      //     }
+      // );
 
-      if(vendor_five_percent.statusCode == 200){
-        for(int o =0; o < cartitems.length; o++){
+      for(int o =0; o < cartitems.length; o++){
 
-          print('payment is ongoing');
+        print('payment is ongoing');
 
-          String trackid = "tk-"+trfid;
+        String trackid = "tk-"+trfid;
 
-          final orders = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendororderstatus.php'),
-              body: {
-                'idname':widget.idname,
-                'orderprocessed':'',
-                'ordershipped':'',
-                'orderarrived':'',
-                'deliverypayment':'',
-                'productpayment':'',
-                'productid':cartitems[o].prodid,
-                'productname':cartitems[o].name,
-                'prodimagename': cartitems[o].imagename,
-                'useremail':widget.useremail,
-                'amount':cartitems[o].amount.toString(),
-                'trackid':trackid,
-                'tkid':trfid,
-                'adminemail': cartitems[o].adminemail,
-                'customerlocation' : replacing(widget.streetaddress),
-                'deliveryprice' : cartitems[o].deliveryprice.toString(),
-                'quantity' : cartitems[o].quantity.toString(),
-                'deliveryplan': cartitems[o].deliveryplan,
-                'deliveryday' : cartitems[o].deliverydays,
-                'customername' : replacing(widget.fullname),
-                'customernumber' : widget.phonenumber,
-                'customerstate' : widget.state,
-              }
-          );
+        //amount with quantity
+        double amount_with_quantity = cartitems[o].amount * cartitems[o].quantity;
 
-          double finalprice = cartitems[o].deliveryprice + cartitems[o].amount;
+        final orders = await http.post(
+            Uri.https('adeoropelumi.com','vendor/vendororderstatus.php'),
+            body: {
+              'idname':widget.idname,
+              'orderprocessed':'',
+              'ordershipped':'',
+              'orderarrived':'',
+              'deliverypayment':'',
+              'productpayment':'',
+              'productid':cartitems[o].prodid,
+              'productname':cartitems[o].name,
+              'prodimagename': cartitems[o].imagename,
+              'useremail':widget.useremail,
+              'amount': amount_with_quantity.toString(),
+              'trackid':trackid,
+              'tkid':trfid,
+              'adminemail': cartitems[o].adminemail,
+              'customerlocation' : replacing(widget.streetaddress),
+              'deliveryprice' : cartitems[o].deliveryprice.toString(),
+              'quantity' : cartitems[o].quantity.toString(),
+              'deliveryplan': cartitems[o].deliveryplan,
+              'deliveryday' : cartitems[o].deliverydays,
+              'customername' : replacing(widget.fullname),
+              'customernumber' : widget.phonenumber,
+              'customerstate' : widget.state,
+            }
+        );
 
-          var savetransaction = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
-              body: {
-                'idname': widget.idname,
-                'useremail': widget.useremail,
-                'adminemail': cartitems[o].adminemail,
-                'debit':'0',
-                'credit': finalprice.toString(),
-                'status': 'pending',
-                'refno' : trfid,
-                'description':cartitems[o].name+" purchased",
-                'itemid': cartitems[o].prodid
-              }
-          );
+        double finalprice = cartitems[o].deliveryprice + amount_with_quantity;
 
-          var notifyuser = await http.post(
-              Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
-              body: {
-                'message': cartitems[o].name+" has being ordered",
-                'info': cartitems[o].adminemail,
-                'tag': 'Product',
-                'quantity' : cartitems[o].quantity.toString(),
-                'refno': trfid,
-              }
-          );
+        var savetransaction = await http.post(
+            Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+            body: {
+              'idname': widget.idname,
+              'useremail': widget.useremail,
+              'adminemail': cartitems[o].adminemail,
+              'debit':'0',
+              'credit': finalprice.toString(),
+              'status': 'pending',
+              'refno' : trfid,
+              'description':cartitems[o].name+" purchased",
+              'itemid': cartitems[o].prodid
+            }
+        );
 
-          if(orders.statusCode == 200){
-            if(jsonDecode(orders.body)=='true'){
-              if(savetransaction.statusCode == 200){
-                if(jsonDecode(savetransaction.body)=="true"){
-                  if(notifyuser.statusCode == 200){
-                    if(jsonDecode(notifyuser.body)=='true'){
+        var notifyuser = await http.post(
+            Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+            body: {
+              'message': cartitems[o].name+" has being ordered",
+              'info': cartitems[o].adminemail,
+              'tag': 'Product',
+              'quantity' : cartitems[o].quantity.toString(),
+              'refno': trfid,
+            }
+        );
 
-                      print("Transaction for "+cartitems[o].prodid+" is saved");
+        if(orders.statusCode == 200){
+          if(jsonDecode(orders.body)=='true'){
+            if(savetransaction.statusCode == 200){
+              if(jsonDecode(savetransaction.body)=="true"){
+                if(notifyuser.statusCode == 200){
+                  if(jsonDecode(notifyuser.body)=='true'){
 
-                      print(cartitems[o].name+" is a new order");
+                    print("Transaction for "+cartitems[o].prodid+" is saved");
 
-                      if(o == (cartitems.length-1)){
+                    print(cartitems[o].name+" is a new order");
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,username: widget.username,);
-                        }));
+                    if(o == (cartitems.length-1)){
 
-                      }
-                      else{
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CardCheckoutFinal(useremail: widget.useremail,idname: widget.idname,username: widget.username,);
+                      }));
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Failed"))
-                        );
+                    }
+                    else{
 
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Failed"))
+                      );
+
                     }
                   }
                 }
               }
             }
           }
-
         }
+
       }
     }
     catch(e){

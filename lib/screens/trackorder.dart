@@ -107,7 +107,8 @@ class _TrackOrderState extends State<TrackOrder> {
         body: {
           'pidname':widget.productid,
           'useremail':widget.useremail,
-          'adminemail':widget.adminemail
+          'adminemail':widget.adminemail,
+          'refno' : widget.tkid
         }
     );
 
@@ -275,49 +276,51 @@ class _TrackOrderState extends State<TrackOrder> {
                               size: MediaQuery.of(context).size.width/16,),
                             ),
 
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
 
-                                  Container(
-                                    child: Text("Order Processed",style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width/24
-                                    ),),
-                                  ),
-
-                                  Container(
-                                    padding: EdgeInsets.only(top: 2),
-                                    child: Row(
-                                      children: [
-
-                                        Container(
-                                          child: Icon(Icons.access_time,
-                                            size: 10,
-                                          color: Colors.grey,),
-                                        ),
-
-                                        Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.date,style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.grey
-                                          ),),
-                                        ),
-
-                                        Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.timeordered,style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.grey
-                                          ),),
-                                        )
-
-                                      ],
+                                    Container(
+                                      child: Text("Order Processed",style: TextStyle(
+                                          fontSize: MediaQuery.of(context).size.width/24
+                                      ),),
                                     ),
-                                  )
-                                ],
+
+                                    Container(
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Row(
+                                        children: [
+
+                                          Container(
+                                            child: Icon(Icons.access_time,
+                                              size: 10,
+                                            color: Colors.grey,),
+                                          ),
+
+                                          Container(
+                                            margin: EdgeInsets.only(left: 2),
+                                            child: Text(widget.date,style: TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.grey
+                                            ),),
+                                          ),
+
+                                          Container(
+                                            margin: EdgeInsets.only(left: 2),
+                                            child: Text(widget.timeordered,style: TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.grey
+                                            ),),
+                                          )
+
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -355,53 +358,56 @@ class _TrackOrderState extends State<TrackOrder> {
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: Text("Order Shipped",style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/24
-                                    ),),
-                                  ),
-
-                                  Container(
-                                    padding: EdgeInsets.only(top: 2),
-                                    child: Row(
-                                      children: [
-
-                                        ordershipped == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          child: Icon(Icons.access_time,
-                                            size: 10,
-                                            color: Colors.grey,),
-                                        ),
-
-                                        ordershipped == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.dateshipped,style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey
-                                          ),),
-                                        ),
-
-                                        ordershipped == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.timeshipped,style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey
-                                          ),),
-                                        )
-                                      ],
+                            
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: Text("Order Shipped",style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width/24
+                                      ),),
                                     ),
-                                  )
-                                ],
+
+                                    Container(
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Row(
+                                        children: [
+
+                                          ordershipped == 'undone' ?
+                                          Container()
+                                          : Container(
+                                            child: Icon(Icons.access_time,
+                                              size: 10,
+                                              color: Colors.grey,),
+                                          ),
+
+                                          ordershipped == 'undone' ?
+                                          Container()
+                                          : Container(
+                                            margin: EdgeInsets.only(left: 2),
+                                            child: Text(widget.dateshipped,style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.grey
+                                            ),),
+                                          ),
+
+                                          ordershipped == 'undone' ?
+                                          Container()
+                                          : Container(
+                                            margin: EdgeInsets.only(left: 2),
+                                            child: Text(widget.timeshipped,style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.grey
+                                            ),),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -439,7 +445,8 @@ class _TrackOrderState extends State<TrackOrder> {
                               color: Color.fromRGBO(246, 123, 55, 1),
                               backgroundColor: Colors.white,
                             ),
-                            Container(
+                            
+                            Expanded(child: Container(
                               padding: EdgeInsets.only(left: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,7 +454,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                   Container(
                                     child: Text("Order Arrived",style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width/24,
+                                      fontSize: MediaQuery.of(context).size.width/24,
                                     ),),
                                   ),
 
@@ -458,7 +465,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -466,7 +473,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.datearrived,style: TextStyle(
                                               fontSize: 10,
@@ -476,7 +483,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         orderarrived == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timearrived,style: TextStyle(
                                               fontSize: 10,
@@ -488,7 +495,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   )
                                 ],
                               ),
-                            ),
+                            ),)
                           ],
                         ),
                       ),
@@ -526,7 +533,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               backgroundColor: Colors.white,
                             ),
 
-                            Container(
+                            Expanded(child: Container(
                               padding: EdgeInsets.only(left: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,7 +552,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           child: Icon(Icons.access_time,
                                             size: 10,
                                             color: Colors.grey,),
@@ -553,7 +560,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.datedprelease,style: TextStyle(
                                               fontSize: 10,
@@ -563,7 +570,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
                                         dpreleased == 'undone' ?
                                         Container()
-                                        : Container(
+                                            : Container(
                                           margin: EdgeInsets.only(left: 2),
                                           child: Text(widget.timedprelease,style: TextStyle(
                                               fontSize: 10,
@@ -575,7 +582,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   )
                                 ],
                               ),
-                            ),
+                            ),)
                           ],
                         ),
                       ),
@@ -600,10 +607,10 @@ class _TrackOrderState extends State<TrackOrder> {
                             : Container(
                               padding:EdgeInsets.all(MediaQuery.of(context).size.width/35),
                               decoration: BoxDecoration(
-                                  color: Colors.green,
+                                  color: ppreleased == "done" ? Colors.green : Colors.red,
                                   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/10)
                               ),
-                              child: Icon(Icons.check,
+                              child: Icon(ppreleased == "done" ? Icons.check : Icons.cancel,
                                 color: Colors.white,
                                 size: MediaQuery.of(context).size.width/16,),
                             )
@@ -612,54 +619,19 @@ class _TrackOrderState extends State<TrackOrder> {
                               backgroundColor: Colors.white,
                             ),
 
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-
-                                  Container(
-                                    child: Text("Fund request",style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width/24,
-                                    ),),
-                                  ),
-
-                                  Container(
-                                    padding: EdgeInsets.only(top: 2),
-                                    child: Row(
-                                      children: [
-
-                                        ppreleased == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          child: Icon(Icons.access_time,
-                                            size: 10,
-                                            color: Colors.grey,),
-                                        ),
-
-                                        ppreleased == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.datepprelease,style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey
-                                          ),),
-                                        ),
-
-                                        ppreleased == 'undone' ?
-                                        Container()
-                                        : Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(widget.timepprelease,style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey
-                                          ),),
-                                        )
-                                      ],
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: Text( ppreleased == "cancelled"? "Product is Rejected?" : "Product is Accepted?" ,style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width/24,
+                                      ),),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -671,181 +643,199 @@ class _TrackOrderState extends State<TrackOrder> {
                     ],
                   ),
                 ),
-                
-                GestureDetector(
-                  onTap: () async {
-                    double total = double.parse(widget.amount) + double.parse(widget.deliveryprice);
-                    if(dpreleased == 'undone' && widget.ordershipped == 'done' && widget.orderarrived == 'done'){
-                      await showDialog(
-                        context: context,
-                        builder: (cxt) {
-                          return AlertDialog(
-                            title: Center(
-                                child: Text('₦'+total.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),)),
-                            content: Text('Are you sure want to release the delivery payment?',textAlign: TextAlign.center,),
-                            actionsAlignment: MainAxisAlignment.spaceAround,
-                            actions: <Widget>[
 
-                              LayoutBuilder(
-                                  builder: (BuildContext context, BoxConstraints constraints) {
-                                    return GestureDetector(
-                                      onTap: (){
-                                        Navigator.of(cxt).pop();
-                                        realeasepayment();
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 15),
-                                        padding: EdgeInsets.symmetric(vertical: 15),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Color.fromRGBO(246, 123, 55, 1)
-                                        ),
-                                        width: constraints.maxWidth/3,
-                                        child: Center(child: Text("Yes",style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),)),
-                                      ),
-                                    );
-                                  }
-                              ),
-                              LayoutBuilder(
-                                  builder: (BuildContext context, BoxConstraints constraints) {
-                                    return GestureDetector(
-                                      onTap: (){
-                                        setState(() {
-                                          ppprocessing = true;
-                                          Navigator.of(cxt).pop();
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 15),
-                                        padding: EdgeInsets.symmetric(vertical: 15),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Color.fromRGBO(14, 44, 3, 1),
-                                        ),
-                                        width: constraints.maxWidth/3,
-                                        child: Center(child: Text("No",style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white
-                                        ),)),
-                                      ),
-                                    );
-                                  }
-                              ),
+                ppreleased == "cancelled"?
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  margin: EdgeInsets.only(top:25),
+                  child: Center(child: Text(widget.productname+" is Rejected",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),)),
+                )
+                    :Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        double total = double.parse(widget.amount) + double.parse(widget.deliveryprice);
+                        if(dpreleased == 'undone' && widget.ordershipped == 'done' && widget.orderarrived == 'done'){
+                          await showDialog(
+                            context: context,
+                            builder: (cxt) {
+                              return AlertDialog(
+                                title: Center(
+                                    child: Text('₦'+total.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),)),
+                                content: Text('Are you sure want to release the delivery payment?',textAlign: TextAlign.center,),
+                                actionsAlignment: MainAxisAlignment.spaceAround,
+                                actions: <Widget>[
 
-                            ],
+                                  LayoutBuilder(
+                                      builder: (BuildContext context, BoxConstraints constraints) {
+                                        return GestureDetector(
+                                          onTap: (){
+                                            Navigator.of(cxt).pop();
+                                            realeasepayment();
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(bottom: 15),
+                                            padding: EdgeInsets.symmetric(vertical: 15),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Color.fromRGBO(246, 123, 55, 1)
+                                            ),
+                                            width: constraints.maxWidth/3,
+                                            child: Center(child: Text("Yes",style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                            ),)),
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                  LayoutBuilder(
+                                      builder: (BuildContext context, BoxConstraints constraints) {
+                                        return GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              ppprocessing = true;
+                                              Navigator.of(cxt).pop();
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(bottom: 15),
+                                            padding: EdgeInsets.symmetric(vertical: 15),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: Color.fromRGBO(14, 44, 3, 1),
+                                            ),
+                                            width: constraints.maxWidth/3,
+                                            child: Center(child: Text("No",style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white
+                                            ),)),
+                                          ),
+                                        );
+                                      }
+                                  ),
+
+                                ],
+                              );
+                            },
                           );
-                        },
-                      );
-                    }
-                    else if(dpreleased == 'done'){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Payment has being released "))
-                      );
-                    }
-                    else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Can't release payment because order has not arrived"))
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 30),
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                        color: dpreleased == 'undone' ?Color.fromRGBO(246, 123, 55, 1):
-                        Color.fromRGBO(211, 211, 211, 1),
-                        borderRadius: BorderRadius.circular(10)
+                        }
+                        else if(dpreleased == 'done'){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Payment has being released "))
+                          );
+                        }
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Can't release payment because order has not arrived"))
+                          );
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10,right: 10,top: 30),
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                            color: dpreleased == 'undone' ?Color.fromRGBO(246, 123, 55, 1):
+                            Color.fromRGBO(211, 211, 211, 1),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Center(
+                          child: Text(dpreleased == 'undone' ?
+                          "Release product payment"
+                              : "Product payment is released",style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width/24,
+                              fontWeight: FontWeight.w500
+                          ),),
+                        ),
+                      ),
                     ),
-                    child: Center(
-                      child: Text(dpreleased == 'undone' ?
-                      "Release product payment"
-                      : "Product payment is released",style: TextStyle(
-                          color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width/24,
-                        fontWeight: FontWeight.w500
-                      ),),
-                    ),
-                  ),
-                ),
 
-                GestureDetector(
-                  onTap: (){
-                    if(dpreleased == 'undone'){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return RequestRefund(idname: widget.idname,
-                          email: widget.useremail,
-                          refno: widget.trackid,
-                          amount: widget.amount,
-                          adminemail: widget.adminemail,
-                          quantity: widget.quantity,
-                          username: widget.username,
-                          product_name: widget.productname,
-                          trackid: widget.trackid,
-                        );
-                      }));
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Opps! Cannot refund. Payment is already released"))
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 10,),
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                        // color: dpreleased == 'undone' ?Color.fromRGBO(211, 211, 211, 1) :
-                        // Color.fromRGBO(14, 44, 3, 1),
-                        color: Color.fromRGBO(14, 44, 3, 1),
-                        borderRadius: BorderRadius.circular(10)
+                    GestureDetector(
+                      onTap: (){
+                        if(dpreleased == 'undone'){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return RequestRefund(idname: widget.idname,
+                              email: widget.useremail,
+                              refno: widget.trackid,
+                              amount: widget.amount,
+                              adminemail: widget.adminemail,
+                              quantity: widget.quantity,
+                              username: widget.username,
+                              product_name: widget.productname,
+                              trackid: widget.trackid,
+                            );
+                          }));
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Opps! Cannot refund. Payment is already released"))
+                          );
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10,right: 10,top: 10,),
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          // color: dpreleased == 'undone' ?Color.fromRGBO(211, 211, 211, 1) :
+                          // Color.fromRGBO(14, 44, 3, 1),
+                            color: Color.fromRGBO(14, 44, 3, 1),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Center(
+                          child: Text("Request refund",style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width/24,
+                              fontWeight: FontWeight.w500
+                          ),),
+                        ),
+                      ),
                     ),
-                    child: Center(
-                      child: Text("Request refund",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width/24,
-                          fontWeight: FontWeight.w500
-                      ),),
-                    ),
-                  ),
-                ),
 
-                GestureDetector(
-                  onTap: () {
-                    if(dpreleased == 'done'){
-                      print('Rate product');
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return Rateproduct(productimage: widget.productimage,
-                            pidname: widget.productid,
-                            adminemail: widget.adminemail,
-                            useremail: widget.useremail,
-                            productname: widget.productname);
-                      }));
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Opps! Rate when you have released payment'))
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 20),
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                        color: dpreleased == 'undone' ?Color.fromRGBO(211, 211, 211, 1):
-                        Color.fromRGBO(246, 123, 55, 1),
-                        borderRadius: BorderRadius.circular(10)
+                    GestureDetector(
+                      onTap: () {
+                        if(dpreleased == 'done'){
+                          print('Rate product');
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return Rateproduct(productimage: widget.productimage,
+                                pidname: widget.productid,
+                                adminemail: widget.adminemail,
+                                useremail: widget.useremail,
+                                productname: widget.productname);
+                          }));
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Opps! Rate when you have released payment'))
+                          );
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 20),
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                            color: dpreleased == 'undone' ?Color.fromRGBO(211, 211, 211, 1):
+                            Color.fromRGBO(246, 123, 55, 1),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Center(
+                          child: Text("Rate Product",textAlign:TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).size.width/24,
+                                fontWeight: FontWeight.w500
+                            ),),
+                        ),
+                      ),
                     ),
-                    child: Center(
-                      child: Text("Rate Product",textAlign:TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width/24,
-                          fontWeight: FontWeight.w500
-                      ),),
-                    ),
-                  ),
-                ),
+                  ],
+                )
 
               ],
             )

@@ -162,6 +162,7 @@ class _MyOrdersState extends State<MyOrders> {
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context){
                                 return Viewadminorder(
+                                  idname: widget.idname,
                                   productname: raworders[index]['productname'],
                                 productimage: raworders[index]['prodimagename'],
                                 productid: raworders[index]['productid'],

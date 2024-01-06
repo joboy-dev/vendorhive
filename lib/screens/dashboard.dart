@@ -2805,6 +2805,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
                                   ),
+
                                   //set promotion budget button
                                   // GestureDetector(
                                   //   onTap: () {
@@ -2859,6 +2860,7 @@ class _DashboardState extends State<Dashboard> {
                                   //   ),
                                   // ),
                                   //set pin button
+
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(context,
@@ -4897,7 +4899,7 @@ class _DashboardState extends State<Dashboard> {
                                   //   ThousandsFormatter(allowFraction: true)
                                   // ],
                                   decoration: InputDecoration(
-                                    hintText: "E.g within Lagos, Outside Ibadan",
+                                    hintText: "E.g From Lagos island to mainland",
                                     hintStyle: TextStyle(
                                         color: Colors.grey[400]
                                     ),
@@ -4955,7 +4957,7 @@ class _DashboardState extends State<Dashboard> {
                                         controller: _deliveryTime,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "E.g 3 or 14 or 31",
+                                          hintText: "E.g 1 or 3 or 5",
                                           hintStyle: TextStyle(
                                             color: Colors.grey[400]
                                           ),

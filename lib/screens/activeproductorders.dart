@@ -248,7 +248,7 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                                 Container(
                                   margin: EdgeInsets.only(right: 10,left: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Container(
                                         child: Text("₦"+raworders[index]['amount'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),style: TextStyle(
@@ -272,12 +272,12 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                                         ),
                                         padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                                         child: Text(raworders[index]['status'] == 'active' ?
-                                          "pending"
+                                          "Payment is pending"
                                           :
                                         raworders[index]['status'] == 'complete' ?
-                                        "completed"
+                                        "Payment is completed"
                                           :
-                                          "cancelled",
+                                        "Order is rejected",
                                           style: TextStyle(
                                             fontSize: MediaQuery.of(context).size.width/36,
                                             color: raworders[index]['status'] == 'active' ?

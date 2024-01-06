@@ -1,3 +1,4 @@
+import 'package:vendorandroid/screens/cart.dart';
 import 'package:vendorandroid/screens/checkoutfourth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +25,33 @@ class CheckoutThird extends StatefulWidget {
 }
 
 class _CheckoutThirdState extends State<CheckoutThird> {
+  //listview controller
+  ScrollController _controller = ScrollController();
+
+  // automatic Scroll down
+  void _scrollDown() async{
+    await Future.delayed(Duration(seconds: 2));
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  //Scroll down
+  void _button_scrollDown(){
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _scrollDown();
     print(widget.totalamount);
     print(widget.totalamountplusdelivery);
     print(widget.fullname);
@@ -42,6 +65,10 @@ class _CheckoutThirdState extends State<CheckoutThird> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _button_scrollDown,
+        child: Icon(Icons.arrow_drop_down_circle_rounded),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -169,6 +196,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
             ),
             Flexible(
                 child: ListView(
+                    controller: _controller,
               padding: EdgeInsets.zero,
               children:[
                 Container(
@@ -366,6 +394,29 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                           ],
                         ),
                       ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text("Quantity",style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width/27,
+                              ),),
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text('${cartitems[0].quantity}',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width/27,
+                                      fontWeight: FontWeight.w500
+                                  ),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -391,7 +442,7 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              child: Text("Subtotal",
+                              child: Text("Item Price",
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/27,
                               ),),
@@ -430,28 +481,28 @@ class _CheckoutThirdState extends State<CheckoutThird> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Text("Service Fee",style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.width/27,
-                              ),),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: Text("₦"+"${widget.service_fee}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width/27,
-                                  ),),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   padding: EdgeInsets.only(top: 10),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Container(
+                      //         child: Text("Service Fee",style: TextStyle(
+                      //           fontSize: MediaQuery.of(context).size.width/27,
+                      //         ),),
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(
+                      //           child: Text("₦"+"${widget.service_fee}".replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                      //             textAlign: TextAlign.end,
+                      //             style: TextStyle(
+                      //               fontSize: MediaQuery.of(context).size.width/27,
+                      //             ),),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       Container(
                         padding: EdgeInsets.only(top: 10),
                         child: Row(

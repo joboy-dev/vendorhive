@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:vendorandroid/screens/welcome.dart';
 
+import 'checkout.dart';
 
 class ViewProduct extends StatefulWidget {
   String idname = "";
@@ -62,48 +63,53 @@ class _ViewProductState extends State<ViewProduct> {
   List<DropdownMenuItem<String>> dropdownItems = [];
   List items = [];
 
-  Future get_delivery_method() async{
+  Future get_delivery_method() async {
+    print("============");
+    print(widget.prodid);
+    print("============");
 
-      print("============");
-      print(widget.prodid);
-      print("============");
-
-      var response = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorgetdeliveryplan.php'),
-          body: {
-            'pidname': widget.prodid,
-          });
-
-      print("============");
-      print(response.statusCode);
-      print("============");
-
-      if(response.statusCode == 200){
-
-        print("============");
-        print(jsonDecode(response.body));
-        print("============");
-
-        setState(() {
-          items = jsonDecode(response.body);
-          drop = items[0]['price']+"==="+items[0]['days']+"==="+items[0]['plan'];
-          deliveryprice = items[0]['price'];
-          deliverydays = items[0]['days'];
-          deliveryplan = items[0]['plan'];
+    var response = await http.post(
+        Uri.https('adeoropelumi.com', 'vendor/vendorgetdeliveryplan.php'),
+        body: {
+          'pidname': widget.prodid,
         });
 
-        dropdownItems = List.generate(
-          items.length,
-              (index) => DropdownMenuItem(
-            value: items[index]['price']+"==="+items[index]['days']+"==="+items[index]['plan'],
-            child: Text(
-              items[index]['plan'],
-              style: TextStyle(fontSize: 17),
-            ),
-          ),
-        );
+    print("============");
+    print(response.statusCode);
+    print("============");
 
-      }
+    if (response.statusCode == 200) {
+      print("============");
+      print(jsonDecode(response.body));
+      print("============");
+
+      setState(() {
+        items = jsonDecode(response.body);
+        drop = items[0]['price'] +
+            "===" +
+            items[0]['days'] +
+            "===" +
+            items[0]['plan'];
+        deliveryprice = items[0]['price'];
+        deliverydays = items[0]['days'];
+        deliveryplan = items[0]['plan'];
+      });
+
+      dropdownItems = List.generate(
+        items.length,
+        (index) => DropdownMenuItem(
+          value: items[index]['price'] +
+              "===" +
+              items[index]['days'] +
+              "===" +
+              items[index]['plan'],
+          child: Text(
+            items[index]['plan'],
+            style: TextStyle(fontSize: 17),
+          ),
+        ),
+      );
+    }
   }
 
   Future productimages() async {
@@ -166,16 +172,16 @@ class _ViewProductState extends State<ViewProduct> {
     }
   }
 
-  void selectDeliverymethod(){
+  void selectDeliverymethod() {
     showModalBottomSheet(
         context: context,
-        isScrollControlled:true,
+        isScrollControlled: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         ),
-        builder: (context){
-          return StatefulBuilder(builder: (context, setState){
+        builder: (cxt) {
+          return StatefulBuilder(builder: (contx, setState) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.75,
               child: SingleChildScrollView(
@@ -188,56 +194,67 @@ class _ViewProductState extends State<ViewProduct> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Center(
-                        child: Text(widget.name,
+                        child: Text(
+                          widget.name,
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                          ),textAlign: TextAlign.center,),
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Divider(),
                     Center(
-                      child: Text("Set Quantity",style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                      ),),
+                      child: Text(
+                        "Set Quantity",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(onPressed: (){
-                          setState((){
-                            quantity++;
-                          });
-                        }, icon: Icon(Icons.add_circle)),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                quantity++;
+                              });
+                            },
+                            icon: Icon(Icons.add_circle)),
                         Text('$quantity'),
-                        IconButton(onPressed: (){
-                          setState((){
-                            quantity--;
-                          });
-                        }, icon: Icon(Icons.remove_circle)),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                quantity--;
+                                if (quantity < 1) {
+                                  quantity = 1;
+                                }
+                              });
+                            },
+                            icon: Icon(Icons.remove_circle)),
                       ],
                     ),
                     Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Center(
-                        child: Text("Select a Delivery Method",
+                        child: Text(
+                          "Select a Delivery Method",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold
-                          ),textAlign: TextAlign.center,),
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20,left: 20,right: 20),
+                      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.grey,
                             //background color of dropdown button
-                            border:
-                            Border.all(color: Colors.grey, width: 1),
+                            border: Border.all(color: Colors.grey, width: 1),
                             //border of dropdown button
                             borderRadius: BorderRadius.circular(
                                 10), //border raiuds of dropdown button
@@ -253,10 +270,12 @@ class _ViewProductState extends State<ViewProduct> {
                                     print("======");
                                     print("You have selected $value");
                                     print("======");
-                                    final names= drop;
-                                    final splitNames= names.split('===');
+                                    final names = drop;
+                                    final splitNames = names.split('===');
 
-                                    for (int i = 0; i < splitNames.length; i++){
+                                    for (int i = 0;
+                                        i < splitNames.length;
+                                        i++) {
                                       print(splitNames[i]);
                                       deliveryprice = splitNames[0];
                                       deliverydays = splitNames[1];
@@ -265,31 +284,29 @@ class _ViewProductState extends State<ViewProduct> {
 
                                     print("====================");
                                     print(widget.prodid);
-                                    print("Delivery plan = "+deliveryplan);
-                                    print("Delivery price = "+deliveryprice);
-                                    print("Delivery Days = "+deliverydays);
+                                    print("Delivery plan = " + deliveryplan);
+                                    print("Delivery price = " + deliveryprice);
+                                    print("Delivery Days = " + deliverydays);
                                     print("====================");
                                   });
                                 },
                                 icon: Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                    //Icon at tail, arrow bottom is default icon
                                     padding: EdgeInsets.only(left: 20),
                                     child: Icon(Icons.arrow_drop_down)),
                                 iconEnabledColor: Colors.white,
                                 //Icon color
                                 style: TextStyle(
-                                  //te
+                                    //te
                                     color: Colors.white, //Font color
-                                    fontSize:
-                                    20 //font size on dropdown button
-                                ),
+                                    fontSize: 20 //font size on dropdown button
+                                    ),
 
                                 dropdownColor: Colors.grey,
                                 //dropdown background color
                                 underline: Container(),
                                 //remove underline
-                                isExpanded:
-                                true, //make true to make width 100%
+                                isExpanded: true, //make true to make width 100%
                               ))),
                     ),
                     const SizedBox(
@@ -300,45 +317,45 @@ class _ViewProductState extends State<ViewProduct> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Delivery Price :- "+deliveryprice,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
-                          ),),
-                          Text("Delivery Days :- "+deliverydays+" days",
+                          Text(
+                            "Delivery Price :- ₦" + deliveryprice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                             style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold
-                            ),),
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Delivery Days :- " + deliverydays + " days",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Divider(),
                     const SizedBox(
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         addCartItem();
-                        Navigator.of(context).pop();
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         padding: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.transparent
-                            ),
+                            border: Border.all(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(10),
-                            color: Color.fromRGBO(246, 123, 55, 1)
-                        ),
+                            color: Color.fromRGBO(246, 123, 55, 1)),
                         child: Center(
-                          child: Text("Proceed",style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.green[900],
-                              fontWeight: FontWeight.bold
-                          ),),
+                          child: Text(
+                            "Proceed",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.green[900],
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
@@ -350,13 +367,14 @@ class _ViewProductState extends State<ViewProduct> {
               ),
             );
           });
-        }
-    );
+        });
   }
 
-  addCartItem(){
-    setState(() {
+  addCartItem() {
+    cartitems.clear();
+    print("Cart Item Lenght " + cartitems.length.toString());
 
+    setState(() {
       var rng = Random();
       int id = rng.nextInt(2000000000);
       print(id);
@@ -380,7 +398,7 @@ class _ViewProductState extends State<ViewProduct> {
       cartitems.add(Cart(
           id: id,
           name: widget.name,
-          quantity: 1,
+          quantity: quantity,
           amount: double.parse(widget.amount.replaceAll(',', '')),
           imagename: widget.imagename,
           prodid: widget.prodid,
@@ -388,16 +406,26 @@ class _ViewProductState extends State<ViewProduct> {
           deliveryprice: double.parse(deliveryprice),
           location: widget.location,
           deliveryplan: deliveryplan,
-          deliverydays: deliverydays
-      ));
-
-      print("Item added cart");
-
+          deliverydays: deliverydays));
     });
 
-    ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-      content: Text('Item added to cart'),
-    ));
+    print("Cart Item Lenght " + cartitems.length.toString());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Thank you for picking " + widget.name)));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Checkout(
+        totalamount: (double.parse(widget.amount.replaceAll(',', '')) * quantity),
+        totalamountplusdelivery:
+            (double.parse(widget.amount.replaceAll(',', '')) * quantity) +
+                double.parse(deliveryprice),
+        service_fee: 0.0,
+        useremail: widget.useremail,
+        idname: widget.idname,
+        username: widget.username,
+      );
+    }));
   }
 
   @override
@@ -547,71 +575,98 @@ class _ViewProductState extends State<ViewProduct> {
                     TextStyle(fontSize: MediaQuery.of(context).size.width / 26),
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      if(items.length > 0){
-                        selectDeliverymethod();
-                      }
-                      else{
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Processing, please try again"))
-                        );
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(246, 123, 55, 1),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Add to cart",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 22),
-                        ),
-                      ),
-                    ),
+            //purchase
+            GestureDetector(
+              onTap: () {
+                if (items.length > 0) {
+                  selectDeliverymethod();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Processing, please try again")));
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                padding: EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 123, 55, 1),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Center(
+                  child: Text(
+                    "Purchase",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width / 22),
                   ),
                 ),
-                Expanded(
-                    child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Welcome(
-                        idname: widget.idname,
-                        username: widget.username,
-                        useremail: widget.useremail,
-                        packagename: widget.packagename,
-                        usertype: widget.usertype,
-                        pagenumber: 2,
-                        custwalletbalance: widget.custwalletbalance,
-                      );
-                    }));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(246, 123, 55, 1),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                      child: Text(
-                        "Go to cart",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width / 22),
-                      ),
-                    ),
-                  ),
-                ))
-              ],
+              ),
             ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: GestureDetector(
+            //         onTap: () {
+            //           if(items.length > 0){
+            //             selectDeliverymethod();
+            //           }
+            //           else{
+            //             ScaffoldMessenger.of(context).showSnackBar(
+            //               SnackBar(content: Text("Processing, please try again"))
+            //             );
+            //           }
+            //         },
+            //         child: Container(
+            //           margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+            //           padding: EdgeInsets.symmetric(vertical: 15),
+            //           decoration: BoxDecoration(
+            //               color: Color.fromRGBO(246, 123, 55, 1),
+            //               borderRadius: BorderRadius.circular(15)),
+            //           child: Center(
+            //             child: Text(
+            //               "purchase",
+            //               style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontSize: MediaQuery.of(context).size.width / 22),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Expanded(
+            //         child: GestureDetector(
+            //       onTap: () {
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: (context) {
+            //           return Welcome(
+            //             idname: widget.idname,
+            //             username: widget.username,
+            //             useremail: widget.useremail,
+            //             packagename: widget.packagename,
+            //             usertype: widget.usertype,
+            //             pagenumber: 2,
+            //             custwalletbalance: widget.custwalletbalance,
+            //           );
+            //         }));
+            //       },
+            //       child: Container(
+            //         margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+            //         padding: EdgeInsets.symmetric(vertical: 15),
+            //         decoration: BoxDecoration(
+            //             color: Color.fromRGBO(246, 123, 55, 1),
+            //             borderRadius: BorderRadius.circular(15)),
+            //         child: Center(
+            //           child: Text(
+            //             "Go to cart",
+            //             style: TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: MediaQuery.of(context).size.width / 22),
+            //           ),
+            //         ),
+            //       ),
+            //     ))
+            //   ],
+            // ),
             GestureDetector(
               onTap: () {
                 if (showrating) {
@@ -663,7 +718,9 @@ class _ViewProductState extends State<ViewProduct> {
                 )),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

@@ -122,18 +122,18 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   }
               );
 
-              var vendor_five_percent = await http.post(
-                Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
-                body: {
-                  'idname': widget.idname,
-                  'email' : widget.useremail,
-                  'percent' : widget.service_fee.toString(),
-                  'refno' : trfid,
-                  'type' : 'product'
-                }
-              );
+              // var vendor_five_percent = await http.post(
+              //   Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+              //   body: {
+              //     'idname': widget.idname,
+              //     'email' : widget.useremail,
+              //     'percent' : widget.service_fee.toString(),
+              //     'refno' : trfid,
+              //     'type' : 'product'
+              //   }
+              // );
 
-              if(debitcustwallet.statusCode == 200 && vendor_five_percent.statusCode == 200){
+              if(debitcustwallet.statusCode == 200){
 
                 print(jsonDecode(debitcustwallet.body));
                 print('Wallet debited');
@@ -141,6 +141,9 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                 for(int o =0; o < cartitems.length; o++){
 
                   String trackid = "tk-"+trfid;
+
+                  //amount with quantity
+                  double amount_with_quantity = cartitems[o].amount * cartitems[o].quantity;
 
                   final orders = await http.post(
                       Uri.https('adeoropelumi.com','vendor/vendororderstatus.php'),
@@ -155,7 +158,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                         'productname':cartitems[o].name,
                         'prodimagename': cartitems[o].imagename,
                         'useremail':widget.useremail,
-                        'amount':cartitems[o].amount.toString(),
+                        'amount': amount_with_quantity.toString(),
                         'trackid':trackid,
                         'tkid':trfid,
                         'adminemail': cartitems[o].adminemail,
@@ -170,7 +173,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                       }
                   );
 
-                  double finalprice = cartitems[o].deliveryprice + cartitems[o].amount;
+                  double finalprice = cartitems[o].deliveryprice + amount_with_quantity;
 
                   var savetransaction = await http.post(
                       Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),

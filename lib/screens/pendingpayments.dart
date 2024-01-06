@@ -157,7 +157,8 @@ class _PendingPaymentsState extends State<PendingPayments> {
                                     "-₦"+rawpendingpayment[index]['debit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')
                                       : "₦"+rawpendingpayment[index]['credit'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),style: TextStyle(
                                       fontSize: 17,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w500,
+                                    color: rawpendingpayment[index]['debit'] != "0"? Colors.red : Colors.black
                                   ),),
                                 ),
                               ],

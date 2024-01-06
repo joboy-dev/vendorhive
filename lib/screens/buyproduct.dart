@@ -149,12 +149,16 @@ class _BuyProductState extends State<BuyProduct> {
           appBar: AppBar(
             leading:Container(),
             backgroundColor: Colors.white,
+            centerTitle: true,
             title: Text("Vendorhive360"),
             titleTextStyle: TextStyle(
               color: Colors.orange,
               fontSize: 14,
               fontWeight: FontWeight.bold
             ),
+            actions: [
+              IconButton(onPressed: ()=>Navigator.of(context).pop(), icon: Icon(Icons.cancel))
+            ],
           ),
           body: Stack(
             children: [
