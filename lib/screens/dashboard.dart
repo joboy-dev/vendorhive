@@ -852,22 +852,22 @@ class _DashboardState extends State<Dashboard> {
             _selectedIndex = 4;
           });
         }
-        else if (numberofproduct == amountofproducts) {
-          setState(() {
-            _selectedpage = 0;
-          });
-
-          ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-            content: Text("You've used up your available package, Upgrade package"),
-          ));
-        }
+        // else if (numberofproduct == amountofproducts) {
+        //   setState(() {
+        //     _selectedpage = 0;
+        //   });
+        //
+        //   ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+        //     content: Text("You've used up your available package, Upgrade package"),
+        //   ));
+        // }
         else {
           setState(() {
             _selectedpage = 0;
           });
 
           ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-            content: Text('You have used all your available products'),
+            content: Text('You have used all your available product. Upgrade to get more products'),
           ));
         }
       }
@@ -1071,27 +1071,27 @@ class _DashboardState extends State<Dashboard> {
     }
 
     //service tags
-    for (int o = 0; o < servicetags.length; o++) {
-      final addservicetags = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoraddservicetag.php'),
-          body: {
-            'idname': widget.idname,
-            'sidname': sidname,
-            'useremail': widget.useremail,
-            'producttag': replacingwords(servicetags[o].tag),
-          });
-
-      if (addservicetags.statusCode == 200) {
-        if (jsonDecode(addservicetags.body) == "service tag added") {
-          print(servicetags[o].tag + " is added");
-          setState(() {
-            appservicestatus = servicetags[o].tag + " is registered";
-          });
-        } else {
-          print(servicetags[o].tag + " did not register");
-        }
-      }
-    }
+    // for (int o = 0; o < servicetags.length; o++) {
+    //   final addservicetags = await http.post(
+    //       Uri.https('adeoropelumi.com', 'vendor/vendoraddservicetag.php'),
+    //       body: {
+    //         'idname': widget.idname,
+    //         'sidname': sidname,
+    //         'useremail': widget.useremail,
+    //         'producttag': replacingwords(servicetags[o].tag),
+    //       });
+    //
+    //   if (addservicetags.statusCode == 200) {
+    //     if (jsonDecode(addservicetags.body) == "service tag added") {
+    //       print(servicetags[o].tag + " is added");
+    //       setState(() {
+    //         appservicestatus = servicetags[o].tag + " is registered";
+    //       });
+    //     } else {
+    //       print(servicetags[o].tag + " did not register");
+    //     }
+    //   }
+    // }
 
     final addserviceid = await http.post(
         Uri.https('adeoropelumi.com', 'vendor/vendoraddserviceid.php'),
@@ -1273,16 +1273,18 @@ class _DashboardState extends State<Dashboard> {
         setState(() {
           _selectedIndex = 5;
         });
-      } else if (numberofservice == amountofservice) {
-        setState(() {
-          _selectedpage = 0;
-        });
-
-        ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
-          content: Text(
-              'You have used all your available service. Upgrade to get more services'),
-        ));
-      } else {
+      }
+      // else if (numberofservice == amountofservice) {
+      //   setState(() {
+      //     _selectedpage = 0;
+      //   });
+      //
+      //   ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+      //     content: Text(
+      //         'You have used all your available service. Upgrade to get more services'),
+      //   ));
+      // }
+      else {
         setState(() {
           _selectedpage = 0;
         });
@@ -5465,88 +5467,88 @@ class _DashboardState extends State<Dashboard> {
                                           true, //make true to make width 100%
                                     ))),
                           ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 5),
-                            child: Text("Tags"),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 5, left: 10, right: 10),
-                            child: TextField(
-                              controller: service,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  width: .5,
-                                  color: Colors.black,
-                                )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: .5, color: Colors.black)),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      var rand = Random();
-                                      int id = rand.nextInt(1000000000);
-                                      print("lilo");
-                                      print(service.text);
-                                      setState(() {
-                                        servicetags.add(ServiceTags(
-                                            id: id.toString(),
-                                            tag: service.text));
-                                        service.clear();
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      size: 30,
-                                    )),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(229, 228, 226, 1),
-                                borderRadius: BorderRadius.circular(10)),
-                            margin:
-                                EdgeInsets.only(left: 10, top: 5, right: 10),
-                            child: Container(
-                              // margin: EdgeInsets.only(left: 10),
-                              child: Wrap(children: [
-                                for (int i = 0; i < servicetags.length; i++)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
-                                    margin: EdgeInsets.only(
-                                        left: 10, top: 3.5, bottom: 3.5),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(servicetags[i].tag),
-                                        GestureDetector(
-                                            onTap: () {
-                                              print("lilo");
-                                              setState(() {
-                                                servicetags.removeWhere((a) =>
-                                                    a.id == servicetags[i].id);
-                                              });
-                                            },
-                                            child: Container(
-                                                padding:
-                                                    EdgeInsets.only(left: 8),
-                                                child: Icon(
-                                                  Icons.cancel,
-                                                  size: 20,
-                                                ))),
-                                      ],
-                                    ),
-                                  ),
-                              ]),
-                            ),
-                          ),
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 5),
+                          //   child: Text("Tags"),
+                          // ),
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 5, left: 10, right: 10),
+                          //   child: TextField(
+                          //     controller: service,
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //         width: .5,
+                          //         color: Colors.black,
+                          //       )),
+                          //       focusedBorder: OutlineInputBorder(
+                          //           borderSide: BorderSide(
+                          //               width: .5, color: Colors.black)),
+                          //       suffixIcon: GestureDetector(
+                          //           onTap: () {
+                          //             var rand = Random();
+                          //             int id = rand.nextInt(1000000000);
+                          //             print("lilo");
+                          //             print(service.text);
+                          //             setState(() {
+                          //               servicetags.add(ServiceTags(
+                          //                   id: id.toString(),
+                          //                   tag: service.text));
+                          //               service.clear();
+                          //             });
+                          //           },
+                          //           child: Icon(
+                          //             Icons.check_circle,
+                          //             size: 30,
+                          //           )),
+                          //     ),
+                          //   ),
+                          // ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       color: Color.fromRGBO(229, 228, 226, 1),
+                          //       borderRadius: BorderRadius.circular(10)),
+                          //   margin:
+                          //       EdgeInsets.only(left: 10, top: 5, right: 10),
+                          //   child: Container(
+                          //     // margin: EdgeInsets.only(left: 10),
+                          //     child: Wrap(children: [
+                          //       for (int i = 0; i < servicetags.length; i++)
+                          //         Container(
+                          //           decoration: BoxDecoration(
+                          //               border: Border.all(),
+                          //               borderRadius: BorderRadius.circular(5)),
+                          //           padding: EdgeInsets.symmetric(
+                          //               horizontal: 5, vertical: 3),
+                          //           margin: EdgeInsets.only(
+                          //               left: 10, top: 3.5, bottom: 3.5),
+                          //           child: Row(
+                          //             mainAxisSize: MainAxisSize.min,
+                          //             children: [
+                          //               Text(servicetags[i].tag),
+                          //               GestureDetector(
+                          //                   onTap: () {
+                          //                     print("lilo");
+                          //                     setState(() {
+                          //                       servicetags.removeWhere((a) =>
+                          //                           a.id == servicetags[i].id);
+                          //                     });
+                          //                   },
+                          //                   child: Container(
+                          //                       padding:
+                          //                           EdgeInsets.only(left: 8),
+                          //                       child: Icon(
+                          //                         Icons.cancel,
+                          //                         size: 20,
+                          //                       ))),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //     ]),
+                          //   ),
+                          // ),
                           Container(
                             margin:
                             EdgeInsets.only(top: 10, left: 10, bottom: 10),

@@ -135,7 +135,9 @@ class _TopupPaystackState extends State<TopupPaystack> {
         child: Scaffold(
           appBar: AppBar(
             leading: Container(),
-            title: Text(""),
+            title: Text("Vendorhive360",style: TextStyle(
+              color: Colors.orange
+            ),),
             backgroundColor: Colors.white,
           ),
           body: Stack(

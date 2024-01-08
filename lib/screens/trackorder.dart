@@ -626,7 +626,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      child: Text( ppreleased == "cancelled"? "Product is Rejected?" : "Product is Accepted?" ,style: TextStyle(
+                                      child: Text( ppreleased == "reject"? "Product is Rejected" : "Product is Accepted?" ,style: TextStyle(
                                         fontSize: MediaQuery.of(context).size.width/24,
                                       ),),
                                     ),
@@ -644,10 +644,10 @@ class _TrackOrderState extends State<TrackOrder> {
                   ),
                 ),
 
-                ppreleased == "cancelled"?
+                ppreleased == "reject"?
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.green
+                      color: Colors.red[700]
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20),
                   margin: EdgeInsets.only(top:25),

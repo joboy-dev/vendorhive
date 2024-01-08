@@ -122,6 +122,7 @@ class _WelcomeState extends State<Welcome> {
   int _loguot = 0;
   int _selectedIndex = 0;
   int itemselected = 1;
+  int bottom_nav = 0;
   double totalsum = 0;
   double totalsumplusdelivery = 0;
   double deliverysum = 0;
@@ -3163,6 +3164,7 @@ class _WelcomeState extends State<Welcome> {
                                 onTap: () {
                                   setState(() {
                                     _selectedIndex = 0;
+                                    bottom_nav = 0;
                                     widget.pagenumber = 0;
                                     showservice = true;
                                     showproducts = true;
@@ -3991,6 +3993,7 @@ class _WelcomeState extends State<Welcome> {
                           onTap: () {
                             setState(() {
                               _selectedIndex = 0;
+                              bottom_nav = 0;
                               widget.pagenumber = 0;
                               showservice = true;
                               showproducts = true;
@@ -4320,6 +4323,7 @@ class _WelcomeState extends State<Welcome> {
                           onTap: () {
                             setState(() {
                               _selectedIndex = 0;
+                              bottom_nav = 0;
                               widget.pagenumber = 0;
                               showservice = true;
                               showproducts = true;
@@ -4617,16 +4621,19 @@ class _WelcomeState extends State<Welcome> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: bottom_nav,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey[500],
         onTap: (index) {
           if (index == 0) {
             setState(() {
               widget.pagenumber = 0;
-              viewproduct();
-              viewservice();
+              if(_selectedIndex == 0){
+                viewproduct();
+                viewservice();
+              }
               _selectedIndex = 0;
+              bottom_nav = 0;
               _serviceController.clear();
               _Controller.clear();
             });
@@ -4636,63 +4643,78 @@ class _WelcomeState extends State<Welcome> {
             setState(() {
               searchbar = false;
               _selectedIndex = 1;
+              bottom_nav = 1;
             });
           }
+          // else if (index == 5) {
+          //   setState(() {
+          //     searchbar = false;
+          //     _selectedIndex = 2;
+          //   });
+          // }
           else if (index == 2) {
-            setState(() {
-              searchbar = false;
-              _selectedIndex = 2;
-            });
-          }
-          else if (index == 3) {
             chatcontact();
             setState(() {
               searchbar = false;
               _selectedIndex = 3;
+              bottom_nav = 2;
             });
           }
-          else if (index == 4) {
+          else if (index == 3) {
             setState(() {
               searchbar = false;
               _selectedIndex = 4;
+              bottom_nav = 3;
             });
           }
         },
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.house,
-              size: MediaQuery.of(context).size.width / 13,
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: FaIcon(
+                FontAwesomeIcons.house,
+                size: MediaQuery.of(context).size.width / 13,
+              ),
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.wallet,
-                size: MediaQuery.of(context).size.width / 13,
+              icon: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: FaIcon(
+                  FontAwesomeIcons.wallet,
+                  size: MediaQuery.of(context).size.width / 13,
+                ),
               ),
               label: 'My Wallet'),
+          // BottomNavigationBarItem(
+          //     icon: CircleAvatar(
+          //         radius: MediaQuery.of(context).size.width / 13,
+          //         backgroundColor: _selectedIndex == 2 ? Color(0xffFFE0B1): Color.fromRGBO(246, 123, 55, 1),
+          //         child: FaIcon(
+          //           FontAwesomeIcons.cartShopping,
+          //           color: _selectedIndex == 2 ? Colors.green[900] : Colors.white,
+          //           size: MediaQuery.of(context).size.width / 13,
+          //         )),
+          //     label: ''),
           BottomNavigationBarItem(
-              icon: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width / 13,
-                  backgroundColor: _selectedIndex == 2 ? Color(0xffFFE0B1): Color.fromRGBO(246, 123, 55, 1),
-                  child: FaIcon(
-                    FontAwesomeIcons.cartShopping,
-                    color: _selectedIndex == 2 ? Colors.green[900] : Colors.white,
-                    size: MediaQuery.of(context).size.width / 13,
-                  )),
-              label: ''),
-          BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.message,
-                size: MediaQuery.of(context).size.width / 13,
+              icon: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: FaIcon(
+                  FontAwesomeIcons.message,
+                  size: MediaQuery.of(context).size.width / 13,
+                ),
               ),
               label: 'Messages'),
           BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.user,
-                size: MediaQuery.of(context).size.width / 13,
+              icon: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: FaIcon(
+                  FontAwesomeIcons.user,
+                  size: MediaQuery.of(context).size.width / 13,
+                ),
               ),
               label: 'Profile')
         ],

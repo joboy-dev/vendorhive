@@ -230,6 +230,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     print(jsonDecode(order_reject.body));
     if (order_reject.statusCode == 200 &&
         jsonDecode(order_reject.body) != "false") {
+
       // a refund is to be done for product price
       var credit_custwallet_amount = await http.post(
           Uri.https('adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
@@ -252,6 +253,38 @@ class _ViewadminorderState extends State<Viewadminorder> {
             'credit': widget.deliveryprice,
             'desc': 'RVS Delivery amount',
             'refno': widget.tkid,
+          });
+
+      //debit business wallet of amount
+      var debit_amount = await http.post(
+          Uri.https(
+              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+          body: {
+            'idname': widget.idname,
+            'useremail': widget.useremail,
+            'adminemail': widget.adminemail,
+            'debit': widget.productprice,
+            'credit': '0',
+            'status': 'pending',
+            'refno': widget.tkid,
+            'description': "Product Fee",
+            'itemid': widget.productid
+          });
+
+      //debit business wallet of delivery fee
+      var debit_delivery = await http.post(
+          Uri.https(
+              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+          body: {
+            'idname': widget.idname,
+            'useremail': widget.useremail,
+            'adminemail': widget.adminemail,
+            'debit': widget.deliveryprice,
+            'credit': '0',
+            'status': 'pending',
+            'refno': widget.tkid,
+            'description': "Delivery Fee",
+            'itemid': widget.productid
           });
 
       //a record of the rejection should be done
@@ -304,7 +337,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           body: {
             'message': widget.productname + " has being rejected",
             'info': widget.useremail,
-            'tag': 'Product',
+            'tag': 'Product Reject',
             'quantity': widget.quantity,
             'refno': widget.tkid
           });
@@ -404,7 +437,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           body: {
             'message': widget.productname + " offer is accepted",
             'info': widget.useremail,
-            'tag': 'Product',
+            'tag': 'Product Accepted',
             'quantity': widget.quantity,
             'refno': widget.tkid
           });
@@ -1199,7 +1232,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                   ] else if(productPayment == 'reject')...[
                                     Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.green
+                                          color: Colors.red[700]
                                       ),
                                       padding: EdgeInsets.symmetric(vertical: 20),
                                       margin: EdgeInsets.only(top:25),

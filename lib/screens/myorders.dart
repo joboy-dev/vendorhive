@@ -318,7 +318,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                         : raworders[index]['status'] ==
                                                         'complete'
                                                         ? Colors.green
-                                                        : Colors.red,
+                                                        : Colors.white,
                                                     fontWeight: FontWeight.w500),textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -343,7 +343,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                     : raworders[index]['productpayment'] ==
                                                     'done'
                                                     ? "Order is Accepted"
-                                                    : "Payment is cancelled",
+                                                    : "Order is Rejected",
                                                 style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.width/34,
                                                     color: raworders[index]['productpayment']==
@@ -352,7 +352,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                         : raworders[index]['productpayment'] ==
                                                         'done'
                                                         ? Colors.green
-                                                        : Colors.red,
+                                                        : Colors.white,
                                                     fontWeight: FontWeight.w500),textAlign: TextAlign.center,
                                               ),
                                             ),

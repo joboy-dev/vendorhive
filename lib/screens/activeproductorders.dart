@@ -286,7 +286,7 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                                             raworders[index]['status'] == 'complete' ?
                                             Colors.green
                                             :
-                                            Colors.red,
+                                            Colors.white,
                                             fontWeight: FontWeight.w500
                                         ),),
                                       ),

@@ -19,7 +19,6 @@ class _PendingPaymentsState extends State<PendingPayments> {
 
   Future getpendingpayments() async{
 
-
     var getpendingpayments = await http.post(
         Uri.https('adeoropelumi.com','vendor/vendorviewpendingpayment.php'),
         body: {
@@ -130,7 +129,7 @@ class _PendingPaymentsState extends State<PendingPayments> {
                                 children: [
                                   Container(
                                     child: Text(rawpendingpayment[index]['debit'] != "0"?
-                                      "Withdrawal" : "Deposit from "+rawpendingpayment[index]['useremail'],style: TextStyle(
+                                      "Withdrawal" : "Deposit",style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500
                                     ),),
@@ -169,7 +168,7 @@ class _PendingPaymentsState extends State<PendingPayments> {
                     );
                   }),
                 )
-                    :
+                :
                 Container(
                   child: Center(
                     child: Column(

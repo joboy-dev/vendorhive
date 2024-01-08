@@ -331,6 +331,18 @@ class _LoginState extends State<Login> {
                         child: TextField(
                             controller: email,
                             keyboardType: TextInputType.emailAddress,
+                            onSubmitted: (value){
+                              if (email.text != "" && pass.text != "") {
+                                // signin();
+                                checkInternetConnection();
+                              }
+                              else {
+                                ScaffoldMessenger.of(this.context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text('Fill all your fields'),
+                                ));
+                              }
+                            },
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -356,6 +368,18 @@ class _LoginState extends State<Login> {
                         child: TextField(
                           controller: pass,
                           obscureText: obsure,
+                          onSubmitted: (value){
+                            if (email.text != "" && pass.text != "") {
+                              // signin();
+                              checkInternetConnection();
+                            }
+                            else {
+                              ScaffoldMessenger.of(this.context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Fill all your fields'),
+                              ));
+                            }
+                          },
                           decoration: InputDecoration(
                               suffixIcon: GestureDetector(
                                   onTap: () {
@@ -423,7 +447,8 @@ class _LoginState extends State<Login> {
                           if (email.text != "" && pass.text != "") {
                             // signin();
                             checkInternetConnection();
-                          } else {
+                          }
+                          else {
                             ScaffoldMessenger.of(this.context)
                                 .showSnackBar(SnackBar(
                               content: Text('Fill all your fields'),
