@@ -42,7 +42,7 @@ class _RateServiceState extends State<RateService> {
       'productname':widget.servicename,
       'pidname':widget.sidname,
       'name':_name.text,
-      'review':_reviews.text,
+      'review': "",
       'comments':_comment.text,
       'ratings': ratings.toString(),
     });
@@ -132,25 +132,25 @@ class _RateServiceState extends State<RateService> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
-                    child: Text('Review'),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10,right: 10),
-                    child: TextField(
-                      controller: _reviews,
-                      decoration: InputDecoration(
-                          hintText: 'I like it',
-                          enabledBorder: OutlineInputBorder(
-
-                          ),
-                          focusedBorder: OutlineInputBorder(
-
-                          )
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
+                  //   child: Text('Review'),
+                  // ),
+                  // Container(
+                  //   margin: EdgeInsets.only(left: 10,right: 10),
+                  //   child: TextField(
+                  //     controller: _reviews,
+                  //     decoration: InputDecoration(
+                  //         hintText: 'I like it',
+                  //         enabledBorder: OutlineInputBorder(
+                  //
+                  //         ),
+                  //         focusedBorder: OutlineInputBorder(
+                  //
+                  //         )
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
                     child: Text('Comment'),

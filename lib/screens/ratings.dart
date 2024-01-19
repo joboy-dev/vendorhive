@@ -168,13 +168,13 @@ class _RatingsState extends State<Ratings> {
                               ),
                             ),
 
-                            Container(
-                              margin: EdgeInsets.only(top: 5),
-                              child: Text(rawratings[index]['review'],style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500
-                              ),),
-                            ),
+                            // Container(
+                            //   margin: EdgeInsets.only(top: 5),
+                            //   child: Text(rawratings[index]['review'],style: TextStyle(
+                            //       fontSize: 16,
+                            //       fontWeight: FontWeight.w500
+                            //   ),),
+                            // ),
 
                             Container(
                               margin: EdgeInsets.only(top: 5),

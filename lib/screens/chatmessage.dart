@@ -340,6 +340,7 @@ class _ChatMsgState extends State<ChatMsg> {
       body: SafeArea(
         child: Column(
           children: [
+            //top bar of vendor chat
             Container(
               margin: EdgeInsets.only(top: 5),
               child: Row(
@@ -368,7 +369,7 @@ class _ChatMsgState extends State<ChatMsg> {
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              widget.servicename,
+                              "Customer",
                               style: TextStyle(
                                   fontSize: 13,
                                   fontStyle: FontStyle.italic

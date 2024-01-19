@@ -471,6 +471,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
       body: SafeArea(
         child: Column(
           children: [
+            //top bar of customer chat bar
             Container(
               padding: EdgeInsets.only(top: 10,bottom: 10),
               child: Row(
@@ -553,44 +554,44 @@ class _ServiceMsgState extends State<ServiceMsg> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: (){
-                print("pay vendor");
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return PayforService(idname: widget.idname,
-                    sidname: widget.serviceid,
-                    useremail: widget.useremail,
-                    adminemail: widget.adminemail,
-                    servicename: widget.servicename);
-                }));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.orangeAccent
-                  ),
-                  color: Colors.green
-                ),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                margin: EdgeInsets.only(top: 3),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("Pay Vendor",textAlign: TextAlign.center,style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),))
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 2),
-              child: Text("Pay Vendor helps you pend a payment in a vendors wallet not until a service has been rendered/provided to you, before you finally release Payment & also giving you the control to rate & review a service rendered.",
-              style:TextStyle(
-                fontSize: 10,
-              ),textAlign: TextAlign.center,),
-            ),
-            Divider(),
+            // GestureDetector(
+            //   onTap: (){
+            //     print("pay vendor");
+            //     Navigator.push(context, MaterialPageRoute(builder: (context){
+            //       return PayforService(idname: widget.idname,
+            //         sidname: widget.serviceid,
+            //         useremail: widget.useremail,
+            //         adminemail: widget.adminemail,
+            //         servicename: widget.servicename);
+            //     }));
+            //   },
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       border: Border.all(
+            //         color: Colors.orangeAccent
+            //       ),
+            //       color: Colors.green
+            //     ),
+            //     padding: EdgeInsets.symmetric(vertical: 10),
+            //     margin: EdgeInsets.only(top: 3),
+            //     child: Row(
+            //       children: [
+            //         Expanded(child: Text("Pay Vendor",textAlign: TextAlign.center,style: TextStyle(
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.bold
+            //         ),))
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   margin: EdgeInsets.symmetric(horizontal: 2),
+            //   child: Text("Pay Vendor helps you pend a payment in a vendors wallet not until a service has been rendered/provided to you, before you finally release Payment & also giving you the control to rate & review a service rendered.",
+            //   style:TextStyle(
+            //     fontSize: 10,
+            //   ),textAlign: TextAlign.center,),
+            // ),
+            // Divider(),
             Flexible(
                 child: ListView(
                   children: [
@@ -633,127 +634,126 @@ class _ServiceMsgState extends State<ServiceMsg> {
                   ],
                 )
             ),
-          uploadimage == null ?
-          Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: (){
-                      choosefile();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5,right: 5),
-                      child: RotationTransition(
-                          turns: AlwaysStoppedAnimation(310 / 360),
-                          child: Transform(
-                              alignment: Alignment.center,
-                              transform: Matrix4.rotationY(math.pi),
-                              child: Icon(Icons.attachment_outlined,color: Colors.grey,size: 30,)
-                          )
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      chooseImage();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      child: Icon(Icons.camera_alt_outlined,color: Colors.grey,size: 30,),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: TextField(
-                        controller: _messages,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: .5,
-                              ),
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                          focusedBorder:  OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: .5,
-                              ),
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if(_messages.text.isEmpty){
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                            SnackBar(
-                              content: Text('Enter a message'),
-                            ));
-                      }else{
-                        if(sendingdata){
-                          sendmsg();
-                        }
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5,left: 5),
-                      child: Icon(Icons.send, color: sendingdata?Colors.grey:Colors.deepOrange, size: 30,),
-                    ),
-                  ),
-                ],
-              ),
-            )
-              :
-           Container(
+            uploadimage == null ?
+            Container(
+                margin: EdgeInsets.only(bottom: 5),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            uploadimage = null;
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Center(
-                            child: Text('Cancel',style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16
-                            ),),
-                          )
+                    GestureDetector(
+                      onTap: (){
+                        choosefile();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5,right: 5),
+                        child: RotationTransition(
+                            turns: AlwaysStoppedAnimation(310 / 360),
+                            child: Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.rotationY(math.pi),
+                                child: Icon(Icons.attachment_outlined,color: Colors.grey,size: 30,)
+                            )
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: (){
+                        chooseImage();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5),
+                        child: Icon(Icons.camera_alt_outlined,color: Colors.grey,size: 30,),
+                      ),
+                    ),
                     Expanded(
-                      child: GestureDetector(
-                        onTap: (){
-                          sendimgmsg();
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.green
+                      child: Container(
+                        child: TextField(
+                          controller: _messages,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: .5,
+                                ),
+                                borderRadius: BorderRadius.circular(20)
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Center(
-                            child: Text('Send Image',style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16
-                            ),),
-                          )
+                            focusedBorder:  OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: .5,
+                                ),
+                                borderRadius: BorderRadius.circular(20)
+                            ),
+                          ),
                         ),
                       ),
-                    )
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        if(_messages.text.isEmpty){
+                          ScaffoldMessenger.of(this.context).showSnackBar(
+                              SnackBar(
+                                content: Text('Enter a message'),
+                              ));
+                        }else{
+                          if(sendingdata){
+                            sendmsg();
+                          }
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5,left: 5),
+                        child: Icon(Icons.send, color: sendingdata?Colors.grey:Colors.deepOrange, size: 30,),
+                      ),
+                    ),
                   ],
                 ),
               )
+            : Container(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              uploadimage = null;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Center(
+                              child: Text('Cancel',style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16
+                              ),),
+                            )
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            sendimgmsg();
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.green
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Center(
+                              child: Text('Send Image',style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16
+                              ),),
+                            )
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
           ],
         ),
       ),

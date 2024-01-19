@@ -43,7 +43,7 @@ class _RateproductState extends State<Rateproduct> {
           'productname':widget.productname,
           'pidname':widget.pidname,
           'name':_name.text,
-          'review':_reviews.text,
+          'review': "",
           'comments':_comment.text,
           'ratings': ratings.toString(),
         }
@@ -151,25 +151,25 @@ class _RateproductState extends State<Rateproduct> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
-                      child: Text('Review'),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10,right: 10),
-                      child: TextField(
-                        controller: _reviews,
-                        decoration: InputDecoration(
-                            hintText: 'I like it',
-                            enabledBorder: OutlineInputBorder(
-
-                            ),
-                            focusedBorder: OutlineInputBorder(
-
-                            )
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
+                    //   child: Text('Review'),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 10,right: 10),
+                    //   child: TextField(
+                    //     controller: _reviews,
+                    //     decoration: InputDecoration(
+                    //         hintText: 'I like it',
+                    //         enabledBorder: OutlineInputBorder(
+                    //
+                    //         ),
+                    //         focusedBorder: OutlineInputBorder(
+                    //
+                    //         )
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
                       margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
                       child: Text('Comment'),
