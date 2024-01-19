@@ -22,7 +22,7 @@ class _CustTransactionState extends State<CustTransaction> {
     print('loading transaction history');
 
     var history = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorcusthistory.php'),
+        Uri.https('vendorhive360.com','vendor/vendorcusthistory.php'),
         body: {
           'email':widget.email
         }

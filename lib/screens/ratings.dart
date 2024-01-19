@@ -26,7 +26,7 @@ class _RatingsState extends State<Ratings> {
     });
 
     var getratings = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewallratings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewallratings.php'),
         body: {
           'pidname': widget.pidname
         }

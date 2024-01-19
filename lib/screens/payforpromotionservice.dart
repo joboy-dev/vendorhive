@@ -92,7 +92,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
                   width: MediaQuery.of(context).size.width/3,
                   child:  Center(
                     child: FadeInImage(
-                      image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+widget.serviceimg),
+                      image: NetworkImage("https://vendorhive360.com/vendor/serviceimage/"+widget.serviceimg),
                       placeholder: AssetImage(
                           "assets/image.png"),
                       imageErrorBuilder:
@@ -490,7 +490,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
     try{
 
       var promotionpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpromotionpayment.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpromotionpayment.php'),
           body: {
             'adminemail':widget.adminemail,
             'amount':widget.amount,
@@ -502,7 +502,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
       );
 
       var updateproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorupdateserviceads.php'),
+          Uri.https('vendorhive360.com','vendor/vendorupdateserviceads.php'),
           body: {
             'itemid':widget.sidname,
             'ads':adstats.toString()
@@ -510,7 +510,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
       );
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': widget.servicename+" advertisment has started",
             'info': widget.adminemail,
@@ -630,7 +630,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
       print("error is "+e.toString());
 
       var failedpromotionpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedpromotedservicepayment.php'),
+          Uri.https('vendorhive360.com','vendor/failedpromotedservicepayment.php'),
           body: {
             'refno':trfid,
             'sidname':widget.sidname

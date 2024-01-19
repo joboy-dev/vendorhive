@@ -71,7 +71,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
 
     try{
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpinprocess.php'),
           body: {
             'idname':widget.idname,
             'useremail':widget.useremail,
@@ -80,7 +80,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
       );
 
       var getbalance = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustbalance.php'),
+          Uri.https('vendorhive360.com','vendor/vendorcustbalance.php'),
           body: {
             'custemail':widget.useremail,
           }
@@ -98,7 +98,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
             if(double.parse(finalbalance) >= double.parse(widget.amount)){
 
               var debitcustwallet = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorcustupdatewallet.php'),
                   body: {
                     'idname':widget.idname,
                     'email':widget.useremail,
@@ -110,7 +110,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
               );
 
               var vendor_five_percent = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorfivepercent.php'),
                   body: {
                     'idname': widget.idname,
                     'email' : widget.useremail,
@@ -126,7 +126,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                 print('Wallet debited');
 
                 var savepayment = await http.post(
-                    Uri.https('adeoropelumi.com','vendor/vendorservicepayment.php'),
+                    Uri.https('vendorhive360.com','vendor/vendorservicepayment.php'),
                     body: {
                       'idname': widget.idname,
                       'sidname': widget.sidname,
@@ -145,7 +145,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                 String d = "paid for "+widget.servicename;
 
                 var savetransaction = await http.post(
-                    Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+                    Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
                     body: {
                       'idname': widget.idname,
                       'useremail': widget.useremail,
@@ -160,7 +160,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
                 );
 
                 var notifyuser = await http.post(
-                    Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+                    Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
                     body: {
                       'message': "₦"+widget.amount+" was paid for "+widget.servicename,
                       'info': widget.adminemail,
@@ -315,7 +315,7 @@ class _ServiceWalletPaymentState extends State<ServiceWalletPayment> {
       print("error is "+e.toString());
 
       var failedservicepayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedwalletservicepayment.php'),
+          Uri.https('vendorhive360.com','vendor/failedwalletservicepayment.php'),
           body: {
             "refno":trfid
           }

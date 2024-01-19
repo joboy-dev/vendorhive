@@ -87,7 +87,7 @@ class _SetServicePromotionState extends State<SetServicePromotion> {
                       margin: EdgeInsets.only(top: 10),
                       width: MediaQuery.of(context).size.width/3,
                       child:  FadeInImage(
-                        image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+widget.serviceimg),
+                        image: NetworkImage("https://vendorhive360.com/vendor/serviceimage/"+widget.serviceimg),
                         placeholder: AssetImage(
                             "assets/image.png"),
                         imageErrorBuilder:

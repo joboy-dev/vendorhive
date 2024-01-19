@@ -137,7 +137,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
     try{
 
       var promotionpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpromotionpayment.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpromotionpayment.php'),
           body: {
             'adminemail':widget.adminemail,
             'amount':widget.amount,
@@ -149,7 +149,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
       );
 
       var updateproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorupdateproductads.php'),
+          Uri.https('vendorhive360.com','vendor/vendorupdateproductads.php'),
           body: {
             'itemid':widget.pidname,
             'ads':adstats.toString()
@@ -160,7 +160,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
       String notifymsg = widget.prodname+" advertisment has started";
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsendnotification.php'),
           body: {
             'message': notifymsg,
             'info': widget.adminemail,
@@ -272,7 +272,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
       print("error is "+e.toString());
 
       var failedpromotionpayment = await http.post(
-        Uri.https('adeoropelumi.com','vendor/failedpromotedproductpayment.php'),
+        Uri.https('vendorhive360.com','vendor/failedpromotedproductpayment.php'),
         body: {
           'refno':trfid,
           'pidname':widget.pidname
@@ -378,7 +378,7 @@ class _PayForPromotionState extends State<PayForPromotion> {
                   width: MediaQuery.of(context).size.width/3,
                   child:  Center(
                     child: FadeInImage(
-                      image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+widget.prodimg),
+                      image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+widget.prodimg),
                       placeholder: AssetImage(
                           "assets/image.png"),
                       imageErrorBuilder:

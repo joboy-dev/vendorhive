@@ -64,15 +64,15 @@ class _LoginState extends State<Login> {
       });
 
       final response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsignin.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsignin.php'),
           body: {'useremail': email.text, 'password': pass.text});
 
       final userdetails = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorgetuseremail.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorgetuseremail.php'),
           body: {'useremail': email.text});
 
       final getpackages = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
           body: {'useremail': email.text});
 
       print(jsonDecode(userdetails.body));
@@ -104,7 +104,7 @@ class _LoginState extends State<Login> {
 
                   if (serverusertype == 'business') {
                     var getbalance = await http.post(
-                        Uri.https('adeoropelumi.com',
+                        Uri.https('vendorhive360.com',
                             'vendor/vendorbusinessavailablebalance.php'),
                         body: {'adminemail': email.text});
 
@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                       vendoravailablebalance.add(finalbalance);
 
                       var getpendingbalance = await http.post(
-                          Uri.https('adeoropelumi.com',
+                          Uri.https('vendorhive360.com',
                               'vendor/vendorbusinesspendingbalance.php'),
                           body: {'adminemail': email.text});
 
@@ -165,7 +165,7 @@ class _LoginState extends State<Login> {
 
                     var getbalance = await http.post(
                         Uri.https(
-                            'adeoropelumi.com', 'vendor/vendorcustbalance.php'),
+                            'vendorhive360.com', 'vendor/vendorcustbalance.php'),
                         body: {'custemail': email.text});
 
                     if (getbalance.statusCode == 200) {

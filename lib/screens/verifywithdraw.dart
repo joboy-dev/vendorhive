@@ -517,7 +517,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
     try {
       var getbalance = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorbusinessavailablebalance.php'),
+              'vendorhive360.com', 'vendor/vendorbusinessavailablebalance.php'),
           body: {'adminemail': widget.useremail});
 
       if (getbalance.statusCode == 200) {
@@ -528,7 +528,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
       } else {}
 
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorpinprocess.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -546,7 +546,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
             String itemid = "wt " + trfid;
 
             var savetransaction = await http.post(
-                Uri.https('adeoropelumi.com',
+                Uri.https('vendorhive360.com',
                     'vendor/vendorsaveinbusinesswallet.php'),
                 body: {
                   'idname': widget.idname,
@@ -564,7 +564,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
               print(jsonDecode(savetransaction.body));
               if (jsonDecode(savetransaction.body) == 'true') {
                 var sendinstruction = await http.post(
-                    Uri.https('adeoropelumi.com',
+                    Uri.https('vendorhive360.com',
                         'vendor/withdrawal_instruction.php'),
                     body: {
                       'idname': widget.idname,
@@ -680,7 +680,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
       print("Failed" + e.toString());
 
       var failedtopup = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/failedbusinesstopup.php'),
+          Uri.https('vendorhive360.com', 'vendor/failedbusinesstopup.php'),
           body: {'refno': trfid});
 
       if (failedtopup.statusCode == 200) {

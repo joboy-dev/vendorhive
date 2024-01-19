@@ -42,7 +42,7 @@ class _VendorServiceState extends State<VendorService> {
 
     try {
       var gettingservice = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorviewbusinessservice.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorviewbusinessservice.php'),
           body: {
             'adminemail': widget.adminemail
           }
@@ -72,7 +72,7 @@ class _VendorServiceState extends State<VendorService> {
 
     try {
       var gettingservice = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorviewbusinessservice.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorviewbusinessservice.php'),
           body: {
             'adminemail': widget.adminemail
           }
@@ -94,7 +94,7 @@ class _VendorServiceState extends State<VendorService> {
   }
 
   Future vendorgetdescriptionsummary() async{
-    final gettinglogo = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorgetlogo.php'),
+    final gettinglogo = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorgetlogo.php'),
         body: {
           'useremail' : widget.adminemail
         });
@@ -178,7 +178,7 @@ class _VendorServiceState extends State<VendorService> {
                           padding: const EdgeInsets.all(7.0),
                           child: FadeInImage(
                             image: NetworkImage(
-                              "https://www.adeoropelumi.com/vendor/blogo/"+getallresults[0]["logoname"],
+                              "https://www.vendorhive360.com/vendor/blogo/"+getallresults[0]["logoname"],
                             ),
                             placeholder: AssetImage(
                                 "assets/image.png"),
@@ -333,7 +333,7 @@ class _VendorServiceState extends State<VendorService> {
                                       aspectRatio: 1,
                                       child: FadeInImage(
                                         image: NetworkImage(
-                                          "https://adeoropelumi.com/vendor/serviceimage/" +
+                                          "https://vendorhive360.com/vendor/serviceimage/" +
                                               rawservice[index]['serviceimg'],
                                         ),
                                         placeholder: AssetImage(

@@ -26,7 +26,7 @@ class _ViewPromotedProductsState extends State<ViewPromotedProducts> {
     try{
 
       var listofpromotedproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpromotedproducts.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpromotedproducts.php'),
           body: {
             'email': widget.email
           }
@@ -76,7 +76,7 @@ class _ViewPromotedProductsState extends State<ViewPromotedProducts> {
     try{
 
       var listofpromotedproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpromotedproducts.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpromotedproducts.php'),
           body: {
             'email': widget.email
           }
@@ -187,7 +187,7 @@ class _ViewPromotedProductsState extends State<ViewPromotedProducts> {
                                   Container(
                                     width: MediaQuery.of(context).size.width/8,
                                     child: FadeInImage(
-                                      image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+raw[index]['productimg']),
+                                      image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+raw[index]['productimg']),
                                       placeholder: AssetImage(
                                           "assets/image.png"),
                                       imageErrorBuilder:
@@ -198,7 +198,7 @@ class _ViewPromotedProductsState extends State<ViewPromotedProducts> {
                                       },
                                       fit: BoxFit.fitWidth,
                                     ),
-                                    // child: Image.network("https://adeoropelumi.com/vendor/productimage/"+rawproducts[index]['productimg']),
+                                    // child: Image.network("https://vendorhive360.com/vendor/productimage/"+rawproducts[index]['productimg']),
                                   ),
                                   Expanded(
                                     child: Container(

@@ -18,7 +18,7 @@ class _MessageBubbleState extends State<MessageBubble> {
         alignment: widget.message.type == MessageType.Receiver ? Alignment.topLeft:Alignment.topRight,
         child: widget.message.type == MessageType.Receiver
             ?
-        widget.message.message.contains("https://adeoropelumi.com/vendor/chatsimg/")?
+        widget.message.message.contains("https://vendorhive360.com/vendor/chatsimg/")?
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,7 +89,7 @@ class _MessageBubbleState extends State<MessageBubble> {
           ),
         )
             :
-        widget.message.message.contains("https://adeoropelumi.com/vendor/chatsimg/")?
+        widget.message.message.contains("https://vendorhive360.com/vendor/chatsimg/")?
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

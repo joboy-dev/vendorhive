@@ -36,7 +36,7 @@ class _RateproductState extends State<Rateproduct> {
     });
 
     var ratingandreviews = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorrating.php'),
+        Uri.https('vendorhive360.com','vendor/vendorrating.php'),
         body: {
           'useremail':widget.useremail,
           'adminemail':widget.adminemail,
@@ -115,7 +115,7 @@ class _RateproductState extends State<Rateproduct> {
                       ),
                       height: MediaQuery.of(context).size.height/2.5,
                       child: FadeInImage(
-                        image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+
+                        image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+
                             widget.productimage),
                         placeholder: AssetImage(
                             "assets/image.png"),

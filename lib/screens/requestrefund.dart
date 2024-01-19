@@ -74,7 +74,7 @@ class _RequestRefundState extends State<RequestRefund> {
     try{
 
       var refundrequest = await http.post(
-          Uri.https('adeoropelumi.com','vendor/requestrefund.php'),
+          Uri.https('vendorhive360.com','vendor/requestrefund.php'),
           body: {
             'idname':widget.idname,
             'email':widget.email,
@@ -85,7 +85,7 @@ class _RequestRefundState extends State<RequestRefund> {
       );
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': "A refund is asked by "+widget.username+" on "+widget.product_name+" product and "
                 "track order id is "+widget.trackid,
@@ -133,7 +133,7 @@ class _RequestRefundState extends State<RequestRefund> {
       });
 
       var failedrefund = await http.post(
-        Uri.https('adeoropelumi.com','vendor/failedrefund.php'),
+        Uri.https('vendorhive360.com','vendor/failedrefund.php'),
         body: {
           'idname': widget.idname
         }

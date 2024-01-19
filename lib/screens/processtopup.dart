@@ -46,7 +46,7 @@ class _ProcesstopupState extends State<Processtopup> {
     try{
 
       var creditcustwallet = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          Uri.https('vendorhive360.com','vendor/vendorcustupdatewallet.php'),
           body: {
             'idname':widget.idname,
             'email':widget.email,
@@ -58,7 +58,7 @@ class _ProcesstopupState extends State<Processtopup> {
       );
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': "₦"+widget.amount+" was credited into your account",
             'info': widget.email,
@@ -107,7 +107,7 @@ class _ProcesstopupState extends State<Processtopup> {
       print("Failed"+e.toString());
 
       var failedtopup = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedtopup.php'),
+          Uri.https('vendorhive360.com','vendor/failedtopup.php'),
           body: {
             'refno':trfid
           }

@@ -69,7 +69,7 @@ class _ViewProductState extends State<ViewProduct> {
     print("============");
 
     var response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetdeliveryplan.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetdeliveryplan.php'),
         body: {
           'pidname': widget.prodid,
         });
@@ -118,7 +118,7 @@ class _ViewProductState extends State<ViewProduct> {
     });
 
     var productimg = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorproductimagelist.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorproductimagelist.php'),
         body: {'pidname': widget.prodid});
 
     if (productimg.statusCode == 200) {
@@ -145,7 +145,7 @@ class _ViewProductState extends State<ViewProduct> {
     });
 
     var viewrattings = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorviewrattings.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorviewrattings.php'),
         body: {'pidname': widget.prodid});
 
     if (viewrattings.statusCode == 200) {
@@ -458,7 +458,7 @@ class _ViewProductState extends State<ViewProduct> {
                       width: MediaQuery.of(context).size.width / 1.4,
                       child: FadeInImage(
                         image: NetworkImage(
-                            "https://adeoropelumi.com/vendor/productimage/" +
+                            "https://vendorhive360.com/vendor/productimage/" +
                                 widget.imagename),
                         placeholder: AssetImage("assets/image.png"),
                         imageErrorBuilder: (context, error, stackTrace) {
@@ -467,7 +467,7 @@ class _ViewProductState extends State<ViewProduct> {
                         },
                         fit: BoxFit.fitWidth,
                       ),
-                      // child: Image.network("https://adeoropelumi.com/vendor/productimage/"+widget.imagename,)
+                      // child: Image.network("https://vendorhive360.com/vendor/productimage/"+widget.imagename,)
                     ),
                     for (int o = 0; o < rawservice.length; o++)
                       if (widget.imagename == productsimg[o])
@@ -478,7 +478,7 @@ class _ViewProductState extends State<ViewProduct> {
                           width: MediaQuery.of(context).size.width / 1.4,
                           child: FadeInImage(
                             image: NetworkImage(
-                                "https://adeoropelumi.com/vendor/productimage/" +
+                                "https://vendorhive360.com/vendor/productimage/" +
                                     productsimg[o]),
                             placeholder: AssetImage("assets/image.png"),
                             imageErrorBuilder: (context, error, stackTrace) {
@@ -487,7 +487,7 @@ class _ViewProductState extends State<ViewProduct> {
                             },
                             fit: BoxFit.fitWidth,
                           ),
-                          // child: Image.network("https://adeoropelumi.com/vendor/productimage/"+productsimg[o],)
+                          // child: Image.network("https://vendorhive360.com/vendor/productimage/"+productsimg[o],)
                         ),
                       ]
                   ],

@@ -508,7 +508,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
           String trackid = "tk-"+trfid;
 
           final orders = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendororderstatus.php'),
+              Uri.https('vendorhive360.com','vendor/vendororderstatus.php'),
               body: {
                 'idname':widget.idname,
                 'orderprocessed':'',
@@ -533,7 +533,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
           double finalprice = cartitems[o].deliveryprice + cartitems[o].amount;
 
           var savetransaction = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+              Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
               body: {
                 'idname': widget.idname,
                 'useremail': widget.useremail,
@@ -548,7 +548,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
           );
 
           var notifyuser = await http.post(
-              Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+              Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
               body: {
                 'message': cartitems[o].name+" has being ordered",
                 'info': cartitems[o].adminemail,
@@ -611,7 +611,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
       print("reversing transactions...");
 
       var deletefailed = await http.post(
-          Uri.https('adeoropelumi.com','vendor/deletewalletcheckout.php'),
+          Uri.https('vendorhive360.com','vendor/deletewalletcheckout.php'),
           body: {
             'refno': trfid
           }

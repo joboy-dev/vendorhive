@@ -218,7 +218,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
     });
 
     var checkpassword = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorsignin.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorsignin.php'),
         body: {'useremail': widget.email, 'password': _oldpass.text});
 
     print(jsonDecode(checkpassword.body)['status']);
@@ -227,7 +227,7 @@ class _CustChangePasswordState extends State<CustChangePassword> {
     if (checkpassword.statusCode == 200) {
       if (jsonDecode(checkpassword.body)['status'] == 'login') {
         var passwordupdate = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorupdatepassword.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorupdatepassword.php'),
             body: {
               'idname': widget.idname,
               'email': widget.email,

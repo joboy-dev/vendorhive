@@ -518,7 +518,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
       print(total);
 
       var getbalance = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorcustbalance.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorcustbalance.php'),
           body: {
             'custemail': widget.useremail,
           });
@@ -532,7 +532,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
       }
 
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorpinprocess.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -547,7 +547,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
 
             var debitcustwallet = await http.post(
                 Uri.https(
-                    'adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
+                    'vendorhive360.com', 'vendor/vendorcustupdatewallet.php'),
                 body: {
                   'idname': widget.idname,
                   'email': widget.useremail,
@@ -562,7 +562,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
                 print('cust wallet is debited');
 
                 var sendinstruction = await http.post(
-                    Uri.https('adeoropelumi.com',
+                    Uri.https('vendorhive360.com',
                         'vendor/withdrawal_instruction.php'),
                     body: {
                       'idname': widget.idname,
@@ -644,7 +644,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
       print("error " + e.toString());
 
       var failedwithdrawal = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/failedwithdrawal.php'),
+          Uri.https('vendorhive360.com', 'vendor/failedwithdrawal.php'),
           body: {'refno': trfid});
 
       if (failedwithdrawal.statusCode == 200) {

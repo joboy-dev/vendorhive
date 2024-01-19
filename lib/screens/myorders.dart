@@ -29,7 +29,7 @@ class _MyOrdersState extends State<MyOrders> {
     try{
 
       final getorders = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoradminorders.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendoradminorders.php'),
           body: {'idname': widget.idname, 'useremail': widget.useremail});
 
       if (getorders.statusCode == 200) {
@@ -70,7 +70,7 @@ class _MyOrdersState extends State<MyOrders> {
     try{
 
       final getorders = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoradminorders.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendoradminorders.php'),
           body: {'idname': widget.idname, 'useremail': widget.useremail});
 
       if (getorders.statusCode == 200) {
@@ -205,7 +205,7 @@ class _MyOrdersState extends State<MyOrders> {
                                       width: MediaQuery.of(context).size.width/8,
                                       child: FadeInImage(
                                         image: NetworkImage(
-                                          "https://adeoropelumi.com/vendor/productimage/" +
+                                          "https://vendorhive360.com/vendor/productimage/" +
                                               raworders[index]['prodimagename'],
                                         ),
                                         placeholder: AssetImage(

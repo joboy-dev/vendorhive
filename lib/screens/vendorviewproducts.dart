@@ -37,7 +37,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
   Future getproducts() async{
 
     var gettingproducts = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorgetproductsforadmin.php'),
+        Uri.https('vendorhive360.com','vendor/vendorgetproductsforadmin.php'),
         body: {
           'idname':widget.idname,
           'adminemail':widget.adminemail
@@ -75,7 +75,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
       });
 
       var gettingproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorgetproductsforadmin.php'),
+          Uri.https('vendorhive360.com','vendor/vendorgetproductsforadmin.php'),
           body: {
             'idname':widget.idname,
             'adminemail':widget.adminemail
@@ -111,7 +111,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
   }
 
   Future vendorgetdescriptionsummary() async{
-    final gettinglogo = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorgetlogo.php'),
+    final gettinglogo = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorgetlogo.php'),
         body: {
           'useremail' : widget.adminemail
         });
@@ -191,7 +191,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                         padding: const EdgeInsets.all(7.0),
                         child: FadeInImage(
                           image: NetworkImage(
-                            "https://www.adeoropelumi.com/vendor/blogo/"+getallresults[0]["logoname"],
+                            "https://www.vendorhive360.com/vendor/blogo/"+getallresults[0]["logoname"],
                           ),
                           placeholder: AssetImage(
                               "assets/image.png"),
@@ -347,7 +347,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                 aspectRatio: 1,
                                 child: FadeInImage(
                                   image: NetworkImage(
-                                    "https://adeoropelumi.com/vendor/productimage/" +
+                                    "https://vendorhive360.com/vendor/productimage/" +
                                         rawproducts[
                                         index]
                                         [

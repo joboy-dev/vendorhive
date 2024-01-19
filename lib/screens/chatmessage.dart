@@ -93,7 +93,7 @@ class _ChatMsgState extends State<ChatMsg> {
 
   Future loadchats() async {
     final response = await http
-        .post(Uri.https('adeoropelumi.com', 'vendor/vendorgetchat.php'), body: {
+        .post(Uri.https('vendorhive360.com', 'vendor/vendorgetchat.php'), body: {
       "sidname": widget.sidname,
       'user':widget.useremail,
       'admin':widget.adminemail
@@ -148,7 +148,7 @@ class _ChatMsgState extends State<ChatMsg> {
   Future onthegochat() async {
 
     final response = await http
-        .post(Uri.https('adeoropelumi.com', 'vendor/vendorgetchat.php'), body: {
+        .post(Uri.https('vendorhive360.com', 'vendor/vendorgetchat.php'), body: {
       "sidname": widget.sidname,
       'user':widget.useremail,
       'admin':widget.adminemail
@@ -223,7 +223,7 @@ class _ChatMsgState extends State<ChatMsg> {
     });
 
     final sending = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorsendchat.php'),body: {
+        Uri.https('vendorhive360.com','vendor/vendorsendchat.php'),body: {
       'idname':widget.idname,
       'useremail': widget.useremail,
       'adminemail':widget.adminemail,
@@ -234,7 +234,7 @@ class _ChatMsgState extends State<ChatMsg> {
     });
 
     var message_notify = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+        Uri.https('vendorhive360.com','vendor/vendornewmessagenotification.php'),
         body: {
           'name':widget.sender_name,
           'email':widget.useremail,
@@ -275,7 +275,7 @@ class _ChatMsgState extends State<ChatMsg> {
       List<int> imageBytes = uploadimage!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
       print(baseimage);
-      var sendimg = await http.post(Uri.https('adeoropelumi.com','vendor/vendorsendimg.php'),body: {
+      var sendimg = await http.post(Uri.https('vendorhive360.com','vendor/vendorsendimg.php'),body: {
         'idname':widget.idname,
         'useremail': widget.useremail,
         'adminemail':widget.adminemail,
@@ -287,7 +287,7 @@ class _ChatMsgState extends State<ChatMsg> {
       });
 
       var message_notify = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+          Uri.https('vendorhive360.com','vendor/vendornewmessagenotification.php'),
           body: {
             'name':widget.sender_name,
             'email':widget.useremail,

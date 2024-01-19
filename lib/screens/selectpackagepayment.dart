@@ -57,7 +57,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
     currentdate();
 
     var upgradepackage = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorupdatepackage.php'),
+        Uri.https('vendorhive360.com','vendor/vendorupdatepackage.php'),
         body: {
           'email':widget.email,
           'package':widget.package
@@ -69,7 +69,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
         print('User is upgraded to '+widget.package);
 
         var recordpackage = await http.post(
-            Uri.https('adeoropelumi.com','vendor/vendorpackagerecord.php'),
+            Uri.https('vendorhive360.com','vendor/vendorpackagerecord.php'),
             body: {
               'email':widget.email,
               'package':widget.package,

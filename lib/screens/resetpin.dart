@@ -29,7 +29,7 @@ class _ResetPinState extends State<ResetPin> {
     });
 
     var passwordreset = await http.post(
-        Uri.https('adeoropelumi.com','vendor/resetpin.php'),
+        Uri.https('vendorhive360.com','vendor/resetpin.php'),
         body: {
           'password': _newpin.text,
           'email' : widget.email

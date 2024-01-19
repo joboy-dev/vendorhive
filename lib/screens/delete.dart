@@ -33,7 +33,7 @@ class _DeletePageState extends State<DeletePage> {
       _loadIndex = 1;
     });
     var response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/delete_account.php'),
+        Uri.https('vendorhive360.com', 'vendor/delete_account.php'),
         body: {'email': widget.email});
     if(response.statusCode == 200){
       if(jsonDecode(response.body)=="true"){

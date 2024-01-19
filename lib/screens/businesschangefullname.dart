@@ -32,7 +32,7 @@ class _BusinessChangeFullnameState extends State<BusinessChangeFullname> {
     try{
 
       var checkpassword = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsignin.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsignin.php'),
           body: {
             'useremail':widget.email,
             'password':_password.text
@@ -48,7 +48,7 @@ class _BusinessChangeFullnameState extends State<BusinessChangeFullname> {
         if(jsonDecode(checkpassword.body)['status'] == 'login'){
 
           var updatefullname = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorchangefullname.php'),
+              Uri.https('vendorhive360.com','vendor/vendorchangefullname.php'),
               body: {
                 'email' : widget.email,
                 'fullname' : replacing(_newname.text)

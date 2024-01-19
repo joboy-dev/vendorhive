@@ -66,7 +66,7 @@ class _WalletPaymentState extends State<WalletPayment> {
     try{
 
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpinprocess.php'),
           body: {
             'idname':widget.idname,
             'useremail':widget.adminemail,
@@ -75,7 +75,7 @@ class _WalletPaymentState extends State<WalletPayment> {
       );
 
       var getbalance = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorbusinessavailablebalance.php'),
+          Uri.https('vendorhive360.com','vendor/vendorbusinessavailablebalance.php'),
           body: {
             'adminemail':widget.adminemail
           }
@@ -97,7 +97,7 @@ class _WalletPaymentState extends State<WalletPayment> {
               String desc = "bought "+widget.amount+" for "+widget.days;
 
               var savetransaction = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
                   body: {
                     'idname': widget.idname,
                     'useremail': widget.adminemail,
@@ -112,7 +112,7 @@ class _WalletPaymentState extends State<WalletPayment> {
               );
 
               var promotionpayment = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorpromotionpayment.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorpromotionpayment.php'),
                   body: {
                     'adminemail':widget.adminemail,
                     'amount':widget.amount,
@@ -124,7 +124,7 @@ class _WalletPaymentState extends State<WalletPayment> {
               );
 
               var updateproducts = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorupdateproductads.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorupdateproductads.php'),
                   body: {
                     'itemid':widget.pidname,
                     'ads':adstats.toString()
@@ -132,7 +132,7 @@ class _WalletPaymentState extends State<WalletPayment> {
               );
 
               var notifyuser = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorsendnotification.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorsendnotification.php'),
                   body: {
                     'message': widget.productname+" advertisment has started",
                     'info': widget.adminemail,
@@ -338,7 +338,7 @@ class _WalletPaymentState extends State<WalletPayment> {
       });
 
       var failedpromotionproductpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedwalletpromotionproductpayment.php'),
+          Uri.https('vendorhive360.com','vendor/failedwalletpromotionproductpayment.php'),
           body: {
             'refno':trfid,
             'pidname': widget.pidname
@@ -451,7 +451,7 @@ class _WalletPaymentState extends State<WalletPayment> {
                     Container(
                       width: MediaQuery.of(context).size.width/3,
                       child:  FadeInImage(
-                        image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+widget.productimg),
+                        image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+widget.productimg),
                         placeholder: AssetImage(
                             "assets/image.png"),
                         imageErrorBuilder:

@@ -29,7 +29,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     });
 
     var passwordreset = await http.post(
-      Uri.https('adeoropelumi.com','vendor/resetpassword.php'),
+      Uri.https('vendorhive360.com','vendor/resetpassword.php'),
       body: {
         'password': _newpassword.text,
         'email' : widget.email

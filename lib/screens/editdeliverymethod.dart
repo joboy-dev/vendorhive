@@ -42,7 +42,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
     });
 
     final response = await http.post(
-        Uri.https("adeoropelumi.com","vendor/vendorupdatedeliveryprice.php"),
+        Uri.https("vendorhive360.com","vendor/vendorupdatedeliveryprice.php"),
         body: {
           'amount':amount.text,
           'pidname' : widget.pidname,
@@ -82,7 +82,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
     });
 
     final response = await http.post(
-        Uri.https("adeoropelumi.com","vendor/vendorupdatedeliverydays.php"),
+        Uri.https("vendorhive360.com","vendor/vendorupdatedeliverydays.php"),
         body: {
           'days':days.text,
           'pidname' : widget.pidname,
@@ -154,7 +154,7 @@ class _EditDeliveryMethodState extends State<EditDeliveryMethod> {
     });
 
     final response = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendordeletedeliverymethod.php'),
+        Uri.https('vendorhive360.com','vendor/vendordeletedeliverymethod.php'),
         body:{
           'email':widget.adminemail,
           'pidname':widget.pidname,

@@ -55,7 +55,7 @@ class _CheckoutState extends State<Checkout> {
       print("============");
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorgetdeliveryplan.php'),
+          Uri.https('vendorhive360.com','vendor/vendorgetdeliveryplan.php'),
           body: {
             'pidname': cartitems[i].prodid,
           });

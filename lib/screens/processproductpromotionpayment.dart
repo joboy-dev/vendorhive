@@ -52,7 +52,7 @@ class _ProcessProductPromotionPaymentState extends State<ProcessProductPromotion
     try{
 
       var promotionpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpromotionpayment.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpromotionpayment.php'),
           body: {
             'adminemail':widget.adminemail,
             'amount':widget.amount,
@@ -64,7 +64,7 @@ class _ProcessProductPromotionPaymentState extends State<ProcessProductPromotion
       );
 
       var updateproducts = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorupdateproductads.php'),
+          Uri.https('vendorhive360.com','vendor/vendorupdateproductads.php'),
           body: {
             'itemid':widget.pidname,
             'ads':adstats.toString()
@@ -75,7 +75,7 @@ class _ProcessProductPromotionPaymentState extends State<ProcessProductPromotion
       String notifymsg = widget.prodname+" advertisment has started";
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsendnotification.php'),
           body: {
             'message': notifymsg,
             'info': widget.adminemail,
@@ -155,7 +155,7 @@ class _ProcessProductPromotionPaymentState extends State<ProcessProductPromotion
       print("error is "+e.toString());
 
       var failedpromotionpayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedpromotedproductpayment.php'),
+          Uri.https('vendorhive360.com','vendor/failedpromotedproductpayment.php'),
           body: {
             'refno':trfid,
             'pidname':widget.pidname

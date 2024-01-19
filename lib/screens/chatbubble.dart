@@ -18,7 +18,7 @@ class _ChatbubbleState extends State<Chatbubble> {
       alignment: widget.chatMessage.type == MessageType.Receiver ? Alignment.topLeft:Alignment.topRight,
       child: widget.chatMessage.type == MessageType.Receiver
         ?
-      widget.chatMessage.message.contains("https://adeoropelumi.com/vendor/chatsimg/")?
+      widget.chatMessage.message.contains("https://vendorhive360.com/vendor/chatsimg/")?
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,7 +98,7 @@ class _ChatbubbleState extends State<Chatbubble> {
         ),
       )
       :
-      widget.chatMessage.message.contains("https://adeoropelumi.com/vendor/chatsimg/")?
+      widget.chatMessage.message.contains("https://vendorhive360.com/vendor/chatsimg/")?
       Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [

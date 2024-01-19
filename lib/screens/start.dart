@@ -97,7 +97,7 @@ class _GetStartedState extends State<GetStarted> {
         print(customerprocess);
 
         final otpresponse = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/otp.php'),
+            Uri.https('vendorhive360.com', 'vendor/otp.php'),
             body: {'idname': idname, 'email': widget.email, 'otp': otp});
 
         print(jsonDecode(otpresponse.body));
@@ -145,7 +145,7 @@ class _GetStartedState extends State<GetStarted> {
         print("Error is " + e.toString());
 
         var failedsignup = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/failedsignup.php'),
+            Uri.https('vendorhive360.com', 'vendor/failedsignup.php'),
             body: {'idname': idname});
 
         if (failedsignup.statusCode == 200) {
@@ -192,7 +192,7 @@ class _GetStartedState extends State<GetStarted> {
         print(customerprocess);
 
         final otpresponse = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/otp.php'),
+            Uri.https('vendorhive360.com', 'vendor/otp.php'),
             body: {'idname': idname, 'email': widget.email, 'otp': otp});
 
         print(jsonDecode(otpresponse.body));
@@ -240,7 +240,7 @@ class _GetStartedState extends State<GetStarted> {
         print("Error is " + e.toString());
 
         final failedotp = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/failedotp.php'),
+            Uri.https('vendorhive360.com', 'vendor/failedotp.php'),
             body: {'email': widget.email});
 
         if (failedotp.statusCode == 200) {

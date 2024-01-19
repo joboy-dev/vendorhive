@@ -197,7 +197,7 @@ class _CustUpdatePinState extends State<CustUpdatePin> {
 
     print("processing pin");
 
-    var procespayment = await http.post(Uri.https('adeoropelumi.com','vendor/vendorpinprocess.php'),body: {
+    var procespayment = await http.post(Uri.https('vendorhive360.com','vendor/vendorpinprocess.php'),body: {
       'idname':widget.idname,
       'useremail':widget.email,
       'pin':_oldpin.text
@@ -208,7 +208,7 @@ class _CustUpdatePinState extends State<CustUpdatePin> {
       if(jsonDecode(procespayment.body)=='true'){
 
         var updatepin = await http.post(
-            Uri.https('adeoropelumi.com','vendor/vendorcustpinupdate.php'),
+            Uri.https('vendorhive360.com','vendor/vendorcustpinupdate.php'),
             body: {
               'email':widget.email,
               'pin':_newpin.text

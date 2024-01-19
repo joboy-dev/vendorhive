@@ -48,7 +48,7 @@ class _ViewServiceState extends State<ViewService> {
     });
 
     var service = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorservicelistimage.php'),
+        Uri.https('vendorhive360.com','vendor/vendorservicelistimage.php'),
         body: {
           'sidname':widget.serviceid
         }
@@ -88,7 +88,7 @@ class _ViewServiceState extends State<ViewService> {
     });
 
     var viewrattings = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewrattings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewrattings.php'),
         body: {
           'pidname':widget.serviceid
         }
@@ -134,13 +134,13 @@ class _ViewServiceState extends State<ViewService> {
     });
 
     var getonlyLogo = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetonlylogo.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetonlylogo.php'),
         body: {
           'useremail': widget.adminemail,
         });
 
     var admingetusername = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetamdinusernamecust.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetamdinusernamecust.php'),
         body: {
           'adminemail': widget.adminemail,
         });
@@ -202,7 +202,7 @@ class _ViewServiceState extends State<ViewService> {
                       margin: EdgeInsets.only(left: 30),
                         width: MediaQuery.of(context).size.width/1.4,
                         child: FadeInImage(
-                          image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+widget.imagename),
+                          image: NetworkImage("https://vendorhive360.com/vendor/serviceimage/"+widget.imagename),
                           placeholder: AssetImage(
                               "assets/image.png"),
                           imageErrorBuilder:
@@ -213,7 +213,7 @@ class _ViewServiceState extends State<ViewService> {
                           },
                           fit: BoxFit.fitWidth,
                         ),
-                        // child: Image.network("https://adeoropelumi.com/vendor/serviceimage/"+widget.imagename,)
+                        // child: Image.network("https://vendorhive360.com/vendor/serviceimage/"+widget.imagename,)
                     ),
                     for(int o=0; o < rawservice.length; o++)
                       if(widget.imagename == servicesimg[o] )...[
@@ -222,7 +222,7 @@ class _ViewServiceState extends State<ViewService> {
                         Container(
                             width: MediaQuery.of(context).size.width/1.4,
                           child: FadeInImage(
-                            image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+servicesimg[o]),
+                            image: NetworkImage("https://vendorhive360.com/vendor/serviceimage/"+servicesimg[o]),
                             placeholder: AssetImage(
                                 "assets/image.png"),
                             imageErrorBuilder:
@@ -233,7 +233,7 @@ class _ViewServiceState extends State<ViewService> {
                             },
                             fit: BoxFit.fitWidth,
                           ),
-                            // child: Image.network("https://adeoropelumi.com/vendor/serviceimage/"+servicesimg[o],)
+                            // child: Image.network("https://vendorhive360.com/vendor/serviceimage/"+servicesimg[o],)
                         ),
                       ]
                   ],

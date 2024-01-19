@@ -27,7 +27,7 @@ class _PinOtpState extends State<PinOtp> {
 
     try{
       var processotp = await http.post(
-          Uri.https('adeoropelumi.com','vendor/pinotp.php'),
+          Uri.https('vendorhive360.com','vendor/pinotp.php'),
           body:{
             'email':widget.email,
             'otp':_otp.text

@@ -20,7 +20,7 @@ class _PendingPaymentsState extends State<PendingPayments> {
   Future getpendingpayments() async{
 
     var getpendingpayments = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewpendingpayment.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewpendingpayment.php'),
         body: {
           'adminemail': widget.adminemail
         }

@@ -297,7 +297,7 @@ class _CustSetPinState extends State<CustSetPin> {
 
     try{
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorrecordcheckforpin.php'),
+          Uri.https('vendorhive360.com','vendor/vendorrecordcheckforpin.php'),
           body: {
             'email':widget.useremail,
           }
@@ -323,7 +323,7 @@ class _CustSetPinState extends State<CustSetPin> {
         else{
 
           var setnewpin = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorcustnewpin.php'),
+              Uri.https('vendorhive360.com','vendor/vendorcustnewpin.php'),
               body: {
                 'idname':widget.idname,
                 'email':widget.useremail,

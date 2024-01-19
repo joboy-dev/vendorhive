@@ -61,7 +61,7 @@ class _BusinesslogoState extends State<Businesslogo> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/businesslogo.php'),
+          Uri.https('vendorhive360.com', 'vendor/businesslogo.php'),
           body: {
             'image': baseimage,
             'filename': logoname,

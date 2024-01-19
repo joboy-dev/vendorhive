@@ -73,7 +73,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
     try{
 
       var savepayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorservicepayment.php'),
+          Uri.https('vendorhive360.com','vendor/vendorservicepayment.php'),
           body: {
             'idname': widget.idname,
             'sidname': widget.sidname,
@@ -92,7 +92,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
       String d = "paid for "+widget.servicename;
 
       var savetransaction = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -107,7 +107,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
       );
 
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': "₦"+widget.amount+" was paid for "+widget.servicename,
             'info': widget.adminemail,
@@ -190,7 +190,7 @@ class _SelectPayforServiceState extends State<SelectPayforService> {
       print("error is "+e.toString());
 
       var failedservicepayment = await http.post(
-        Uri.https('adeoropelumi.com','vendor/failedservicepayment.php'),
+        Uri.https('vendorhive360.com','vendor/failedservicepayment.php'),
         body: {
           "refno":trfid
         }

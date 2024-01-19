@@ -275,7 +275,7 @@ class _WelcomeState extends State<Welcome> {
 
     print('chat contacts');
     final chatcontact = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorchatcontactscustomer.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorchatcontactscustomer.php'),
         body: {
           'useremail': widget.useremail,
         });
@@ -308,38 +308,38 @@ class _WelcomeState extends State<Welcome> {
       for (int o = 0; o < appcontactlist.length; o++) {
 
         var adminemail = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetadminemailcust.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetadminemailcust.php'),
             body: {
               'sidname': appcontactlist[o],
             });
 
         var admingetusername = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetamdinusernamecust.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetamdinusernamecust.php'),
             body: {
               'adminemail': jsonDecode(adminemail.body),
             });
 
         var getonlyLogo = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetonlylogo.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetonlylogo.php'),
             body: {
               'useremail': jsonDecode(adminemail.body),
             });
 
         var servicename = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorservicenamecust.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorservicenamecust.php'),
             body: {
               'sidname': appcontactlist[o],
             });
 
         final getlastmsg = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetlastmsgcust.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetlastmsgcust.php'),
             body: {
               'sidname': appcontactlist[o],
             });
 
         final unread = await http.post(
             Uri.https(
-                'adeoropelumi.com', 'vendor/vendorgetnumberofunreadcust.php'),
+                'vendorhive360.com', 'vendor/vendorgetnumberofunreadcust.php'),
             body: {
               'sidname': appcontactlist[o],
             });
@@ -381,13 +381,13 @@ class _WelcomeState extends State<Welcome> {
     print("Print Products");
 
     var autopromote = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorautoupdate.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorautoupdate.php'),
         body: {'name': 'vendorhive 360'});
 
     if (autopromote.statusCode == 200) {
       if (jsonDecode(autopromote.body) == 'true') {
         final views = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorviewproduct.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorviewproduct.php'),
             body: {'users': widget.useremail});
 
         if (views.statusCode == 200) {
@@ -436,13 +436,13 @@ class _WelcomeState extends State<Welcome> {
     print("Print Products");
 
     var autopromote = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorautoupdate.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorautoupdate.php'),
         body: {'name': 'vendorhive 360'});
 
     if (autopromote.statusCode == 200) {
       if (jsonDecode(autopromote.body) == 'true') {
         final views = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorviewproduct.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorviewproduct.php'),
             body: {'users': widget.useremail});
 
         if (views.statusCode == 200) {
@@ -471,7 +471,7 @@ class _WelcomeState extends State<Welcome> {
     });
 
     var searchproduct = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorproductsearch.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorproductsearch.php'),
         body: {'word': _Controller.text});
 
     if (searchproduct.statusCode == 200) {
@@ -501,7 +501,7 @@ class _WelcomeState extends State<Welcome> {
     });
 
     var searchproduct = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetfilter.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetfilter.php'),
         body: {
           'from': _priceFrom.text.isEmpty?"":_priceFrom.text,
           'to' : _priceTo.text.isEmpty?"":_priceTo.text,
@@ -537,7 +537,7 @@ class _WelcomeState extends State<Welcome> {
     });
 
     var searchservice = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetservicefilter.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetservicefilter.php'),
         body: {
           'from': _priceFromService.text.isEmpty?"":_priceFromService.text,
           'to' : _priceToService.text.isEmpty?"":_priceToService.text,
@@ -580,13 +580,13 @@ class _WelcomeState extends State<Welcome> {
     print("Print services");
 
     var autopromote = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorautoupdate.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorautoupdate.php'),
         body: {'name': 'vendorhive 360'});
 
     if (autopromote.statusCode == 200) {
       if (jsonDecode(autopromote.body) == 'true') {
         final views = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorviewservice.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorviewservice.php'),
             body: {'users': widget.useremail});
 
         if (views.statusCode == 200) {
@@ -618,13 +618,13 @@ class _WelcomeState extends State<Welcome> {
     print("Print services");
 
     var autopromote = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorautoupdate.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorautoupdate.php'),
         body: {'name': 'vendorhive 360'});
 
     if (autopromote.statusCode == 200) {
       if (jsonDecode(autopromote.body) == 'true') {
         final views = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorviewservice.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorviewservice.php'),
             body: {'users': widget.useremail});
 
         if (views.statusCode == 200) {
@@ -659,7 +659,7 @@ class _WelcomeState extends State<Welcome> {
     });
 
     var searchservice = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorservicesearch.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorservicesearch.php'),
         body: {'word': _serviceController.text});
 
     if (searchservice.statusCode == 200) {
@@ -731,7 +731,7 @@ class _WelcomeState extends State<Welcome> {
     print('update wallet balance');
 
     var getbalance = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorcustbalance.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorcustbalance.php'),
         body: {
           'custemail': widget.useremail,
         });
@@ -753,7 +753,7 @@ class _WelcomeState extends State<Welcome> {
 
   Future getvendors() async {
     final response =
-        await http.get(Uri.https('adeoropelumi.com', 'vendor/getvendors.php'));
+        await http.get(Uri.https('vendorhive360.com', 'vendor/getvendors.php'));
     if (response.statusCode == 200) {
       print(jsonDecode(response.body));
       setState(() {
@@ -2655,7 +2655,7 @@ class _WelcomeState extends State<Welcome> {
                                                                       5),
                                                           child: FadeInImage(
                                                             image: NetworkImage(
-                                                              "https://adeoropelumi.com/vendor/productimage/" +
+                                                              "https://vendorhive360.com/vendor/productimage/" +
                                                                   rawproduct[
                                                                           index]
                                                                       [
@@ -2948,7 +2948,7 @@ class _WelcomeState extends State<Welcome> {
                                                                 horizontal: 5),
                                                         child: FadeInImage(
                                                           image: NetworkImage(
-                                                              "https://adeoropelumi.com/vendor/serviceimage/" +
+                                                              "https://vendorhive360.com/vendor/serviceimage/" +
                                                                   rawservice[
                                                                           index]
                                                                       [
@@ -3496,7 +3496,7 @@ class _WelcomeState extends State<Welcome> {
                                 Container(
                                   child: FadeInImage(
                                     image: NetworkImage(
-                                      "https://adeoropelumi.com/vendor/productimage/" +
+                                      "https://vendorhive360.com/vendor/productimage/" +
                                           cartitems[index].imagename,
                                     ),
                                     placeholder: AssetImage(
@@ -3795,42 +3795,42 @@ class _WelcomeState extends State<Welcome> {
                                   ),
 
                                   //service fee
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            "Service Fee",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Container(
-                                              child: Text(
-                                                "₦" +
-                                                    "${(totalsumplusdelivery*0.05)}"
-                                                        .replaceAllMapped(
-                                                        RegExp(
-                                                            r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                            (Match m) =>
-                                                        '${m[1]},'),
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   margin: EdgeInsets.only(bottom: 10),
+                                  //   child: Row(
+                                  //     mainAxisAlignment:
+                                  //     MainAxisAlignment.spaceBetween,
+                                  //     children: [
+                                  //       Container(
+                                  //         child: Text(
+                                  //           "Service Fee",
+                                  //           style: TextStyle(
+                                  //               color: Colors.grey,
+                                  //               fontSize: 12),
+                                  //         ),
+                                  //       ),
+                                  //       Expanded(
+                                  //         child: Align(
+                                  //           alignment: Alignment.centerRight,
+                                  //           child: Container(
+                                  //             child: Text(
+                                  //               "₦" +
+                                  //                   "${(totalsumplusdelivery*0.05)}"
+                                  //                       .replaceAllMapped(
+                                  //                       RegExp(
+                                  //                           r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                  //                           (Match m) =>
+                                  //                       '${m[1]},'),
+                                  //               style: TextStyle(
+                                  //                 color: Colors.grey,
+                                  //                 fontSize: 12,),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // ),
 
                                   //total text and amount
                                   Container(
@@ -4072,7 +4072,7 @@ class _WelcomeState extends State<Welcome> {
                                                           padding: const EdgeInsets.all(10.0),
                                                           child: FadeInImage(
                                                             image: NetworkImage(
-                                                              "https://www.adeoropelumi.com/vendor/blogo/"+getLogo[index],
+                                                              "https://www.vendorhive360.com/vendor/blogo/"+getLogo[index],
                                                             ),
                                                             placeholder: AssetImage(
                                                                 "assets/image.png"),
@@ -4123,7 +4123,7 @@ class _WelcomeState extends State<Welcome> {
                                                             child: lastmsg[
                                                             index]
                                                                 .contains(
-                                                                "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                "https://vendorhive360.com/vendor/chatsimg/")
                                                                 ? Container(
                                                               child: Icon(
                                                                   Icons.image),

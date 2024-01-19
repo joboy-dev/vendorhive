@@ -36,7 +36,7 @@ class _RateServiceState extends State<RateService> {
       _selectedpage = 1;
       processingrating = true;
     });
-    var ratingandreviews = await http.post(Uri.https('adeoropelumi.com','vendor/vendorrating.php'),body: {
+    var ratingandreviews = await http.post(Uri.https('vendorhive360.com','vendor/vendorrating.php'),body: {
       'useremail':widget.useremail,
       'adminemail':widget.adminemail,
       'productname':widget.servicename,

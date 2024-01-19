@@ -49,7 +49,7 @@ class _ChnageProfilePictureState extends State<ChnageProfilePicture> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/updateBusinessLogo.php'),
+          Uri.https('vendorhive360.com', 'vendor/updateBusinessLogo.php'),
           body: {
             'image': baseimage,
             'filename': logoname,

@@ -295,7 +295,7 @@ class _TopupState extends State<Topup> {
     try{
 
       var creditcustwallet = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+          Uri.https('vendorhive360.com','vendor/vendorcustupdatewallet.php'),
           body: {
             'idname':widget.idname,
             'email':widget.email,
@@ -363,7 +363,7 @@ class _TopupState extends State<Topup> {
       print("Failed"+e.toString());
 
       var failedtopup = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedtopup.php'),
+          Uri.https('vendorhive360.com','vendor/failedtopup.php'),
           body: {
             'refno':trfid
           }

@@ -28,7 +28,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
     });
 
     var processotp = await http.post(
-      Uri.https('adeoropelumi.com','vendor/processforgetpassword.php'),
+      Uri.https('vendorhive360.com','vendor/processforgetpassword.php'),
       body:{
         'email':widget.email,
         'otp':_otp.text

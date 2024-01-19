@@ -40,13 +40,13 @@ class _OTPState extends State<OTP> {
     });
     try {
       final verifyotp = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/verified.php'),
+          Uri.https('vendorhive360.com', 'vendor/verified.php'),
           body: {'idname': widget.idname, 'email': widget.email});
 
       if (verifyotp.statusCode == 200) {
         if (jsonDecode(verifyotp.body) == "true") {
           final response = await http.post(
-              Uri.https('adeoropelumi.com', 'vendor/vendoruserdetails.php'),
+              Uri.https('vendorhive360.com', 'vendor/vendoruserdetails.php'),
               body: {
                 'fullname': widget.fullname,
                 'email': widget.email,
@@ -115,7 +115,7 @@ class _OTPState extends State<OTP> {
     } catch (e) {
 
       var failedsignup = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/failedsignup.php'),
+          Uri.https('vendorhive360.com', 'vendor/failedsignup.php'),
           body: {'idname': widget.idname});
 
       if (failedsignup.statusCode == 200) {

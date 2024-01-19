@@ -128,7 +128,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     try{
 
       var getbankcharges = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorbankcharges.php'),
+          Uri.https('vendorhive360.com','vendor/vendorbankcharges.php'),
           body: {
             'amount':_amount.text.replaceAll(",", "")
           }
@@ -172,7 +172,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     try{
 
       var getbankcharges = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorbankcharges.php'),
+          Uri.https('vendorhive360.com','vendor/vendorbankcharges.php'),
           body: {
             'amount':amt.replaceAll(",", "")
           }

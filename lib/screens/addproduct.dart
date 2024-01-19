@@ -36,7 +36,7 @@ class _ProductState extends State<Product> {
     });
 
    try{
-     final addproductdelivery = await http.post(Uri.https('adeoropelumi.com','vendor/vendoraddproductdelivery.php'),body: {
+     final addproductdelivery = await http.post(Uri.https('vendorhive360.com','vendor/vendoraddproductdelivery.php'),body: {
        'idname':widget.idname,
        'pidname': widget.pidname,
        'useremail' : widget.usermail,

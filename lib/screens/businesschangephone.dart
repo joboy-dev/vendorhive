@@ -32,7 +32,7 @@ class _BusinessChangePhoneState extends State<BusinessChangePhone> {
     try{
 
       var checkpassword = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsignin.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsignin.php'),
           body: {
             'useremail':widget.email,
             'password':_password.text
@@ -45,7 +45,7 @@ class _BusinessChangePhoneState extends State<BusinessChangePhone> {
           print('Correct password');
 
           var updatephonenumber = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorupdatephonenumber.php'),
+              Uri.https('vendorhive360.com','vendor/vendorupdatephonenumber.php'),
               body: {
                 'email':widget.email,
                 'phone':_newphone.text

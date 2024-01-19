@@ -40,19 +40,19 @@ class _ForgotPinState extends State<ForgotPin> {
 
     try {
       var checkmail = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/checkemail.php'),
+          Uri.https('vendorhive360.com', 'vendor/checkemail.php'),
           body: {'email': _email.text});
 
       if (checkmail.statusCode == 200) {
         if (jsonDecode(checkmail.body) == "true") {
           var checkmailpin = await http.post(
-              Uri.https('adeoropelumi.com', 'vendor/checkemailpin.php'),
+              Uri.https('vendorhive360.com', 'vendor/checkemailpin.php'),
               body: {'email': _email.text});
 
           if (checkmailpin.statusCode == 200) {
             if (jsonDecode(checkmailpin.body) == "true") {
               var saveotp = await http.post(
-                  Uri.https('adeoropelumi.com', 'vendor/forgotpin.php'),
+                  Uri.https('vendorhive360.com', 'vendor/forgotpin.php'),
                   body: {'email': _email.text, 'otp': otp});
 
               if (saveotp.statusCode == 200) {

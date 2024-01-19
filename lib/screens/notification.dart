@@ -20,7 +20,7 @@ class _NotificationsState extends State<Notifications> {
   Future getnotes() async{
     print(widget.email);
 
-    var getnote = await http.post(Uri.https('adeoropelumi.com','vendor/vendornotes.php'),body: {
+    var getnote = await http.post(Uri.https('vendorhive360.com','vendor/vendornotes.php'),body: {
       'email': widget.email
     });
 

@@ -50,7 +50,7 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
     try{
 
       var savetransaction = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+          Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.email,
@@ -96,7 +96,7 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
       print("Failed"+e.toString());
 
       var failedtopup = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedbusinesstopup.php'),
+          Uri.https('vendorhive360.com','vendor/failedbusinesstopup.php'),
           body: {
             'refno':trfid
           }

@@ -42,13 +42,13 @@ class _TrackServicePaymentState extends State<TrackServicePayment> {
   Future releasepayment() async{
     print("service payment release is processing");
 
-    var updatebusinesswallet = await http.post(Uri.https('adeoropelumi.com','vendor/vendorupdatebusinesswallet.php'),body: {
+    var updatebusinesswallet = await http.post(Uri.https('vendorhive360.com','vendor/vendorupdatebusinesswallet.php'),body: {
       'pidname':widget.sidname,
       'useremail':widget.useremail,
       'adminemail':widget.adminemail
     });
 
-    var updateservicepayment = await http.post(Uri.https('adeoropelumi.com','vendor/vendorupdateservicepayment.php'),body: {
+    var updateservicepayment = await http.post(Uri.https('vendorhive360.com','vendor/vendorupdateservicepayment.php'),body: {
       'sidname':widget.sidname,
       'useremail':widget.useremail,
       'adminemail':widget.adminemail

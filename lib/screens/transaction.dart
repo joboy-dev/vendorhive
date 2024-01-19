@@ -20,7 +20,7 @@ class _TransactionsState extends State<Transactions> {
   Future transactions() async{
 
     var gettransactions = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorbusinesstransaction.php'),
+        Uri.https('vendorhive360.com','vendor/vendorbusinesstransaction.php'),
         body: {
           'adminemail': widget.adminemail
         }

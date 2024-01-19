@@ -37,7 +37,7 @@ class _AddDeliveryMethodState extends State<AddDeliveryMethod> {
       loading = false;
     });
 
-    final response = await http.post(Uri.https('adeoropelumi.com','vendor/vendoradddeliverymethod.php'),body:{
+    final response = await http.post(Uri.https('vendorhive360.com','vendor/vendoradddeliverymethod.php'),body:{
       'idname':widget.idname,
       'pidname':widget.pidname,
       'email':widget.adminemail,

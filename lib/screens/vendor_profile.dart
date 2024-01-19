@@ -15,7 +15,7 @@ class _VendorProfileState extends State<VendorProfile> {
 
   Future getvendors() async {
     final response =
-        await http.get(Uri.https('adeoropelumi.com', 'vendor/getvendors.php'));
+        await http.get(Uri.https('vendorhive360.com', 'vendor/getvendors.php'));
     if (response.statusCode == 200) {
       print(jsonDecode(response.body));
       setState(() {

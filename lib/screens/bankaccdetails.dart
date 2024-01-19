@@ -120,7 +120,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     print('getting bank charge');
 
     var getbankcharges = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorbankcharges.php'),
+        Uri.https('vendorhive360.com','vendor/vendorbankcharges.php'),
         body: {
           'amount':amt.replaceAll(",", "")
         }

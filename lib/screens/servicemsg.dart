@@ -116,7 +116,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
       showchat = false;
     });
     final response = await http
-        .post(Uri.https('adeoropelumi.com', 'vendor/vendorgetchatcustomer.php'), body: {
+        .post(Uri.https('vendorhive360.com', 'vendor/vendorgetchatcustomer.php'), body: {
       'sidname':widget.serviceid,
       'user':widget.useremail,
       'admin':widget.adminemail
@@ -177,7 +177,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
       String baseimage = base64Encode(imageBytes);
       print(baseimage);
 
-      var sendimg = await http.post(Uri.https('adeoropelumi.com','vendor/vendorsendimg.php'),body: {
+      var sendimg = await http.post(Uri.https('vendorhive360.com','vendor/vendorsendimg.php'),body: {
         'idname':widget.idname,
         'useremail': widget.useremail,
         'adminemail':widget.adminemail,
@@ -189,7 +189,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
       });
 
       var message_notify = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+          Uri.https('vendorhive360.com','vendor/vendornewmessagenotification.php'),
           body: {
             'name':widget.custname,
             'email':widget.adminemail,
@@ -219,7 +219,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
     });
 
     final sending = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorsendcustomerchat.php'),
+        Uri.https('vendorhive360.com','vendor/vendorsendcustomerchat.php'),
         body: {
       'idname':widget.idname,
       'useremail': widget.useremail,
@@ -231,7 +231,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
     });
 
     var message_notify = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendornewmessagenotification.php'),
+        Uri.https('vendorhive360.com','vendor/vendornewmessagenotification.php'),
     body: {
       'name':widget.custname,
       'email':widget.adminemail,
@@ -369,7 +369,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
   Future onthegochat() async {
 
     final response = await http
-        .post(Uri.https('adeoropelumi.com', 'vendor/vendorgetchatcustomer.php'), body: {
+        .post(Uri.https('vendorhive360.com', 'vendor/vendorgetchatcustomer.php'), body: {
       'sidname':widget.serviceid,
       'user':widget.useremail,
       'admin':widget.adminemail
@@ -485,7 +485,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
                           padding: const EdgeInsets.all(10.0),
                           child: FadeInImage(
                             image: NetworkImage(
-                              "https://www.adeoropelumi.com/vendor/blogo/"+widget.logo,
+                              "https://www.vendorhive360.com/vendor/blogo/"+widget.logo,
                             ),
                             placeholder: AssetImage(
                                 "assets/image.png"),

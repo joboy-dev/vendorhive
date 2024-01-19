@@ -47,7 +47,7 @@ class _DeleteServiceState extends State<DeleteService> {
       _loadIndex = 1;
     });
     var response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/delete_service.php'),
+        Uri.https('vendorhive360.com', 'vendor/delete_service.php'),
         body: {'sidname': widget.sidname});
     if(response.statusCode == 200){
       if(jsonDecode(response.body)=="true"){
@@ -69,7 +69,7 @@ class _DeleteServiceState extends State<DeleteService> {
     setState(() {
       _loadIndex = 1;
     });
-    var response = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorupdateserviceprice.php'),
+    var response = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorupdateserviceprice.php'),
         body: {
           'sidname':widget.sidname,
           'newprice':_newPrice.text
@@ -113,7 +113,7 @@ class _DeleteServiceState extends State<DeleteService> {
       _loadIndex = 1;
     });
     try{
-      var response = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorupdateservicedescription.php'),
+      var response = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorupdateservicedescription.php'),
           body: {
             'sidname':widget.sidname,
             'newdescription': replacing(_newDescription.text)
@@ -160,7 +160,7 @@ class _DeleteServiceState extends State<DeleteService> {
       _loadIndex = 1;
     });
     try{
-      var response = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorupdatepaymentoption.php'),
+      var response = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorupdatepaymentoption.php'),
           body: {
             'sidname':widget.sidname,
             'paymentoption': service_payment_option
@@ -511,7 +511,7 @@ class _DeleteServiceState extends State<DeleteService> {
                           width: MediaQuery.of(context).size.width / 2,
                           child: FadeInImage(
                             image: NetworkImage(
-                              "https://adeoropelumi.com/vendor/serviceimage/" +
+                              "https://vendorhive360.com/vendor/serviceimage/" +
                                   widget.serviceimg,
                             ),
                             placeholder: AssetImage(

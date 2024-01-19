@@ -71,7 +71,7 @@ class _ContactSupportState extends State<ContactSupport> {
     try{
 
       var contactsupport = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorcontactsupport.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorcontactsupport.php'),
           body: {
             'issue': drop,
             'frommail': widget.mail,
@@ -128,7 +128,7 @@ class _ContactSupportState extends State<ContactSupport> {
       print("error is "+e.toString());
 
       var failedsupport = await http.post(
-        Uri.https('adeoropelumi.com','vendor/failedsupport.php'),
+        Uri.https('vendorhive360.com','vendor/failedsupport.php'),
         body: {
           'refno':trfid
         }

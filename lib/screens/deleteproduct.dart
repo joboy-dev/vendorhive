@@ -55,7 +55,7 @@ class _DeleteProductState extends State<DeleteProduct> {
     });
 
     var response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/delete_product.php'),
+        Uri.https('vendorhive360.com', 'vendor/delete_product.php'),
         body: {'pidname': widget.pidname});
 
     if (response.statusCode == 200) {
@@ -79,7 +79,7 @@ class _DeleteProductState extends State<DeleteProduct> {
       _loadIndex = 1;
     });
     var response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorupdateproductprice.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorupdateproductprice.php'),
         body: {'pidname': widget.pidname, 'newprice': _newPrice.text});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body) == "true") {
@@ -121,7 +121,7 @@ class _DeleteProductState extends State<DeleteProduct> {
     });
     try {
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorupdatedescription.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorupdatedescription.php'),
           body: {
             'pidname': widget.pidname,
             'newdescription': replacing(_newDescription.text)
@@ -169,7 +169,7 @@ class _DeleteProductState extends State<DeleteProduct> {
     });
     try {
       var response = await http.post(
-          Uri.https('adeoropelumi.com',
+          Uri.https('vendorhive360.com',
               'vendor/vendorproductupdatepaymentoption.php'),
           body: {
             'pidname': widget.pidname,
@@ -216,7 +216,7 @@ class _DeleteProductState extends State<DeleteProduct> {
       set_delivery = false;
     });
     final response = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetdeliveryplan.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetdeliveryplan.php'),
         body: {'pidname': widget.pidname});
     if (response.statusCode == 200) {
       getting_delivery_plan = jsonDecode(response.body);
@@ -566,7 +566,7 @@ class _DeleteProductState extends State<DeleteProduct> {
                           width: MediaQuery.of(context).size.width / 2,
                           child: FadeInImage(
                             image: NetworkImage(
-                              "https://adeoropelumi.com/vendor/productimage/" +
+                              "https://vendorhive360.com/vendor/productimage/" +
                                   widget.productimg,
                             ),
                             placeholder: AssetImage("assets/image.png"),

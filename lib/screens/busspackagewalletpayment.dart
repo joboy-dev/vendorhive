@@ -66,7 +66,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
     try{
 
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpinprocess.php'),
           body: {
             'idname':widget.idname,
             'useremail':widget.email,
@@ -75,7 +75,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
       );
 
       var getbalance = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorbusinessavailablebalance.php'),
+          Uri.https('vendorhive360.com','vendor/vendorbusinessavailablebalance.php'),
           body: {
             'adminemail':widget.email
           }
@@ -98,7 +98,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
               String itemid = "wt "+trfid;
 
               var savetransaction = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
                   body: {
                     'idname': widget.idname,
                     'useremail': widget.email,
@@ -113,7 +113,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
               );
 
               var upgradepackage = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorupdatepackage.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorupdatepackage.php'),
                   body: {
                     'email':widget.email,
                     'package':widget.package
@@ -121,7 +121,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
               );
 
               var recordpackage = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorpackagerecord.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorpackagerecord.php'),
                   body: {
                     'email':widget.email,
                     'package':widget.package,
@@ -321,7 +321,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
     catch(e){
 
       var failedpackagepayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedpackagewalletpayament.php'),
+          Uri.https('vendorhive360.com','vendor/failedpackagewalletpayament.php'),
           body: {
             'email':widget.email,
             'refno':trfid

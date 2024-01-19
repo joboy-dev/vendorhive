@@ -22,7 +22,7 @@ class _PaidServicesState extends State<PaidServices> {
   Future getpaidservices () async{
 
     var gettingpaidservices = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorpaidservices.php'),
+        Uri.https('vendorhive360.com','vendor/vendorpaidservices.php'),
         body: {
           'useremail':widget.useremail
         }

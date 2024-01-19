@@ -25,7 +25,7 @@ class _ServicePromotionState extends State<ServicePromotion> {
     try{
 
       var gettingservice = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorviewbusinessservice.php'),
+          Uri.https('vendorhive360.com','vendor/vendorviewbusinessservice.php'),
           body: {
             'adminemail': widget.adminemail
           }
@@ -76,7 +76,7 @@ class _ServicePromotionState extends State<ServicePromotion> {
     try{
 
       var gettingservice = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorviewbusinessservice.php'),
+          Uri.https('vendorhive360.com','vendor/vendorviewbusinessservice.php'),
           body: {
             'adminemail': widget.adminemail
           }
@@ -197,7 +197,7 @@ class _ServicePromotionState extends State<ServicePromotion> {
                               Container(
                                 width: MediaQuery.of(context).size.width/8,
                                 child: FadeInImage(
-                                  image: NetworkImage("https://adeoropelumi.com/vendor/serviceimage/"+rawservice[index]['serviceimg']),
+                                  image: NetworkImage("https://vendorhive360.com/vendor/serviceimage/"+rawservice[index]['serviceimg']),
                                   placeholder: AssetImage(
                                       "assets/image.png"),
                                   imageErrorBuilder:
@@ -208,7 +208,7 @@ class _ServicePromotionState extends State<ServicePromotion> {
                                   },
                                   fit: BoxFit.fitWidth,
                                 ),
-                                // child: Image.network("https://adeoropelumi.com/vendor/productimage/"+rawproducts[index]['productimg']),
+                                // child: Image.network("https://vendorhive360.com/vendor/productimage/"+rawproducts[index]['productimg']),
                               ),
 
                               Expanded(

@@ -81,7 +81,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
     try{
 
       final procespayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpinprocess.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpinprocess.php'),
           body: {
             'idname':widget.idname,
             'useremail':widget.useremail,
@@ -90,7 +90,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
       );
 
       var getbalance = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorcustbalance.php'),
+          Uri.https('vendorhive360.com','vendor/vendorcustbalance.php'),
           body: {
             'custemail':widget.useremail,
           }
@@ -111,7 +111,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
             if(double.parse(finalbalance) >= widget.totalamountplusdelivery){
 
               var debitcustwallet = await http.post(
-                  Uri.https('adeoropelumi.com','vendor/vendorcustupdatewallet.php'),
+                  Uri.https('vendorhive360.com','vendor/vendorcustupdatewallet.php'),
                   body: {
                     'idname':widget.idname,
                     'email':widget.useremail,
@@ -123,7 +123,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
               );
 
               // var vendor_five_percent = await http.post(
-              //   Uri.https('adeoropelumi.com','vendor/vendorfivepercent.php'),
+              //   Uri.https('vendorhive360.com','vendor/vendorfivepercent.php'),
               //   body: {
               //     'idname': widget.idname,
               //     'email' : widget.useremail,
@@ -146,7 +146,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   double amount_with_quantity = cartitems[o].amount * cartitems[o].quantity;
 
                   final orders = await http.post(
-                      Uri.https('adeoropelumi.com','vendor/vendororderstatus.php'),
+                      Uri.https('vendorhive360.com','vendor/vendororderstatus.php'),
                       body: {
                         'idname':widget.idname,
                         'orderprocessed':'',
@@ -176,7 +176,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   double finalprice = cartitems[o].deliveryprice + amount_with_quantity;
 
                   var savetransaction = await http.post(
-                      Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+                      Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
                       body: {
                         'idname': widget.idname,
                         'useremail': widget.useremail,
@@ -191,7 +191,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   );
 
                   var notifyuser = await http.post(
-                      Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+                      Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
                       body: {
                         'message': cartitems[o].name+" has being ordered",
                         'info': cartitems[o].adminemail,
@@ -317,7 +317,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
       print("reversing transactions...");
 
       var deletefailed = await http.post(
-          Uri.https('adeoropelumi.com','vendor/deletewalletcheckout.php'),
+          Uri.https('vendorhive360.com','vendor/deletewalletcheckout.php'),
           body: {
             'refno': trfid
           }

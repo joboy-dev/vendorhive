@@ -39,7 +39,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     String otp = generateRandomString(6);
 
     var checkmail = await http.post(
-      Uri.https('adeoropelumi.com','vendor/checkemail.php'),
+      Uri.https('vendorhive360.com','vendor/checkemail.php'),
       body:{
         'email':_email.text
       }
@@ -49,7 +49,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       if(jsonDecode(checkmail.body) == "true"){
 
         var saveotp = await http.post(
-          Uri.https('adeoropelumi.com','vendor/saveotp.php'),
+          Uri.https('vendorhive360.com','vendor/saveotp.php'),
           body: {
             'email':_email.text,
             'otp':otp

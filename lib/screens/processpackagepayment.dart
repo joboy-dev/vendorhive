@@ -46,7 +46,7 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
     try{
 
       var recordpackage = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorpackagerecord.php'),
+          Uri.https('vendorhive360.com','vendor/vendorpackagerecord.php'),
           body: {
             'email':widget.email,
             'package':widget.package,
@@ -55,7 +55,7 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
       );
 
       var upgradepackage = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorupdatepackage.php'),
+          Uri.https('vendorhive360.com','vendor/vendorupdatepackage.php'),
           body: {
             'email':widget.email,
             'package':widget.package
@@ -64,7 +64,7 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
 
       //notify user
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': "You are now on "+widget.package+" package",
             'info': widget.email,
@@ -137,7 +137,7 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
     catch(e){
 
       var failedpackagepayment = await http.post(
-          Uri.https('adeoropelumi.com','vendor/failedpackagepayment.php'),
+          Uri.https('vendorhive360.com','vendor/failedpackagepayment.php'),
           body: {
             'email':widget.email,
             'refno':trfid

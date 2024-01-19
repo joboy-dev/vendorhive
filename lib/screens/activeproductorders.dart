@@ -27,7 +27,7 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
     });
 
       final myorders = await http.post(
-          Uri.https('adeoropelumi.com','vendor/vendorgetactiveorders.php'),
+          Uri.https('vendorhive360.com','vendor/vendorgetactiveorders.php'),
           body: {
             'useremail':widget.useremail,
             'idname':widget.idname
@@ -58,7 +58,7 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
   Future refresh() async{
 
     final myorders = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorgetactiveorders.php'),
+        Uri.https('vendorhive360.com','vendor/vendorgetactiveorders.php'),
         body: {
           'useremail':widget.useremail,
           'idname':widget.idname
@@ -196,7 +196,7 @@ class _ActiveProductOrdersState extends State<ActiveProductOrders> {
                                   ),
                                   width: MediaQuery.of(context).size.width/8,
                                   child: FadeInImage(
-                                    image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+
+                                    image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+
                                         raworders[index]['prodimagename']),
                                     placeholder: AssetImage(
                                         "assets/image.png"),

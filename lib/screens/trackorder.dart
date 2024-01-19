@@ -93,7 +93,7 @@ class _TrackOrderState extends State<TrackOrder> {
     print(widget.useremail);
 
     var releasepayment = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorreleasepayment.php'),
+        Uri.https('vendorhive360.com','vendor/vendorreleasepayment.php'),
         body: {
           'pidname':widget.productid,
           'useremail':widget.useremail,
@@ -103,7 +103,7 @@ class _TrackOrderState extends State<TrackOrder> {
     );
 
     var updatebusinesswallet = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorupdatebusinesswallet.php'),
+        Uri.https('vendorhive360.com','vendor/vendorupdatebusinesswallet.php'),
         body: {
           'pidname':widget.productid,
           'useremail':widget.useremail,

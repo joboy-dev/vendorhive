@@ -86,7 +86,7 @@ class _SetPromotionState extends State<SetPromotion> {
                   width: MediaQuery.of(context).size.width/3,
                   child:  Center(
                     child: FadeInImage(
-                      image: NetworkImage("https://adeoropelumi.com/vendor/productimage/"+widget.prodimg),
+                      image: NetworkImage("https://vendorhive360.com/vendor/productimage/"+widget.prodimg),
                       placeholder: AssetImage(
                           "assets/image.png"),
                       imageErrorBuilder:

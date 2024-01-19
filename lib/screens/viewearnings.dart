@@ -43,14 +43,14 @@ class _ViewEarningsState extends State<ViewEarnings> {
   Future earnings()async{
 
     var earn = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewearnings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
         body: {
           'idname':widget.idname
         }
     );
 
     var claimedearnings = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewclaimedearnings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewclaimedearnings.php'),
         body: {
           'idname' : widget.idname
         }
@@ -97,7 +97,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
     print('depositing earnings');
 
     var updatethearnings = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorclaim.php'),
+        Uri.https('vendorhive360.com','vendor/vendorclaim.php'),
         body: {
           'code':widget.idname
         }
@@ -112,7 +112,7 @@ class _ViewEarningsState extends State<ViewEarnings> {
         if(double.parse(amtearnings) > 0){
 
           var savetransaction = await http.post(
-              Uri.https('adeoropelumi.com','vendor/vendorsaveinbusinesswallet.php'),
+              Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
               body: {
                 'idname': widget.idname,
                 'useremail': widget.email,

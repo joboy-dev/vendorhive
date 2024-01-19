@@ -84,7 +84,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var productstatus = await http
-        .post(Uri.https('adeoropelumi.com', 'vendor/vendorshipped.php'), body: {
+        .post(Uri.https('vendorhive360.com', 'vendor/vendorshipped.php'), body: {
       'productid': widget.tkid,
       'adminemail': widget.adminemail,
       'useremail': widget.useremail
@@ -145,7 +145,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var updateshiporder = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorupdateshipped.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorupdateshipped.php'),
         body: {
           'productid': widget.productid,
           'adminemail': widget.adminemail,
@@ -183,7 +183,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var updatearrive = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorupdatearrived.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorupdatearrived.php'),
         body: {
           'productid': widget.productid,
           'useremail': widget.useremail,
@@ -224,7 +224,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
     });
 
     var order_reject = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetidname.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetidname.php'),
         body: {'useremail': widget.useremail});
 
     print(jsonDecode(order_reject.body));
@@ -233,7 +233,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       // a refund is to be done for product price
       var credit_custwallet_amount = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorcustupdatewallet.php'),
           body: {
             'idname': jsonDecode(order_reject.body).toString(),
             'email': widget.useremail,
@@ -245,7 +245,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       // a refund is to be done for product delivery price
       var credit_custwallet_delivery = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorcustupdatewallet.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorcustupdatewallet.php'),
           body: {
             'idname': jsonDecode(order_reject.body).toString(),
             'email': widget.useremail,
@@ -258,7 +258,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
       //debit business wallet of amount
       var debit_amount = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+              'vendorhive360.com', 'vendor/vendorsaveinbusinesswallet.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -274,7 +274,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
       //debit business wallet of delivery fee
       var debit_delivery = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+              'vendorhive360.com', 'vendor/vendorsaveinbusinesswallet.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -289,7 +289,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //a record of the rejection should be done
       var record_reject = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorreject.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorreject.php'),
           body: {
             'productid': widget.productid,
             'productname': widget.productname,
@@ -310,7 +310,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       // //delete the product from orders
       // var delete_ordered = await http.post(
-      //     Uri.https('adeoropelumi.com', 'vendor/vendorrejectorder.php'),
+      //     Uri.https('vendorhive360.com', 'vendor/vendorrejectorder.php'),
       //     body: {
       //       'pidname': widget.productid,
       //       'tkid': widget.tkid,
@@ -321,7 +321,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //sets the product payment to reject in the vendororderstatus table
       var update_to_reject = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/accept_order.php'),
+          Uri.https('vendorhive360.com', 'vendor/accept_order.php'),
           body: {
             'tkid': widget.tkid,
             'customer_email': widget.useremail,
@@ -333,7 +333,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //notify user
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': widget.productname + " has being rejected",
             'info': widget.useremail,
@@ -395,7 +395,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
       //debit business wallet of service fee
       var savetransaction = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorsaveinbusinesswallet.php'),
+              'vendorhive360.com', 'vendor/vendorsaveinbusinesswallet.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -410,7 +410,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //credit five percent table
       var vendor_five_percent = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorfivepercent.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorfivepercent.php'),
           body: {
             'idname': widget.idname,
             'email': widget.adminemail,
@@ -421,7 +421,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //sets the product payment to done in the vendororderstatus table
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/accept_order.php'),
+          Uri.https('vendorhive360.com', 'vendor/accept_order.php'),
           body: {
             'tkid': widget.tkid,
             'customer_email': widget.useremail,
@@ -433,7 +433,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
 
       //notify user
       var notifyuser = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
           body: {
             'message': widget.productname + " offer is accepted",
             'info': widget.useremail,
@@ -543,7 +543,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                           child: Center(
                               child: FadeInImage(
                             image: NetworkImage(
-                              "https://adeoropelumi.com/vendor/productimage/" +
+                              "https://vendorhive360.com/vendor/productimage/" +
                                   widget.productimage,
                             ),
                             placeholder: AssetImage("assets/image.png"),

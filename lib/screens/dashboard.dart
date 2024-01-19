@@ -443,7 +443,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorproductimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorproductimage.php'),
           body: {
             'image': baseimage,
             'filename': prodfilename,
@@ -477,7 +477,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorproductimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorproductimage.php'),
           body: {
             'image': baseimage,
             'filename': prodfilename2,
@@ -511,7 +511,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorproductimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorproductimage.php'),
           body: {
             'image': baseimage,
             'filename': prodfilename3,
@@ -545,7 +545,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorproductimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorproductimage.php'),
           body: {
             'image': baseimage,
             'filename': prodfilename4,
@@ -580,7 +580,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorproductimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorproductimage.php'),
           body: {
             'image': baseimage,
             'filename': prodfilename5,
@@ -611,7 +611,7 @@ class _DashboardState extends State<Dashboard> {
     //product tags
     // for (int o = 0; o < producttags.length; o++) {
     //   final addproducttags = await http.post(
-    //       Uri.https('adeoropelumi.com', 'vendor/vendoraddproducttags.php'),
+    //       Uri.https('vendorhive360.com', 'vendor/vendoraddproducttags.php'),
     //       body: {
     //         'idname': widget.idname,
     //         'pidname': pidname,
@@ -637,7 +637,7 @@ class _DashboardState extends State<Dashboard> {
     // }
 
     final addproductsid = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendoraddproductid.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendoraddproductid.php'),
         body: {
           'idname': widget.idname,
           'pidname': pidname,
@@ -646,7 +646,7 @@ class _DashboardState extends State<Dashboard> {
 
     //add delivery plan
     for(int i = 0; i < deliverySchedule.length; i++){
-        var deliveryplan = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendordeliveryplan.php'),
+        var deliveryplan = await http.post(Uri.https('vendorhive360.com', 'vendor/vendordeliveryplan.php'),
           body: {
             'idname': widget.idname,
             'useremail': widget.useremail,
@@ -681,7 +681,7 @@ class _DashboardState extends State<Dashboard> {
 
       //product details
       final addproducts = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoraddproduct.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendoraddproduct.php'),
           body: {
             'idname': widget.idname,
             'pidname': pidname,
@@ -741,7 +741,7 @@ class _DashboardState extends State<Dashboard> {
       }
     } catch (e) {
       var failedproduct = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/failedproduct.php'),
+          Uri.https('vendorhive360.com', 'vendor/failedproduct.php'),
           body: {'pidname': pidname});
 
       if (failedproduct.statusCode == 200) {
@@ -787,19 +787,19 @@ class _DashboardState extends State<Dashboard> {
 
     print("print add product out");
     final getpackages = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
         body: {'useremail': widget.useremail});
 
     print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
     final productamount = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackagedetails.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
         body: {
           'packagename': jsonDecode(getpackages.body)['package'].toString()
         });
 
     var earn = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewearnings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
         body: {
           'idname':widget.idname
         }
@@ -821,7 +821,7 @@ class _DashboardState extends State<Dashboard> {
       number_of_referals = referals.length * 3;
       print("getting used products");
       final checkfornumberofproducts = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorcheckproductid.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorcheckproductid.php'),
           body: {'email': widget.useremail});
 
       if (checkfornumberofproducts.statusCode == 200) {
@@ -903,7 +903,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorserviceimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorserviceimage.php'),
           body: {
             'image': baseimage,
             'filename': servicefilename,
@@ -937,7 +937,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorserviceimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorserviceimage.php'),
           body: {
             'image': baseimage,
             'filename': servicefilename2,
@@ -971,7 +971,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorserviceimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorserviceimage.php'),
           body: {
             'image': baseimage,
             'filename': servicefilename3,
@@ -1006,7 +1006,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorserviceimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorserviceimage.php'),
           body: {
             'image': baseimage,
             'filename': servicefilename4,
@@ -1041,7 +1041,7 @@ class _DashboardState extends State<Dashboard> {
       String baseimage = base64Encode(imageBytes);
 
       var response = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorserviceimage.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorserviceimage.php'),
           body: {
             'image': baseimage,
             'filename': servicefilename5,
@@ -1073,7 +1073,7 @@ class _DashboardState extends State<Dashboard> {
     //service tags
     // for (int o = 0; o < servicetags.length; o++) {
     //   final addservicetags = await http.post(
-    //       Uri.https('adeoropelumi.com', 'vendor/vendoraddservicetag.php'),
+    //       Uri.https('vendorhive360.com', 'vendor/vendoraddservicetag.php'),
     //       body: {
     //         'idname': widget.idname,
     //         'sidname': sidname,
@@ -1094,7 +1094,7 @@ class _DashboardState extends State<Dashboard> {
     // }
 
     final addserviceid = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendoraddserviceid.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendoraddserviceid.php'),
         body: {
           'idname': widget.idname,
           'sidname': sidname,
@@ -1103,7 +1103,7 @@ class _DashboardState extends State<Dashboard> {
 
     try {
       final addservice = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendoraddservice.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendoraddservice.php'),
           body: {
             'idname': widget.idname,
             'sidname': sidname,
@@ -1147,7 +1147,7 @@ class _DashboardState extends State<Dashboard> {
       }
     } catch (e) {
       var failedservices = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/failedservices.php'),
+          Uri.https('vendorhive360.com', 'vendor/failedservices.php'),
           body: {'sidname': sidname});
 
       if (failedservices.statusCode == 200) {
@@ -1193,19 +1193,19 @@ class _DashboardState extends State<Dashboard> {
     });
 
     final getpackages = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
         body: {'useremail': widget.useremail});
 
     print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
     final serviceamount = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackagedetails.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
         body: {
           'packagename': jsonDecode(getpackages.body)['package'].toString(),
         });
 
     var earn = await http.post(
-        Uri.https('adeoropelumi.com','vendor/vendorviewearnings.php'),
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
         body: {
           'idname':widget.idname
         }
@@ -1236,7 +1236,7 @@ class _DashboardState extends State<Dashboard> {
     print("getting services");
 
     final checkfornumberofservices = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorcheckserviceid.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorcheckserviceid.php'),
         body: {'email': widget.useremail});
 
     if (checkfornumberofservices.statusCode == 200) {
@@ -1313,7 +1313,7 @@ class _DashboardState extends State<Dashboard> {
     print('chat contacts');
 
     final chatcontact = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorchatcontacts.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorchatcontacts.php'),
         body: {'adminemail': widget.useremail, 'usertype': 'customer'});
 
     if (chatcontact.statusCode == 200) {
@@ -1341,26 +1341,26 @@ class _DashboardState extends State<Dashboard> {
         print("service id " + appcontactlist[o]);
 
         var servicename = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetservicename.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetservicename.php'),
             body: {'sidname': appcontactlist[o]});
 
         var useremaildetails = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetchatuseremail.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetchatuseremail.php'),
             body: {'sidname': appcontactlist[o]});
 
         var username = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetusername.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetusername.php'),
             body: {'useremail': jsonDecode(useremaildetails.body)});
 
         final getlastmsg = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetlastmsg.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetlastmsg.php'),
             body: {
               'sidname': appcontactlist[o],
               // 'accountmail': 'customer'
             });
 
         final unread = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorgetnumberofunread.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorgetnumberofunread.php'),
             body: {
               'sidname': appcontactlist[o],
               // 'adminemail': widget.useremail
@@ -1855,7 +1855,7 @@ class _DashboardState extends State<Dashboard> {
 
       var getbalance = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorbusinessavailablebalance.php'),
+              'vendorhive360.com', 'vendor/vendorbusinessavailablebalance.php'),
           body: {'adminemail': widget.useremail});
 
       if (getbalance.statusCode == 200) {
@@ -1883,7 +1883,7 @@ class _DashboardState extends State<Dashboard> {
 
       var getpendingbalance = await http.post(
           Uri.https(
-              'adeoropelumi.com', 'vendor/vendorbusinesspendingbalance.php'),
+              'vendorhive360.com', 'vendor/vendorbusinesspendingbalance.php'),
           body: {'adminemail': widget.useremail});
 
       if (getpendingbalance.statusCode == 200) {
@@ -1906,7 +1906,7 @@ class _DashboardState extends State<Dashboard> {
 
   Future getPackage() async{
     final getpackages = await http.post(
-        Uri.https('adeoropelumi.com', 'vendor/vendorgetpackage.php'),
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
         body: {'useremail': widget.useremail});
 
     print("Package "+jsonDecode(getpackages.body)['package'].toString());
@@ -1919,7 +1919,7 @@ class _DashboardState extends State<Dashboard> {
     else{
 
       var getExpiredDate = await http.post(
-          Uri.https('adeoropelumi.com', 'vendor/vendorgetExpiredDate.php'),
+          Uri.https('vendorhive360.com', 'vendor/vendorgetExpiredDate.php'),
           body: {
             'useremail': widget.useremail,
           });
@@ -1953,7 +1953,7 @@ class _DashboardState extends State<Dashboard> {
 
       if(diff.inDays <= 0){
         var resetPackage = await http.post(
-            Uri.https('adeoropelumi.com', 'vendor/vendorResetPackage.php'),
+            Uri.https('vendorhive360.com', 'vendor/vendorResetPackage.php'),
             body: {
               'useremail':widget.useremail
             }
@@ -1971,7 +1971,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future vendorgetlogo() async{
-    final gettinglogo = await http.post(Uri.https('adeoropelumi.com', 'vendor/vendorgetlogo.php'),
+    final gettinglogo = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorgetlogo.php'),
     body: {
       'useremail' : widget.useremail
     });
@@ -2174,7 +2174,7 @@ class _DashboardState extends State<Dashboard> {
                                             padding: const EdgeInsets.all(7.0),
                                             child: FadeInImage(
                                               image: NetworkImage(
-                                                  "https://www.adeoropelumi.com/vendor/blogo/"+vendorgettinglogo[0]["logoname"],
+                                                  "https://www.vendorhive360.com/vendor/blogo/"+vendorgettinglogo[0]["logoname"],
                                               ),
                                               placeholder: AssetImage(
                                                   "assets/image.png"),
@@ -3528,7 +3528,7 @@ class _DashboardState extends State<Dashboard> {
                                                                 child: lastmsg[
                                                                 index]
                                                                     .contains(
-                                                                    "https://adeoropelumi.com/vendor/chatsimg/")
+                                                                    "https://vendorhive360.com/vendor/chatsimg/")
                                                                     ? Container(
                                                                   child:
                                                                   Icon(Icons.image),
