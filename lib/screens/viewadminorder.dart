@@ -1681,7 +1681,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                             EdgeInsets.symmetric(vertical: 18),
                                         decoration: BoxDecoration(
                                             color:
-                                                Color.fromRGBO(246, 123, 55, 1),
+                                                Colors.red[700],
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                         child: Center(
