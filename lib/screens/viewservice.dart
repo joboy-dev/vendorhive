@@ -268,16 +268,16 @@ class _ViewServiceState extends State<ViewService> {
                                     fontWeight: FontWeight.w500
                                 ),),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              child: Text("₦"+widget.amount.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  fontSize: MediaQuery.of(context).size.width/18,
-                                ),),
-                            )
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Container(
+                            //   child: Text("₦"+widget.amount.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                            //     style: TextStyle(
+                            //         fontWeight: FontWeight.w500,
+                            //       fontSize: MediaQuery.of(context).size.width/18,
+                            //     ),),
+                            // )
                           ],
                         ),
                       ),
@@ -308,7 +308,6 @@ class _ViewServiceState extends State<ViewService> {
                   ],
                 )
             ),
-
             Container(
               margin: EdgeInsets.only(left: 10,right: 10,top: 30),
               child: Text(widget.description,
@@ -316,7 +315,6 @@ class _ViewServiceState extends State<ViewService> {
                     fontSize: MediaQuery.of(context).size.width/26
                 ),),
             ),
-            
             GestureDetector(
               onTap: (){
                 setlogo ?
@@ -353,7 +351,6 @@ class _ViewServiceState extends State<ViewService> {
                 ),
               ),
             ),
-
             Row(
               children: [
                 Expanded(
@@ -412,7 +409,6 @@ class _ViewServiceState extends State<ViewService> {
                 ),
               ],
             ),
-
           ],
         ),
       ),
