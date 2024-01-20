@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:vendorandroid/screens/vendor_admin_invoice.dart';
 
 import 'successfulproductreject.dart';
 
@@ -28,6 +29,17 @@ class Viewadminorder extends StatefulWidget {
   String time = "";
   String deliveryplan = "";
   String deliveryday = "";
+  final String timeordered;
+  final String dateshipped;
+  final String timeshipped;
+  final String datearrived;
+  final String timearrived;
+  final String datedprelease;
+  final String timedprelease;
+  final String ordershipped;
+  final String orderarrived;
+  final String deliverypayment;
+  final String productpayment;
 
   Viewadminorder(
       {required this.idname,
@@ -49,7 +61,18 @@ class Viewadminorder extends StatefulWidget {
       required this.location,
       required this.adminemail,
       required this.useremail,
-      required this.tkid});
+      required this.tkid,
+      required this.timeordered,
+      required this.dateshipped,
+      required this.timeshipped,
+      required this.datearrived,
+      required this.timearrived,
+      required this.datedprelease,
+      required this.timedprelease,
+      required this.ordershipped,
+      required this.orderarrived,
+      required this.deliverypayment,
+      required this.productpayment});
 
   @override
   _ViewadminorderState createState() => _ViewadminorderState();
@@ -69,6 +92,11 @@ class _ViewadminorderState extends State<Viewadminorder> {
   bool loading = false;
   bool loadingdeli = false;
   String productPayment = "";
+  bool showtracks = true;
+  String ordershipped = 'undone';
+  String orderarrived = 'undone';
+  String dpreleased = 'undone';
+  String ppreleased = 'undone';
   String appstat = "Vendorhive360";
 
   ScrollController _controller = ScrollController();
@@ -83,17 +111,18 @@ class _ViewadminorderState extends State<Viewadminorder> {
       appstat = "loading...";
     });
 
-    var productstatus = await http
-        .post(Uri.https('vendorhive360.com', 'vendor/vendorshipped.php'), body: {
-      'productid': widget.tkid,
-      'adminemail': widget.adminemail,
-      'useremail': widget.useremail
-    });
+    var productstatus = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorshipped.php'),
+        body: {
+          'productid': widget.tkid,
+          'adminemail': widget.adminemail,
+          'useremail': widget.useremail
+        });
 
     setState(() {
       productPayment = jsonDecode(productstatus.body)[0]['productpayment'];
     });
-    print("Product payment "+productPayment);
+    print("Product payment " + productPayment);
 
     if (productstatus.statusCode == 200) {
       print(jsonDecode(productstatus.body)[0]['ordershipped']);
@@ -163,6 +192,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           loading = true;
           enabledelivery = true;
           loadingdeli = false;
+          ordershipped = "done";
         });
 
         print("Shipped order is registered");
@@ -199,6 +229,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
           enabledelivery = false;
           loadingdeli = true;
           loading = true;
+          orderarrived = "done";
         });
         print("Product has arrived at destination");
       } else {
@@ -230,7 +261,6 @@ class _ViewadminorderState extends State<Viewadminorder> {
     print(jsonDecode(order_reject.body));
     if (order_reject.statusCode == 200 &&
         jsonDecode(order_reject.body) != "false") {
-
       // a refund is to be done for product price
       var credit_custwallet_amount = await http.post(
           Uri.https('vendorhive360.com', 'vendor/vendorcustupdatewallet.php'),
@@ -318,7 +348,6 @@ class _ViewadminorderState extends State<Viewadminorder> {
       //       'adminemail': widget.adminemail,
       //     });
 
-
       //sets the product payment to reject in the vendororderstatus table
       var update_to_reject = await http.post(
           Uri.https('vendorhive360.com', 'vendor/accept_order.php'),
@@ -326,9 +355,9 @@ class _ViewadminorderState extends State<Viewadminorder> {
             'tkid': widget.tkid,
             'customer_email': widget.useremail,
             'vendor_email': widget.adminemail,
-            'status' : 'reject',
-            'pidname' : widget.productid,
-            'value' : 'cancelled'
+            'status': 'reject',
+            'pidname': widget.productid,
+            'value': 'cancelled'
           });
 
       //notify user
@@ -345,7 +374,6 @@ class _ViewadminorderState extends State<Viewadminorder> {
       if (jsonDecode(update_to_reject.body) == "true" &&
           jsonDecode(credit_custwallet_delivery.body) == "true" &&
           jsonDecode(credit_custwallet_amount.body) == "true") {
-
         setState(() {
           productPayment = "reject";
           _selectedpage = 0;
@@ -426,9 +454,9 @@ class _ViewadminorderState extends State<Viewadminorder> {
             'tkid': widget.tkid,
             'customer_email': widget.useremail,
             'vendor_email': widget.adminemail,
-            'status' : 'done',
-            'pidname' : widget.productid,
-            'value' : 'active'
+            'status': 'done',
+            'pidname': widget.productid,
+            'value': 'active'
           });
 
       //notify user
@@ -445,13 +473,11 @@ class _ViewadminorderState extends State<Viewadminorder> {
       if (jsonDecode(response.body) == "true" &&
           jsonDecode(vendor_five_percent.body) == "true" &&
           jsonDecode(savetransaction.body) == "true") {
-
-          //stop loading
-          setState(() {
-            productPayment = "done";
-            _selectedpage = 0;
-          });
-
+        //stop loading
+        setState(() {
+          productPayment = "done";
+          _selectedpage = 0;
+        });
       }
     } catch (e) {
       //request timed out
@@ -469,6 +495,11 @@ class _ViewadminorderState extends State<Viewadminorder> {
     // TODO: implement initState
     super.initState();
     productstats();
+    ordershipped = widget.ordershipped;
+    orderarrived = widget.orderarrived;
+    dpreleased = widget.deliverypayment;
+    ppreleased = widget.productpayment;
+    showtracks = true;
     print(widget.tkid);
     print(widget.customername);
     print(widget.customernumber);
@@ -534,429 +565,631 @@ class _ViewadminorderState extends State<Viewadminorder> {
                       controller: _controller,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 30,
-                        ),
-
-                        //Image
-                        Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          child: Center(
-                              child: FadeInImage(
-                            image: NetworkImage(
-                              "https://vendorhive360.com/vendor/productimage/" +
-                                  widget.productimage,
-                            ),
-                            placeholder: AssetImage("assets/image.png"),
-                            imageErrorBuilder: (context, error, stackTrace) {
-                              return Image.asset('assets/error.png',
-                                  fit: BoxFit.fitWidth);
-                            },
-                            fit: BoxFit.fitWidth,
-                          )),
-                        ),
-
-                        const SizedBox(
-                          height: 25,
-                        ),
-
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Customer Name: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.customername,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          height: MediaQuery.of(context).size.height / 40,
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              color: Color.fromRGBO(238, 252, 233, 1),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          child: Column(
                             children: [
+                              //Track order and id
                               Container(
-                                child: Text(
-                                  "Customer Phonenumber: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                padding: EdgeInsets.only(bottom: 20, top: 20),
+                                margin: EdgeInsets.only(bottom: 20),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            width: .5, color: Colors.black))),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "Track Order",
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              25,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: Text(
+                                          "ID: " + widget.trackid,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  25,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.customernumber,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
                               Container(
-                                child: Text(
-                                  "Customer Address: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(
+                                          MediaQuery.of(context).size.width /
+                                              35),
+                                      decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: BorderRadius.circular(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10)),
+                                      child: Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size:
+                                            MediaQuery.of(context).size.width /
+                                                16,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Order Processed",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            24),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: 2),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child: Icon(
+                                                      Icons.access_time,
+                                                      size: 10,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
+                                                    child: Text(
+                                                      widget.date,
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.grey),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
+                                                    child: Text(
+                                                      widget.timeordered,
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.grey),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.customerlocation,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 40,
+                              ),
                               Container(
-                                child: Text(
-                                  "Customer State: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                child: Row(
+                                  children: [
+                                    showtracks
+                                        ? ordershipped == 'undone'
+                                            ? Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                        : CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            backgroundColor: Colors.white,
+                                          ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Order Shipped",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            24),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: 2),
+                                              child: Row(
+                                                children: [
+                                                  ordershipped == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          child: Icon(
+                                                            Icons.access_time,
+                                                            size: 10,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                  ordershipped == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget.dateshipped,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        ),
+                                                  ordershipped == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget.timeshipped,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.customerstate,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 40,
+                              ),
                               Container(
-                                child: Text(
-                                  "Total Amount: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                child: Row(
+                                  children: [
+                                    showtracks
+                                        ? orderarrived == 'undone'
+                                            ? Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                        : CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            backgroundColor: Colors.white,
+                                          ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Order Arrived",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          24,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: 2),
+                                              child: Row(
+                                                children: [
+                                                  orderarrived == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          child: Icon(
+                                                            Icons.access_time,
+                                                            size: 10,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                  orderarrived == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget.datearrived,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        ),
+                                                  orderarrived == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget.timearrived,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    "₦" +
-                                        widget.productprice.replaceAllMapped(
-                                            RegExp(
-                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                            (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 40,
+                              ),
                               Container(
-                                child: Text(
-                                  "Quantity: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                child: Row(
+                                  children: [
+                                    showtracks
+                                        ? dpreleased == 'undone'
+                                            ? Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                        : CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            backgroundColor: Colors.white,
+                                          ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Product Payment Released",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          24,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: 2),
+                                              child: Row(
+                                                children: [
+                                                  dpreleased == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          child: Icon(
+                                                            Icons.access_time,
+                                                            size: 10,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                  dpreleased == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget
+                                                                .datedprelease,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        ),
+                                                  dpreleased == 'undone'
+                                                      ? Container()
+                                                      : Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 2),
+                                                          child: Text(
+                                                            widget
+                                                                .timedprelease,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.quantity,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 40,
+                              ),
                               Container(
-                                child: Text(
-                                  "Delivery Price: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                child: Row(
+                                  children: [
+                                    showtracks
+                                        ? ppreleased == 'undone'
+                                            ? Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.all(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        35),
+                                                decoration: BoxDecoration(
+                                                    color: ppreleased == "done"
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10)),
+                                                child: Icon(
+                                                  ppreleased == "done"
+                                                      ? Icons.check
+                                                      : Icons.cancel,
+                                                  color: Colors.white,
+                                                  size: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      16,
+                                                ),
+                                              )
+                                        : CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(246, 123, 55, 1),
+                                            backgroundColor: Colors.white,
+                                          ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                ppreleased == "undone"?
+                                                    "Awaiting vendor response"
+                                                :ppreleased == "reject"
+                                                    ? "Product is Rejected"
+                                                    : "Product is Accepted",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          24,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    "₦" +
-                                        widget.deliveryprice.replaceAllMapped(
-                                            RegExp(
-                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                            (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Delivery Plan: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 40,
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.deliveryplan,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Days of delivery: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.deliveryday,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Product Id: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.trackid,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Date & Time: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    widget.date + " & " + widget.time,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Service Fee: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    '₦' +
-                                        '${service_fee}'.replaceAllMapped(
-                                            RegExp(
-                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                            (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Totoal Payout: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    '₦' +
-                                        '${amount_after_deduct_serviceFee}'
-                                            .replaceAllMapped(
-                                                RegExp(
-                                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ),
@@ -964,15 +1197,69 @@ class _ViewadminorderState extends State<Viewadminorder> {
                         //inform
                         Container(
                           margin: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Center(
                             child: Text(
-                                "Inform the customer about he/her product "),
+                              "Click Invoice to view more information on product",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewInvoice(
+                                        productimage: widget.productimage,
+                                        customername: widget.customername,
+                                        customernumber: widget.customernumber,
+                                        customerlocation:
+                                            widget.customerlocation,
+                                        customerstate: widget.customerstate,
+                                        productprice: widget.productprice,
+                                        quantity: widget.quantity,
+                                        deliveryprice: widget.deliveryprice,
+                                        deliveryplan: widget.deliveryplan,
+                                        deliveryday: widget.deliveryday,
+                                        trackid: widget.trackid,
+                                        date: widget.date,
+                                        time: widget.time)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(246, 123, 55, 1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                                child: Text(
+                              "Invoice",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            )),
                           ),
                         ),
 
                         checker
                             ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 5),
+                                    child: Text(
+                                      "Set order status",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                   if (productPayment == "done") ...[
                                     enableshipping
                                         ? GestureDetector(
@@ -995,7 +1282,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(
-                                                  10, 20, 10, 5),
+                                                  10, 5, 10, 5),
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 18),
                                               decoration: BoxDecoration(
@@ -1013,28 +1300,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                               )),
                                             ),
                                           )
-                                        : Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 20, 10, 5),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 18),
-                                            decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    178, 190, 181, 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                                child: loading
-                                                    ? Text(
-                                                        "Customer is notified of shipped order",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                                      )
-                                                    : Icon(Icons.more_horiz)),
-                                          ),
+                                        : Container(),
                                     shipped
                                         ? Container(
                                             margin: EdgeInsets.symmetric(
@@ -1142,28 +1408,7 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                               )),
                                             ),
                                           )
-                                        : Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 10, 10, 5),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 18),
-                                            decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    178, 190, 181, 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                                child: loadingdeli
-                                                    ? Text(
-                                                        "Customer is notified of delivered order",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                                      )
-                                                    : Icon(Icons.more_horiz)),
-                                          ),
+                                        : Container(),
                                     delivered
                                         ? Container(
                                             margin: EdgeInsets.symmetric(
@@ -1229,22 +1474,37 @@ class _ViewadminorderState extends State<Viewadminorder> {
                                             ),
                                           )
                                         : Container(),
-                                  ] else if(productPayment == 'reject')...[
+                                    enabledelivery == false &&
+                                            enableshipping == false
+                                        ? Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Text(
+                                              "Order status is complete...",
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 17),
+                                            ),
+                                          )
+                                        : Container()
+                                  ] else if (productPayment == 'reject') ...[
                                     Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.red[700]
-                                      ),
-                                      padding: EdgeInsets.symmetric(vertical: 20),
-                                      margin: EdgeInsets.only(top:25),
-                                      child: Center(child: Text(widget.productname+" is Rejected by you",
+                                      decoration:
+                                          BoxDecoration(color: Colors.red[700]),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20),
+                                      margin: EdgeInsets.only(top: 25),
+                                      child: Center(
+                                          child: Text(
+                                        widget.productname +
+                                            " is Rejected by you",
                                         style: TextStyle(
                                             fontSize: 16,
                                             color: Colors.white,
-                                            fontWeight: FontWeight.bold
-                                        ),)),
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                     )
-                                  ]
-                                  else ...[
+                                  ] else ...[
                                     GestureDetector(
                                       onTap: () async {
                                         await showDialog(

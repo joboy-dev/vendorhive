@@ -193,7 +193,7 @@ class _CheckoutFourthState extends State<CheckoutFourth> {
                   var notifyuser = await http.post(
                       Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
                       body: {
-                        'message': cartitems[o].name+" has being ordered",
+                        'message': "You ordered "+cartitems[o].name,
                         'info': cartitems[o].adminemail,
                         'tag': 'Product',
                         'quantity' : cartitems[o].quantity.toString(),

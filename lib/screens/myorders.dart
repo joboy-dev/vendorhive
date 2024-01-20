@@ -181,7 +181,18 @@ class _MyOrdersState extends State<MyOrders> {
                                 date: raworders[index]['date'],
                                 time: raworders[index]['time'],
                                 deliveryplan: raworders[index]['deliveryplan'],
-                                deliveryday: raworders[index]['deliveryday'],);
+                                deliveryday: raworders[index]['deliveryday'],
+                                datearrived: raworders[index]['datearrived'],
+                                datedprelease: raworders[index]['datedpreleased'],
+                                dateshipped: raworders[index]['dateshipped'],
+                                timearrived: raworders[index]['timearrived'],
+                                timedprelease: raworders[index]['timedpreleased'],
+                                timeordered: raworders[index]['timeordered'],
+                                timeshipped: raworders[index]['timeshipped'],
+                                deliverypayment: raworders[index]['deliverypayment'],
+                                orderarrived: raworders[index]['orderarrived'],
+                                ordershipped: raworders[index]['ordershipped'],
+                                productpayment: raworders[index]['productpayment'],);
                               }));
                             },
                             child: Container(

@@ -117,7 +117,6 @@ class _TrackOrderState extends State<TrackOrder> {
         if(updatebusinesswallet.statusCode == 200){
           if(jsonDecode(updatebusinesswallet.body)=='true'){
             print("Wallet is updated");
-
             setState(() {
               _selectedPage = 0;
               dpreleased = 'done';
@@ -196,7 +195,8 @@ class _TrackOrderState extends State<TrackOrder> {
               margin: EdgeInsets.only(top: 20),
               child: Center(
                 child: showtracks ?
-                Text(orderarrived == 'undone' ?
+                Text(
+                  orderarrived == 'undone' ?
                 "Estimated Delivery Time"
                 : "Delivered Time",style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width/25,
