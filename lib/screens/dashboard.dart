@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
+import '../cities/cities_data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -107,7 +107,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  String cities_item = "Lagos Island";
+  String cities_item = "-";
+  String service_cities_item = "-";
   int _selectedpage = 0;
   String appproductstatus = "Vendorhive360";
   String appservicestatus = "Vendorhive360";
@@ -270,120 +271,6 @@ class _DashboardState extends State<Dashboard> {
   List vendorgettinglogo = [];
   List referals = [];
   List referals_service = [];
-
-  var cities = [
-    "Abeokuta",
-    "Abakaliki",
-    "Aba",
-    "Abeokuta",
-    "Abuja",
-    "Ado-Ekiti",
-    "Agaie",
-    "Argungu",
-    "Asaba",
-    "Awka",
-    "Azare",
-    "Badagry",
-    "Baro",
-    "Benin City",
-    "Biu",
-    "Birnin Kebbi",
-    "Birnin Kudu",
-    "Bonny",
-    "Brass",
-    "Bukuru",
-    "Burutu",
-    "Calabar",
-    "Damaturu",
-    "Daura",
-    "Degema",
-    "Deba Habe",
-    "Dikwa",
-    "Dutse",
-    "Ede",
-    "Effon-Alaiye",
-    "Enugu",
-    "Epe",
-    "Gombe",
-    "Gusau",
-    "Gwandu",
-    "Gumel",
-    "Hadejia",
-    "Ibadan",
-    "Ibi",
-    "Idah",
-    "Ijebu-Ode",
-    "Ikorodu",
-    "Ikot Abasi",
-    "Ikot Ekpene",
-    "Ikare",
-    "Ikeja",
-    "Ikire",
-    "Ikirun",
-    "Ila",
-    "Ile-Ife",
-    "Ilesha",
-    "Ilobu",
-    "Iloko-Ijesha (Inisa)",
-    "Ilaro",
-    "Ilorin",
-    "Iseyin",
-    "Iwo",
-    "Jebba",
-    "Jalingo",
-    "Jamaare",
-    "Jimeta",
-    "Jos",
-    "Kabba",
-    "Kano",
-    "Katsina",
-    "Kaura Namoda",
-    "Kazaure",
-    "Keffi",
-    "Kontagora",
-    "Koko",
-    "Lagos Island",
-    "Lafia",
-    "Lapai",
-    "Lokoja",
-    "Muri",
-    "Maiduguri",
-    "Makurdi",
-    "Minna",
-    "Misau",
-    "Mushin",
-    "Nguru",
-    "Nsukka",
-    "Numan",
-    "Ogoja",
-    "Oka-Akoko",
-    "Oke-Agbe",
-    "Okene",
-    "Okrika",
-    "Ondo",
-    "Onitsha",
-    "Oron",
-    "Oshogbo",
-    "Owerri",
-    "Owo",
-    "Oyo",
-    "Pategi",
-    "Port Harcourt",
-    "Saki",
-    "Sapele",
-    "Shagamu",
-    "Shomolu",
-    "Sokoto",
-    "Suleja",
-    "Ughelli",
-    "Umuahia",
-    "Uyo",
-    "Vom",
-    "Wase",
-    "Warri",
-    "Yelwa",
-    "Yola",
-  ];
 
   TextEditingController products = new TextEditingController();
   TextEditingController service = new TextEditingController();
@@ -1114,7 +1001,7 @@ class _DashboardState extends State<Dashboard> {
             'paymentoption': options,
             'img': servicefilename,
             'location' : location,
-            'city': cities_item
+            'city': service_cities_item
           });
 
       if (addservice.statusCode == 200) {
@@ -2058,11 +1945,11 @@ class _DashboardState extends State<Dashboard> {
     pendingbalance = widget.pendingbalance;
     vendorgetlogo();
     dropdownItems = List.generate(
-      cities.length,
+      lagos_cities.length,
           (index) => DropdownMenuItem(
-        value: cities[index],
+        value: lagos_cities[index],
         child: Text(
-          cities[index],
+          lagos_cities[index],
           style: TextStyle(fontSize: 17),
         ),
       ),
@@ -4599,6 +4486,13 @@ class _DashboardState extends State<Dashboard> {
                                               ),
                                               value: "Enugu",
                                             ),
+                                            //37th state FCT
+                                            DropdownMenuItem(
+                                                child: Text(
+                                                  "FCT",
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                                value: "FCT"),
                                             //15th state Gombe
                                             DropdownMenuItem(
                                               child: Text(
@@ -4779,6 +4673,524 @@ class _DashboardState extends State<Dashboard> {
                                             //get value when changed
                                             setState(() {
                                               productlocation = value!;
+                                              if(value == "Abia"){
+                                                // cities = List.from(abia_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  abia_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: abia_cities[index],
+                                                    child: Text(
+                                                      abia_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Adamawa"){
+                                                // cities = List.from(adamawa_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  adamawa_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: adamawa_cities[index],
+                                                    child: Text(
+                                                      adamawa_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Akwa Ibom"){
+                                                // cities = List.from(akwaibom_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  akwaibom_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: akwaibom_cities[index],
+                                                    child: Text(
+                                                      akwaibom_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Anambra"){
+                                                // cities = List.from(anambra_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  anambra_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: anambra_cities[index],
+                                                    child: Text(
+                                                      anambra_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Bauchi"){
+                                                // cities = List.from(bauchi_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  bauchi_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: bauchi_cities[index],
+                                                    child: Text(
+                                                      bauchi_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Bayelsa"){
+                                                // cities = List.from(bayelsa_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  bayelsa_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: bayelsa_cities[index],
+                                                    child: Text(
+                                                      bayelsa_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Benue"){
+                                                // cities = List.from(benue_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  benue_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: benue_cities[index],
+                                                    child: Text(
+                                                      benue_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Borno"){
+                                                // cities = List.from(borno_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  borno_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: borno_cities[index],
+                                                    child: Text(
+                                                      borno_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Cross River"){
+                                                // cities = List.from(cross_river_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  cross_river_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: cross_river_cities[index],
+                                                    child: Text(
+                                                      cross_river_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Delta"){
+                                                // cities = List.from(delta_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  delta_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: delta_cities[index],
+                                                    child: Text(
+                                                      delta_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Ebonyi"){
+                                                // cities = List.from(ebonyi_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  ebonyi_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: ebonyi_cities[index],
+                                                    child: Text(
+                                                      ebonyi_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Edo"){
+                                                // cities = List.from(edo_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  edo_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: edo_cities[index],
+                                                    child: Text(
+                                                      edo_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Ekiti"){
+                                                // cities = List.from(ekiti_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  ekiti_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: ekiti_cities[index],
+                                                    child: Text(
+                                                      ekiti_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Enugu"){
+                                                // cities = List.from(enugu_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  enugu_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: enugu_cities[index],
+                                                    child: Text(
+                                                      enugu_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Gombe"){
+                                                // cities = List.from(gombe_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  gombe_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: gombe_cities[index],
+                                                    child: Text(
+                                                      gombe_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Imo"){
+                                                // cities = List.from(imo_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  imo_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: imo_cities[index],
+                                                    child: Text(
+                                                      imo_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Jigawa"){
+                                                // cities = List.from(jigawa_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  jigawa_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: jigawa_cities[index],
+                                                    child: Text(
+                                                      jigawa_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Kaduna"){
+                                                // cities = List.from(kaduna_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  kaduna_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: kaduna_cities[index],
+                                                    child: Text(
+                                                      kaduna_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Kano"){
+                                                // cities = List.from(kano_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  kano_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: kano_cities[index],
+                                                    child: Text(
+                                                      kano_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Katsina"){
+                                                // cities = List.from(katsina_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  katsina_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: katsina_cities[index],
+                                                    child: Text(
+                                                      katsina_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Kebbi"){
+                                                // cities = List.from(kebbi_cites);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  kebbi_cites.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: kebbi_cites[index],
+                                                    child: Text(
+                                                      kebbi_cites[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Kogi"){
+                                                // cities = List.from(kogi_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  kogi_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: kogi_cities[index],
+                                                    child: Text(
+                                                      kogi_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Kwara"){
+                                                // cities = List.from(kwara_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  kwara_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: kwara_cities[index],
+                                                    child: Text(
+                                                      kwara_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Lagos"){
+                                                // cities = List.from(lagos_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  lagos_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: lagos_cities[index],
+                                                    child: Text(
+                                                      lagos_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Nasarawa"){
+                                                // cities = List.from(nasarawa_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  nasarawa_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: nasarawa_cities[index],
+                                                    child: Text(
+                                                      nasarawa_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Niger"){
+                                                // cities = List.from(niger_cites);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  niger_cites.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: niger_cites[index],
+                                                    child: Text(
+                                                      niger_cites[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Ogun"){
+                                                // cities = List.from(ogun_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  ogun_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: ogun_cities[index],
+                                                    child: Text(
+                                                      ogun_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Ondo"){
+                                                // cities = List.from(ondo_cites);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  ondo_cites.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: ondo_cites[index],
+                                                    child: Text(
+                                                      ondo_cites[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Osun"){
+                                                // cities = List.from(osun_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  osun_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: osun_cities[index],
+                                                    child: Text(
+                                                      osun_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Oyo"){
+                                                // cities = List.from(oyo_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  oyo_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: oyo_cities[index],
+                                                    child: Text(
+                                                      oyo_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Plateau"){
+                                                // cities = List.from(plateau_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  plateau_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: plateau_cities[index],
+                                                    child: Text(
+                                                      plateau_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Rivers"){
+                                                // cities = List.from(rivers_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  rivers_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: rivers_cities[index],
+                                                    child: Text(
+                                                      rivers_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Sokoto"){
+                                                // cities = List.from(sokoto_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  sokoto_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: sokoto_cities[index],
+                                                    child: Text(
+                                                      sokoto_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Taraba"){
+                                                // cities = List.from(taraba_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  taraba_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: taraba_cities[index],
+                                                    child: Text(
+                                                      taraba_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Yobe"){
+                                                // cities = List.from(yobe_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  yobe_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: yobe_cities[index],
+                                                    child: Text(
+                                                      yobe_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "Zamfara"){
+                                                // cities = List.from(zamfara_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  zamfara_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: zamfara_cities[index],
+                                                    child: Text(
+                                                      zamfara_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              else if(value == "FCT"){
+                                                // cities = List.from(fct_cities);
+                                                cities_item = "-";
+                                                dropdownItems = List.generate(
+                                                  fct_cities.length,
+                                                      (index) => DropdownMenuItem(
+                                                    value: fct_cities[index],
+                                                    child: Text(
+                                                      fct_cities[index],
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
                                             });
                                             print("You have selected $value");
                                           },
@@ -5863,6 +6275,524 @@ class _DashboardState extends State<Dashboard> {
                                         //get value when changed
                                         setState(() {
                                           location = value!;
+                                          if(value == "Abia"){
+                                            // cities = List.from(abia_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              abia_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: abia_cities[index],
+                                                child: Text(
+                                                  abia_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Adamawa"){
+                                            // cities = List.from(adamawa_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              adamawa_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: adamawa_cities[index],
+                                                child: Text(
+                                                  adamawa_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Akwa Ibom"){
+                                            // cities = List.from(akwaibom_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              akwaibom_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: akwaibom_cities[index],
+                                                child: Text(
+                                                  akwaibom_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Anambra"){
+                                            // cities = List.from(anambra_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              anambra_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: anambra_cities[index],
+                                                child: Text(
+                                                  anambra_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Bauchi"){
+                                            // cities = List.from(bauchi_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              bauchi_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: bauchi_cities[index],
+                                                child: Text(
+                                                  bauchi_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Bayelsa"){
+                                            // cities = List.from(bayelsa_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              bayelsa_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: bayelsa_cities[index],
+                                                child: Text(
+                                                  bayelsa_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Benue"){
+                                            // cities = List.from(benue_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              benue_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: benue_cities[index],
+                                                child: Text(
+                                                  benue_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Borno"){
+                                            // cities = List.from(borno_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              borno_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: borno_cities[index],
+                                                child: Text(
+                                                  borno_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Cross River"){
+                                            // cities = List.from(cross_river_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              cross_river_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: cross_river_cities[index],
+                                                child: Text(
+                                                  cross_river_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Delta"){
+                                            // cities = List.from(delta_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              delta_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: delta_cities[index],
+                                                child: Text(
+                                                  delta_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Ebonyi"){
+                                            // cities = List.from(ebonyi_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              ebonyi_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: ebonyi_cities[index],
+                                                child: Text(
+                                                  ebonyi_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Edo"){
+                                            // cities = List.from(edo_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              edo_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: edo_cities[index],
+                                                child: Text(
+                                                  edo_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Ekiti"){
+                                            // cities = List.from(ekiti_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              ekiti_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: ekiti_cities[index],
+                                                child: Text(
+                                                  ekiti_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Enugu"){
+                                            // cities = List.from(enugu_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              enugu_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: enugu_cities[index],
+                                                child: Text(
+                                                  enugu_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Gombe"){
+                                            // cities = List.from(gombe_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              gombe_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: gombe_cities[index],
+                                                child: Text(
+                                                  gombe_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Imo"){
+                                            // cities = List.from(imo_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              imo_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: imo_cities[index],
+                                                child: Text(
+                                                  imo_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Jigawa"){
+                                            // cities = List.from(jigawa_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              jigawa_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: jigawa_cities[index],
+                                                child: Text(
+                                                  jigawa_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Kaduna"){
+                                            // cities = List.from(kaduna_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              kaduna_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: kaduna_cities[index],
+                                                child: Text(
+                                                  kaduna_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Kano"){
+                                            // cities = List.from(kano_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              kano_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: kano_cities[index],
+                                                child: Text(
+                                                  kano_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Katsina"){
+                                            // cities = List.from(katsina_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              katsina_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: katsina_cities[index],
+                                                child: Text(
+                                                  katsina_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Kebbi"){
+                                            // cities = List.from(kebbi_cites);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              kebbi_cites.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: kebbi_cites[index],
+                                                child: Text(
+                                                  kebbi_cites[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Kogi"){
+                                            // cities = List.from(kogi_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              kogi_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: kogi_cities[index],
+                                                child: Text(
+                                                  kogi_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Kwara"){
+                                            // cities = List.from(kwara_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              kwara_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: kwara_cities[index],
+                                                child: Text(
+                                                  kwara_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Lagos"){
+                                            // cities = List.from(lagos_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              lagos_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: lagos_cities[index],
+                                                child: Text(
+                                                  lagos_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Nasarawa"){
+                                            // cities = List.from(nasarawa_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              nasarawa_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: nasarawa_cities[index],
+                                                child: Text(
+                                                  nasarawa_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Niger"){
+                                            // cities = List.from(niger_cites);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              niger_cites.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: niger_cites[index],
+                                                child: Text(
+                                                  niger_cites[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Ogun"){
+                                            // cities = List.from(ogun_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              ogun_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: ogun_cities[index],
+                                                child: Text(
+                                                  ogun_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Ondo"){
+                                            // cities = List.from(ondo_cites);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              ondo_cites.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: ondo_cites[index],
+                                                child: Text(
+                                                  ondo_cites[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Osun"){
+                                            // cities = List.from(osun_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              osun_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: osun_cities[index],
+                                                child: Text(
+                                                  osun_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Oyo"){
+                                            // cities = List.from(oyo_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              oyo_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: oyo_cities[index],
+                                                child: Text(
+                                                  oyo_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Plateau"){
+                                            // cities = List.from(plateau_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              plateau_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: plateau_cities[index],
+                                                child: Text(
+                                                  plateau_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Rivers"){
+                                            // cities = List.from(rivers_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              rivers_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: rivers_cities[index],
+                                                child: Text(
+                                                  rivers_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Sokoto"){
+                                            // cities = List.from(sokoto_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              sokoto_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: sokoto_cities[index],
+                                                child: Text(
+                                                  sokoto_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Taraba"){
+                                            // cities = List.from(taraba_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              taraba_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: taraba_cities[index],
+                                                child: Text(
+                                                  taraba_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Yobe"){
+                                            // cities = List.from(yobe_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              yobe_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: yobe_cities[index],
+                                                child: Text(
+                                                  yobe_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "Zamfara"){
+                                            // cities = List.from(zamfara_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              zamfara_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: zamfara_cities[index],
+                                                child: Text(
+                                                  zamfara_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if(value == "FCT"){
+                                            // cities = List.from(fct_cities);
+                                            service_cities_item = "-";
+                                            dropdownItems = List.generate(
+                                              fct_cities.length,
+                                                  (index) => DropdownMenuItem(
+                                                value: fct_cities[index],
+                                                child: Text(
+                                                  fct_cities[index],
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         });
                                         print("You have selected $value");
                                       },
@@ -5911,10 +6841,10 @@ class _DashboardState extends State<Dashboard> {
                                         padding: EdgeInsets.only(left: 20, right: 20),
                                         child: DropdownButton<String>(
                                           items: dropdownItems,
-                                          value: cities_item,
+                                          value: service_cities_item,
                                           onChanged: (value) {
                                             setState(() {
-                                              cities_item = value!;
+                                              service_cities_item = value!;
                                               print("You have selected $value");
                                             });
                                           },
