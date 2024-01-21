@@ -1,4 +1,7 @@
-
+//Empty list
+List<String> select_city = [
+  "-"
+];
 
 //Abia cities
 List<String> abia_cities = [

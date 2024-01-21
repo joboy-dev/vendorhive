@@ -6095,6 +6095,13 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                           value: "Enugu",
                                         ),
+                                        //37th state FCT
+                                        DropdownMenuItem(
+                                            child: Text(
+                                              "FCT",
+                                              style: TextStyle(fontSize: 17),
+                                            ),
+                                            value: "FCT"),
                                         //15th state Gombe
                                         DropdownMenuItem(
                                           child: Text(
