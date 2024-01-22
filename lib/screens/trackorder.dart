@@ -125,7 +125,7 @@ class _TrackOrderState extends State<TrackOrder> {
               }
             });
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Congratulations!, Payment is released"))
+              SnackBar(content: Text("Congratulations!, You've just Released Payment"))
             );
           }
         }
@@ -626,7 +626,11 @@ class _TrackOrderState extends State<TrackOrder> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      child: Text( ppreleased == "reject"? "Product is Rejected" : "Product is Accepted?" ,style: TextStyle(
+                                      child: Text( ppreleased == "undone"?
+                                      "Awaiting vendor response"
+                                          :ppreleased == "reject"
+                                          ? "Product is Rejected"
+                                          : "Product is Accepted" ,style: TextStyle(
                                         fontSize: MediaQuery.of(context).size.width/24,
                                       ),),
                                     ),
@@ -730,7 +734,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         }
                         else if(dpreleased == 'done'){
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Payment has being released "))
+                              SnackBar(content: Text("You've just Released Payment"))
                           );
                         }
                         else{
@@ -750,7 +754,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         child: Center(
                           child: Text(dpreleased == 'undone' ?
                           "Release product payment"
-                              : "Product payment is released",style: TextStyle(
+                              : "You've just Released Payment",style: TextStyle(
                               color: Colors.white,
                               fontSize: MediaQuery.of(context).size.width/24,
                               fontWeight: FontWeight.w500
@@ -763,7 +767,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       onTap: (){
                         if(dpreleased == 'undone'){
                           Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return RequestRefund(idname: widget.idname,
+                            return RequestRefund(
+                              idname: widget.idname,
                               email: widget.useremail,
                               refno: widget.trackid,
                               amount: widget.amount,
@@ -774,9 +779,10 @@ class _TrackOrderState extends State<TrackOrder> {
                               trackid: widget.trackid,
                             );
                           }));
-                        }else{
+                        }
+                        else{
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Opps! Cannot refund. Payment is already released"))
+                              SnackBar(content: Text("Opps! Cannot refund. You've already Released Payment"))
                           );
                         }
                       },
