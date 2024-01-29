@@ -232,10 +232,10 @@ class _ContactSupportState extends State<ContactSupport> {
                               value: "Report Vendor"
                           ),
                           DropdownMenuItem(
-                            child: Text("Unsatified with Vendor service",style: TextStyle(
+                            child: Text("Unsatisfied with Vendor service",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
-                            value: "Unsatified with Vendor service",
+                            value: "Unsatisfied with Vendor service",
                           ),
                           DropdownMenuItem(
                             child: Text("Other",style: TextStyle(

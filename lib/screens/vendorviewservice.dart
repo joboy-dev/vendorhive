@@ -253,27 +253,27 @@ class _VendorServiceState extends State<VendorService> {
               ),
 
               //send message button
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return BusinessPaidServices(useremail: widget.adminemail, idname: widget.idname);
-                  }));
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(246, 123, 55, 1),
-                      borderRadius: BorderRadius.circular(5)
-                  ),
-                  child: Center(
-                    child: Text("View Paid Service",style: TextStyle(
-                        color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: (){
+              //     // Navigator.push(context, MaterialPageRoute(builder: (context){
+              //     //   return BusinessPaidServices(useremail: widget.adminemail, idname: widget.idname);
+              //     // }));
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.symmetric(horizontal: 10),
+              //     padding: EdgeInsets.symmetric(vertical: 10),
+              //     decoration: BoxDecoration(
+              //         color: Color.fromRGBO(246, 123, 55, 1),
+              //         borderRadius: BorderRadius.circular(5)
+              //     ),
+              //     child: Center(
+              //       child: Text("View Paid Service",style: TextStyle(
+              //           color: Colors.white,
+              //         fontWeight: FontWeight.bold
+              //       ),),
+              //     ),
+              //   ),
+              // ),
 
               const SizedBox(
                 height: 10,

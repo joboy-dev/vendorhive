@@ -95,13 +95,13 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 10 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 10 more services",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 10 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 10 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -142,13 +142,13 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 15 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 15 more services",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 15 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 15 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -189,13 +189,13 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 20 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 20 more services",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 30 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 30 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
