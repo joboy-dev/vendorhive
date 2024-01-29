@@ -194,7 +194,7 @@ class _ContactSupportState extends State<ContactSupport> {
 
             Container(
               margin: EdgeInsets.only(top: 20,left: 10,right: 10),
-              child: Text("Do you have any complain? Fill the below and we will get back to you. We also apologise for any inconvinece this might have caused you.",
+              child: Text("Do you have any complain? Fill the box below and we will get back to you. We also apologize for any inconvenience this might have caused you.",
                 textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width/25,

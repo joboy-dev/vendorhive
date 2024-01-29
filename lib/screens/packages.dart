@@ -57,7 +57,7 @@ class _PackagesState extends State<Packages> {
             ),
             Container(
               margin: EdgeInsets.only(left: 15,right: 15,top: 20),
-              child: Text("Choose a package to enjoy extra upload of services and products for our customers. Let them enjoy your services and products. ",
+              child: Text("Choose a package to enjoy extra upload of services and products for your customers to generate more sales.",
                 textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width/25,
@@ -86,13 +86,13 @@ class _PackagesState extends State<Packages> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 5 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 5 more services",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 5 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 5 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -131,13 +131,13 @@ class _PackagesState extends State<Packages> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 10 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 10 more services",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 10 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 10 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -176,13 +176,13 @@ class _PackagesState extends State<Packages> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
-                              child: Text("\u2022 Unlock 15 more services",style: TextStyle(
+                              child: Text("\u2022 Upload 15 more services",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Sell 20 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 20 more products plus short videos.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),

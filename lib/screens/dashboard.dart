@@ -6,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vendorandroid/screens/addproduct.dart';
 import 'package:vendorandroid/screens/businesseditprofile.dart';
 import 'package:vendorandroid/screens/businesspackage.dart';
 import 'package:vendorandroid/screens/businesspaidservices.dart';
@@ -14,12 +13,9 @@ import 'package:vendorandroid/screens/businesswithdraw.dart';
 import 'package:vendorandroid/screens/chatmessage.dart';
 import 'package:vendorandroid/screens/contactsupport.dart';
 import 'package:vendorandroid/screens/custsetpin.dart';
-import 'package:vendorandroid/screens/editprofile.dart';
 import 'package:vendorandroid/screens/failed.dart';
-import 'package:vendorandroid/screens/messages.dart';
 import 'package:vendorandroid/screens/myorders.dart';
 import 'package:vendorandroid/screens/notification.dart';
-import 'package:vendorandroid/screens/packages.dart';
 import 'package:vendorandroid/screens/pendingpayments.dart';
 import 'package:vendorandroid/screens/productadded.dart';
 import 'package:vendorandroid/screens/productpromotion.dart';
@@ -32,7 +28,6 @@ import 'package:vendorandroid/screens/transaction.dart';
 import 'package:vendorandroid/screens/vendorviewproducts.dart';
 import 'package:vendorandroid/screens/vendorviewservice.dart';
 import 'package:flutter/material.dart';
-import 'package:vendorandroid/screens/orderstatus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -998,7 +993,7 @@ class _DashboardState extends State<Dashboard> {
             'name': replacingwords(_servicename.text),
             'description': replacingwords(_servicedesc.text),
             'price': "0",
-            'paymentoption': options,
+            'paymentoption': "",
             'img': servicefilename,
             'location' : location,
             'city': service_cities_item
@@ -3127,55 +3122,55 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             //view products ordered by customers on your product
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return BusinessPaidServices(
-                                        idname: widget.idname,
-                                        useremail: widget.useremail,
-                                      );
-                                    }));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: 15),
-                                padding: EdgeInsets.only(top: 10, bottom: 10),
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(238, 252, 233, 1)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width:
-                                      MediaQuery.of(context).size.width / 8,
-                                      margin: EdgeInsets.only(left: 15),
-                                      child:
-                                      Image.asset("assets/services.png"),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Paid Services",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                                  22),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 15),
-                                      child:
-                                      Icon(Icons.arrow_forward_ios_rounded),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(context,
+                            //         MaterialPageRoute(builder: (context) {
+                            //           return BusinessPaidServices(
+                            //             idname: widget.idname,
+                            //             useremail: widget.useremail,
+                            //           );
+                            //         }));
+                            //   },
+                            //   child: Container(
+                            //     margin: EdgeInsets.only(top: 15),
+                            //     padding: EdgeInsets.only(top: 10, bottom: 10),
+                            //     decoration: BoxDecoration(
+                            //         color: Color.fromRGBO(238, 252, 233, 1)),
+                            //     child: Row(
+                            //       mainAxisAlignment:
+                            //       MainAxisAlignment.spaceBetween,
+                            //       children: [
+                            //         Container(
+                            //           width:
+                            //           MediaQuery.of(context).size.width / 8,
+                            //           margin: EdgeInsets.only(left: 15),
+                            //           child:
+                            //           Image.asset("assets/services.png"),
+                            //         ),
+                            //         Expanded(
+                            //           child: Container(
+                            //             margin: EdgeInsets.only(left: 10),
+                            //             child: Text(
+                            //               "Paid Services",
+                            //               style: TextStyle(
+                            //                   fontWeight: FontWeight.w500,
+                            //                   fontSize: MediaQuery.of(context)
+                            //                       .size
+                            //                       .width /
+                            //                       22),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //         Container(
+                            //           margin: EdgeInsets.only(right: 15),
+                            //           child:
+                            //           Icon(Icons.arrow_forward_ios_rounded),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             //view promote products and services
                             GestureDetector(
                               onTap: () {
@@ -5809,76 +5804,76 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ),
                           ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                            child: Text("Payment Options"),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                            ),
-                            child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  //background color of dropdown button
-                                  border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                  //border of dropdown button
-                                  borderRadius: BorderRadius.circular(
-                                      10), //border raiuds of dropdown button
-                                ),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                    child: DropdownButton(
-                                      value: options,
-                                      items: [
-                                        //add items in the dropdown
-                                        DropdownMenuItem(
-                                          child: Text(
-                                            "Pay after service",
-                                            style: TextStyle(fontSize: 17),
-                                          ),
-                                          value: "Pay after service",
-                                        ),
-                                        DropdownMenuItem(
-                                            child: Text(
-                                              "Contact to negotiate",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            value: "Contact to negotiate"),
-                                      ],
-                                      onChanged: (value) {
-                                        //get value when changed
-                                        setState(() {
-                                          options = value!;
-                                        });
-                                        print("You have selected $value");
-                                      },
-                                      icon: Padding(
-                                          //Icon at tail, arrow bottom is default icon
-                                          padding: EdgeInsets.only(left: 20),
-                                          child: Icon(Icons.arrow_drop_down)),
-                                      iconEnabledColor: Colors.white,
-                                      //Icon color
-                                      style: TextStyle(
-                                          //te
-                                          color: Colors.white,
-                                          //Font color
-                                          fontSize:
-                                              20 //font size on dropdown button
-                                          ),
-
-                                      dropdownColor: Colors.grey,
-                                      //dropdown background color
-                                      underline: Container(),
-                                      //remove underline
-                                      isExpanded:
-                                          true, //make true to make width 100%
-                                    ))),
-                          ),
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                          //   child: Text("Payment Options"),
+                          // ),
+                          // Container(
+                          //   margin: EdgeInsets.only(
+                          //     left: 10,
+                          //     right: 10,
+                          //   ),
+                          //   child: DecoratedBox(
+                          //       decoration: BoxDecoration(
+                          //         color: Colors.grey,
+                          //         //background color of dropdown button
+                          //         border:
+                          //             Border.all(color: Colors.grey, width: 1),
+                          //         //border of dropdown button
+                          //         borderRadius: BorderRadius.circular(
+                          //             10), //border raiuds of dropdown button
+                          //       ),
+                          //       child: Padding(
+                          //           padding:
+                          //               EdgeInsets.only(left: 20, right: 20),
+                          //           child: DropdownButton(
+                          //             value: options,
+                          //             items: [
+                          //               //add items in the dropdown
+                          //               DropdownMenuItem(
+                          //                 child: Text(
+                          //                   "Pay after service",
+                          //                   style: TextStyle(fontSize: 17),
+                          //                 ),
+                          //                 value: "Pay after service",
+                          //               ),
+                          //               DropdownMenuItem(
+                          //                   child: Text(
+                          //                     "Contact to negotiate",
+                          //                     style: TextStyle(fontSize: 17),
+                          //                   ),
+                          //                   value: "Contact to negotiate"),
+                          //             ],
+                          //             onChanged: (value) {
+                          //               //get value when changed
+                          //               setState(() {
+                          //                 options = value!;
+                          //               });
+                          //               print("You have selected $value");
+                          //             },
+                          //             icon: Padding(
+                          //                 //Icon at tail, arrow bottom is default icon
+                          //                 padding: EdgeInsets.only(left: 20),
+                          //                 child: Icon(Icons.arrow_drop_down)),
+                          //             iconEnabledColor: Colors.white,
+                          //             //Icon color
+                          //             style: TextStyle(
+                          //                 //te
+                          //                 color: Colors.white,
+                          //                 //Font color
+                          //                 fontSize:
+                          //                     20 //font size on dropdown button
+                          //                 ),
+                          //
+                          //             dropdownColor: Colors.grey,
+                          //             //dropdown background color
+                          //             underline: Container(),
+                          //             //remove underline
+                          //             isExpanded:
+                          //                 true, //make true to make width 100%
+                          //           ))),
+                          // ),
                           // Container(
                           //   margin:
                           //       EdgeInsets.only(top: 10, left: 10, bottom: 5),

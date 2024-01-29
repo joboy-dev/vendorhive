@@ -5396,50 +5396,50 @@ class _WelcomeState extends State<Welcome> {
                       ),
 
                       //paid services button
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return PaidServices(
-                              useremail: widget.useremail,
-                              idname: widget.idname,
-                            );
-                          }));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(bottom: 10, top: 10),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.grey, width: .5))),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 8,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Image.asset(
-                                  "assets/services.png",
-                                  color: Color.fromRGBO(246, 123, 55, 1),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    "Paid Services",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22.5,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(context,
+                      //         MaterialPageRoute(builder: (context) {
+                      //       return PaidServices(
+                      //         useremail: widget.useremail,
+                      //         idname: widget.idname,
+                      //       );
+                      //     }));
+                      //   },
+                      //   child: Container(
+                      //     padding: EdgeInsets.only(bottom: 10, top: 10),
+                      //     decoration: BoxDecoration(
+                      //         border: Border(
+                      //             bottom: BorderSide(
+                      //                 color: Colors.grey, width: .5))),
+                      //     child: Row(
+                      //       children: [
+                      //         Container(
+                      //           width: MediaQuery.of(context).size.width / 8,
+                      //           margin: EdgeInsets.only(left: 10),
+                      //           child: Image.asset(
+                      //             "assets/services.png",
+                      //             color: Color.fromRGBO(246, 123, 55, 1),
+                      //           ),
+                      //         ),
+                      //         Expanded(
+                      //           child: Container(
+                      //             margin: EdgeInsets.only(left: 15),
+                      //             child: Text(
+                      //               "Paid Services",
+                      //               style: TextStyle(
+                      //                 fontWeight: FontWeight.w500,
+                      //                 fontSize:
+                      //                     MediaQuery.of(context).size.width /
+                      //                         22.5,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
 
                       //switch to vendor profile
                       GestureDetector(
