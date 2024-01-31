@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
@@ -42,11 +42,11 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     var getbankcodes = await http.get(
         Uri.https('api.flutterwave.com','/v3/banks/NG'),
         headers: {
-         'Authorization':'Bearer FLWSECK-83f6e0261859cf218b58863ef9f17adf-18a4ac078a8vt-X'
+         'Authorization':dotenv.env['FLUTTERWAVE_PUBLIC_KEYS']!,
         }
     );
 
-    final Map<String, dynamic> data = jsonDecode(getbankcodes.body);
+    final Map<dynamic, dynamic> data = jsonDecode(getbankcodes.body);
 
     print(jsonDecode(getbankcodes.body));
 
@@ -54,7 +54,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
 
     setState(() {
 
-      raw = data['data'];
+      raw = jsonDecode(getbankcodes.body)['data'];
 
       selectbank = "";
 
@@ -74,7 +74,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     var bankname = await http.post(
         Uri.parse(uri),
         headers: {
-          'Authorization':'Bearer FLWSECK-eca998c8baa0cf8656ee844fcb504b71-188b424a7c9vt-X'
+          'Authorization':dotenv.env['FLUTTERWAVE_PUBLIC_KEYS']!,
         },
         body: {
           'account_number':accnumber,

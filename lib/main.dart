@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/create.dart';
 import 'package:vendorandroid/screens/dashboard.dart';
 import 'package:vendorandroid/screens/login.dart';
@@ -18,6 +19,7 @@ String? pendingbalance;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await getvalue();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

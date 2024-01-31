@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/verifywithdraw.dart';
 
 class BusinessWithdraw extends StatefulWidget {
@@ -43,7 +43,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     var getbankcodes = await http.get(
         Uri.https('api.flutterwave.com','/v3/banks/NG'),
         headers: {
-          'Authorization':'Bearer FLWSECK-83f6e0261859cf218b58863ef9f17adf-18a4ac078a8vt-X'
+          'Authorization':dotenv.env['FLUTTERWAVE_PUBLIC_KEYS']!,
         }
     );
 
@@ -76,7 +76,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
       var bankname = await http.post(
           Uri.parse(uri),
           headers: {
-            'Authorization':'Bearer FLWSECK-eca998c8baa0cf8656ee844fcb504b71-188b424a7c9vt-X'
+            'Authorization':dotenv.env['FLUTTERWAVE_PUBLIC_KEYS']!,
           },
           body: {
             'account_number':accnumber,
