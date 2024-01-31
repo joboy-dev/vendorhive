@@ -58,7 +58,7 @@ class _ProcesstopupState extends State<Processtopup> {
       );
 
       var notifyuser = await http.post(
-          Uri.https('vendorhive360.com', 'vendor/vendorsendnotification.php'),
+          Uri.https('vendorhive360.com', 'vendor/sendtopnotification.php'),
           body: {
             'message': "₦"+widget.amount+" was credited into your account",
             'info': widget.email,

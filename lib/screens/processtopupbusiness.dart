@@ -64,6 +64,17 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
           }
       );
 
+      var notifyuser = await http.post(
+          Uri.https('vendorhive360.com', 'vendor/sendtopnotification.php'),
+          body: {
+            'message': "₦"+widget.amount+" was credited into your account",
+            'info': widget.email,
+            'tag': 'Top-Up',
+            'quantity' : "1",
+            'refno': trfid,
+          }
+      );
+
       if(savetransaction.statusCode == 200){
         print(jsonDecode(savetransaction.body));
         if(jsonDecode(savetransaction.body) == 'true'){

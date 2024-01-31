@@ -28,7 +28,7 @@ class _RateproductState extends State<Rateproduct> {
   TextEditingController _reviews = new TextEditingController();
   TextEditingController _comment = new TextEditingController();
 
-  Future processratings () async{
+  Future processratings() async{
     print("Processing ratings");
 
     setState(() {
@@ -215,8 +215,7 @@ class _RateproductState extends State<Rateproduct> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if(_name.text.isEmpty || _comment.text.isEmpty||
-                        _reviews.text.isEmpty){
+                        if(_name.text.isEmpty || _comment.text.isEmpty){
                           ScaffoldMessenger.of(this.context).showSnackBar(
                               SnackBar(
                                 content: Text('Fill all fields'),
@@ -224,7 +223,6 @@ class _RateproductState extends State<Rateproduct> {
                         }else{
                           processratings();
                         }
-
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 10,right: 10,top: 13,bottom: 20),
