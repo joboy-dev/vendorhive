@@ -661,6 +661,36 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  Future inform_customer() async{
+    final getpackages = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+      setState(() {
+        packageName = "Free";
+      });
+    }
+    else{
+      var getExpiredDate = await http.post(
+          Uri.https('vendorhive360.com', 'vendor/vendorgetExpiredDate.php'),
+          body: {
+            'useremail': widget.useremail,
+          });
+      print("Expired date is "+jsonDecode(getExpiredDate.body)[0]['4']);
+      //tell customer date
+      String tell_date = jsonDecode(getExpiredDate.body)[0]['4'];
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.blueGrey[700],
+        content: Text(jsonDecode(getpackages.body)['package'].toString()+" expires"
+          " on "+tell_date,style: TextStyle(
+          color: Colors.white
+        )),));
+    }
+  }
+
   Future checkavailabilityforproducts() async {
     Navigator.of(context).pop();
 
@@ -705,7 +735,7 @@ class _DashboardState extends State<Dashboard> {
       //list of individuals I refered
       referals = jsonDecode(earn.body);
       print('Number of referals ${referals.length}');
-      number_of_referals = referals.length * 3;
+      number_of_referals = referals.length;
       print("getting used products");
       //checking for number of products uploaded
       final checkfornumberofproducts = await http.post(
@@ -741,6 +771,7 @@ class _DashboardState extends State<Dashboard> {
             _selectedpage = 0;
             _selectedIndex = 4;
           });
+          inform_customer();
         }
         // else if (numberofproduct == amountofproducts) {
         //   setState(() {
@@ -1147,7 +1178,7 @@ class _DashboardState extends State<Dashboard> {
       // }
 
       referals_service = jsonDecode(earn.body);
-      number_of_referals_service = referals_service.length * 3;
+      number_of_referals_service = referals_service.length;
 
       if ((numberofservice + number_of_referals_service) > amountofservice) {
         setState(() {
@@ -1163,6 +1194,7 @@ class _DashboardState extends State<Dashboard> {
         setState(() {
           _selectedIndex = 5;
         });
+        inform_customer();
       }
       // else if (numberofservice == amountofservice) {
       //   setState(() {
@@ -1856,6 +1888,11 @@ class _DashboardState extends State<Dashboard> {
           await pref.setString('packagename', packageName);
         }
 
+      }
+      else{
+        setState(() {
+          packageName = jsonDecode(getpackages.body)['package'].toString();
+        });
       }
     }
   }
