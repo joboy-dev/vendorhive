@@ -346,7 +346,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -668,18 +669,22 @@ class _DashboardState extends State<Dashboard> {
     });
 
     print("print add product out");
+
+    //check package for user email
     final getpackages = await http.post(
         Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
         body: {'useremail': widget.useremail});
 
     print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
+    //get upload number based on package
     final productamount = await http.post(
         Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
         body: {
           'packagename': jsonDecode(getpackages.body)['package'].toString()
         });
 
+    //check people you refered to add it
     var earn = await http.post(
         Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
         body: {
@@ -687,21 +692,22 @@ class _DashboardState extends State<Dashboard> {
         }
     );
 
-
     if (productamount.statusCode == 200 && earn.statusCode == 200) {
       print('getting assigned products');
       print(jsonDecode(productamount.body));
       print(jsonDecode(productamount.body)[0]);
-      print("Assingned number of products:- " +
+      print("Assingned number of products for the package:- " +
           jsonDecode(productamount.body)[0]['productamount']);
       numberassignedproduct =
           jsonDecode(productamount.body)[0]['productamount'];
       numberofproduct = int.parse(numberassignedproduct);
-      print(jsonDecode(earn.body));
+      print("Details of people I referred "+jsonDecode(earn.body).toString());
+      //list of individuals I refered
       referals = jsonDecode(earn.body);
       print('Number of referals ${referals.length}');
       number_of_referals = referals.length * 3;
       print("getting used products");
+      //checking for number of products uploaded
       final checkfornumberofproducts = await http.post(
           Uri.https('vendorhive360.com', 'vendor/vendorcheckproductid.php'),
           body: {'email': widget.useremail});
@@ -712,10 +718,11 @@ class _DashboardState extends State<Dashboard> {
 
         jsonDecode(checkfornumberofproducts.body)
             .forEach((s) => idnames.add(s["pidname"]));
-        print("List lenght is ${idnames.length}");
+        print("List lenght of product uploaded is ${idnames.length}");
 
+        //amount of product uploaded
         amountofproducts = idnames.length;
-        print(amountofproducts);
+        print("Number of product uploaded is $amountofproducts");
 
         print("Used amount of products :- $amountofproducts");
 
@@ -724,6 +731,7 @@ class _DashboardState extends State<Dashboard> {
         // }
         //
 
+        //check if your qualified for a upload
         if ((numberofproduct + number_of_referals) > amountofproducts) {
           int available = (numberofproduct + number_of_referals) - amountofproducts;
           ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
@@ -5555,12 +5563,15 @@ class _DashboardState extends State<Dashboard> {
                                 if(_prodname.text.isNotEmpty &&
                                 _proddesc.text.isNotEmpty &&
                                 _prodprice.text.isNotEmpty &&
+                                    (prodfilename.isNotEmpty || prodfilename2.isNotEmpty
+                                    || prodfilename3.isNotEmpty || prodfilename4.isNotEmpty
+                                    || prodfilename5.isNotEmpty) &&
                                     deliverySchedule.length > 0){
                                   addproducts();
                                 }
                                 else{
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Ensure to Fill all fields",style: TextStyle(
+                                    SnackBar(content: Text("Fill all fields and Upload an image",style: TextStyle(
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.bold
                                     ),))
@@ -6875,7 +6886,21 @@ class _DashboardState extends State<Dashboard> {
                           // attach photo text
                           GestureDetector(
                             onTap: () {
-                              addservices();
+                              if(_servicename.text.isNotEmpty &&
+                                  _servicedesc.text.isNotEmpty &&
+                                  (servicefilename.isNotEmpty || servicefilename2.isNotEmpty
+                                      || servicefilename3.isNotEmpty || servicefilename4.isNotEmpty
+                                      || servicefilename5.isNotEmpty)){
+                                addservices();
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Fill all fields and Upload an Image",style: TextStyle(
+                                        color: Colors.yellow,
+                                        fontWeight: FontWeight.bold
+                                    ),))
+                                );
+                              }
                             },
                             child: Container(
                               margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
