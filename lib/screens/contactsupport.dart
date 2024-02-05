@@ -70,32 +70,48 @@ class _ContactSupportState extends State<ContactSupport> {
 
     try{
 
-      var contactsupport = await http.post(
-          Uri.https('vendorhive360.com', 'vendor/vendorcontactsupport.php'),
-          body: {
-            'issue': drop,
-            'frommail': widget.mail,
-            'message': replacing(_message.text),
-            'idname': widget.idname,
-            'refno': trfid,
-            'name' : widget.username
+      if(drop.isNotEmpty && _message.text.isNotEmpty &&
+          trfid.isNotEmpty && widget.mail.isNotEmpty &&
+          widget.idname.isNotEmpty){
+        var contactsupport = await http.post(
+            Uri.https('vendorhive360.com', 'vendor/vendorcontactsupport.php'),
+            body: {
+              'issue': drop,
+              'frommail': widget.mail,
+              'message': replacing(_message.text),
+              'idname': widget.idname,
+              'refno': trfid,
+              'name' : widget.username
+            }
+        );
+
+        if(contactsupport.statusCode == 200){
+          if(jsonDecode(contactsupport.body)=='true'){
+            print('Complain is sent');
+
+            setState(() {
+              sendinghelp = false;
+              conplainsent = true;
+              _message.clear();
+              _selectedpage = 0;
+            });
+
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("We have received your complain and will get back to you shortly"))
+            );
           }
-      );
+          else{
+            setState(() {
+              sendinghelp = false;
+              conplainsent = true;
+              _message.clear();
+              _selectedpage = 0;
+            });
 
-      if(contactsupport.statusCode == 200){
-        if(jsonDecode(contactsupport.body)=='true'){
-          print('Complain is sent');
-
-          setState(() {
-            sendinghelp = false;
-            conplainsent = true;
-            _message.clear();
-            _selectedpage = 0;
-          });
-
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("We have received your complain and will get back to you shortly"))
-          );
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Request timed out, Try again"))
+            );
+          }
         }
         else{
           setState(() {
@@ -105,6 +121,7 @@ class _ContactSupportState extends State<ContactSupport> {
             _selectedpage = 0;
           });
 
+          print("Contacting support issues ${contactsupport.statusCode}");
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Request timed out, Try again"))
           );
@@ -112,16 +129,12 @@ class _ContactSupportState extends State<ContactSupport> {
       }
       else{
         setState(() {
-          sendinghelp = false;
-          conplainsent = true;
-          _message.clear();
           _selectedpage = 0;
         });
 
-        print("Contacting support issues ${contactsupport.statusCode}");
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Request timed out, Try again"))
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return Failed(trfid: trfid);
+        }));
       }
     }
     catch(e){
@@ -172,9 +185,9 @@ class _ContactSupportState extends State<ContactSupport> {
     super.initState();
     print(widget.idname);
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: _selectedpage ==0?
       SafeArea(
