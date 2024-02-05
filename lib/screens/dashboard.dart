@@ -730,7 +730,12 @@ class _DashboardState extends State<Dashboard> {
           jsonDecode(productamount.body)[0]['productamount']);
       numberassignedproduct =
           jsonDecode(productamount.body)[0]['productamount'];
-      numberofproduct = int.parse(numberassignedproduct);
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofproduct = int.parse(numberassignedproduct);
+      }
+      else{
+        numberofproduct = int.parse(numberassignedproduct)+5;
+      }
       print("Details of people I referred "+jsonDecode(earn.body).toString());
       //list of individuals I refered
       referals = jsonDecode(earn.body);
@@ -1143,7 +1148,12 @@ class _DashboardState extends State<Dashboard> {
       numberassignedservice =
           jsonDecode(serviceamount.body)[0]['serviceamount'];
 
-      numberofservice = int.parse(numberassignedservice);
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofservice = int.parse(numberassignedservice);
+      }
+      else{
+        numberofservice = int.parse(numberassignedservice)+5;
+      }
     } else {
       setState(() {
         _selectedpage = 0;
@@ -1880,6 +1890,7 @@ class _DashboardState extends State<Dashboard> {
               'useremail':widget.useremail
             }
         );
+
 
         if(jsonDecode(resetPackage.body) == "true"){
           setState(() {
