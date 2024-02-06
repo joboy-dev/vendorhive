@@ -691,6 +691,193 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  Future activate_available_products() async {
+    Navigator.of(context).pop();
+
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    print("print add product out");
+
+    //check package for user email
+    final getpackages = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    //get upload number based on package
+    final productamount = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+        body: {
+          'packagename': jsonDecode(getpackages.body)['package'].toString()
+        });
+
+    //check people you refered to add it
+    var earn = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+    if (productamount.statusCode == 200 && earn.statusCode == 200) {
+      print('getting assigned products');
+      print(jsonDecode(productamount.body));
+      print(jsonDecode(productamount.body)[0]);
+      print("Assingned number of products for the package:- " +
+          jsonDecode(productamount.body)[0]['productamount']);
+      numberassignedproduct =
+      jsonDecode(productamount.body)[0]['productamount'];
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofproduct = int.parse(numberassignedproduct);
+      }
+      else{
+        numberofproduct = int.parse(numberassignedproduct)+5;
+      }
+      print("Details of people I referred "+jsonDecode(earn.body).toString());
+      //list of individuals I refered
+      referals = jsonDecode(earn.body);
+      print('Number of referals ${referals.length}');
+      number_of_referals = referals.length;
+      print("getting used products");
+      //checking for number of products uploaded
+      final checkfornumberofproducts = await http.post(
+          Uri.https('vendorhive360.com', 'vendor/vendorcheckproductid.php'),
+          body: {'email': widget.useremail});
+
+      if (checkfornumberofproducts.statusCode == 200) {
+        idnames.clear();
+        print(jsonDecode(checkfornumberofproducts.body));
+
+        jsonDecode(checkfornumberofproducts.body)
+            .forEach((s) => idnames.add(s["pidname"]));
+        print("List lenght of product uploaded is ${idnames.length}");
+
+        //amount of product uploaded
+        amountofproducts = idnames.length;
+        print("Number of product uploaded is $amountofproducts");
+
+        print("Used amount of products :- $amountofproducts");
+
+        // for (int o = 0; o < idnames.length; o++) {
+        //   print("PId names in list " + idnames[o]);
+        // }
+        //
+
+        int available_products = numberofproduct + number_of_referals;
+
+        //activate number of products
+
+      }
+      else {
+        setState(() {
+          _selectedpage = 0;
+        });
+      }
+    }
+    else {
+      setState(() {
+        _selectedpage = 0;
+      });
+    }
+
+  }
+
+  Future activate_available_services() async {
+    Navigator.of(context).pop(true);
+
+    setState(() {
+      _selectedpage = 1;
+    });
+
+    final getpackages = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.useremail});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    final serviceamount = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+        body: {
+          'packagename': jsonDecode(getpackages.body)['package'].toString(),
+        });
+
+    var earn = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+    if (serviceamount.statusCode == 200 && earn.statusCode == 200) {
+      print(jsonDecode(serviceamount.body));
+
+      print(jsonDecode(serviceamount.body)[0]);
+
+      print("Assingned number of service:- " +
+          jsonDecode(serviceamount.body)[0]['serviceamount']);
+
+      numberassignedservice =
+      jsonDecode(serviceamount.body)[0]['serviceamount'];
+
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofservice = int.parse(numberassignedservice);
+      }
+      else{
+        numberofservice = int.parse(numberassignedservice)+5;
+      }
+    } else {
+      setState(() {
+        _selectedpage = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:
+          Text('Network Issues when getting number of assigned services')));
+    }
+
+    print("getting services");
+
+    final checkfornumberofservices = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorcheckserviceid.php'),
+        body: {'email': widget.useremail});
+
+    if (checkfornumberofservices.statusCode == 200) {
+      sidnames.clear();
+      print(jsonDecode(checkfornumberofservices.body));
+
+      jsonDecode(checkfornumberofservices.body)
+          .forEach((s) => sidnames.add(s["sidname"]));
+      print("List lenght is ${sidnames.length}");
+
+      amountofservice = sidnames.length;
+      print(amountofservice);
+
+      print("Used amount of services :- $amountofservice");
+
+      // for (int o = 0; o < sidnames.length; o++) {
+      //   print("SId names in list " + sidnames[o]);
+      // }
+
+      referals_service = jsonDecode(earn.body);
+      number_of_referals_service = referals_service.length;
+
+      int available_service = numberofservice + number_of_referals_service;
+
+      //activate available service
+    } else {
+      setState(() {
+        _selectedpage = 0;
+      });
+
+      ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+        content: Text('Network Issues'),
+      ));
+    }
+  }
+
   Future checkavailabilityforproducts() async {
     Navigator.of(context).pop();
 
