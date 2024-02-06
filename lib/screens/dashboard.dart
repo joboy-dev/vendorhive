@@ -769,7 +769,17 @@ class _DashboardState extends State<Dashboard> {
         int available_products = numberofproduct + number_of_referals;
 
         //activate number of products
+        if(amountofproducts >= available_products){
+          var activate_product = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
+            body:{
+              'useremail': widget.useremail,
+              'number' : available_products.toString()
+            }
+          );
+        }else{
 
+        }
       }
       else {
         setState(() {
@@ -867,6 +877,15 @@ class _DashboardState extends State<Dashboard> {
       int available_service = numberofservice + number_of_referals_service;
 
       //activate available service
+      if(amountofservice >= available_service){
+        final activate_service = http.post(
+          Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
+            body:{
+              "useremail": widget.useremail,
+              "number": available_service.toString()
+            }
+        );
+      }
     } else {
       setState(() {
         _selectedpage = 0;
