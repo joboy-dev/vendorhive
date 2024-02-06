@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:vendorandroid/screens/login.dart';
 import 'package:vendorandroid/screens/start.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Create extends StatefulWidget {
 
@@ -10,6 +13,8 @@ class Create extends StatefulWidget {
 }
 
 class _CreateState extends State<Create> {
+
+  int selectedPage = 0;
 
   String appstatus = "Vendorhive360";
 
@@ -20,11 +25,57 @@ class _CreateState extends State<Create> {
   TextEditingController _confirmpassowrd = new TextEditingController();
   TextEditingController _referencecode = new TextEditingController();
 
+  int number_of_referals = 0;
+  List referals = [];
+
+  Future validate_referal_code() async{
+    setState(() {
+      selectedPage = 1;
+    });
+    //check people you refered to add it
+    var earn = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':_referencecode.text
+        }
+    );
+
+    referals = jsonDecode(earn.body);
+    number_of_referals = referals.length;
+
+    if(number_of_referals < 5){
+
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return GetStarted(
+              fullname: _fullname.text,
+              email: _email.text,
+              phonenumber: _phonenumber.text,
+              password: _password.text,
+              confirmpassword: _confirmpassowrd.text,
+              referalcode: _referencecode.text,);
+          }));
+
+    }
+    else{
+
+      setState(() {
+        selectedPage = 0;
+      });
+
+      ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(
+            content: Text('Referal limit exceed!!, Try another referal code or proceed without referal'),
+          ));
+
+    }
+  }
 
   bool obscure = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return selectedPage == 0 ?
+    Scaffold(
       body: GestureDetector(
         onTap: (){
           FocusManager.instance.primaryFocus?.unfocus();
@@ -255,16 +306,7 @@ class _CreateState extends State<Create> {
                                 && _password.text.isNotEmpty &&
                                 _confirmpassowrd.text.isNotEmpty) {
                               if (_password.text == _confirmpassowrd.text) {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return GetStarted(
-                                        fullname: _fullname.text,
-                                        email: _email.text,
-                                        phonenumber: _phonenumber.text,
-                                        password: _password.text,
-                                        confirmpassword: _confirmpassowrd.text,
-                                        referalcode: _referencecode.text,);
-                                    }));
+                                validate_referal_code();
                               }
                               else {
                                 ScaffoldMessenger.of(this.context).showSnackBar(
@@ -327,6 +369,50 @@ class _CreateState extends State<Create> {
             ),
           ),
         ),
+      ),
+    )
+    :Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: SpinKitFadingCube(
+                      color: Colors.orange,
+                      size: 100,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Signing in",
+                      style: TextStyle(
+                        color: Color.fromRGBO(246, 123, 55, 1),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Center(
+                      child: Text(
+                        'Vendorhive360',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

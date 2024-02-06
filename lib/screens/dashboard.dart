@@ -769,7 +769,7 @@ class _DashboardState extends State<Dashboard> {
         int available_products = numberofproduct + number_of_referals;
 
         //activate number of products
-        if(amountofproducts >= available_products){
+        if(amountofproducts <= available_products){
           var activate_product = http.post(
             Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
             body:{
@@ -778,6 +778,7 @@ class _DashboardState extends State<Dashboard> {
             }
           );
         }else{
+          //activate 5 products
 
         }
       }
@@ -877,7 +878,7 @@ class _DashboardState extends State<Dashboard> {
       int available_service = numberofservice + number_of_referals_service;
 
       //activate available service
-      if(amountofservice >= available_service){
+      if(amountofservice <= available_service){
         final activate_service = http.post(
           Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
             body:{
@@ -2097,6 +2098,39 @@ class _DashboardState extends State<Dashboard> {
             }
         );
 
+        //deactivate all products
+        var deactivate_all_product = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_deactivate_all_products.php'),
+            body:{
+              'useremail': widget.useremail,
+            }
+        );
+
+        //deactivate all services
+        var deactivate_all_services = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_deactivate_all_services.php'),
+            body:{
+              'useremail': widget.useremail,
+            }
+        );
+
+        //activate first 5 uploaded products
+        var activate_5_free_product = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
+            body:{
+              'useremail': widget.useremail,
+              'number' : "5"
+            }
+        );
+
+        //activate first 5 uploaded service
+        final activate_5_free_service = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
+            body:{
+              "useremail": widget.useremail,
+              'number' : "5"
+            }
+        );
 
         if(jsonDecode(resetPackage.body) == "true"){
           setState(() {
