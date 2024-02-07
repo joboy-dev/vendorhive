@@ -774,12 +774,18 @@ class _DashboardState extends State<Dashboard> {
             Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
             body:{
               'useremail': widget.useremail,
-              'number' : available_products.toString()
+              'number' : amountofproducts.toString()
             }
           );
         }else{
           //activate 5 products
-
+          var activate_product = http.post(
+              Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
+              body:{
+                'useremail': widget.useremail,
+                'number' : available_products.toString()
+              }
+          );
         }
       }
       else {
@@ -881,6 +887,15 @@ class _DashboardState extends State<Dashboard> {
       if(amountofservice <= available_service){
         final activate_service = http.post(
           Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
+            body:{
+              "useremail": widget.useremail,
+              "number": amountofservice.toString()
+            }
+        );
+      }
+      else{
+        final activate_service = http.post(
+            Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
             body:{
               "useremail": widget.useremail,
               "number": available_service.toString()
