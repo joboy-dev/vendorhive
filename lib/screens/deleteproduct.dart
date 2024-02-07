@@ -18,6 +18,7 @@ class DeleteProduct extends StatefulWidget {
   String productname = "";
   String payment_option = "";
   String idname = "";
+  String product_status = '';
 
   DeleteProduct(
       {required this.pidname,
@@ -28,6 +29,7 @@ class DeleteProduct extends StatefulWidget {
       required this.productdescription,
       required this.productname,
       required this.payment_option,
+      required this.product_status,
       Key? key})
       : super(key: key);
 
@@ -44,9 +46,120 @@ class _DeleteProductState extends State<DeleteProduct> {
   String paymentOptionStatus = "";
   List getting_delivery_plan = [];
   bool set_delivery = false;
+  String numberassignedproduct = "";
+  int numberofproduct = 0;
+  List referals = [];
+  int number_of_referals = 0;
+  int number_of_referals_service = 0;
+  List<String> idnames = [];
+  int amountof_active_products = 0;
 
   TextEditingController _newPrice = new TextEditingController();
   TextEditingController _newDescription = new TextEditingController();
+
+  Future check_before_activate_products() async {
+    setState(() {
+      _loadIndex = 1;
+    });
+
+    print("checking if it can activate product");
+
+    //check package for user email
+    final getpackages = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.email});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    //get upload number based on package
+    final productamount = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+        body: {
+          'packagename': jsonDecode(getpackages.body)['package'].toString()
+        });
+
+    //check people you refered to add it
+    var earn = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+    if (productamount.statusCode == 200 && earn.statusCode == 200) {
+      print('getting assigned products');
+      print(jsonDecode(productamount.body));
+      print(jsonDecode(productamount.body)[0]);
+      print("Assingned number of products for the package:- " +
+          jsonDecode(productamount.body)[0]['productamount']);
+      numberassignedproduct =
+      jsonDecode(productamount.body)[0]['productamount'];
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofproduct = int.parse(numberassignedproduct);
+      }
+      else{
+        numberofproduct = int.parse(numberassignedproduct)+5;
+      }
+      print("Details of people I referred "+jsonDecode(earn.body).toString());
+      //list of individuals I refered
+      referals = jsonDecode(earn.body);
+      print('Number of referals ${referals.length}');
+      number_of_referals = referals.length;
+      print("getting used products");
+      //checking for number of products uploaded
+      final checkfornumberofproducts = await http.post(
+          Uri.https('vendorhive360.com', 'vendor/vendor_number_of_active_products.php'),
+          body: {'useremail': widget.email});
+
+      if (checkfornumberofproducts.statusCode == 200) {
+        idnames.clear();
+        print(jsonDecode(checkfornumberofproducts.body));
+
+        jsonDecode(checkfornumberofproducts.body)
+            .forEach((s) => idnames.add(s["pidname"]));
+
+        print("List lenght of product uploaded is ${idnames.length}");
+
+        //amount of product uploaded
+        amountof_active_products = idnames.length;
+        print("Number of product uploaded is $amountof_active_products");
+
+        print("Used amount of products :- $amountof_active_products");
+
+        //check if your qualified for a upload
+        if ((numberofproduct + number_of_referals) > amountof_active_products) {
+          print("Activating product");
+          activate_product();
+        }
+        else {
+          setState(() {
+            _loadIndex = 0;
+          });
+          ScaffoldMessenger.of(this.context).showSnackBar(
+            SnackBar(
+              content: Text('You have exceed your activation limit, Upgrade Package'),
+            )
+          );
+        }
+      }
+      else {
+        setState(() {
+          _loadIndex = 0;
+        });
+        ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+          content: Text('Network Issues'),
+        ));
+      }
+    }
+    else {
+      setState(() {
+        _loadIndex = 0;
+      });
+      ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+        content: Text('Network Issues'),
+      ));
+    }
+  }
 
   Future delete_product() async {
 
@@ -226,6 +339,89 @@ class _DeleteProductState extends State<DeleteProduct> {
       });
     } else {
       print("Network Error");
+    }
+  }
+
+  Future deactivate_product() async{
+    setState(() {
+      _loadIndex = 1;
+    });
+
+    var deactivate = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendor_deactivate_product.php'
+        ),
+    body: {
+      "pidname":widget.pidname
+    });
+
+    if(deactivate.statusCode == 200){
+      if(jsonDecode(deactivate.body) == "true"){
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Product is deactivated"))
+        );
+      }
+      else{
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+      }
+    }
+    else{
+
+      setState(() {
+        _loadIndex = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+    }
+  }
+
+  Future activate_product() async{
+    var activate = await http.post(
+        Uri.https(
+            'vendorhive360.com','vendor/vendoractivate_product.php'
+        ),
+        body: {
+          "pidname":widget.pidname
+        });
+
+    if(activate.statusCode == 200){
+      if(jsonDecode(activate.body) == "true"){
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(this.context).showSnackBar(
+            SnackBar(
+              content: Text('Product is Activated!'),
+            )
+        );
+      }
+      else{
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+      }
+    }
+    else{
+
+      setState(() {
+        _loadIndex = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
     }
   }
 
@@ -456,6 +652,99 @@ class _DeleteProductState extends State<DeleteProduct> {
                                 margin: EdgeInsets.only(left: 15),
                                 child: Text(
                                   "Edit Delivery Method",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      widget.product_status == "active"?
+                      //Deactivate Product
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(context: context, builder: (cxt)=>AlertDialog(
+                            title: Text("Deactivate product"),
+                            content: Text("Do you want to deactivate this product"),
+                            actions: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: Text("No",style: TextStyle(
+                                color: Colors.red
+                              ),)),
+                              TextButton(onPressed: (){
+                                Navigator.pop(cxt);
+                                deactivate_product();
+                              }, child: Text("Yes")),
+                            ],
+                          ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset("assets/deactivate.png",
+                                    color: Color.fromRGBO(246, 123, 55, 1)),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Deactivate Product",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                      //activate product
+                      :GestureDetector(
+                        onTap: () {
+                          showDialog(context: context, builder: (cxt)=>AlertDialog(
+                            title: Text("Activate product"),
+                            content: Text("Do you want to activate this product"),
+                            actions: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: Text("No",style: TextStyle(
+                                  color: Colors.red
+                              ),)),
+                              TextButton(onPressed: (){
+                                Navigator.pop(cxt);
+                                check_before_activate_products();
+                              }, child: Text("Yes")),
+                            ],
+                          ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset("assets/power-button.png",
+                                    color: Color.fromRGBO(246, 123, 55, 1)),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Activate Product",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),

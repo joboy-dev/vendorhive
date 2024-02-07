@@ -330,6 +330,7 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                               productimg: rawproducts[index]['productimg'],
                               productPrice: rawproducts[index]['productprice'],
                               productdescription: rawproducts[index]['productdescription'],
+                              product_status: rawproducts[index]['product_status'],
                             );
                           }));
                         },
@@ -337,7 +338,9 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                           // padding: EdgeInsets.only(top: 10,bottom: 10),
                           margin:EdgeInsets.only(left: 10,right: 10,top: 10),
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(229, 228, 226, 1),
+                              color: rawproducts[index]['product_status'] == 'active' ?
+                              Color.fromRGBO(229, 228, 226, 1)
+                              :Colors.red[400],
                               borderRadius: BorderRadius.circular(5)
                           ),
                           child: Column(
@@ -394,6 +397,21 @@ class _VendorViewProductsState extends State<VendorViewProducts> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              rawproducts[index]['product_status'] == 'active' ?
+                              Container()
+                              :Center(
+                                child: Container(
+                                  child: Text("Product is Deactivated",textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold
+                                    ),),
+                                ),
+                              )
                             ],
                           ),
                         ),

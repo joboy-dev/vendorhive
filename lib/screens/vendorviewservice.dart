@@ -315,7 +315,10 @@ class _VendorServiceState extends State<VendorService> {
                                         serviceolddescription: rawservice[index]['desription'],
                                         email: widget.adminemail,
                                         sidname: rawservice[index]['sidname'],
-                                        serviceimg: rawservice[index]['serviceimg']);
+                                        serviceimg: rawservice[index]['serviceimg'],
+                                      service_status: rawservice[index]['service_status'],
+                                      idname: widget.idname,
+                                    );
                                   }));
                             },
                             child: Container(

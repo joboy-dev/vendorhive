@@ -15,15 +15,19 @@ class DeleteService extends StatefulWidget {
   String serviceolddescription = "";
   String servicename = "";
   String payment_option = "";
+  String service_status = "";
+  String idname = "";
 
   DeleteService(
       {required this.email,
+      required this.idname,
       required this.sidname,
       required this.serviceimg,
       required this.serviceoldPrice,
       required this.serviceolddescription,
       required this.servicename,
       required this.payment_option,
+      required this.service_status,
       Key? key})
       : super(key: key);
 
@@ -38,9 +42,193 @@ class _DeleteServiceState extends State<DeleteService> {
   String descriptionStatus = "";
   String paymentOptionStatus = "";
   String service_payment_option = "-";
+  String numberassignedservice = "";
+  int numberofservice = 0;
+  List<String> sidnames = [];
+  int amountof_active_service = 0;
+  int number_of_referals_service = 0;
+  List referals_service = [];
 
   TextEditingController _newPrice = new TextEditingController();
   TextEditingController _newDescription = new TextEditingController();
+
+  Future check_before_activate_service() async {
+
+    final getpackages = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
+        body: {'useremail': widget.email});
+
+    print("Package "+jsonDecode(getpackages.body)['package'].toString());
+
+    final serviceamount = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+        body: {
+          'packagename': jsonDecode(getpackages.body)['package'].toString(),
+        });
+
+    var earn = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+        body: {
+          'idname':widget.idname
+        }
+    );
+
+    if (serviceamount.statusCode == 200 && earn.statusCode == 200) {
+      print(jsonDecode(serviceamount.body));
+
+      print(jsonDecode(serviceamount.body)[0]);
+
+      print("Assingned number of service:- " +
+          jsonDecode(serviceamount.body)[0]['serviceamount']);
+
+      numberassignedservice =
+      jsonDecode(serviceamount.body)[0]['serviceamount'];
+
+      if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+        numberofservice = int.parse(numberassignedservice);
+      }
+      else{
+        numberofservice = int.parse(numberassignedservice)+5;
+      }
+    } else {
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:
+          Text('Network Issues when getting number of assigned services')));
+    }
+
+    print("getting services");
+
+    final checkfornumberofservices = await http.post(
+        Uri.https('vendorhive360.com', 'vendor/vendor_number_of_active_services.php'),
+        body: {'email': widget.email});
+
+    if (checkfornumberofservices.statusCode == 200) {
+      sidnames.clear();
+      print(jsonDecode(checkfornumberofservices.body));
+
+      jsonDecode(checkfornumberofservices.body)
+          .forEach((s) => sidnames.add(s["sidname"]));
+      print("List lenght is ${sidnames.length}");
+
+      amountof_active_service = sidnames.length;
+      print(amountof_active_service);
+
+      print("Used amount of services :- $amountof_active_service");
+
+      // for (int o = 0; o < sidnames.length; o++) {
+      //   print("SId names in list " + sidnames[o]);
+      // }
+
+      referals_service = jsonDecode(earn.body);
+      number_of_referals_service = referals_service.length;
+
+      if ((numberofservice + number_of_referals_service) > amountof_active_service) {
+        print("Activating service");
+        activate_service();
+      }
+      else {
+        setState(() {
+          _loadIndex = 0;
+        });
+        ScaffoldMessenger.of(this.context).showSnackBar(
+            SnackBar(
+              content: Text('You have exceed your activation limit, Upgrade Package'),
+            )
+        );
+      }
+    } else {
+      setState(() {
+        _loadIndex = 0;
+      });
+      ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+        content: Text('Network Issues'),
+      ));
+    }
+  }
+
+  Future deactivate_service() async{
+    setState(() {
+      _loadIndex = 1;
+    });
+
+    var deactivate = await http.post(
+        Uri.https('vendorhive360.com','vendor/vendor_deactivate_service.php'
+        ),
+        body: {
+          "sidname":widget.sidname
+        });
+
+    if(deactivate.statusCode == 200){
+      if(jsonDecode(deactivate.body) == "true"){
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Service is deactivated"))
+        );
+      }
+      else{
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+      }
+    }
+    else{
+
+      setState(() {
+        _loadIndex = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+    }
+  }
+
+  Future activate_service() async{
+    var activate = await http.post(
+        Uri.https(
+            'vendorhive360.com','vendor/vendor_service_activate.php'
+        ),
+        body: {
+          "sidname":widget.sidname
+        });
+
+    if(activate.statusCode == 200){
+      if(jsonDecode(activate.body) == "true"){
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(this.context).showSnackBar(
+            SnackBar(
+              content: Text('Service is Activated!'),
+            )
+        );
+      }
+      else{
+
+        setState(() {
+          _loadIndex = 0;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+      }
+    }
+    else{
+
+      setState(() {
+        _loadIndex = 0;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Request timed out")));
+    }
+  }
 
   Future delete_service()async{
     setState(() {
@@ -301,6 +489,7 @@ class _DeleteServiceState extends State<DeleteService> {
                         )),
 
                     if(_selectedItem == 0)...[
+                      //edit price
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -337,6 +526,7 @@ class _DeleteServiceState extends State<DeleteService> {
                           ),
                         ),
                       ),
+                      //edit description
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -373,6 +563,7 @@ class _DeleteServiceState extends State<DeleteService> {
                           ),
                         ),
                       ),
+                      //edit payment option
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -409,6 +600,100 @@ class _DeleteServiceState extends State<DeleteService> {
                           ),
                         ),
                       ),
+                      widget.service_status == "active"?
+                      //Deactivate Product
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(context: context, builder: (cxt)=>AlertDialog(
+                            title: Text("Deactivate product"),
+                            content: Text("Do you want to deactivate this product"),
+                            actions: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: Text("No",style: TextStyle(
+                                  color: Colors.red
+                              ),)),
+                              TextButton(onPressed: (){
+                                Navigator.pop(cxt);
+                                deactivate_service();
+                              }, child: Text("Yes")),
+                            ],
+                          ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset("assets/deactivate.png",
+                                    color: Color.fromRGBO(246, 123, 55, 1)),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Deactivate Product",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                      //activate product
+                      :GestureDetector(
+                        onTap: () {
+                          showDialog(context: context, builder: (cxt)=>AlertDialog(
+                            title: Text("Activate product"),
+                            content: Text("Do you want to activate this product"),
+                            actions: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: Text("No",style: TextStyle(
+                                  color: Colors.red
+                              ),)),
+                              TextButton(onPressed: (){
+                                Navigator.pop(cxt);
+                                check_before_activate_service();
+                              }, child: Text("Yes")),
+                            ],
+                          ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey, width: .5))),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 8,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset("assets/power-button.png",
+                                    color: Color.fromRGBO(246, 123, 55, 1)),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  "Activate Product",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      //delete service
                       GestureDetector(
                         onTap: (){
                           setState(() {
@@ -435,7 +720,7 @@ class _DeleteServiceState extends State<DeleteService> {
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 child: Text(
-                                  "Delete Product",
+                                  "Delete Service",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
