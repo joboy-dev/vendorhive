@@ -471,7 +471,8 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                                   });
 
                                   create_Transfer_Recipient(val.toString(), bankcode);
-                                }else if(val.length > 0 && val.length < 10){
+                                }
+                                else if(val.length > 0 && val.length < 10){
                                   setState(() {
                                     accountname = "...";
                                     recipient_code = "";

@@ -425,7 +425,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                               top: 40, bottom: 40, left: 10, right: 10),
                           child: Center(
                               child: Text(
-                            "Request Withdraw",
+                            "Withdraw",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize:
@@ -621,7 +621,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                 String refernce_number = widget.idname+trfid;
                 print("reference number is "+refernce_number);
 
-                String amt = total.toString().replaceAll(",", "");
+                String amt = widget.amount.toString().replaceAll(",", "");
                 String amount = double.parse(amt).toStringAsFixed(2);
                 double a = double.parse(amount);
                 double b = a * 100;

@@ -29,6 +29,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
   String transfercharges = "";
   String chargetalk = "";
   String charge = "";
+  String recipient_code = "";
 
   var selected;
   List selectedList = [];
@@ -63,6 +64,60 @@ class _BankAccDetailsState extends State<BankAccDetails> {
     drop = raw[0]['code'];
 
     print("Lenght is ${raw.length}");
+
+  }
+
+  //List of banks
+  Future<void> list_of_banks() async {
+    print("Listing banks...");
+
+    var response =
+    await http.get(Uri.parse("https://api.paystack.co/bank"), headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+    print(response.statusCode);
+    print(response.body);
+
+    setState(() {
+
+      raw = jsonDecode(response.body)['data'];
+
+      drop = raw[0]['code'];
+
+      selectbank = "";
+    });
+  }
+
+  /*
+      "account_number": "2050551864",
+      "bank_code": "50211",
+   */
+
+  //Create Transfer Recipient
+  Future<void> create_Transfer_Recipient(String account_number, String bank_code) async {
+    print("Creating transfer recipient...");
+    var response = await http
+        .post(Uri.parse("https://api.paystack.co/transferrecipient"), body: {
+      "type": "nuban",
+      "name": "",
+      "account_number": account_number,
+      "bank_code": bank_code,
+      "currency": "NGN"
+    }, headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+
+    print(response.statusCode);
+    print(response.body);
+    print(jsonDecode(response.body)['data']);
+    print(jsonDecode(response.body)['data']['recipient_code']);
+    print(jsonDecode(response.body)['data']['details']);
+    print(jsonDecode(response.body)['data']['details']['account_name']);
+
+    setState((){
+      accountname = jsonDecode(response.body)['data']['details']['account_name'];
+      recipient_code = jsonDecode(response.body)['data']['recipient_code'];
+    });
 
   }
 
@@ -156,7 +211,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
   @override
   initState(){
     super.initState();
-    getbanks();
+    list_of_banks();
   }
 
   @override
@@ -349,10 +404,18 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                               onChanged: (val){
                                 if(val.length == 10){
                                   print(val);
+
                                   setState(() {
                                     accountname = "...";
                                   });
-                                  getname(val.toString(), bankcode);
+
+                                  create_Transfer_Recipient(val.toString(), bankcode);
+                                }
+                                else if(val.length > 0 && val.length < 10){
+                                  setState(() {
+                                    accountname = "...";
+                                    recipient_code = "";
+                                  });
                                 }
                               },
                             )
@@ -447,7 +510,8 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                                 charge: charge,
                                 useremail: widget.useremail,
                                 idname: widget.idname,
-                                account_number: _accnumber.text
+                                account_number: _accnumber.text,
+                                recipient_code: recipient_code,
                               );
                             }));
                           }

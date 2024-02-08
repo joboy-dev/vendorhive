@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/withdrawsuccess.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CodeUnlock extends StatefulWidget {
   String idname = "";
@@ -15,9 +16,11 @@ class CodeUnlock extends StatefulWidget {
   String narration = "";
   String charge = "";
   String account_number = "";
+  String recipient_code = "";
 
   CodeUnlock(
       {required this.bankname,
+      required this.recipient_code,
       required this.accountname,
       required this.amount,
       required this.narration,
@@ -32,6 +35,7 @@ class CodeUnlock extends StatefulWidget {
 
 class _CodeUnlockState extends State<CodeUnlock> {
   int _selectedpage = 0;
+  double total = 0;
 
   // text controller
   final TextEditingController pin1 = TextEditingController();
@@ -424,7 +428,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
                               top: 40, bottom: 40, left: 10, right: 10),
                           child: Center(
                               child: Text(
-                            "Request Withdraw",
+                            "Withdraw",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize:
@@ -513,7 +517,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
     //timestamp
     currentdate();
     try {
-      double total = double.parse(widget.amount.replaceAll(",", "")) +
+      total = double.parse(widget.amount.replaceAll(",", "")) +
           double.parse(widget.charge);
       print(total);
 
@@ -561,6 +565,7 @@ class _CodeUnlockState extends State<CodeUnlock> {
               if (jsonDecode(debitcustwallet.body) == 'true') {
                 print('cust wallet is debited');
 
+                /*
                 var sendinstruction = await http.post(
                     Uri.https('vendorhive360.com',
                         'vendor/withdrawal_instruction.php'),
@@ -589,7 +594,8 @@ class _CodeUnlockState extends State<CodeUnlock> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return WithdrawSuccess();
                   }));
-                } else {
+                }
+                else {
                   setState(() {
                     _selectedpage = 0;
                   });
@@ -598,6 +604,54 @@ class _CodeUnlockState extends State<CodeUnlock> {
                     return Failed(trfid: trfid);
                   }));
                 }
+                */
+
+                String refernce_number = widget.idname+trfid;
+                print("reference number is "+refernce_number);
+
+                String amt = widget.amount.toString().replaceAll(",", "");
+                String amount = double.parse(amt).toStringAsFixed(2);
+                double a = double.parse(amount);
+                double b = a * 100;
+                String c = b.toStringAsFixed(0);
+
+                print("Initiating transfer...");
+
+                var response =
+                await http.post(
+                    Uri.parse("https://api.paystack.co/transfer"), body: {
+                  "source": "balance",
+                  "reason": widget.narration,
+                  "reference": refernce_number,
+                  "amount": c,
+                  "recipient": widget.recipient_code
+                }, headers: {
+                  'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+                });
+
+                print(response.statusCode);
+                print(response.body);
+                print(jsonDecode(response.body)['status']);
+                print(jsonDecode(response.body)['data']['transfer_code']);
+                print(jsonDecode(response.body)['data']['reference']);
+
+                if(jsonDecode(response.body)['status']){
+                  setState(() {
+                    _selectedpage = 0;
+                    pin1.clear();
+                    pin2.clear();
+                    pin3.clear();
+                    pin4.clear();
+                  });
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WithdrawSuccess();
+                  }));
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error 402")));
+                }
+
               } else {
                 setState(() {
                   _selectedpage = 0;
