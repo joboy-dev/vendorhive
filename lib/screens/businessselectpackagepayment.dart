@@ -11,10 +11,12 @@ import 'package:vendorandroid/screens/packagewalletpayment.dart';
 import 'package:vendorandroid/screens/success.dart';
 
 class BusinessSelectPackagePayment extends StatefulWidget {
+
   String idname = "";
   String email = "";
   String amount = "";
   String package = "";
+
   BusinessSelectPackagePayment({Key? key,
     required this.idname,
     required this.email,
@@ -23,6 +25,7 @@ class BusinessSelectPackagePayment extends StatefulWidget {
 
   @override
   _BusinessSelectPackagePaymentState createState() => _BusinessSelectPackagePaymentState();
+
 }
 
 class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePayment> {
@@ -51,7 +54,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
     return str;
   }
 
-  Future pay()async{
+  Future pay() async{
 
     setState(() {
       _selectedpage = 1;
@@ -267,6 +270,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                   refnumber: initiaterefno,
                   email: widget.email,
                   package: widget.package,
+                  idname: widget.idname,
                 )
             )
         );
@@ -528,8 +532,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
           ],
         ),
       )
-          :
-      Column(
+      :Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -10,8 +10,11 @@ import 'package:vendorandroid/screens/successpackage.dart';
 class ProcessPackagePayment extends StatefulWidget {
   String email = "";
   String package = "";
+  String idname = "";
+
   ProcessPackagePayment({Key? key,
   required this.email,
+  required this.idname,
   required this.package}) : super(key: key);
 
   @override
@@ -21,6 +24,18 @@ class ProcessPackagePayment extends StatefulWidget {
 class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
 
   String trfid = "";
+  int amountofproducts = 0;
+  int amountofservice = 0;
+  String numberassignedproduct = "";
+  String numberassignedservice = "";
+  int numberofproduct = 0;
+  int numberofservice = 0;
+  int number_of_referals = 0;
+  int number_of_referals_service = 0;
+  List referals = [];
+  List referals_service = [];
+  List<String> idnames = [];
+  List<String> sidnames = [];
 
   void currentdate(){
     DateTime now = new DateTime.now();
@@ -80,6 +95,183 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
 
           if(recordpackage.statusCode == 200){
             if(jsonDecode(recordpackage.body) == 'true'){
+
+              //get upload number based on package
+              final productamount = await http.post(
+                  Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+                  body: {
+                    'packagename': widget.package
+                  });
+
+              //check people you refered to add it
+              var earn = await http.post(
+                  Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+                  body: {
+                    'idname':widget.idname
+                  }
+              );
+
+              //processing service
+              final serviceamount = await http.post(
+                  Uri.https('vendorhive360.com', 'vendor/vendorgetpackagedetails.php'),
+                  body: {
+                    'packagename': widget.package,
+                  });
+
+              if (productamount.statusCode == 200 && earn.statusCode == 200) {
+                print('getting assigned products');
+                print(jsonDecode(productamount.body));
+                print(jsonDecode(productamount.body)[0]);
+                print("Assingned number of products for the package:- " +
+                    jsonDecode(productamount.body)[0]['productamount']);
+                numberassignedproduct =
+                jsonDecode(productamount.body)[0]['productamount'];
+
+                numberofproduct = int.parse(numberassignedproduct)+5;
+
+                print("Details of people I referred "+jsonDecode(earn.body).toString());
+
+                //list of individuals I refered
+                referals = jsonDecode(earn.body);
+
+                print('Number of referals ${referals.length}');
+
+                number_of_referals = referals.length;
+
+                print("getting used products");
+
+                //checking for number of products uploaded
+                final checkfornumberofproducts = await http.post(
+                    Uri.https('vendorhive360.com', 'vendor/vendorcheckproductid.php'),
+                    body: {'email': widget.email});
+
+                if (checkfornumberofproducts.statusCode == 200) {
+                  idnames.clear();
+                  print(jsonDecode(checkfornumberofproducts.body));
+
+                  jsonDecode(checkfornumberofproducts.body)
+                      .forEach((s) => idnames.add(s["pidname"]));
+
+                  print("List lenght of product uploaded is ${idnames.length}");
+
+                  //amount of product uploaded
+                  amountofproducts = idnames.length;
+                  print("Number of product uploaded is $amountofproducts");
+
+                  print("Used amount of products :- $amountofproducts");
+
+                  int available_products = numberofproduct + number_of_referals;
+
+                  //activate number of products
+                  if(amountofproducts <= available_products){
+                    var activate_product = await http.post(
+                        Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
+                        body:{
+                          'useremail': widget.email,
+                          'number' : amountofproducts.toString()
+                        }
+                    );
+                  }
+                  else{
+
+                    var activate_product = await http.post(
+                        Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_product.php'),
+                        body:{
+                          'useremail': widget.email,
+                          'number' : available_products.toString()
+                        }
+                    );
+
+                  }
+                }
+                else {
+
+                  ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+                    content: Text('Network Issues, Please go back and retry'),
+                  ));
+                }
+              }
+              else {
+                ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+                  content: Text('Network Issues, Please go back and retry'),
+                ));
+              }
+
+              if (serviceamount.statusCode == 200 && earn.statusCode == 200) {
+                print(jsonDecode(serviceamount.body));
+
+                print(jsonDecode(serviceamount.body)[0]);
+
+                print("Assingned number of service:- " +
+                    jsonDecode(serviceamount.body)[0]['serviceamount']);
+
+                numberassignedservice =
+                jsonDecode(serviceamount.body)[0]['serviceamount'];
+
+                numberofservice = int.parse(numberassignedservice)+5;
+              }
+              else {
+
+                ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+                  content: Text('Network Issues, Please go back and retry'),
+                ));
+              }
+
+              print("getting services");
+
+              final checkfornumberofservices = await http.post(
+                  Uri.https('vendorhive360.com', 'vendor/vendorcheckserviceid.php'),
+                  body: {'email': widget.email});
+
+              if (checkfornumberofservices.statusCode == 200) {
+                sidnames.clear();
+                print(jsonDecode(checkfornumberofservices.body));
+
+                jsonDecode(checkfornumberofservices.body)
+                    .forEach((s) => sidnames.add(s["sidname"]));
+                print("List lenght is ${sidnames.length}");
+
+                amountofservice = sidnames.length;
+                print(amountofservice);
+
+                print("Used amount of services :- $amountofservice");
+
+                referals_service = jsonDecode(earn.body);
+                number_of_referals_service = referals_service.length;
+
+                int available_service = numberofservice + number_of_referals_service;
+
+                //activate available service
+                if(amountofservice <= available_service){
+
+                  final activate_service = await http.post(
+                      Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
+                      body:{
+                        "useremail": widget.email,
+                        "number": amountofservice.toString()
+                      }
+                  );
+
+                }
+                else{
+
+                  final activate_service = await http.post(
+                      Uri.https('vendorhive360.com','vendor/vendor_activate_number_of_service.php'),
+                      body:{
+                        "useremail": widget.email,
+                        "number": available_service.toString()
+                      }
+                  );
+
+                }
+              }
+              else {
+
+                ScaffoldMessenger.of(this.context).showSnackBar(SnackBar(
+                  content: Text('Network Issues, Please go back and retry'),
+                ));
+              }
+
 
 
               final SharedPreferences pref = await SharedPreferences.getInstance();

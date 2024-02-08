@@ -201,6 +201,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
                   refnumber: initiaterefno,
                   email: widget.email,
                   package: widget.package,
+                  idname: widget.idname,
                 )
             )
         );

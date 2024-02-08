@@ -12,8 +12,11 @@ class Buypackage extends StatefulWidget {
   String refnumber = "";
   String email = "";
   String package = "";
+  String idname = "";
+
   Buypackage({Key? key,
   required this.refnumber,
+  required this.idname,
   required this.topuplink,
   required this.email,
   required this.package}) : super(key: key);
@@ -50,6 +53,7 @@ class _BuypackageState extends State<Buypackage> {
           return ProcessPackagePayment(
             package: widget.package,
             email: widget.email,
+            idname: widget.idname,
           );
         }));
 
