@@ -46,25 +46,6 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
   final TextEditingController pin3 = TextEditingController();
   final TextEditingController pin4 = TextEditingController();
 
-  //Initiate a transfer
-  Future<void> initiate_a_transfer() async {
-    print("Initiating transfer...");
-    var response =
-    await http.post(Uri.parse("https://api.paystack.co/transfer"), body: {
-      "source": "balance",
-      "reason": "payout",
-      "reference": "0000003",
-      "amount": "2000",
-      "recipient": "RCP_gtr321ge587bks8"
-    }, headers: {
-      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
-    });
-    print(response.statusCode);
-    print(response.body);
-    print(jsonDecode(response.body)['data']['transfer_code']);
-    print(jsonDecode(response.body)['data']['reference']);
-  }
-
   void init() {
     print(widget.bankname);
     print(widget.accountname);
@@ -604,6 +585,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                 print(jsonDecode(sendinstruction.body));
 
                 if (jsonDecode(sendinstruction.body) == 'true') {
+
                   setState(() {
                     _selectedpage = 0;
                     pin1.clear();
@@ -615,7 +597,9 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return WithdrawSuccess();
                   }));
-                } else {
+
+                }
+                else {
                   setState(() {
                     _selectedpage = 0;
                   });
@@ -624,7 +608,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                     return Failed(trfid: trfid);
                   }));
                 }
-              } else {
+              }
+              else {
                 setState(() {
                   _selectedpage = 0;
                   pin1.clear();
@@ -638,7 +623,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
 
                 print('Failed withdrawal');
               }
-            } else {
+            }
+            else {
               setState(() {
                 _selectedpage = 0;
                 pin1.clear();
@@ -649,7 +635,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
 
               print('Network issues');
             }
-          } else {
+          }
+          else {
             setState(() {
               _selectedpage = 0;
               pin1.clear();
@@ -663,7 +650,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
               content: Text('Insufficient balance'),
             ));
           }
-        } else {
+        }
+        else {
           setState(() {
             _selectedpage = 0;
             pin1.clear();
@@ -677,7 +665,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
 
           print('wrong pin');
         }
-      } else {
+      }
+      else {
         setState(() {
           _selectedpage = 0;
           pin1.clear();
@@ -690,7 +679,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
           return Failed(trfid: trfid);
         }));
       }
-    } catch (e) {
+    }
+    catch (e) {
       setState(() {
         _selectedpage = 0;
 
@@ -723,4 +713,33 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
       }
     }
   }
+
+  //Initiate a transfer
+  Future<void> initiate_a_transfer() async {
+
+    String refernce_number = widget.idname+trfid;
+
+    String amt = widget.amount.replaceAll(",", "");
+    String amount = double.parse(amt).toStringAsFixed(2);
+    double a = double.parse(amount);
+    double b = a * 100;
+    String c = b.toStringAsFixed(0);
+
+    print("Initiating transfer...");
+    var response =
+    await http.post(Uri.parse("https://api.paystack.co/transfer"), body: {
+      "source": "balance",
+      "reason": widget.narration,
+      "reference": refernce_number,
+      "amount": c,
+      "recipient": widget.recipient_code
+    }, headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+    print(response.statusCode);
+    print(response.body);
+    print(jsonDecode(response.body)['data']['transfer_code']);
+    print(jsonDecode(response.body)['data']['reference']);
+  }
+
 }
