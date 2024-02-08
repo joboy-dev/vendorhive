@@ -38,6 +38,7 @@ class VerifyWithdraw extends StatefulWidget {
 
 class _VerifyWithdrawState extends State<VerifyWithdraw> {
   int _selectedpage = 0;
+  double total = 0;
 
   // text controller
   // text controller
@@ -513,12 +514,13 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
     //timestamp
     currentdate();
 
-    double total = double.parse(widget.amount.replaceAll(",", "")) +
+    total = double.parse(widget.amount.replaceAll(",", "")) +
         double.parse(widget.charge);
 
     print(total);
 
     try {
+
       var getbalance = await http.post(
           Uri.https(
               'vendorhive360.com', 'vendor/vendorbusinessavailablebalance.php'),
@@ -529,7 +531,10 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
           finalbalance = jsonDecode(getbalance.body);
         });
         print("final balance is " + finalbalance);
-      } else {}
+      }
+      else {
+
+      }
 
       final procespayment = await http.post(
           Uri.https('vendorhive360.com', 'vendor/vendorpinprocess.php'),
@@ -567,6 +572,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
             if (savetransaction.statusCode == 200) {
               print(jsonDecode(savetransaction.body));
               if (jsonDecode(savetransaction.body) == 'true') {
+
+                /*
                 var sendinstruction = await http.post(
                     Uri.https('vendorhive360.com',
                         'vendor/withdrawal_instruction.php'),
@@ -608,6 +615,53 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
                     return Failed(trfid: trfid);
                   }));
                 }
+                */
+
+
+                String refernce_number = widget.idname+trfid;
+                print("reference number is "+refernce_number);
+
+                String amt = total.toString().replaceAll(",", "");
+                String amount = double.parse(amt).toStringAsFixed(2);
+                double a = double.parse(amount);
+                double b = a * 100;
+                String c = b.toStringAsFixed(0);
+
+                print("Initiating transfer...");
+
+                var response =
+                await http.post(Uri.parse("https://api.paystack.co/transfer"), body: {
+                  "source": "balance",
+                  "reason": widget.narration,
+                  "reference": refernce_number,
+                  "amount": c,
+                  "recipient": widget.recipient_code
+                }, headers: {
+                  'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+                });
+
+                print(response.statusCode);
+                print(response.body);
+                print(jsonDecode(response.body)['status']);
+                print(jsonDecode(response.body)['data']['transfer_code']);
+                print(jsonDecode(response.body)['data']['reference']);
+
+                if(jsonDecode(response.body)['status']){
+                  setState(() {
+                    _selectedpage = 0;
+                    pin1.clear();
+                    pin2.clear();
+                    pin3.clear();
+                    pin4.clear();
+                  });
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WithdrawSuccess();
+                  }));
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error 402")));
+                }
               }
               else {
                 setState(() {
@@ -637,6 +691,7 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
             }
           }
           else {
+
             setState(() {
               _selectedpage = 0;
               pin1.clear();
@@ -706,7 +761,8 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
             return Failed(trfid: trfid);
           }));
         }
-      } else {
+      }
+      else {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return Failed(trfid: trfid);
         }));
@@ -741,5 +797,4 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
     print(jsonDecode(response.body)['data']['transfer_code']);
     print(jsonDecode(response.body)['data']['reference']);
   }
-
 }

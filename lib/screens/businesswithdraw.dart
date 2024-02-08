@@ -93,7 +93,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
   }
 
   /*
-          "account_number": "2050551864",
+      "account_number": "2050551864",
       "bank_code": "50211",
    */
 
