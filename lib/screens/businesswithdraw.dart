@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/verifywithdraw.dart';
 
+
 class BusinessWithdraw extends StatefulWidget {
   String idname = "";
   String useremail = "";
@@ -30,9 +31,11 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
   String transfercharges = "";
   String chargetalk = "";
   String charge = "";
+  String recipient_code = "";
 
   var selected;
   List selectedList = [];
+  List bank_names = [];
 
   TextEditingController _accnumber = new TextEditingController();
   TextEditingController _amount = new TextEditingController();
@@ -62,6 +65,63 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
     drop = raw[0]['code'];
 
     print("Lenght is ${raw.length}");
+
+  }
+
+  //List of banks
+  Future<void> list_of_banks() async {
+    print("Listing banks...");
+    setState(() {
+      bank_names.clear();
+    });
+    var response =
+    await http.get(Uri.parse("https://api.paystack.co/bank"), headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+    print(response.statusCode);
+    print(response.body);
+
+    setState(() {
+      bank_names = jsonDecode(response.body)['data'];
+
+      raw = jsonDecode(response.body)['data'];
+
+      drop = raw[0]['code'];
+
+      selectbank = "";
+    });
+  }
+
+  /*
+          "account_number": "2050551864",
+      "bank_code": "50211",
+   */
+
+  //Create Transfer Recipient
+  Future<void> create_Transfer_Recipient(String account_number, String bank_code) async {
+    print("Creating transfer recipient...");
+    var response = await http
+        .post(Uri.parse("https://api.paystack.co/transferrecipient"), body: {
+      "type": "nuban",
+      "name": "",
+      "account_number": account_number,
+      "bank_code": bank_code,
+      "currency": "NGN"
+    }, headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+
+    print(response.statusCode);
+    print(response.body);
+    print(jsonDecode(response.body)['data']);
+    print(jsonDecode(response.body)['data']['recipient_code']);
+    print(jsonDecode(response.body)['data']['details']);
+    print(jsonDecode(response.body)['data']['details']['account_name']);
+
+    setState((){
+      accountname = jsonDecode(response.body)['data']['details']['account_name'];
+      recipient_code = jsonDecode(response.body)['data']['recipient_code'];
+    });
 
   }
 
@@ -215,7 +275,8 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
   @override
   initState(){
     super.initState();
-    getbanks();
+    // getbanks();
+    list_of_banks();
   }
 
   @override
@@ -317,6 +378,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                             fontSize: 11
                         ),),
                       ),
+
                       //dropdown for banks
                       Container(
                         padding: EdgeInsets.only(top: 10,bottom: 10,),
@@ -377,9 +439,9 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                           ),
                         ),
                       ),
+
                       //textfiled account number
                       Container(
-
                         child: Container(
                             margin: EdgeInsets.only(top: 30,left: 10,right: 10),
                             child: TextField(
@@ -408,7 +470,12 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                                     accountname = "...";
                                   });
 
-                                  getname(val.toString(), bankcode);
+                                  create_Transfer_Recipient(val.toString(), bankcode);
+                                }else if(val.length > 0 && val.length < 10){
+                                  setState(() {
+                                    accountname = "...";
+                                    recipient_code = "";
+                                  });
                                 }
                               },
                             )
@@ -494,7 +561,8 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                         onTap: (){
                           if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
                               accountname.isNotEmpty && _narration.text.isNotEmpty &&
-                              chargetalk.isNotEmpty && accountname != "..." && charge != "..."){
+                              chargetalk.isNotEmpty && accountname != "..." && charge != "..."
+                          && recipient_code.isNotEmpty){
 
                             Navigator.push(context, MaterialPageRoute(builder: (context){
                               return VerifyWithdraw(bankname: replacing(bankname),
@@ -505,6 +573,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                                 useremail: widget.useremail,
                                 idname: widget.idname,
                                 account_number: _accnumber.text,
+                                recipient_code: recipient_code,
                               );
                             }));
 

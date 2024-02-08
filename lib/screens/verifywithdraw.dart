@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
 import 'package:vendorandroid/screens/withdrawsuccess.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 class VerifyWithdraw extends StatefulWidget {
   String idname = "";
@@ -15,11 +17,13 @@ class VerifyWithdraw extends StatefulWidget {
   String narration = "";
   String charge = "";
   String account_number = "";
+  String recipient_code = "";
 
   VerifyWithdraw(
       {Key? key,
       required this.bankname,
       required this.accountname,
+      required this.recipient_code,
       required this.amount,
       required this.narration,
       required this.charge,
@@ -41,6 +45,25 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
   final TextEditingController pin2 = TextEditingController();
   final TextEditingController pin3 = TextEditingController();
   final TextEditingController pin4 = TextEditingController();
+
+  //Initiate a transfer
+  Future<void> initiate_a_transfer() async {
+    print("Initiating transfer...");
+    var response =
+    await http.post(Uri.parse("https://api.paystack.co/transfer"), body: {
+      "source": "balance",
+      "reason": "payout",
+      "reference": "0000003",
+      "amount": "2000",
+      "recipient": "RCP_gtr321ge587bks8"
+    }, headers: {
+      'Authorization': dotenv.env['PAYSTACK_SECRET_KEYS']!,
+    });
+    print(response.statusCode);
+    print(response.body);
+    print(jsonDecode(response.body)['data']['transfer_code']);
+    print(jsonDecode(response.body)['data']['reference']);
+  }
 
   void init() {
     print(widget.bankname);

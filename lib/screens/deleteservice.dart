@@ -36,6 +36,7 @@ class DeleteService extends StatefulWidget {
 }
 
 class _DeleteServiceState extends State<DeleteService> {
+
   int _loadIndex = 0;
   int _selectedItem = 0;
   String priceStatus = "";
