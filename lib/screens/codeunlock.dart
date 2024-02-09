@@ -636,17 +636,32 @@ class _CodeUnlockState extends State<CodeUnlock> {
                 print(jsonDecode(response.body)['data']['reference']);
 
                 if(jsonDecode(response.body)['status']){
-                  setState(() {
-                    _selectedpage = 0;
-                    pin1.clear();
-                    pin2.clear();
-                    pin3.clear();
-                    pin4.clear();
-                  });
 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return WithdrawSuccess();
-                  }));
+                  var record_transfer = await http.post(
+                    Uri.https('vendorhive360.com','vendor/vendor_record_transfer.php'),
+                    body:{
+                      "idname": widget.idname,
+                      "email": widget.useremail,
+                      "rcode": widget.recipient_code,
+                      "trfid": refernce_number,
+                      "amount": widget.amount,
+                      "trfcharge": widget.charge,
+                    }
+                  );
+
+                  if(jsonDecode(record_transfer.body) == "true"){
+                    setState(() {
+                      _selectedpage = 0;
+                      pin1.clear();
+                      pin2.clear();
+                      pin3.clear();
+                      pin4.clear();
+                    });
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return WithdrawSuccess();
+                    }));
+                  }
                 }
                 else{
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error 402")));
