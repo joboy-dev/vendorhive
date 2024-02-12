@@ -81,6 +81,8 @@ class _TrackOrderState extends State<TrackOrder> {
   bool ppprocessing = false;
   bool showtracks = true;
   int _selectedPage = 0;
+  List if_rate = [];
+  bool rate = true;
 
   Future realeasepayment() async{
     setState(() {
@@ -132,6 +134,43 @@ class _TrackOrderState extends State<TrackOrder> {
       }
       else{
         print("no update");
+      }
+    }
+  }
+
+  Future if_rated() async{
+    setState(() {
+      rate = false;
+    });
+    var response = await http.post(
+      Uri.https('vendorhive360.com','vendor/vendor_if_rated.php'),
+      body:{
+        "email": widget.useremail,
+        "pidname": widget.productid
+      }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if_rate = jsonDecode(response.body);
+      if(if_rate.length > 0){
+        setState(() {
+          rate = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("You have rated this product"))
+        );
+      }
+      else{
+        setState(() {
+          rate = true;
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return Rateproduct(productimage: widget.productimage,
+              pidname: widget.productid,
+              adminemail: widget.adminemail,
+              useremail: widget.useremail,
+              productname: widget.productname);
+        }));
       }
     }
   }
@@ -809,13 +848,7 @@ class _TrackOrderState extends State<TrackOrder> {
                       onTap: () {
                         if(dpreleased == 'done'){
                           print('Rate product');
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return Rateproduct(productimage: widget.productimage,
-                                pidname: widget.productid,
-                                adminemail: widget.adminemail,
-                                useremail: widget.useremail,
-                                productname: widget.productname);
-                          }));
+                          if_rated();
                         }else{
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Opps! Rate when you have released payment'))
@@ -826,12 +859,13 @@ class _TrackOrderState extends State<TrackOrder> {
                         margin: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 20),
                         padding: EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
-                            color: dpreleased == 'undone' ?Color.fromRGBO(211, 211, 211, 1):
+                            color: dpreleased == 'undone' ?
+                            Color.fromRGBO(211, 211, 211, 1):
                             Color.fromRGBO(246, 123, 55, 1),
                             borderRadius: BorderRadius.circular(10)
                         ),
                         child: Center(
-                          child: Text("Rate Product",textAlign:TextAlign.center,
+                          child: Text(rate?"Rate Product":"Processing...",textAlign:TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).size.width/24,

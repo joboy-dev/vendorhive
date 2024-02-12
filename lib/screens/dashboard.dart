@@ -1941,10 +1941,14 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future vendorgetlogo() async{
-    final gettinglogo = await http.post(Uri.https('vendorhive360.com', 'vendor/vendorgetlogo.php'),
-    body: {
-      'useremail' : widget.useremail
-    });
+
+    final gettinglogo = await http.post(
+      Uri.https('vendorhive360.com', 'vendor/vendorgetlogo.php'),
+      body: {
+        'useremail' : widget.useremail
+      }
+    );
+
     if(gettinglogo.statusCode == 200){
       setState(() {
         vendorgettinglogo = jsonDecode(gettinglogo.body);
@@ -1952,7 +1956,8 @@ class _DashboardState extends State<Dashboard> {
       });
       print(jsonDecode(gettinglogo.body));
       print(vendorgettinglogo[0]["logoname"]);
-    }else{
+    }
+    else{
       print("Error Getting Image");
       setState(() {
         getlogo = false;

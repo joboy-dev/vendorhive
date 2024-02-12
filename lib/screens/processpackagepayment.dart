@@ -84,7 +84,7 @@ class _ProcessPackagePaymentState extends State<ProcessPackagePayment> {
             'message': "You are now on "+widget.package+" package",
             'info': widget.email,
             'tag': 'Package',
-            'quantity' : "1 package",
+            'quantity' : widget.package+" package",
             'refno': trfid
           }
       );

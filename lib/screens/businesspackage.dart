@@ -101,7 +101,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Upload 10 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 10 more products.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -148,7 +148,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Upload 15 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 15 more products.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
@@ -195,7 +195,7 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
-                              child: Text("\u2022 Upload 30 more products plus short videos.",style: TextStyle(
+                              child: Text("\u2022 Upload 30 more products.",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
