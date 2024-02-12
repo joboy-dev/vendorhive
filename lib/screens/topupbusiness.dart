@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/buytopupbusiness.dart';
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/success.dart';
 
 class TopupBusiness extends StatefulWidget {
@@ -176,7 +176,7 @@ class _TopupBusinessState extends State<TopupBusiness> {
             'email':widget.email
           },
           headers: {
-            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+            'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
           }
       );
 

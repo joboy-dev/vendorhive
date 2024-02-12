@@ -159,6 +159,46 @@ class _ViewServiceState extends State<ViewService> {
     }
   }
 
+  Future verify_version() async{
+    showDialog(
+        barrierDismissible: false,
+        context: context, builder: (cxt){
+      return AlertDialog(
+        title: Text("loading..."),
+      );
+    });
+    final response = await http.post(
+        Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return ServiceMsg(
+            logo: logo,
+            username: admin_username,
+            useremail: widget.useremail,
+            adminemail: widget.adminemail,
+            idname: widget.idname,
+            serviceid: widget.serviceid,
+            usertype: widget.usertype,
+            servicename: widget.name,
+            custname: widget.username,);
+        }));
+      }
+      else{
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -318,18 +358,7 @@ class _ViewServiceState extends State<ViewService> {
             GestureDetector(
               onTap: (){
                 setlogo ?
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return ServiceMsg(
-                    logo: logo,
-                    username: admin_username,
-                    useremail: widget.useremail,
-                    adminemail: widget.adminemail,
-                  idname: widget.idname,
-                  serviceid: widget.serviceid,
-                  usertype: widget.usertype,
-                  servicename: widget.name,
-                  custname: widget.username,);
-                }))
+                verify_version()
                 :ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Try again, Chat is loading"))
                 );

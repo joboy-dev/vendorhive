@@ -30,6 +30,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
   String chargetalk = "";
   String charge = "";
   String recipient_code = "";
+  bool verify = true;
 
   var selected;
   List selectedList = [];
@@ -38,6 +39,46 @@ class _BankAccDetailsState extends State<BankAccDetails> {
   TextEditingController _amount = new TextEditingController();
   TextEditingController _narration = new TextEditingController();
 
+  Future verify_version() async{
+    setState(() {
+      verify = false;
+    });
+    final response = await http.post(
+      Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        setState(() {
+          verify = true;
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return CodeUnlock(bankname: replacing(bankname),
+            amount: _amount.text,
+            accountname: replacing(accountname),
+            narration: replacing(_narration.text),
+            charge: charge,
+            useremail: widget.useremail,
+            idname: widget.idname,
+            account_number: _accnumber.text,
+            recipient_code: recipient_code,
+          );
+        }));
+      }
+      else{
+        setState(() {
+          verify = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
+  }
+  
   Future getbanks() async{
 
     var getbankcodes = await http.get(
@@ -502,18 +543,8 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                           if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
                               accountname.isNotEmpty && _narration.text.isNotEmpty &&
                               charge.isNotEmpty && accountname != "..." && charge != "..."){
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return CodeUnlock(bankname: replacing(bankname),
-                                amount: _amount.text,
-                                accountname: replacing(accountname),
-                                narration: replacing(_narration.text),
-                                charge: charge,
-                                useremail: widget.useremail,
-                                idname: widget.idname,
-                                account_number: _accnumber.text,
-                                recipient_code: recipient_code,
-                              );
-                            }));
+                            verify_version();
+
                           }
                           else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
                               accountname.isNotEmpty && _narration.text.isNotEmpty &&
@@ -539,7 +570,7 @@ class _BankAccDetailsState extends State<BankAccDetails> {
                           ),
                           margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
                           padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Center(child: Text('VERIFY',style: TextStyle(
+                          child: Center(child: Text(verify?'VERIFY':'Processing...',style: TextStyle(
                             color: Color.fromRGBO(246, 123, 55, 1),
                             fontSize: 16,
                             fontWeight: FontWeight.bold

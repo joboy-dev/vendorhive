@@ -36,10 +36,51 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
   var selected;
   List selectedList = [];
   List bank_names = [];
+  bool verify = true;
 
   TextEditingController _accnumber = new TextEditingController();
   TextEditingController _amount = new TextEditingController();
   TextEditingController _narration = new TextEditingController();
+
+  Future verify_version() async{
+    setState(() {
+      verify = false;
+    });
+    final response = await http.post(
+        Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        setState(() {
+          verify = true;
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return VerifyWithdraw(bankname: replacing(bankname),
+            amount: _amount.text,
+            accountname: replacing(accountname),
+            narration: replacing(_narration.text),
+            charge: charge,
+            useremail: widget.useremail,
+            idname: widget.idname,
+            account_number: _accnumber.text,
+            recipient_code: recipient_code,
+          );
+        }));
+      }
+      else{
+        setState(() {
+          verify = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
+  }
 
   Future getbanks() async{
 
@@ -564,19 +605,20 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                               accountname.isNotEmpty && _narration.text.isNotEmpty &&
                               chargetalk.isNotEmpty && accountname != "..." && charge != "..."
                           && recipient_code.isNotEmpty){
+                            verify_version();
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return VerifyWithdraw(bankname: replacing(bankname),
-                                amount: _amount.text,
-                                accountname: replacing(accountname),
-                                narration: replacing(_narration.text),
-                                charge: charge,
-                                useremail: widget.useremail,
-                                idname: widget.idname,
-                                account_number: _accnumber.text,
-                                recipient_code: recipient_code,
-                              );
-                            }));
+                            // Navigator.push(context, MaterialPageRoute(builder: (context){
+                            //   return VerifyWithdraw(bankname: replacing(bankname),
+                            //     amount: _amount.text,
+                            //     accountname: replacing(accountname),
+                            //     narration: replacing(_narration.text),
+                            //     charge: charge,
+                            //     useremail: widget.useremail,
+                            //     idname: widget.idname,
+                            //     account_number: _accnumber.text,
+                            //     recipient_code: recipient_code,
+                            //   );
+                            // }));
 
                           }
                           else if(bankname.isNotEmpty && _amount.text.isNotEmpty &&
@@ -619,7 +661,7 @@ class _BusinessWithdrawState extends State<BusinessWithdraw> {
                           ),
                           margin: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 20),
                           padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Center(child: Text('VERIFY',style: TextStyle(
+                          child: Center(child: Text(verify ? 'VERIFY':'Processing...',style: TextStyle(
                               color: Color.fromRGBO(246, 123, 55, 1),
                               fontSize: 16,
                               fontWeight: FontWeight.bold

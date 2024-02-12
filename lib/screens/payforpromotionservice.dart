@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-// import 'package:flutterwave_standard/flutterwave.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendorandroid/screens/buyservicepromotion.dart';
@@ -415,7 +415,7 @@ class _PayForPromotionServiceState extends State<PayForPromotionService> {
             'email':widget.adminemail
           },
           headers: {
-            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+            'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
           }
       );
 

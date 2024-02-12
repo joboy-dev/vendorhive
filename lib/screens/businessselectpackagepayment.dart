@@ -6,7 +6,7 @@ import 'package:vendorandroid/screens/busspackagewalletpayment.dart';
 import 'package:vendorandroid/screens/buypackage.dart';
 import 'package:vendorandroid/screens/failed.dart';
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/packagewalletpayment.dart';
 import 'package:vendorandroid/screens/success.dart';
 
@@ -244,7 +244,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
             'email':widget.email
           },
           headers: {
-            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+            'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
           }
       );
 

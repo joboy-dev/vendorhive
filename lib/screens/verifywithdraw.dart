@@ -52,6 +52,14 @@ class _VerifyWithdrawState extends State<VerifyWithdraw> {
     print(widget.accountname);
     print(widget.amount);
     print(widget.narration);
+    print(widget.recipient_code);
+    print(widget.idname);
+  }
+
+  @override
+  initState(){
+    super.initState();
+    init();
   }
 
   @override

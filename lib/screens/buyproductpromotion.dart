@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -73,7 +73,7 @@ class _BuyProductPromotionState extends State<BuyProductPromotion> {
     var paystackverify = await http.get(
         Uri.https('api.paystack.co',url),
         headers: {
-          'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+          'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
         }
     );
 

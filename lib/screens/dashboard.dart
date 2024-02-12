@@ -691,12 +691,35 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  Future checkavailabilityforproducts() async {
+  Future verify_version_for_add_product() async{
     Navigator.of(context).pop();
 
     setState(() {
       _selectedpage = 1;
     });
+    final response = await http.post(
+        Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        checkavailabilityforproducts();
+      }
+      else{
+        setState(() {
+          _selectedpage = 0;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
+  }
+
+  Future checkavailabilityforproducts() async {
 
     print("print add product out");
 
@@ -1111,12 +1134,35 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  Future checkavailabilityforservices() async {
-    Navigator.of(context).pop(true);
+  Future verify_version_for_add_service() async{
+    Navigator.of(context).pop();
 
     setState(() {
       _selectedpage = 1;
     });
+    final response = await http.post(
+        Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        checkavailabilityforservices();
+      }
+      else{
+        setState(() {
+          _selectedpage = 0;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
+  }
+
+  Future checkavailabilityforservices() async {
 
     final getpackages = await http.post(
         Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
@@ -1387,9 +1433,10 @@ class _DashboardState extends State<Dashboard> {
                   //add product button
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        checkavailabilityforproducts();
-                      });
+                      verify_version_for_add_product();
+                      // setState(() {
+                      //   checkavailabilityforproducts();
+                      // });
                     },
                     child: Container(
                       child: Text(
@@ -1410,7 +1457,8 @@ class _DashboardState extends State<Dashboard> {
                   //add service button
                   GestureDetector(
                     onTap: () {
-                      checkavailabilityforservices();
+                      verify_version_for_add_service();
+                      // checkavailabilityforservices();
                     },
                     child: Container(
                       child: Text(

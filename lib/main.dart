@@ -23,7 +23,7 @@ void main() async{
   runApp(const MyApp());
 }
 
-Future<void> getvalue()async{
+Future<void> getvalue() async{
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -46,7 +46,6 @@ Future<void> getvalue()async{
   print(pagenumber);
   print(finalbalance);
   print(pendingbalance);
-
 }
 
 class MyApp extends StatelessWidget {

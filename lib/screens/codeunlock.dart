@@ -48,6 +48,8 @@ class _CodeUnlockState extends State<CodeUnlock> {
     print(widget.accountname);
     print(widget.amount);
     print(widget.narration);
+    print(widget.recipient_code);
+    print(widget.idname);
   }
 
   @override

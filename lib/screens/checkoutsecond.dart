@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vendorandroid/screens/buyproduct.dart';
 import 'package:vendorandroid/screens/cardcheckoutfinal.dart';
@@ -422,7 +422,7 @@ class _CheckoutSecondState extends State<CheckoutSecond> {
             'email':widget.useremail
           },
           headers: {
-            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+            'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
           }
       );
 

@@ -4,6 +4,7 @@ import 'package:vendorandroid/screens/buypackage.dart';
 import 'package:vendorandroid/screens/packagewalletpayment.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SelectPackagePayment extends StatefulWidget {
   String idname = "";
@@ -175,7 +176,7 @@ class _SelectPackagePaymentState extends State<SelectPackagePayment> {
             'email':widget.email
           },
           headers: {
-            'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+            'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
           }
       );
 

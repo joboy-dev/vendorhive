@@ -63,6 +63,8 @@ class _ViewProductState extends State<ViewProduct> {
   List<DropdownMenuItem<String>> dropdownItems = [];
   List items = [];
 
+  bool verify = true;
+
   Future get_delivery_method() async {
     print("============");
     print(widget.prodid);
@@ -339,7 +341,8 @@ class _ViewProductState extends State<ViewProduct> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        addCartItem();
+                        verify_version();
+                        // addCartItem();
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
@@ -350,7 +353,7 @@ class _ViewProductState extends State<ViewProduct> {
                             color: Color.fromRGBO(246, 123, 55, 1)),
                         child: Center(
                           child: Text(
-                            "Proceed",
+                           "Proceed",
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.green[900],
@@ -368,6 +371,36 @@ class _ViewProductState extends State<ViewProduct> {
             );
           });
         });
+  }
+
+  Future verify_version() async{
+    Navigator.pop(context);
+    showDialog(
+        barrierDismissible: false,
+        context: context, builder: (cxt){
+      return AlertDialog(
+        title: Text("Processing..."),
+      );
+    });
+    final response = await http.post(
+        Uri.https('vendorhive360.com','vendor/version_type.php'),
+        body: {
+          "verification":"0813346350908037865575",
+        }
+    );
+    if(response.statusCode == 200){
+      print(jsonDecode(response.body));
+      if(jsonDecode(response.body)=="version_1"){
+        Navigator.pop(context);
+        addCartItem();
+      }
+      else{
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Please Upgrade to the new version"))
+        );
+      }
+    }
   }
 
   addCartItem() {

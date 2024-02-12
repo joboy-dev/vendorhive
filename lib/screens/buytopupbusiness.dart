@@ -3,7 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vendorandroid/screens/processtopupbusiness.dart';
 
 class BuyTopupBusiness extends StatefulWidget {
@@ -66,7 +66,7 @@ class _BuyTopupBusinessState extends State<BuyTopupBusiness> {
     var paystackverify = await http.get(
         Uri.https('api.paystack.co',url),
         headers: {
-          'Authorization':'bearer sk_live_399d6462aa7d870cd384139c48709ea9e1ac54f4'
+          'Authorization':dotenv.env['PAYSTACK_SECRET_KEYS']!
         }
     );
 
