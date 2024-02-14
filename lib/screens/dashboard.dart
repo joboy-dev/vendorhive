@@ -1923,7 +1923,7 @@ class _DashboardState extends State<Dashboard> {
       DateTime dt1 = DateTime.parse(jsonDecode(getExpiredDate.body)[0]['4']);
       DateTime dt2 = DateTime.parse(todayDate);
 
-      Duration diff = dt1.difference(dt2);
+      Duration diff = dt2.difference(dt1);
       print("========");
       print('Days left ${diff.inDays}');
       print("========");
