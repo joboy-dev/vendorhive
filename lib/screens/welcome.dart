@@ -5469,7 +5469,9 @@ class _WelcomeState extends State<Welcome> {
                                   "Switch to Vendor Profile",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                      fontSize:
+                                      MediaQuery.of(context).size.width /
+                                          22.5),
                                 ),
                               )
                             ],
@@ -5559,9 +5561,9 @@ class _WelcomeState extends State<Welcome> {
                                     "Settings",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22.5,
+                                        fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            22.5
                                     ),
                                   ),
                                 ),

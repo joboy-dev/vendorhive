@@ -3712,7 +3712,9 @@ class _DashboardState extends State<Dashboard> {
                                         "Edit Profile",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.5),
                                       ),
                                     )
                                   ],
@@ -3878,13 +3880,16 @@ class _DashboardState extends State<Dashboard> {
                                         "Upgrade to Pro User",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.5),
                                       ),
                                     )
                                   ],
                                 ),
                               ),
                             ),
+
                             //Refer your friends button
                             GestureDetector(
                               onTap: () {
@@ -3957,7 +3962,9 @@ class _DashboardState extends State<Dashboard> {
                                         "Switch to Customer Profile",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.5),
                                       ),
                                     )
                                   ],
@@ -3999,7 +4006,9 @@ class _DashboardState extends State<Dashboard> {
                                         "Contact Support",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.5),
                                       ),
                                     )
                                   ],
@@ -4041,7 +4050,9 @@ class _DashboardState extends State<Dashboard> {
                                         "Settings",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.5),
                                       ),
                                     )
                                   ],

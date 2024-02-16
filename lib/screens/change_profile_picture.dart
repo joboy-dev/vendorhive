@@ -161,32 +161,59 @@ class _ChnageProfilePictureState extends State<ChnageProfilePicture> {
                           ),
                         )),
 
-                    //button
-                    GestureDetector(
-                      onTap: () {
-                        if (logoname.isNotEmpty) {
-                          changeProfilePic();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Select an Image")));
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(246, 123, 55, 1),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child: Text(
-                          "Upload",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        )),
+                    Container(
+                      child: Column(
+                        children: [
+                          //button
+                          GestureDetector(
+                            onTap: () {
+                              if (logoname.isNotEmpty) {
+                                changeProfilePic();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Select an Image")));
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              padding: EdgeInsets.symmetric(vertical: 18),
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(246, 123, 55, 1),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                    "Upload",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ),
+                          ),
+                          //back button
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              padding: EdgeInsets.symmetric(vertical: 18),
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                    "Back",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               )
