@@ -204,8 +204,41 @@ class _TopupState extends State<Topup> {
 
                               print('Top up is ongoing');
 
-                              payment();
-
+                              showDialog(context: context, builder: (cxt){
+                                return AlertDialog(
+                                  title: Text("Please Note", style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red
+                                  ),),
+                                  content: Text("The amount that will reflect in your wallet is "
+                                      "1.5% of the original amount plus ₦200 "
+                                      "will be deducted from the orignal amount deducted from "
+                                      "your bank account.",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                    ),),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        }, child: Text("Cancel", style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: Colors.black
+                                    ),)),
+                                    ElevatedButton(
+                                        onPressed: (){
+                                          payment();
+                                        }, child: Text("Proceed", style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: Colors.black
+                                    ),))
+                                  ],
+                                );
+                              });
                             }
                           },
                           child: Container(

@@ -47,6 +47,10 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
 
     String itemid = "tp "+trfid;
 
+    //after paystack deduct amount
+    double converted_amount = double.parse(widget.amount.replaceAll(',', ''));
+    double wallet_amount = converted_amount-(((1.5/100)*converted_amount) + 200);
+
     try{
 
       var savetransaction = await http.post(
@@ -56,7 +60,7 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
             'useremail': widget.email,
             'adminemail': widget.email,
             'debit':'0',
-            'credit': widget.amount.replaceAll(',', ''),
+            'credit': wallet_amount.toString(),
             'status': 'completed',
             'refno' : trfid,
             'description': widget.description,
@@ -67,7 +71,7 @@ class _ProcessTopupBusinessState extends State<ProcessTopupBusiness> {
       var notifyuser = await http.post(
           Uri.https('vendorhive360.com', 'vendor/sendtopnotification.php'),
           body: {
-            'message': "₦"+widget.amount+" was credited into your account",
+            'message': "₦${wallet_amount} was credited into your account",
             'info': widget.email,
             'tag': 'Top-Up',
             'quantity' : "1",
