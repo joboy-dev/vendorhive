@@ -284,7 +284,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
     }
   }
 
-  Future pay()async{
+  Future pay() async{
 
     setState(() {
       _selectedpage = 1;
@@ -327,6 +327,7 @@ class _BussinessPackageWalletPaymentState extends State<BussinessPackageWalletPa
 
               String itemid = "wt "+trfid;
 
+              //save transaction in vendor wallet
               var savetransaction = await http.post(
                   Uri.https('vendorhive360.com','vendor/vendorsaveinbusinesswallet.php'),
                   body: {

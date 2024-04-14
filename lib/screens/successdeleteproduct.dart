@@ -47,7 +47,7 @@ class _SuccessDeleteProductState extends State<SuccessDeleteProduct> {
                       Container(
                           margin: EdgeInsets.only(top: 10),
                           padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text("Product has being deleted",style: TextStyle(
+                          child: Text("Product Deleted",style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold
                           ),textAlign: TextAlign.center,)

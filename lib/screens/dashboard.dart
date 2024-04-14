@@ -1884,7 +1884,9 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  //get package for vendor
   Future getPackage() async{
+    //get vendor package
     final getpackages = await http.post(
         Uri.https('vendorhive360.com', 'vendor/vendorgetpackage.php'),
         body: {'useremail': widget.useremail});
@@ -1892,10 +1894,12 @@ class _DashboardState extends State<Dashboard> {
     print("Package "+jsonDecode(getpackages.body)['package'].toString());
 
     if(jsonDecode(getpackages.body)['package'].toString() == "Free"){
+      //tell vendor package is free
       setState(() {
         packageName = "Free";
       });
     }
+    //if vendor package is not free
     else{
 
       var getExpiredDate = await http.post(
@@ -1905,7 +1909,7 @@ class _DashboardState extends State<Dashboard> {
           });
 
       print("========");
-      print("Expired date is "+jsonDecode(getExpiredDate.body)[0]['4']);
+      print("Expired date is "+jsonDecode(getExpiredDate.body)[0]['3']);
       print("========");
 
       DateTime now = new DateTime.now();
@@ -1920,10 +1924,10 @@ class _DashboardState extends State<Dashboard> {
       print(todayDate);
       print("========");
 
-      DateTime dt1 = DateTime.parse(jsonDecode(getExpiredDate.body)[0]['4']);
+      DateTime dt1 = DateTime.parse(jsonDecode(getExpiredDate.body)[0]['3']);
       DateTime dt2 = DateTime.parse(todayDate);
 
-      Duration diff = dt2.difference(dt1);
+      Duration diff = dt1.difference(dt2);
       print("========");
       print('Days left ${diff.inDays}');
       print("========");

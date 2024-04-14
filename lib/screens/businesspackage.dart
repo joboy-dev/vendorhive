@@ -235,19 +235,19 @@ class _BusinessPackageState extends State<BusinessPackage> {
                         value: drop,
                         items: [ //add items in the dropdown
                           DropdownMenuItem(
-                            child: Text("Alpha Pacakage - ₦10,000",style: TextStyle(
+                            child: Text("Alpha Package - ₦10,000",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
                             value: "Alpha",
                           ),
                           DropdownMenuItem(
-                              child: Text("Beta Pacakage - ₦5,000",style: TextStyle(
+                              child: Text("Beta Package - ₦5,000",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/22
                               ),),
                               value: "Beta"
                           ),
                           DropdownMenuItem(
-                            child: Text("Omega Pacakage - ₦2,500",style: TextStyle(
+                            child: Text("Omega Package - ₦2,500",style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width/22
                             ),),
                             value: "Omega",
@@ -335,6 +335,16 @@ class _BusinessPackageState extends State<BusinessPackage> {
                 ),
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: Center(
+                child: Text('Vendorhive360 (1.2)',style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold
+                ),),
+              ),
+            )
           ],
         ),
       )
