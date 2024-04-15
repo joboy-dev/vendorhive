@@ -33,7 +33,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
   bool one_time_payment = true;
   int _selectedpage = 0;
   int itemnumbers = 0;
-  String paymentmethod = "wallet";
+  String paymentmethod = "card";
   String trfid = "";
   String finalbalance = "";
 
@@ -374,77 +374,21 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          if(paymentmethod != "wallet"){
-                            paymentmethod = "wallet";
-                          }
-                          print(paymentmethod);
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 15,bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            paymentmethod == "wallet" ?
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                border: Border.all(width: 2.0),
-                              ),
-                              child: Container(
-                                margin: EdgeInsets.all(2),
-                                width: 11,
-                                height: 11,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.black
-                                ),
-                              ),
-                            )
-
-                                :
-
-                            Container(
-                              width: 17,
-                              height: 17,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(width: 2.0)
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            Expanded(
-                              child: Container(
-                                child: Text("My Wallet",style: TextStyle(
-                                    fontSize: 14
-                                ),),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     // GestureDetector(
                     //   onTap: (){
                     //     setState(() {
-                    //       if(paymentmethod != "card"){
-                    //         paymentmethod = "card";
+                    //       if(paymentmethod != "wallet"){
+                    //         paymentmethod = "wallet";
                     //       }
                     //       print(paymentmethod);
                     //     });
                     //   },
                     //   child: Container(
-                    //     margin: EdgeInsets.only(left: 15),
+                    //     margin: EdgeInsets.only(left: 15,bottom: 10),
                     //     child: Row(
                     //       mainAxisAlignment: MainAxisAlignment.start,
                     //       children: [
-                    //         paymentmethod == "card" ?
+                    //         paymentmethod == "wallet" ?
                     //         Container(
                     //           decoration: BoxDecoration(
                     //             borderRadius: BorderRadius.circular(100),
@@ -474,7 +418,7 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                     //         SizedBox(width: 10,),
                     //         Expanded(
                     //           child: Container(
-                    //             child: Text("Debit/Credit Card",style: TextStyle(
+                    //             child: Text("My Wallet",style: TextStyle(
                     //                 fontSize: 14
                     //             ),),
                     //           ),
@@ -483,6 +427,62 @@ class _BusinessSelectPackagePaymentState extends State<BusinessSelectPackagePaym
                     //     ),
                     //   ),
                     // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          if(paymentmethod != "card"){
+                            paymentmethod = "card";
+                          }
+                          print(paymentmethod);
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            paymentmethod == "card" ?
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(width: 2.0),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(2),
+                                width: 11,
+                                height: 11,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.black
+                                ),
+                              ),
+                            )
+
+                                :
+
+                            Container(
+                              width: 17,
+                              height: 17,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(width: 2.0)
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Container(
+                                child: Text("Debit/Credit Card",style: TextStyle(
+                                    fontSize: 14
+                                ),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: (){
                         if(paymentmethod == "wallet"){

@@ -32,7 +32,7 @@ class PayForPromotion extends StatefulWidget {
 class _PayForPromotionState extends State<PayForPromotion> {
 
 
-  String paymentmethod = "wallet";
+  String paymentmethod = "card";
   int _selectedpage = 0;
   String trfid = "";
 
@@ -466,60 +466,60 @@ class _PayForPromotionState extends State<PayForPromotion> {
                           ),)),
                         ),
 
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              if(paymentmethod != "wallet"){
-                                paymentmethod = "wallet";
-                              }
-                              print(paymentmethod);
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 15,bottom: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                paymentmethod == "wallet" ?
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(width: 2.0),
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.all(2),
-                                    width: 11,
-                                    height: 11,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(100),
-                                        color: Colors.black
-                                    ),
-                                  ),
-                                )
-                                    :
-                                Container(
-                                  width: 17,
-                                  height: 17,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(width: 2.0)
-                                  ),
-                                ),
-
-                                SizedBox(width: 10,),
-                                Container(
-                                  child: Text("My Wallet",style: TextStyle(
-                                      fontSize: 14
-                                  ),),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 10,
-                        ),
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     setState(() {
+                        //       if(paymentmethod != "wallet"){
+                        //         paymentmethod = "wallet";
+                        //       }
+                        //       print(paymentmethod);
+                        //     });
+                        //   },
+                        //   child: Container(
+                        //     margin: EdgeInsets.only(left: 15,bottom: 10),
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       children: [
+                        //         paymentmethod == "wallet" ?
+                        //         Container(
+                        //           decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(100),
+                        //             border: Border.all(width: 2.0),
+                        //           ),
+                        //           child: Container(
+                        //             margin: EdgeInsets.all(2),
+                        //             width: 11,
+                        //             height: 11,
+                        //             decoration: BoxDecoration(
+                        //                 borderRadius: BorderRadius.circular(100),
+                        //                 color: Colors.black
+                        //             ),
+                        //           ),
+                        //         )
+                        //             :
+                        //         Container(
+                        //           width: 17,
+                        //           height: 17,
+                        //           decoration: BoxDecoration(
+                        //               borderRadius: BorderRadius.circular(100),
+                        //               border: Border.all(width: 2.0)
+                        //           ),
+                        //         ),
+                        //
+                        //         SizedBox(width: 10,),
+                        //         Container(
+                        //           child: Text("My Wallet",style: TextStyle(
+                        //               fontSize: 14
+                        //           ),),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        //
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
 
                         GestureDetector(
                           onTap: (){
