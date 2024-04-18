@@ -3853,13 +3853,25 @@ class _DashboardState extends State<Dashboard> {
 
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return BusinessPackage(
-                                    idname: widget.idname,
-                                    email: widget.useremail,
+                                if(packageName == "Free"){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return BusinessPackage(
+                                          idname: widget.idname,
+                                          email: widget.useremail,
+                                        );
+                                      }));
+                                }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.white,
+                                          content: Text("A package is active, you can't upgade",
+                                              style: TextStyle(
+                                                color: Colors.red.shade600
+                                              ),))
                                   );
-                                }));
+                                }
                               },
                               child: Container(
                                 padding: EdgeInsets.only(bottom: 10, top: 10),
