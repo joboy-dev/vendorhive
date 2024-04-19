@@ -74,7 +74,7 @@ class _ServiceMsgState extends State<ServiceMsg> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> chooseImage() async{
-    var chooseImg = await _picker.pickImage(source: ImageSource.camera);
+    var chooseImg = await _picker.pickImage(source: ImageSource.gallery);
     setState((){
       uploadimage = File(chooseImg!.path);
       filename = chooseImg!.name;
@@ -639,29 +639,29 @@ class _ServiceMsgState extends State<ServiceMsg> {
                 margin: EdgeInsets.only(bottom: 5),
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        choosefile();
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 5,right: 5),
-                        child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(310 / 360),
-                            child: Transform(
-                                alignment: Alignment.center,
-                                transform: Matrix4.rotationY(math.pi),
-                                child: Icon(Icons.attachment_outlined,color: Colors.grey,size: 30,)
-                            )
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: (){
+                    //     choosefile();
+                    //   },
+                    //   child: Container(
+                    //     margin: EdgeInsets.only(left: 5,right: 5),
+                    //     child: RotationTransition(
+                    //         turns: AlwaysStoppedAnimation(310 / 360),
+                    //         child: Transform(
+                    //             alignment: Alignment.center,
+                    //             transform: Matrix4.rotationY(math.pi),
+                    //             child: Icon(Icons.attachment_outlined,color: Colors.grey,size: 30,)
+                    //         )
+                    //     ),
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: (){
                         chooseImage();
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right: 5),
-                        child: Icon(Icons.camera_alt_outlined,color: Colors.grey,size: 30,),
+                        margin: EdgeInsets.only(right: 5, left: 5),
+                        child: Icon(Icons.image,color: Colors.grey,size: 30,),
                       ),
                     ),
                     Expanded(
