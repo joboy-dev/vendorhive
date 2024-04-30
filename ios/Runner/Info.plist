@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to your photo library to allow you to select photos for uploading</string>
+    <string>This app requires access to your photo library to allow you to select photos. The photos selected is sent accross a chat with another user or when a picture is selected it is used as a business logo for you profile on the vendor profile. </string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
