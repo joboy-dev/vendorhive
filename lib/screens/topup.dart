@@ -211,10 +211,9 @@ class _TopupState extends State<Topup> {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red
                                   ),),
-                                  content: Text("The amount that will reflect in your wallet is "
-                                      "1.5% of the original amount plus ₦200 "
-                                      "will be deducted from the orignal amount deducted from "
-                                      "your bank account.",
+                                  content: Text("A small service fee of 1.5% + 200 will be "
+                                      "deducted from your original amount due to payment gateway charges. "
+                                      "Happy transacting!",
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Colors.black,

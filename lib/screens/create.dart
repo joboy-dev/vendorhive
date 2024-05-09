@@ -32,19 +32,8 @@ class _CreateState extends State<Create> {
     setState(() {
       selectedPage = 1;
     });
-    //check people you refered to add it
-    var earn = await http.post(
-        Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
-        body: {
-          'idname':_referencecode.text
-        }
-    );
 
-    referals = jsonDecode(earn.body);
-    number_of_referals = referals.length;
-
-    if(number_of_referals < 5){
-
+    if(_referencecode.text.isEmpty){
       Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return GetStarted(
@@ -55,19 +44,45 @@ class _CreateState extends State<Create> {
               confirmpassword: _confirmpassowrd.text,
               referalcode: _referencecode.text,);
           }));
-
     }
     else{
+      //check people you refered to add it
+      var earn = await http.post(
+          Uri.https('vendorhive360.com','vendor/vendorviewearnings.php'),
+          body: {
+            'idname':_referencecode.text
+          }
+      );
 
-      setState(() {
-        selectedPage = 0;
-      });
+      referals = jsonDecode(earn.body);
+      number_of_referals = referals.length;
 
-      ScaffoldMessenger.of(this.context).showSnackBar(
-          SnackBar(
-            content: Text('Referal limit exceed!!, Try another referal code or proceed without referal'),
-          ));
+      if(number_of_referals < 5){
 
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return GetStarted(
+                fullname: _fullname.text,
+                email: _email.text,
+                phonenumber: _phonenumber.text,
+                password: _password.text,
+                confirmpassword: _confirmpassowrd.text,
+                referalcode: _referencecode.text,);
+            }));
+
+      }
+      else{
+
+        setState(() {
+          selectedPage = 0;
+        });
+
+        ScaffoldMessenger.of(this.context).showSnackBar(
+            SnackBar(
+              content: Text('Referal limit exceed!!, Try another referal code or proceed without referal'),
+            ));
+
+      }
     }
   }
 

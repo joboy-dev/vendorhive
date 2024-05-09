@@ -873,7 +873,8 @@ class _DashboardState extends State<Dashboard> {
         } else {
           print("Error 251");
         }
-      } else {
+      }
+      else {
         print("Error during connection to server");
       }
     } catch (e) {
@@ -2098,7 +2099,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(360, 712));
+    // ScreenUtil.init(context, designSize: const Size(360, 712));
     return _selectedpage == 0 ?
     Scaffold(
       body: GestureDetector(
