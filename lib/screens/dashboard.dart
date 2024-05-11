@@ -134,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
   int numberofservice = 0;
   int number_of_referals = 0;
   int number_of_referals_service = 0;
-
+  String product_is_added = "";
   bool getlogo = false;
 
   File? produploadimage;
@@ -319,7 +319,7 @@ class _DashboardState extends State<Dashboard> {
     pidname = "prod-" + trfid;
     print("Product ID is " + pidname);
 
-    //product image 1
+    //upload product image 1
     try {
       List<int> imageBytes = produploadimage!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -343,18 +343,38 @@ class _DashboardState extends State<Dashboard> {
           });
         } else if (jsondata["error"]) {
           print("Error during upload");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 1 "+"Error during upload")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         } else {
           print("Error 251");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 1 "+"Error 251")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         }
       }
       else {
         print("Error during connection to server");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product Image 1 "+"Error during connection to server")));
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
       }
     } catch (e) {
       print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product Image 1 "+e.toString())));
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
     }
 
-    //product image 2
+    //upload product image 2
     try {
       List<int> imageBytes = produploadimage2!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -378,17 +398,37 @@ class _DashboardState extends State<Dashboard> {
           });
         } else if (jsondata["error"]) {
           print("Error during upload");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 2 "+"Error during upload")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         } else {
           print("Error 251");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 2 "+"Error 251")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         }
       } else {
         print("Error during connection to server");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product Image 2 "+"Error during connection to server")));
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
       }
     } catch (e) {
       print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product Image 2 "+e.toString())));
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
     }
 
-    //product image 3
+    //upload product image 3
     try {
       List<int> imageBytes = produploadimage3!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -412,17 +452,37 @@ class _DashboardState extends State<Dashboard> {
           });
         } else if (jsondata["error"]) {
           print("Error during upload");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 3 "+"Error during upload")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         } else {
           print("Error 251");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 3 "+"Error 251")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         }
       } else {
         print("Error during connection to server");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product Image 3 "+"Error during connection to server")));
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
       }
     } catch (e) {
       print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product Image 3 "+e.toString())));
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
     }
 
-    //product image 4
+    //upload product image 4
     try {
       List<int> imageBytes = produploadimage4!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -446,18 +506,38 @@ class _DashboardState extends State<Dashboard> {
           });
         } else if (jsondata["error"]) {
           print("Error during upload");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 4 "+"Error during upload")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         } else {
           print("Error 251");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 4 "+"Error 251")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         }
       }
       else {
         print("Error during connection to server");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product Image 4 "+"Error during connection to server")));
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
       }
     } catch (e) {
       print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product Image 4 "+e.toString())));
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
     }
 
-    //product image 5
+    //upload product image 5
     try {
       List<int> imageBytes = produploadimage5!.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -481,14 +561,34 @@ class _DashboardState extends State<Dashboard> {
           });
         } else if (jsondata["error"]) {
           print("Error during upload");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 5 "+"Error during upload")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         } else {
           print("Error 251");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product Image 5 "+"Error 251")));
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
         }
       } else {
         print("Error during connection to server");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Product Image 5 "+"Error during connection to server")));
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
       }
     } catch (e) {
       print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product Image 5 "+e.toString())));
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
     }
 
     //product tags
@@ -519,25 +619,36 @@ class _DashboardState extends State<Dashboard> {
     //   }
     // }
 
-    final addproductsid = await http.post(
-        Uri.https('vendorhive360.com', 'vendor/vendoraddproductid.php'),
-        body: {
-          'idname': widget.idname,
-          'pidname': pidname,
-          'useremail': widget.useremail,
-        });
+    try{
+      final addproductsid = await http.post(
+          Uri.https('vendorhive360.com', 'vendor/vendoraddproductid.php'),
+          body: {
+            'idname': widget.idname,
+            'pidname': pidname,
+            'useremail': widget.useremail,
+          });
+      product_is_added = jsonDecode(addproductsid.body).toString();
+    }catch(e){
+      // setState(() {
+      //   _selectedpage = 0;
+      // });
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product ID "+e.toString())));
+    }
 
     //add delivery plan
     for(int i = 0; i < deliverySchedule.length; i++){
+      try{
         var deliveryplan = await http.post(Uri.https('vendorhive360.com', 'vendor/vendordeliveryplan.php'),
-          body: {
-            'idname': widget.idname,
-            'useremail': widget.useremail,
-            'pidname': pidname,
-            'plan': deliverySchedule[i].deliveryPlan,
-            'price':  deliverySchedule[i].deliveryPrice.replaceAll(",", ""),
-            'time': deliverySchedule[i].deliveryTime,
-          });
+            body: {
+              'idname': widget.idname,
+              'useremail': widget.useremail,
+              'pidname': pidname,
+              'plan': deliverySchedule[i].deliveryPlan,
+              'price':  deliverySchedule[i].deliveryPrice.replaceAll(",", ""),
+              'time': deliverySchedule[i].deliveryTime,
+            });
 
         if (deliveryplan.statusCode == 200) {
           if (jsonDecode(deliveryplan.body) == "true") {
@@ -549,15 +660,29 @@ class _DashboardState extends State<Dashboard> {
             print(deliverySchedule[i].deliveryPlan + " did not register");
             setState(() {
               appproductstatus = deliverySchedule[i].deliveryPlan + " did not register";
+              // _selectedpage = 0;
             });
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(deliverySchedule[i].deliveryPlan + " did not register")));
           }
         }
         else {
           print('Network Issues');
 
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
+
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Network Issues')));
+              .showSnackBar(SnackBar(content: Text("Delivery Plan "+i.toString()+" "+e.toString())));
         }
+      }
+      catch(e){
+        print(e);
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
+      }
     }
 
     try {
@@ -581,7 +706,7 @@ class _DashboardState extends State<Dashboard> {
           });
 
       if (addproducts.statusCode == 200) {
-        if (jsonDecode(addproductsid.body) == "product id added") {
+        if (product_is_added == "product id added") {
           print("Product ID is added");
           if (jsonDecode(addproducts.body) == "product added") {
             setState(() {
@@ -604,22 +729,28 @@ class _DashboardState extends State<Dashboard> {
 
             print("Product is added");
           } else {
-            setState(() {
-              _selectedpage = 0;
-            });
             print("Product didn't add");
+            // setState(() {
+            //   _selectedpage = 0;
+            // });
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Product didn't add")));
           }
         } else {
-          setState(() {
-            _selectedpage = 0;
-          });
+          // setState(() {
+          //   _selectedpage = 0;
+          // });
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Product ID did not add")));
           print("Product ID did not add");
         }
       }
       else {
-        setState(() {
-          _selectedpage = 0;
-        });
+        // setState(() {
+        //   _selectedpage = 0;
+        // });
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Network Issue")));
         print("Network Issue");
       }
     } catch (e) {
@@ -2099,7 +2230,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil.init(context, designSize: const Size(360, 712));
+    ScreenUtil.init(context, designSize: const Size(360, 712));
     return _selectedpage == 0 ?
     Scaffold(
       body: GestureDetector(

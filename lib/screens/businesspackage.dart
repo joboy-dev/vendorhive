@@ -107,6 +107,18 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Enhanced visibility",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Targeted marketing opportunities",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
                               child: Text("\u2022 One Year",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
@@ -154,6 +166,18 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Enhanced visibility",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Targeted marketing opportunities",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
                               child: Text("\u2022 One Year",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
@@ -190,6 +214,18 @@ class _BusinessPackageState extends State<BusinessPackage> {
                           Container(
                               margin: EdgeInsets.only(left: 5,top: 2),
                               child: Text("\u2022 Upload 20 more services",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Enhanced visibility",style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width/27
+                              ),)
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text("\u2022 Targeted marketing opportunities",style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width/27
                               ),)
                           ),
